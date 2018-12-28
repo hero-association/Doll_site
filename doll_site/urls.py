@@ -22,7 +22,10 @@ from django.urls import include
 from doll_sites import views
 from django.views.generic.base import RedirectView
 
+favicon_view = RedirectView.as_view(url='/static/image/favicon.ico', permanent=True)
+
 urlpatterns = [
+    url(r'^favicon\.ico$', favicon_view),
     path('admin/', admin.site.urls),
     url(r'^$', RedirectView.as_view(url='/index'), name='go-to-index'),
     url(r'^index/$', views.index, name='index'),
