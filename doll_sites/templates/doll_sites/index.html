@@ -1,0 +1,446 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127776067-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-127776067-1');
+  </script>
+
+  <!-- 引入 Bootstrap -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+  <title> 小熊社-ロリータ世界！|萝莉图库|白丝|cosplay </title>
+  <meta name="renderer" content="webkit">
+  <meta name="referrer" content="never">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta name="description" content="小熊社|萝莉图库|白丝|cosplay" />
+  <meta name="keywords" content="小熊社|萝莉图库|白丝|cosplay" />
+  <link rel='stylesheet' href='/static/css/style.css'>
+</head>
+<body>
+
+  {% include 'doll_sites/navi.html' %}
+
+  <div class="width-box" style="margin-top: 0px;">
+    <!-- 轮播图片 -->
+    <section class="container home-content">
+      <div class="row">
+        <div class="col-lg-8">
+          <div id="myCarousel" class="carousel slide">
+            <!-- 轮播（Carousel）指标 -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+            </ol>   
+            <!-- 轮播（Carousel）项目 -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <img src="/static/image/banner/01.png" alt="First slide">
+                </div>
+                <div class="item">
+                    <img src="/static/image/banner/02.png" alt="Second slide">
+                </div>
+            </div>
+            <!-- 轮播（Carousel）导航 -->
+            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="col-lg-6 home-label">
+            <a href="/photos/">
+              <div style="background-color:#9c27b0;margin:0px;width:177px;height:176px;">
+                <div align="center" style="text-align:center">
+                  <p class="home-label-title">
+                      相册
+                  </p>
+                  <p class="home-label-count"">
+                      206
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-6 home-label">
+            <a href="/actress/">
+              <div style="background-color:#f44336;margin:0px;width:177px;height:176px;">
+                <div align="center" style="text-align:center">
+                  <p class="home-label-title"">
+                      偶像
+                  </p>
+                  <p class="home-label-count"">
+                      18
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-6 home-label">
+            <a href="/series/">
+              <div style="background-color:#cddc39;margin:10px 0px 0px 0px;width:177px;height:176px;">
+                <div align="center" style="text-align:center">
+                  <p class="home-label-title"">
+                      系列
+                  </p>
+                  <p class="home-label-count"">
+                      4
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-6 home-label">
+            <a href="/topic/">
+              <div style="background-color:#e91e63;margin:10px 0px 0px 0px;width:177px;height:176px;">
+                <div align="center" style="text-align:center">
+                  <p class="home-label-title"">
+                      主题
+                  </p>
+                  <p class="home-label-count"">
+                      5
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 最新发布 -->
+    <section class="container home-content">
+      <div class="row">
+        <div class="col-lg-11 home-content-title">
+          <div class="pic" style="background:url(/static/image/icon/home-newest.png) no-repeat left center;">
+            <p class="title">
+              近期更新
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-1 home-content-more">
+          <a href="#">
+          <p>
+            更多 >
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="home-photo-list">
+            <ul>
+              {% for photo in recommend_newest %}
+              <li>
+                <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+                  <div>
+                    <img
+                    class="lazyloadx" 
+                    data-original=' {{ photo.get_cover_pic_link }} ' 
+                    src="/static/image/loading.png"
+                    lazyloadthumb="1"
+                    lazyloaded="true"
+                    >
+                  </div>
+                  <p>{{ photo.name_chinese }}</p>
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 热门推荐 -->
+    <section class="container home-content">
+      <div class="row">
+        <div class="col-lg-11 home-content-title">
+           <div class="pic" style="background:url(/static/image/icon/home-hotest.png) no-repeat left center;">
+            <span class="title">
+              热门推荐
+            </span>
+            <span class="layout">
+              ·
+            </span>
+            <span class="link">
+              <a href="#" title="尾野寺的夏日物语">
+                尾野寺的夏日物语
+              </a>
+            </span>
+            <span class="layout">
+              丨
+            </span>
+            <span class="link">
+              <a href="#"  title="尾野寺的夏日物语">
+                尾野寺的夏日物语
+              </a>
+            </span>
+            <span class="layout">
+              ·
+            </span>
+          </div>
+        </div>
+        <div class="col-lg-1 home-content-more">
+          <a href="#">
+          <p>
+            更多 >
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="home-photo-list">
+            <ul>
+              {% for photo in recommend_hotest %}
+              <li>
+                <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+                  <div>
+                    <img
+                    class="lazyloadx" 
+                    data-original=' {{ photo.get_cover_pic_link }} ' 
+                    src="/static/image/loading.png"
+                    lazyloadthumb="1"
+                    lazyloaded="true"
+                    >
+                  </div>
+                  <p>{{ photo.name_chinese }}</p>
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 人物精选 -->
+    <section class="container home-content">
+      <div class="row">
+        <div class="col-lg-11 home-content-title">
+          <div class="pic" style="background:url(/static/image/icon/home-actress.png) no-repeat left center;">
+            <span class="title">
+              明星专题
+            </span>
+          </div>
+        </div>
+        <div class="col-lg-1 home-content-more">
+          <a href="#">
+          <p>
+            更多 >
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="home-actress-list">
+            <ul>
+              {% for photo in recommend_person %}
+              <li>
+                <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+                  <div>
+                    <img
+                    class="lazyloadx" 
+                    data-original=' {{ photo.get_cover_pic_link }} ' 
+                    src="/static/image/loading.png"
+                    lazyloadthumb="1"
+                    lazyloaded="true"
+                    >
+                  </div>
+                  <p>{{ photo.actress_name }}</p>
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 欧美萝莉 -->
+    <section class="container home-content">
+      <div class="row">
+        <div class="col-lg-11 home-content-title">
+          <div class="pic" style="background:url(/static/image/icon/home-european.png) no-repeat left center;">
+            <span class="title">
+              欧美精选
+            </span>
+            <span class="layout">
+              ·
+            </span>
+            <span class="link">
+              <a href="#" title="CandyDoll">
+                CandyDoll
+              </a>
+            </span>
+            <span class="layout">
+              丨
+            </span>
+            <span class="link">
+              <a href="#"  title="Silver-star">
+                Silver-star
+              </a>
+            </span>
+            <span class="layout">
+              丨
+            </span>
+            <span class="link">
+              <a href="#"  title="TokyoDoll">
+                TokyoDoll
+              </a>
+            </span>
+            <span class="layout">
+              ·
+            </span>
+          </div>
+        </div>
+        <div class="col-lg-1 home-content-more">
+          <a href="#">
+          <p>
+            更多 >
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="home-photo-list">
+            <ul>
+              {% for photo in recommend_european %}
+              <li>
+                <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+                  <div>
+                    <img
+                    class="lazyloadx" 
+                    data-original=' {{ photo.get_cover_pic_link }} ' 
+                    src="/static/image/loading.png"
+                    lazyloadthumb="1"
+                    lazyloaded="true"
+                    >
+                  </div>
+                  <p>{{ photo.name_chinese }}</p>
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 日本偶像 -->
+    <section class="container home-content">
+      <div class="row">
+        <div class="col-lg-11 home-content-title">
+          <div class="pic" style="background:url(/static/image/icon/home-japanese.png) no-repeat left center;">
+            <p class="title">
+              日本偶像
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-1 home-content-more">
+          <a href="#">
+          <p>
+            更多 >
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="home-photo-list">
+            <ul>
+              {% for photo in recommend_japanese %}
+              <li>
+                <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+                  <div>
+                    <img
+                    class="lazyloadx" 
+                    data-original=' {{ photo.get_cover_pic_link }} ' 
+                    src="/static/image/loading.png"
+                    lazyloadthumb="1"
+                    lazyloaded="true"
+                    >
+                  </div>
+                  <p>{{ photo.name_chinese }}</p>
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 网红萝莉 -->
+    <section class="container home-content">
+      <div class="row">
+        <div class="col-lg-11 home-content-title">
+          <div class="pic" style="background:url(/static/image/icon/home-chinese.png) no-repeat left center;">
+            <p class="title">
+              网红萝莉
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-1 home-content-more">
+          <a href="#">
+          <p>
+            更多 >
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="home-photo-list">
+            <ul>
+              {% for photo in recommend_chinese %}
+              <li>
+                <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+                  <div>
+                    <img
+                    class="lazyloadx" 
+                    data-original=' {{ photo.get_cover_pic_link }} ' 
+                    src="/static/image/loading.png"
+                    lazyloadthumb="1"
+                    lazyloaded="true"
+                    >
+                  </div>
+                  <p>{{ photo.name_chinese }}</p>
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  {% include 'doll_sites/footer.html' %}
+
+  <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <!-- 包括所有已编译的插件 -->
+  <script src="/static/js/bootstrap.min.js"></script>
+
+  <!-- <script src="./static/js/shop_v3.js?20171025163800"></script> -->
+  
+  <script src="/static/js/shop_lang_cn.js"></script>
+
+  <script src="/static/js/style.js"></script>
+
+</body>
+</html>
