@@ -41,8 +41,9 @@
             <div class="card  col-lg-2 mr-4 my-3 p-0">
         
               <a href="/actress_detail/{{ actress.id }}" title=" {{ actress.actress_name_ch }} " target='_self'>
-                <img class="card-img-top img-fluid border border-light lazyloadx" data-original="/static/image/loading.png"
-                  src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+                <img class="card-img-top img-fluid  border-light lazyloadx" 
+                data-original="/static/image/loading.png"
+                src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
               </a>
               <div class="card-body">
                 <p class="card-text">{{ actress.actress_name_ch }}</p>
@@ -74,6 +75,8 @@
 
 
     {% endblock %}
+
+
 
 </div>
 
