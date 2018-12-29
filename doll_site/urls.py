@@ -30,5 +30,6 @@ urlpatterns = [
     url(r'^$', RedirectView.as_view(url='/index'), name='go-to-index'),
     url(r'^index/$', views.index, name='index'),
     path('photos/', views.photolist, name='Photos'),
+    path('actress/',views.actresslist,name='actress_list'),
     path('photo/<int:photoid>', views.photodetail, name='Photo-detail'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,document_root=settings.STATICFILES_DIRS)

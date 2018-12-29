@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag
 from django.views import generic
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -73,6 +74,21 @@ def photodetail(request,photoid):
 		request,
 		'doll_sites/photo_detail.html',
 		context
+	)
+
+def actresslist(request,pageid):
+	"""演员列表页"""
+	actress_list = Actress.objects.all().order_by('actress_name')
+	limit = 10
+	paginator = Paginator(actress_list,limit)
+	page = request.GET.get('page','1')
+
+	result = paginator.page(page)
+
+	return render(
+		request,
+		'doll_sites/actress_list.html',
+		{'actress_list' : result},
 	)
 
 # class PhotoDetailView(generic.DetailView):

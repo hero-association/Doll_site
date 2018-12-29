@@ -18,7 +18,7 @@ class Photo(models.Model):
 	company = models.ForeignKey("Company",max_length = 60,null=True,blank=True,on_delete=models.PROTECT)
 	name = models.CharField(max_length = 60)
 	name_chinese = models.CharField(max_length=60)
-	actress_name = models.CharField(max_length=60,null=True,blank=True,)
+	actress_name = models.ForeignKey("Actress",on_delete=models.PROTECT,null=True)
 	date_added = models.DateTimeField(null=True,blank=True,auto_now_add=True)
 	photo_tag = models.ManyToManyField("Tag",blank=True)
 
@@ -52,6 +52,19 @@ class Photo(models.Model):
 		for all_pic_link in all_pic_links:
 			detail_pic_links.append(all_pic_link.pic_link)
 		return detail_pic_links
+
+class Actress(models.Model):
+	actress_name_ch = models.CharField(max_length=60,null=True,blank=True)
+	actress_name_jp = models.CharField(max_length=60,null=True,blank=True)
+	actress_name_en = models.CharField(max_length=60,null=True,blank=True)
+
+	def __str__(self):
+		return self.actress_name_ch
+
+	def get_all_photos(self):
+		current_actress = self.actress_name_ch
+		all_photos = Photo.objects.filter(actress_name=current_actress)
+		return all_photos
 
 class Tag(models.Model):
 	"""相册标签"""
