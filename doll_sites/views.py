@@ -78,17 +78,21 @@ def photodetail(request,photoid):
 
 def actresslist(request,pageid):
 	"""演员列表页"""
-	actress_list = Actress.objects.all().order_by('model_name')
+	actress_list = Actress.objects.all().order_by('id')
 	limit = 10
 	paginator = Paginator(actress_list,limit)
 	page = request.GET.get('page','1')
 
 	result = paginator.page(page)
+	context = {
+		'page' : result,
+		'actress_list' : actress_list,
+	}
 
 	return render(
 		request,
 		'doll_sites/actress_list.html',
-		{'actress_list' : result},
+		context
 	)
 
 # class PhotoDetailView(generic.DetailView):

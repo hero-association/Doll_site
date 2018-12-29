@@ -30,4 +30,36 @@
 <body>
       <!-- Header & Navigation -->
   {% include 'doll_sites/navi.html' %}
+
+<div class="container">
+<div class="row">
+
+<div>
+  {{ actress_list.0 }}
+</div>
+
+    {% block content %}
+
+        <div class="d-flex flex-wrap col-lg-9 justify-content-between my-5">
+            {% for actress in actress_list %}
+            <div class="card  col-lg-2 mr-4 my-3 p-0">
+        
+              <a href="/actress_detail/{{ actress.id }}" title=" {{ actress.actress_name_ch }} " target='_self'>
+                <img class="card-img-top img-fluid border border-light lazyloadx" data-original="/static/image/loading.png"
+                  src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+              </a>
+              <div class="card-body">
+                <p class="card-text">{{ actress.actress_name_ch }}</p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
+    {% endblock %}
+
+</div>
+
+</div>
+
+
 </body>
