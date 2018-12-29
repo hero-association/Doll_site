@@ -18,7 +18,7 @@ class Photo(models.Model):
 	company = models.ForeignKey("Company",max_length = 60,null=True,blank=True,on_delete=models.PROTECT)
 	name = models.CharField(max_length = 60)
 	name_chinese = models.CharField(max_length=60)
-	actress_name = models.ForeignKey("Actress",on_delete=models.PROTECT,null=True)
+	model_name = models.ForeignKey("Actress",on_delete=models.PROTECT,null=True,blank=True)
 	date_added = models.DateTimeField(null=True,blank=True,auto_now_add=True)
 	photo_tag = models.ManyToManyField("Tag",blank=True)
 
@@ -63,7 +63,7 @@ class Actress(models.Model):
 
 	def get_all_photos(self):
 		current_actress = self.actress_name_ch
-		all_photos = Photo.objects.filter(actress_name=current_actress)
+		all_photos = Photo.objects.filter(model_name=current_actress)
 		return all_photos
 
 class Tag(models.Model):

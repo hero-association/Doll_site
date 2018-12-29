@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag
+from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress
 from django.views import generic
 from django.core.paginator import Paginator
 
@@ -78,7 +78,7 @@ def photodetail(request,photoid):
 
 def actresslist(request,pageid):
 	"""演员列表页"""
-	actress_list = Actress.objects.all().order_by('actress_name')
+	actress_list = Actress.objects.all().order_by('model_name')
 	limit = 10
 	paginator = Paginator(actress_list,limit)
 	page = request.GET.get('page','1')

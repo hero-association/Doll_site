@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company
+from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress
 
 
 class PhotoFileInline(admin.TabularInline):
@@ -13,10 +13,10 @@ class PhotoLinkInline(admin.TabularInline):
 
 # Define the admin class
 class PhotoAdmin(admin.ModelAdmin):
-	list_display = ('id','series','company','name','name_chinese','actress_name','date_added')
-	list_editable = ('actress_name','company',)
+	list_display = ('id','series','company','name','name_chinese','date_added')
+	list_editable = ('company',)
 	inlines = [PhotoFileInline,PhotoLinkInline]
-	list_filter = ('series','company','actress_name',)
+	list_filter = ('series','company',)
 	# search_field = ('series') #添加快速查询栏
 
 class PhotoInline(admin.TabularInline):
@@ -32,10 +32,14 @@ class CompanyAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
 	list_display = ('tag_name',)
 
+class ActressAdmin(admin.ModelAdmin):
+	list_display = ('actress_name_ch','actress_name_jp','actress_name_en')
+
 # Register the admin class with the associated model
 admin.site.register(Photo, PhotoAdmin)
 admin.site.register(Series, SeriesAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Company, CompanyAdmin)
+admin.site.register(Actress,ActressAdmin)
 admin.site.register(PhotoFile)
 admin.site.register(PhotoLink)
