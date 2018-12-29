@@ -13,8 +13,8 @@ class PhotoLinkInline(admin.TabularInline):
 
 # Define the admin class
 class PhotoAdmin(admin.ModelAdmin):
-	list_display = ('id','series','company','name','name_chinese','date_added')
-	list_editable = ('company',)
+	list_display = ('id','series','model_name','company','name','name_chinese','date_added')
+	list_editable = ('company','model_name')
 	inlines = [PhotoFileInline,PhotoLinkInline]
 	list_filter = ('series','company',)
 	# search_field = ('series') #添加快速查询栏
