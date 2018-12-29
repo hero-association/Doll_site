@@ -78,7 +78,7 @@ def photodetail(request,photoid):
 
 def actresslist(request,pageid):
 	"""演员列表页"""
-	actress_list = actress.objects.all().order_by('actress_name')
+	actress_list = Actress.objects.all().order_by('actress_name')
 	limit = 10
 	paginator = Paginator(actress_list,limit)
 	page = request.GET.get('page','1')
