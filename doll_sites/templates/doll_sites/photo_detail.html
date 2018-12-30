@@ -36,7 +36,13 @@
     <div class="row d-flex flex-wrap">
         <div class="col-lg-9">
            
-              <div class="card-title">{{ photo_detail.name_chinese }} </div>
+          <div class="card-title">{{ photo_detail.name_chinese }} </div>
+
+          {% for link in buy_links %}
+            <a href='{{ link }}'>
+              <div class="btn btn-primary">点击购买</div>
+            </a>
+          {% endfor %}
       
           <div class="clearfix">
             <div>

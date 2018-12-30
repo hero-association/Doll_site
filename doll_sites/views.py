@@ -13,7 +13,7 @@ def index(request):
 	recommend_european = Photo.objects.filter(series=1).order_by('?')[:5]
 	recommend_japanese = Photo.objects.filter(series=2).order_by('?')[:5]
 	recommend_chinese = Photo.objects.filter(series=3).order_by('?')[:5]
-	recommend_newest = Photo.objects.order_by('date_added')[:5]
+	recommend_newest = Photo.objects.order_by('-date_added')[:5]
 	recommend_hotest = Photo.objects.order_by('?')[:5]
 	recommend_persons = Photo.objects.order_by('?')[6:16:2]
 	recommend_person = recommend_persons[:4]
@@ -84,8 +84,14 @@ def photolist(request,series,company,pageid):
 def photodetail(request,photoid):
 	"""详情页"""
 	photo_detail = Photo.objects.filter(id=photoid).all()[0]
-	photo_detail.increase_views_count()
+	photo_detail.increase_views_count()		#访问次数+1
+	if photo_detail.buy_link is None:
+		buy_links = []
+	else:
+		buy_links = [photo_detail.buy_link,]
+
 	context = {
+		'buy_links':buy_links,
 		'photo_detail':photo_detail,		#当前相册下的，所有照片列表
 	}
 	return render(

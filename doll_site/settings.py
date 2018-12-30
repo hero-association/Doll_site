@@ -29,9 +29,9 @@ SECRET_KEY = 'zqb=&wzhvb!o0o_y&r&uw%406j$hu3_tqx)8hvsq%qpxar*9rr'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-'162.241.182.12',
-'www.jasonpak.net',
-'127.0.0.1',
+    '162.241.182.12',
+    'www.jasonpak.net',
+    '127.0.0.1',
 ]
 
 
