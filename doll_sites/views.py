@@ -42,16 +42,18 @@ def index(request):
 
 def photolist(request,series,company,pageid):
 	"""列表页"""
+	sort = request.GET.get('sort','-date_added')
+
 	if series == 0:
 		if company == 0:
-			photo_list = Photo.objects.order_by('-date_added')
+			photo_list = Photo.objects.order_by(sort)
 		else:
-			photo_list = Photo.objects.filter(company=company).order_by('-date_added')
+			photo_list = Photo.objects.filter(company=company).order_by(sort)
 	else:
 		if company == 0:
-			photo_list = Photo.objects.filter(series=series).order_by('-date_added')
+			photo_list = Photo.objects.filter(series=series).order_by(sort)
 		else:
-			photo_list = Photo.objects.filter(series=series,company=company).order_by('-date_added')
+			photo_list = Photo.objects.filter(series=series,company=company).order_by(sort)
 	# photo_list = Photo.objects.order_by('-date_added')
 	limit = 20
 	paginator = Paginator(photo_list,limit)
