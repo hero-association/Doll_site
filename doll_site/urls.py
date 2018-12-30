@@ -34,6 +34,7 @@ urlpatterns = [
     path('photos/<int:series>/<int:company>/<int:pageid>', views.photolist, name='Photos'),
     path('actress/<int:pageid>',views.actresslist,name='actress_list'),
     path('photo/<int:photoid>', views.photodetail, name='Photo-detail'),
+    path('actress_page/',views.actressdetail,name='actress_detail')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,document_root=settings.STATICFILES_DIRS)
 
 

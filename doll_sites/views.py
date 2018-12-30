@@ -110,6 +110,22 @@ def actresslist(request,pageid):
 		context
 	)
 
+def actressdetail(request,actressid):
+	"""演员详情页"""
+	current_actress = Actress.objects.filter(id=actressid)
+	related_album = Photo.objects.filter(actress=actressid)
+
+	context = {
+		'related_album' : related_album,	#当前偶像的相册列表
+		'current_actress' : current_actress_list,		#当前偶像
+	}
+
+	return render(
+		request,
+		'doll_sites/actress_detail.html',
+		context
+	)
+
 # class PhotoDetailView(generic.DetailView):
 # 	model = Photo
 # 	template_name = 'doll_sites/photo_detail.html'
