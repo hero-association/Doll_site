@@ -38,7 +38,7 @@
   	{% block content %}
 
         <div class="d-flex flex-wrap col-lg-9 justify-content-between my-5">
-            {% for photo in photo_list %}
+            {% for photo in current_photo_list %}
             <div class="card  col-lg-2 mr-4 my-3 p-0">
         
               <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
@@ -52,7 +52,24 @@
             {% endfor %}
           </div>
 
-    
+          <div id="pages" class="text-center" >
+              <nav>
+                <ul class="pagination">
+                    <li class="step-links">
+                    {% if current_photo_list.has_previous %}
+                        <a class='active' href="/actress/{{ current_photo_list.previous_page_number }}">上一页</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ current_photo_list.number }} of {{ current_photo_list.paginator.num_pages }}</span>
+
+                    {% if current_photo_list.has_next %}
+                        <a class='active' href="/actress/{{ current_photo_list.next_page_number }}">下一页</a>
+                    {% endif %}
+                    </li>
+                </ul>
+              </nav>
+          </div>    
 
     {% endblock %}
 

@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 二次元黄网
     'doll_sites',
+    # django自动文档
+    # 'django.contrib.admindocs',
 ]
 
 MIDDLEWARE = [

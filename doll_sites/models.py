@@ -2,6 +2,10 @@ from django.db import models
 
 # Create your models here.
 
+
+def upload_location(instance,filename):
+	return "{0}/{1}".format(instance.photo,filename)
+
 class Series(models.Model):
 	"""图片的分类"""
 	#db_table = "Serie"
@@ -57,6 +61,10 @@ class Actress(models.Model):
 	actress_name_ch = models.CharField(max_length=60,null=True,blank=True)
 	actress_name_jp = models.CharField(max_length=60,null=True,blank=True)
 	actress_name_en = models.CharField(max_length=60,null=True,blank=True)
+	actress_pic = models.ImageField(
+							upload_to=upload_location,
+							null=True,blank=True,
+							)
 
 	def __str__(self):
 		return self.actress_name_ch
@@ -65,6 +73,9 @@ class Actress(models.Model):
 		current_actress = self.actress_name_ch
 		all_photos = Photo.objects.filter(model_name=current_actress)
 		return all_photos
+
+	# def get_actress_company(self):
+		
 
 class Tag(models.Model):
 	"""相册标签"""
@@ -81,9 +92,6 @@ class Company(models.Model):
 	def __str__(self):
 		"""返回模型的字符串表示"""
 		return self.company_name
-
-def upload_location(instance,filename):
-	return "{0}/{1}".format(instance.photo,filename)
 
 
 class PhotoFile(models.Model):

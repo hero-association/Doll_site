@@ -57,14 +57,14 @@
             <ul class="pagination">
                 <li class="step-links">
                 {% if current_actress_list.has_previous %}
-                    <a class='active' href="?page={{ current_actress_list.previous_page_number }}">上一页</a>
+                    <a class='active' href="/actress/{{ current_actress_list.previous_page_number }}">上一页</a>
                 {% endif %}
 
                 <span class="current">
                     Page {{ current_actress_list.number }} of {{ current_actress_list.paginator.num_pages }}</span>
 
                 {% if current_actress_list.has_next %}
-                    <a class='active' href="?page={{ current_actress_list.next_page_number }}">下一页</a>
+                    <a class='active' href="/actress/{{ current_actress_list.next_page_number }}">下一页</a>
                 {% endif %}
                 </li>
             </ul>

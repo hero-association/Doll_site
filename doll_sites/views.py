@@ -18,15 +18,15 @@ def index(request):
 	recommend_persons = Photo.objects.order_by('?')[6:16:2]
 	recommend_person = recommend_persons[:4]
 	context = {
-				'num_pic':num_pic,
-				'num_photo':num_photo,
-				'recommend_european':recommend_european,
-				'recommend_japanese':recommend_japanese,
-				'recommend_chinese':recommend_chinese,
-				'recommend_newest':recommend_newest,
-				'recommend_hotest':recommend_hotest,
-				'recommend_person':recommend_person,
-				'company_list':company_list,
+				'num_pic':num_pic,		#总图片数
+				'num_photo':num_photo,		#总相册数
+				'recommend_european':recommend_european,		#推荐相册-欧美
+				'recommend_japanese':recommend_japanese,		#推荐相册-日本
+				'recommend_chinese':recommend_chinese,		#推荐相册-中国
+				'recommend_newest':recommend_newest,		#推荐相册-最新
+				'recommend_hotest':recommend_hotest,		#推荐相册-最热
+				'recommend_person':recommend_person,		#推荐偶像
+				'company_list':company_list,		#公司列表
 	}
 	return render(
 		request,
@@ -40,11 +40,26 @@ def index(request):
 # 	# queryset = Photo.objects.order_by('-date_added')
 # 	context_object_name = 'Photo_index'
 
-def photolist(request):
+def photolist(request,series,company,pageid):
 	"""列表页"""
-	photo_list = Photo.objects.all()
+	if series == 0:
+		if company == 0:
+			photo_list = Photo.objects.order_by('-date_added')
+		else:
+			photo_list = Photo.objects.filter(company=company).order_by('-date_added')
+	else:
+		if company == 0:
+			photo_list = Photo.objects.filter(series=series).order_by('-date_added')
+		else:
+			photo_list = Photo.objects.filter(series=series,company=company).order_by('-date_added')
+	# photo_list = Photo.objects.order_by('-date_added')
+	limit = 20
+	paginator = Paginator(photo_list,limit)
+	# page = request.GET.get('page','1')
+	current_photo_list = paginator.page(pageid)
 	context = {
-		'photo_list':photo_list,
+		'current_photo_list':current_photo_list,		#分页的相册列表
+		'photo_list':photo_list,		#未分页的相册列表
 	}
 	return render(
 		request,
@@ -68,7 +83,7 @@ def photodetail(request,photoid):
 	"""详情页"""
 	photo_detail = Photo.objects.filter(id=photoid).all()[0]
 	context = {
-		'photo_detail':photo_detail,
+		'photo_detail':photo_detail,		#当前相册下的，所有照片列表
 	}
 	return render(
 		request,
@@ -81,12 +96,12 @@ def actresslist(request,pageid):
 	actress_list = Actress.objects.all().order_by('actress_name_ch')
 	limit = 20
 	paginator = Paginator(actress_list,limit)
-	page = request.GET.get('page','1')
+	# page = request.GET.get('page','1')
 
-	current_actress_list = paginator.page(page)
+	current_actress_list = paginator.page(pageid)
 	context = {
-		'current_actress_list' : current_actress_list,
-		'actress_list' : actress_list,
+		'current_actress_list' : current_actress_list,		#分页的偶像列表
+		'actress_list' : actress_list,		#未分页的偶像列表
 	}
 
 	return render(

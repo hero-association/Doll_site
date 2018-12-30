@@ -25,11 +25,15 @@ from django.views.generic.base import RedirectView
 favicon_view = RedirectView.as_view(url='/static/image/favicon.ico', permanent=True)
 
 urlpatterns = [
+    # Django文档
+    # path(r'^admin/doc/',include('django.contrib.admindocs.urls')),
     url(r'^favicon\.ico$', favicon_view),
     path('admin/', admin.site.urls),
     url(r'^$', RedirectView.as_view(url='/index'), name='go-to-index'),
     url(r'^index/$', views.index, name='index'),
-    path('photos/', views.photolist, name='Photos'),
+    path('photos/<int:series>/<int:company>/<int:pageid>', views.photolist, name='Photos'),
     path('actress/<int:pageid>',views.actresslist,name='actress_list'),
     path('photo/<int:photoid>', views.photodetail, name='Photo-detail'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,document_root=settings.STATICFILES_DIRS)
+
+
