@@ -25,6 +25,7 @@ class Photo(models.Model):
 	model_name = models.ForeignKey("Actress",on_delete=models.PROTECT,null=True,blank=True)
 	date_added = models.DateTimeField(null=True,blank=True,auto_now_add=True)
 	photo_tag = models.ManyToManyField("Tag",blank=True)
+	views_count = models.PositiveIntegerField(default=0)
 
 	# cover_pic = Photo.PhotoFile.pic
 	# cover_pic._meta.get_field('Photo').rel.to
@@ -57,6 +58,10 @@ class Photo(models.Model):
 			detail_pic_links.append(all_pic_link.pic_link)
 		return detail_pic_links
 
+	def increase_views_count(self):
+		self.views_count += 1
+		self.save(update_fields=['views_count'])
+
 class Actress(models.Model):
 	actress_name_ch = models.CharField(max_length=60,null=True,blank=True)
 	actress_name_jp = models.CharField(max_length=60,null=True,blank=True)
@@ -75,7 +80,7 @@ class Actress(models.Model):
 		return all_photos
 
 	# def get_actress_company(self):
-		
+
 
 class Tag(models.Model):
 	"""相册标签"""

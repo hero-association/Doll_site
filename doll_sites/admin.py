@@ -13,7 +13,7 @@ class PhotoLinkInline(admin.TabularInline):
 
 # Define the admin class
 class PhotoAdmin(admin.ModelAdmin):
-	list_display = ('id','series','model_name','company','name','name_chinese','date_added')
+	list_display = ('id','series','model_name','company','name','name_chinese','date_added','views_count')
 	list_editable = ('company','model_name')
 	inlines = [PhotoFileInline,PhotoLinkInline]
 	list_filter = ('series','company',)

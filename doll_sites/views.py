@@ -82,6 +82,7 @@ def photolist(request,series,company,pageid):
 def photodetail(request,photoid):
 	"""详情页"""
 	photo_detail = Photo.objects.filter(id=photoid).all()[0]
+	photo_detail.increase_views_count()
 	context = {
 		'photo_detail':photo_detail,		#当前相册下的，所有照片列表
 	}
