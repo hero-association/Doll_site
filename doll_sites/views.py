@@ -170,6 +170,18 @@ def actressdetail(request,actressid):
 		context
 	)
 
+def about(request):
+	"""关于页面"""
+	context = {
+
+	}
+
+	return render(
+		request,
+		'doll_sites/about.html',
+		context
+	)
+
 # class PhotoDetailView(generic.DetailView):
 # 	model = Photo
 # 	template_name = 'doll_sites/photo_detail.html'

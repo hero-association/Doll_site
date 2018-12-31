@@ -29,6 +29,7 @@ urlpatterns = [
     # path(r'^admin/doc/',include('django.contrib.admindocs.urls')),
     url(r'^favicon\.ico$', favicon_view),
     path('admin/', admin.site.urls),
+    path('about/',views.about,name='about_page'),
     url(r'^$', RedirectView.as_view(url='/index'), name='go-to-index'),
     url(r'^index/$', views.index, name='index'),
     path('photos/<int:series>/<int:company>/<int:pageid>', views.photolist, name='Photos'),
