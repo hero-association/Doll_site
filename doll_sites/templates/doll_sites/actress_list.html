@@ -36,7 +36,9 @@
 
     {% block content %}
 
-        <div class="d-flex flex-wrap col-lg-9 justify-content-between my-5">
+
+        <div class="d-flex flex-wrap my-5">
+
             {% for actress in current_actress_list %}
             <div class="card  col-lg-2 mr-4 my-3 p-0">
         
@@ -52,33 +54,75 @@
             {% endfor %}
         </div>
 
-        <div id="pages" class="text-center" >
-          <nav>
-            <ul class="pagination">
-                <li class="step-links">
-                {% if current_actress_list.has_previous %}
-                    <a class='active' href="/actress/{{ current_actress_list.previous_page_number }}">上一页</a>
-                {% endif %}
 
-                <span class="current">
-                    Page {{ current_actress_list.number }} of {{ current_actress_list.paginator.num_pages }}</span>
-
-                {% if current_actress_list.has_next %}
-                    <a class='active' href="/actress/{{ current_actress_list.next_page_number }}">下一页</a>
-                {% endif %}
-                </li>
-            </ul>
-          </nav>
-        </div>
-
-
-
-
+  
     {% endblock %}
 
 
 
 </div>
+
+
+<!-- paginator -->
+
+<nav aria-label="actress_list">
+  <ul class="pagination justify-content-center">
+    {% if current_actress_list.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="/actress/{{ current_actress_list.previous_page_number }}">
+        <span>&laquo;</span>
+        <span class="sr-only">上一页</span>
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="">
+        <span>&laquo;</span>
+      </a>
+    </li>
+    {% endif %}
+
+
+    {% for i in current_actress_list.paginator.page_range %}
+    {% if current_actress_list.number == i %}
+    <li class="page-item active">
+      <span class="page-link">{{ i }}
+         <span class="sr-only">(current)</span>
+        </span>
+      </li>
+    {% else %}
+    <li class="page-item"><a class="page-link" href="/actress/{{ i }}">{{ i }}</a></li>
+  {% endif %}
+{% endfor %}
+
+ 
+
+ {% if current_actress_list.has_next %}
+    <li class="page-item">
+      <a class="page-link active" href="/actress/{{ current_actress_list.next_page_number }}">
+        <span>&raquo;</span>
+      </a>
+
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="">
+        <span>&raquo;</span>
+      </a>
+    </li>
+    {% endif %}
+    </li>
+  </ul>
+</nav>
+
+
+
+
+
+
+
+
+
 
 </div>
 
