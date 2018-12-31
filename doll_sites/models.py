@@ -22,7 +22,7 @@ class Photo(models.Model):
 	company = models.ForeignKey("Company",max_length = 60,null=True,blank=True,on_delete=models.PROTECT)
 	name = models.CharField(max_length = 60)
 	name_chinese = models.CharField(max_length=60)
-	model_name = models.ForeignKey("Actress",on_delete=models.PROTECT,null=True,blank=True)
+	model_name = models.ManyToManyField("Actress")
 	date_added = models.DateTimeField(null=True,blank=True,auto_now_add=True)
 	photo_tag = models.ManyToManyField("Tag",blank=True)
 	views_count = models.PositiveIntegerField(default=0)
