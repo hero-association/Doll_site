@@ -16,7 +16,7 @@ class PhotoAdmin(admin.ModelAdmin):
 	list_display = ('id','series','model_name','company','name','name_chinese','date_added','views_count')
 	list_editable = ('company','model_name')
 	inlines = [PhotoFileInline,PhotoLinkInline]
-	list_filter = ('series','company',)
+	list_filter = ('series','company','vip_photo')
 	# search_field = ('series') #添加快速查询栏
 
 class PhotoInline(admin.TabularInline):
