@@ -27,6 +27,7 @@ def index(request):
 				'recommend_hotest':recommend_hotest,		#推荐相册-最热
 				'recommend_person':recommend_person,		#推荐偶像
 				'company_list':company_list,		#公司列表
+				'nbar':'home',	#导航标志
 	}
 	return render(
 		request,
@@ -62,6 +63,7 @@ def photolist(request,series,company,pageid):
 	context = {
 		'current_photo_list':current_photo_list,		#分页的相册列表
 		'photo_list':photo_list,		#未分页的相册列表
+		'nbar':'album',	#导航标志
 	}
 	return render(
 		request,
@@ -111,6 +113,7 @@ def actresslist(request,pageid):
 	context = {
 		'current_actress_list' : current_actress_list,		#分页的偶像列表
 		'actress_list' : actress_list,		#未分页的偶像列表
+		'nbar':'actress',	#导航标志
 	}
 
 	return render(
@@ -127,6 +130,7 @@ def actressdetail(request,actressid):
 	context = {
 		'related_album' : related_album,	#当前偶像的相册列表
 		'current_actress' : current_actress_list,		#当前偶像
+		'nbar':'actress',	#导航标志
 	}
 
 	return render(
