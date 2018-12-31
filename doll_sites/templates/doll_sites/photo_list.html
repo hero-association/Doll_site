@@ -32,104 +32,122 @@
 
   <!-- Header & Navigation -->
   {% include 'doll_sites/navi.html' %}
-<div class="container">
-<div class="row">
-
-  	{% block content %}
-
-        <div class="d-flex flex-wrap col-lg-9 justify-content-between my-5">
-            {% for photo in current_photo_list %}
-            <div class="card  col-lg-2 mr-4 my-3 p-0">
-        
-              <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
-                <img class="card-img-top img-fluid border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
-                  src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
-              </a>
-              <div class="card-body">
-                <p class="card-text">{{ photo.name_chinese }}</p>
-              </div>
-            </div>
-            {% endfor %}
-          </div>  
-
-    {% endblock %}
-
-<!-- paginator -->
-
-<nav aria-label="actress_list">
-  <ul class="pagination justify-content-center">
-
-    <!-- 第一页 -->
-    {% if current_photo_list.paginator.num_pages > 10 %}
-    <li class="page-item">
-      <a class="page-link active" href="/photos/0/0/1">
-        <span>&laquo;</span>
-      </a>
-    </li>
-    {% endif %}
-
-    {% if current_photo_list.has_previous %}
-    <li class="page-item">
-      <a class="page-link" href="/photos/0/0/{{ current_photo_list.previous_page_number }}">
-        <span>&laquo;</span>
-        <span class="sr-only">上一页</span>
-      </a>
-    </li>
-    {% else %}
-    <li class="page-item disabled">
-      <a class="page-link" href="">
-        <span>&laquo;</span>
-      </a>
-    </li>
-    {% endif %}
 
 
-    {% for i in current_photo_list.paginator.page_num_range %}
-    {% if current_photo_list.number == i %}
-    <li class="page-item active">
-      <span class="page-link">{{ i }}
-         <span class="sr-only">(current)</span>
-        </span>
-      </li>
-    {% else %}
-    <li class="page-item"><a class="page-link" href="/photos/0/0/{{ i }}">{{ i }}</a></li>
-    {% endif %}
-    {% endfor %}
 
  
 
-    {% if current_photo_list.has_next %}
-    <li class="page-item">
-      <a class="page-link active" href="/photos/0/0/{{ current_photo_list.next_page_number }}">
-        <span>&raquo;</span>
-      </a>
-    </li>
-    {% else %}
-    <li class="page-item disabled">
-      <a class="page-link" href="">
-        <span>&raquo;</span>
-      </a>
-    </li>
-    {% endif %}
 
-    <!-- 最后一页 -->
-    {% if current_photo_list.paginator.num_pages > 10 %}
-    <li class="page-item">
-      <a class="page-link active" href="/photos/0/0/{{ current_photo_list.paginator.num_pages }}">
-        <span>&raquo;</span>
-      </a>
-    </li>
-    {% endif %}
+  
+<div class="container">
+  <div class="row">
+    <div class="col-lg-9 ">
+      <div class="d-flex flex-wrap">
+          {% block content %}
+          {% for photo in current_photo_list %}
+          <div class="card col-lg-2 mr-4 my-3 p-0">
+      
+            <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+              <img class="card-img-top img-fluid border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
+                src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+            </a>
+            <div class="card-body">
+              <p class="card-text">{{ photo.name_chinese }}</p>
+            </div>
+          </div>
+          {% endfor %}
+          {% endblock %}
+  
+      </div>
+      <div>
+          <nav aria-label="photo_list">
+              <ul class="pagination justify-content-center">
+            
+                <!-- 第一页 -->
+                {% if current_photo_list.paginator.num_pages > 10 %}
+                <li class="page-item">
+                  <a class="page-link active" href="/photos/0/0/1">
+                    <span>&laquo;</span>
+                  </a>
+                </li>
+                {% endif %}
+            
+                {% if current_photo_list.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="/photos/0/0/{{ current_photo_list.previous_page_number }}">
+                    <span>&laquo;</span>
+                    <span class="sr-only">上一页</span>
+                  </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link" href="">
+                    <span>&laquo;</span>
+                  </a>
+                </li>
+                {% endif %}
+            
+            
+                {% for i in current_photo_list.paginator.page_num_range %}
+                {% if current_photo_list.number == i %}
+                <li class="page-item active">
+                  <span class="page-link">{{ i }}
+                     <span class="sr-only">(current)</span>
+                    </span>
+                  </li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="/photos/0/0/{{ i }}">{{ i }}</a></li>
+                {% endif %}
+                {% endfor %}
+            
+             
+            
+                {% if current_photo_list.has_next %}
+                <li class="page-item">
+                  <a class="page-link active" href="/photos/0/0/{{ current_photo_list.next_page_number }}">
+                    <span>&raquo;</span>
+                  </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link" href="">
+                    <span>&raquo;</span>
+                  </a>
+                </li>
+                {% endif %}
+            
+                <!-- 最后一页 -->
+                {% if current_photo_list.paginator.num_pages > 10 %}
+                <li class="page-item">
+                  <a class="page-link active" href="/photos/0/0/{{ current_photo_list.paginator.num_pages }}">
+                    <span>&raquo;</span>
+                  </a>
+                </li>
+                {% endif %}
+            
+              </ul>
+            </nav>
+      </div>
+        
 
-  </ul>
-</nav>
+    </div>
+    <div class="col-lg-3">
+        {% include 'doll_sites/main-right.html'%}
+    </div>
+  </div>
 
-<div class="col-lg-3">
-{% include 'doll_sites/main-right.html'%}
+
+
 </div>
-</div>
 
-</div>
+
+
+
+
+
+
+
+
 
   
 {% include 'doll_sites/footer.html' %}
