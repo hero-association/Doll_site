@@ -67,6 +67,16 @@
 
 <nav aria-label="actress_list">
   <ul class="pagination justify-content-center">
+
+    <!-- 第一页 -->
+    {% if current_actress_list.paginator.num_pages > 10 %}
+    <li class="page-item">
+      <a class="page-link active" href="/actress/1">
+        <span>&laquo;</span>
+      </a>
+    </li>
+    {% endif %}
+
     {% if current_actress_list.has_previous %}
     <li class="page-item">
       <a class="page-link" href="/actress/{{ current_actress_list.previous_page_number }}">
@@ -92,17 +102,16 @@
       </li>
     {% else %}
     <li class="page-item"><a class="page-link" href="/actress/{{ i }}">{{ i }}</a></li>
-  {% endif %}
-{% endfor %}
+    {% endif %}
+    {% endfor %}
 
  
 
- {% if current_actress_list.has_next %}
+    {% if current_actress_list.has_next %}
     <li class="page-item">
       <a class="page-link active" href="/actress/{{ current_actress_list.next_page_number }}">
         <span>&raquo;</span>
       </a>
-
     </li>
     {% else %}
     <li class="page-item disabled">
@@ -111,7 +120,16 @@
       </a>
     </li>
     {% endif %}
+
+    <!-- 最后一页 -->
+    {% if current_actress_list.paginator.num_pages > 10 %}
+    <li class="page-item">
+      <a class="page-link active" href="/actress/{{ current_actress_list.paginator.num_pages }}">
+        <span>&raquo;</span>
+      </a>
     </li>
+    {% endif %}
+
   </ul>
 </nav>
 

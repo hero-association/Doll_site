@@ -41,6 +41,36 @@ def index(request):
 # 	# queryset = Photo.objects.order_by('-date_added')
 # 	context_object_name = 'Photo_index'
 
+#保证循环的次数在规定的展示栏个数，如果设置11，循环的次数保证在11次
+class DollPaginator(Paginator):
+    def __init__(self,current_page,per_pager_num,*args,**kwargs):
+        '''
+        :param current_page:  当前页
+        :param per_pager_num: 底边栏展示页数
+        '''
+        self.current_page = int(current_page)
+        self.per_pager_num = int(per_pager_num)
+        super(DollPaginator, self).__init__(*args, **kwargs)
+
+    def page_num_range(self):
+  #总页数小于实际展示页
+        if self.num_pages < self.per_pager_num:
+            return range(1,self.num_pages+1)
+
+        #part 当前总展示栏中间点5
+        part = int(self.per_pager_num//2)
+
+        #最小页数为1防止出现负数情况
+        if self.current_page <= part:
+            return range(1,self.per_pager_num+1)
+
+        #最大页数为实际总页数
+        if(self.current_page+part)>self.num_pages:
+            return range(self.num_pages-self.per_pager_num+1,self.num_pages+1)
+
+        
+        return range(self.current_page-part,self.current_page+part+1)
+
 def photolist(request,series,company,pageid):
 	"""列表页"""
 	sort = request.GET.get('sort','-date_added')
@@ -57,7 +87,8 @@ def photolist(request,series,company,pageid):
 			photo_list = Photo.objects.filter(series=series,company=company).order_by(sort)
 	# photo_list = Photo.objects.order_by('-date_added')
 	limit = 20
-	paginator = Paginator(photo_list,limit)
+	#分页器
+	paginator = DollPaginator(pageid,5,photo_list,limit)
 	# page = request.GET.get('page','1')
 	current_photo_list = paginator.page(pageid)
 	context = {
@@ -106,7 +137,7 @@ def actresslist(request,pageid):
 	"""演员列表页"""
 	actress_list = Actress.objects.all().order_by('actress_name_ch')
 	limit = 20
-	paginator = Paginator(actress_list,limit)
+	paginator = DollPaginator(pageid,5,actress_list,limit)
 	# page = request.GET.get('page','1')
 
 	current_actress_list = paginator.page(pageid)
