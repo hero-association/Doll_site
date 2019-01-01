@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 设置文件上传路径
 MEDIA_URL = '/uploads/'
-MEDIA_ROOT = ('/home/jasonpak/webapps/django_test/little_bear/porn_sites/static/porn_sites/images/uploads')
+MEDIA_ROOT = ('/home/jasonpak/webapps/django_test/little_bear/doll_sites/static/doll_sites/images/uploads')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 二次元黄网
-    'porn_sites',
+    'doll_sites',
 ]
 
 MIDDLEWARE = [
@@ -59,12 +59,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'porn_site.urls'
+ROOT_URLCONF = 'doll_sites.urls'
 
 #静态文件路径
 
 STATICFILES_DIRS = (
-   '/home/jasonpak/webapps/django_test/little_bear/porn_sites/static/',   
+   '/home/jasonpak/webapps/django_test/little_bear/doll_sites/static/',   
    '/home/jasonpak/webapps/django_test/lib/python3.7/Django-2.1.3-py3.7.egg/django/contrib/admin/static'
 )
 
@@ -84,7 +84,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'porn_site.wsgi.application'
+WSGI_APPLICATION = 'doll_site.wsgi.application'
 
 
 # Database
