@@ -93,11 +93,13 @@ def photolist(request,series,company,pageid):
 	current_photo_list = paginator.page(pageid)
 	hot_actress = actress_list = Actress.objects.all()[:6]
 	new_photo_list = Photo.objects.order_by(sort)[:6]
+	current_company = Company.objects.get(id=company)
+	nbar = str(current_company)
 
 	context = {
 		'current_photo_list':current_photo_list,		#分页的相册列表
 		'photo_list':photo_list,		#未分页的相册列表
-		'nbar':'album',	#导航标志
+		'nbar':nbar,	#导航标志
 		'new_photo_list':new_photo_list,	#最新图集
 		'hot_actress':hot_actress,
 	}
@@ -200,7 +202,7 @@ def searchresult(request):
 def about(request):
 	"""关于页面"""
 	context = {
-
+		'nbar':'about',	#导航标志
 	}
 
 	return render(
