@@ -7,19 +7,19 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
+              <li class="nav-item {% if nbar == 'home' %}active{% endif %}">
                   <a href="/" class="nav-link">首页</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item {% if nbar == 'photos' %}active{% endif %}">
                   <a href="/photos/0/1/1" class="nav-link">Candydoll</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item {% if nbar == 'photos' %}active{% endif %}">
                   <a href="/photos/0/2/1" class="nav-link">Silverstar</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item {% if nbar == 'actress' %}active{% endif %}">
                   <a href="/actress/1" class="nav-link">偶像</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item {% if nbar == 'about' %}active{% endif %}">
                   <a href="/about/" class="nav-link">关于</a>
               </li>
           </ul>
