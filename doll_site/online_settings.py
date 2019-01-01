@@ -59,7 +59,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'doll_sites.urls'
+ROOT_URLCONF = 'doll_site.urls'
 
 #静态文件路径
 
