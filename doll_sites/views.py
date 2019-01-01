@@ -170,6 +170,21 @@ def actressdetail(request,actressid):
 		context
 	)
 
+def searchresult(request):
+	"""搜索结果页"""
+	kwd = request.GET.get('kwd')
+	result_list = Photo.objects.filter(name_chinese__icontains=kwd)
+
+	context = {
+		'result_list' : result_list,
+	}
+
+	return render(
+		request,
+		'doll_sites/search.html',
+		context
+	)
+
 def about(request):
 	"""关于页面"""
 	context = {
