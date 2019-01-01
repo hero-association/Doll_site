@@ -91,6 +91,7 @@ def photolist(request,series,company,pageid):
 	paginator = DollPaginator(pageid,5,photo_list,limit)
 	# page = request.GET.get('page','1')
 	current_photo_list = paginator.page(pageid)
+	hot_actress = actress_list = Actress.objects.all()[:6]
 	new_photo_list = Photo.objects.order_by(sort)[:6]
 
 	context = {
@@ -98,6 +99,7 @@ def photolist(request,series,company,pageid):
 		'photo_list':photo_list,		#未分页的相册列表
 		'nbar':'album',	#导航标志
 		'new_photo_list':new_photo_list,	#最新图集
+		'hot_actress':hot_actress,
 	}
 
 	return render(
