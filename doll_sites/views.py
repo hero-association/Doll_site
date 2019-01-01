@@ -129,7 +129,7 @@ def photodetail(request,photoid):
 	if photo_detail.buy_link is None:
 		buy_links = []
 	else:
-		buy_links = [photo_detail.buy_link,]
+		buy_links = [photo_detail.buy_link,photo_detail.bundle_link]
 	#查询当前演员的相关图集
 	current_actress = photo_detail.model_name.all()
 	related_album = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = current_actress[0]))

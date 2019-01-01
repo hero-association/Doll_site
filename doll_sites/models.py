@@ -28,6 +28,8 @@ class Photo(models.Model):
 	views_count = models.PositiveIntegerField(default=0)
 	vip_photo = models.BooleanField(default=False)
 	buy_link = models.CharField(max_length = 360,null=True,blank=True)
+	vip_bundle = models.BooleanField(default=False)
+	bundle_link = models.CharField(max_length = 360,null=True,blank=True)
 
 	# cover_pic = Photo.PhotoFile.pic
 	# cover_pic._meta.get_field('Photo').rel.to

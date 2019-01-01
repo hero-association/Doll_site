@@ -30,7 +30,7 @@ class PhotoAdmin(admin.ModelAdmin):
             'fields': ('name', 'name_chinese','photo_tag')
         }),
         ('Pay', {
-            'fields': ('vip_photo', 'buy_link',)
+            'fields': ('vip_photo', 'buy_link','vip_bundle','bundle_link')
         }),
         # ('photos', {
         #     'classes': ('collapse',),
