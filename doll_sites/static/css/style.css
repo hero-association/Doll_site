@@ -1,3 +1,16 @@
-.card-img-top {
-    object-fit: cover;
+
+* {
+   margin: 0;
+   padding: 0;
 }
+
+
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border: 1px solid #eeeeee;
+    border-radius: 4px;
+}
+
+
