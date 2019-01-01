@@ -91,11 +91,15 @@ def photolist(request,series,company,pageid):
 	paginator = DollPaginator(pageid,5,photo_list,limit)
 	# page = request.GET.get('page','1')
 	current_photo_list = paginator.page(pageid)
+	new_photo_list = Photo.objects.order_by(sort)[:6]
+
 	context = {
 		'current_photo_list':current_photo_list,		#分页的相册列表
 		'photo_list':photo_list,		#未分页的相册列表
 		'nbar':'album',	#导航标志
+		'new_photo_list':new_photo_list,	#最新图集
 	}
+
 	return render(
 		request,
 		'doll_sites/photo_list.html',
@@ -116,16 +120,22 @@ def photolist(request,series,company,pageid):
 
 def photodetail(request,photoid):
 	"""详情页"""
-	photo_detail = Photo.objects.filter(id=photoid).all()[0]
+	photo_detail = Photo.objects.get(id=photoid)
 	photo_detail.increase_views_count()		#访问次数+1
 	if photo_detail.buy_link is None:
 		buy_links = []
 	else:
 		buy_links = [photo_detail.buy_link,]
-
+	#查询当前演员的相关图集
+	current_actress = photo_detail.model_name.all()
+	related_album = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = current_actress[0]))
+	hot_actress = actress_list = Actress.objects.all()[:6]
 	context = {
 		'buy_links':buy_links,
 		'photo_detail':photo_detail,		#当前相册下的，所有照片列表
+		'related_album':related_album,		#当前演员的相关图集
+		'current_actress':current_actress,
+		'hot_actress':hot_actress,
 	}
 	return render(
 		request,
@@ -160,7 +170,7 @@ def actressdetail(request,actressid):
 
 	context = {
 		'related_album' : related_album,	#当前偶像的相册列表
-		'current_actress' : current_actress_list,		#当前偶像
+		'current_actress' : current_actress,		#当前偶像
 		'nbar':'actress',	#导航标志
 	}
 

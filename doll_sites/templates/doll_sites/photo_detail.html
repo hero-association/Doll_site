@@ -36,7 +36,7 @@
     <div class="row ">
         <div class="col-lg-9 mt-5">
            
-          <div class="card-title">{{ photo_detail.name_chinese }} </div>
+          <div class="card-title">{{ photo_detail.name_chinese }} </div>      
 
           {% for link in buy_links %}
             <a href='{{ link }}'>
@@ -76,27 +76,28 @@
     <div class="card-tags">
       <h4>热搜标签</h4>
       <ul>
-
-        <li><a href="../search/?lang=cn&searchword=尾野寺みさ" title="尾野寺みさ">尾野寺みさ</a></li>
-
-        <li><a href="../search/?lang=cn&searchword=河西莉子" title="河西莉子">河西莉子</a></li>
-
-        <li><a href="../search/?lang=cn&searchword=牧原香鱼" title="牧原香鱼">牧原香鱼</a></li>
-
-        <li><a href="../search/?lang=cn&searchword=金子美穗" title="金子美穗">金子美穗</a></li>
-
-        <li><a href="../search/?lang=cn&searchword=稚名桃子" title="稚名桃子">稚名桃子</a></li>
-
-        <li><a href="../search/?lang=cn&searchword=暗黑萝莉" title="暗黑萝莉">暗黑萝莉</a></li>
-
-        <li><a href="../search/?lang=cn&searchword=工口小学生赛高酱" title="工口小学生赛高酱">工口小学生赛高酱</a></li>
-
+        {% for actress in hot_actress %}
+        <li>
+          <a href="../search/?kwd={{ actress.actress_name_ch }}" title="{{ actress.actress_name_ch }}">  
+            {{ actress.actress_name_ch }}
+          </a>
+        </li>
+        {% endfor %}
       </ul>
     </div>
 
     <div class="card-active">
       <h4>相关推荐</h4>
-
+        <ul>
+          {% for photo in related_album %}
+          <li>
+            <a href="/photo/{{ photo.get_photo_id}}" title="{{ photo.name_chinese}}">
+              <img class="lazyloads" data-original='{{ photo.get_cover_pic_link }}' alt="{{ photo.name_chinese}}">
+              <span>{{ photo.name_chinese }}</span>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
     </div>
 
 </div>
