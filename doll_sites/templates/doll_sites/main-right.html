@@ -1,38 +1,35 @@
 
 
-      <div class="card-tags">
-        <h4>热搜标签</h4>
-        <ul>
 
-          <li><a href="../search/?lang=cn&searchword=尾野寺みさ" title="尾野寺みさ">尾野寺みさ</a></li>
+  <div class="tags">
+      <h4>热搜标签</h4>
+      
+        {% for actress in hot_actress %}
 
-          <li><a href="../search/?lang=cn&searchword=河西莉子" title="河西莉子">河西莉子</a></li>
 
-          <li><a href="../search/?lang=cn&searchword=牧原香鱼" title="牧原香鱼">牧原香鱼</a></li>
-
-          <li><a href="../search/?lang=cn&searchword=金子美穗" title="金子美穗">金子美穗</a></li>
-
-          <li><a href="../search/?lang=cn&searchword=稚名桃子" title="稚名桃子">稚名桃子</a></li>
-
-          <li><a href="../search/?lang=cn&searchword=暗黑萝莉" title="暗黑萝莉">暗黑萝莉</a></li>
-
-          <li><a href="../search/?lang=cn&searchword=工口小学生赛高酱" title="工口小学生赛高酱">工口小学生赛高酱</a></li>
-
-        </ul>
-      </div>
+        
+          <a class="btn btn-outline-primary mb-2" href="../search/?kwd={{ actress.actress_name_ch }}" title="{{ actress.actress_name_ch }}">  
+            {{ actress.actress_name_ch }}
+          </a>
+        
+        {% endfor %}
+      
+    </div>
 
       <div class="card-active">
-        <h4>最新图集</h4>
-        <ul>
-          {% for photo in Photo_list %}
-            {% if photo.id < 4 %}
-          <li>
+        <h4>相关推荐</h4>
+        
+          {% for photo in new_photo_list %}
+          
             <a href="/photo/{{ photo.get_photo_id}}" title="{{ photo.name_chinese}}">
-              <img class="lazyloads" data-original='{{ photo.get_cover_pic_link }}' alt="{{ photo.name_chinese}}">
+              <img  class="card-img-top img-fluid border-light lazyloadx" data-original='{{ photo.get_cover_pic_link }}' 
+              src="/static/image/loading.png"
+              alt="{{ photo.name_chinese}}">
+            
               <span>{{ photo.name_chinese }}</span>
             </a>
-          </li>
-            {% endif %}
+            
+          
           {% endfor %}
-        </ul>
+        
       </div>

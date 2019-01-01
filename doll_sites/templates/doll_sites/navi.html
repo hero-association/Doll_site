@@ -1,5 +1,5 @@
 
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+<nav class="navbar d-block navbar-expand-sm navbar-dark bg-dark">
   <div class="container">
       <a href="/" class="navbar-brand">小熊社</a>
       <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -7,24 +7,24 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
+              <li class="nav-item {% if nbar == 'home' %}active{% endif %}">
                   <a href="/" class="nav-link">首页</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item {% if nbar == 'CandyDoll' %}active{% endif %}">
                   <a href="/photos/0/1/1" class="nav-link">Candydoll</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item {% if nbar == 'Silver-Stars' %}active{% endif %}">
                   <a href="/photos/0/2/1" class="nav-link">Silverstar</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item {% if nbar == 'actress' %}active{% endif %}">
                   <a href="/actress/1" class="nav-link">偶像</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item {% if nbar == 'about' %}active{% endif %}">
                   <a href="/about/" class="nav-link">关于</a>
               </li>
           </ul>
-          <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="工口小学生赛高酱" aria-label="Search">
+          <form class="form-inline my-2 my-lg-0" method="get" action="/search/">
+                <input class="form-control mr-sm-2" type="search" placeholder="工口小学生赛高酱" aria-label="Search" name="kwd">
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">搜索</button>
               </form>
       </div>

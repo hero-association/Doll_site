@@ -30,7 +30,7 @@
 </head>
 
 
-<body>
+<body class="d-flex flex-column h-100">
 
   {% include 'doll_sites/navi.html' %}
 
@@ -76,7 +76,7 @@
   </div>
 
 
-    <!--  -->
+
 
 
     <!-- 最新发布 -->
@@ -93,7 +93,7 @@
         <div class="card border-0 col-md-8 col-lg  p-0">
     
           <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
-            <img class="card-img-top img-fluid border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
+            <img class="card-img-top img-fluid border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
               src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
           </a>
           <div class="card-body">
@@ -134,9 +134,11 @@
         <div class="card border-0 col-md-4 col-lg mr-4 p-0">
     
           <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
-            <img class="card-img-top img-fluid border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
-              src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+            <img class="card-img-top border-light lazyloadx" 
+            data-original="{{ photo.get_cover_pic_link }}"
+            src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
           </a>
+
           <div class="card-body">
             <p class="card-text">{{ photo.name_chinese }}</p>
           </div>
