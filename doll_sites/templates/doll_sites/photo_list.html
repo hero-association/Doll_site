@@ -1,9 +1,18 @@
-
 <!DOCTYPE HTML>
-<html>
+<html class="h-100">
 <head>
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
+    <meta name="renderer" content="webkit">
+    <meta name="referrer" content="never">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="小熊社|萝莉图库|白丝|cosplay" />
+    <meta name="keywords" content="小熊社|萝莉图库|白丝|cosplay" />
+    <title> 小熊社-ロリータ世界！|萝莉图库|白丝|cosplay </title>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127776067-1"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -13,100 +22,144 @@
     gtag('config', 'UA-127776067-1');
   </script>
 
-  <!-- 引入 Bootstrap -->
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-
-  <title> 小熊社-ロリータ世界！|萝莉图库|白丝|cosplay </title>
-  <meta name="renderer" content="webkit">
-  <meta name="referrer" content="never">
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="applicable-device" content="pc,mobile">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-  <meta name="description" content="小熊社|萝莉图库|白丝|cosplay" />
-  <meta name="keywords" content="小熊社|萝莉图库|白丝|cosplay" />
+<!-- 引入 Bootstrap -->
+  <link rel='stylesheet' href='/static/css/bootstrap.css'>
   <link rel='stylesheet' href='/static/css/style.css'>
 </head>
-<body>
+
+
+<body class="d-flex flex-column h-100">
 
   <!-- Header & Navigation -->
   {% include 'doll_sites/navi.html' %}
 
-<section class="main">
-  <div class="width-box">
-
-  	{% block content %}
-
-	<div class="main-left">
-      <!-- <div class="card-list"> -->
-	    <!-- <div class="met-page-ajax" data-scale='0.5'> -->
-        <div id="photo-list">
-          <ul>
-          	{% for photo in photo_list %}
-            <li>
-              <a href="/photo/{{ photo.get_photo_id}}" title="2017海南三亚旅游攻略实用版" target='_self'>
-              	<div>
-              		<img
-              		class="lazyloadx" 
-              		data-original=' {{ photo.get_cover_pic_link }} ' 
-              		src="/static/image/loading.png"
-              		lazyloadthumb="1"
-              		lazyloaded="true"
-              		>
-              	</div>
-              	<p>{{ photo.name_chinese }}</p>
-              </a>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-    </div>
-
-    {% endblock %}
-<!--         <div class="card-li">
-          <div class="card-description">
-            <a class="card-title" href="photo_detail.html" title="2017海南三亚旅游攻略实用版" target='_self'><h3>2017海南三亚旅游攻略实用版</h3></a>
-			<img class="card-image lazyloadx" data-original='/static/image/1506334085.jpg'>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-9 mt-5 ">
+      <div class="d-flex flex-wrap">
+          {% block content %}
+          {% for photo in current_photo_list %}
+          <div class="card col-lg-2 mr-4 my-3 p-0">
+      
+            <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+              <img class="card-img-top img-fluid border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
+                src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+            </a>
+            <div class="card-body">
+              <p class="card-text">{{ photo.name_chinese }}</p>
+            </div>
           </div>
-        </div>
-
-        <div class="card-li">
-          <div class="card-description">
-            <a class="card-title" href="photo_detail.html" title="2017海南三亚旅游攻略实用版" target='_self'><h3>2017海南三亚旅游攻略实用版</h3></a>
-      <img class="card-image lazyloadx" data-original='/static/image/1506334085.jpg'>
-          </div>
-        </div> -->
-<!-- 
-    <div class="hidden-xs">
-      <div class="card-page" data-pages=1>
-	    <p>
-
-		  <a >&lt;</a>
-
-		  <a class="active" >1</a>
-
-		  <a >&gt;</a>
-
-		</p>
+          {% endfor %}
+          {% endblock %}
+  
       </div>
-	</div>
-<div class="met-page-ajax-body visible-xs-block invisible" data-plugin="appear" data-animate="slide-bottom" data-repeat="false">
-	<button type="button" class="btn btn-default btn-block btn-squared ladda-button" id="met-page-btn" data-style="slide-left" data-url="/muban/M1156012/359/strategy/?lang=cn&class1=108&class2=0&class3=0&mbpagelist=1" data-page="1"><i class="icon wb-chevron-down margin-right-5" aria-hidden="true"></i>加载更多</button>
-</div> -->
-    <!-- </div> -->
+      <div>
+          <nav aria-label="photo_list">
+              <ul class="pagination justify-content-center">
+            
+                <!-- 第一页 -->
+                {% if current_photo_list.paginator.num_pages > 10 %}
+                <li class="page-item">
+                  <a class="page-link active" href="/photos/0/0/1">
+                    <span>&laquo;</span>
+                  </a>
+                </li>
+                {% endif %}
+            
+                {% if current_photo_list.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="/photos/0/0/{{ current_photo_list.previous_page_number }}">
+                    <span>&laquo;</span>
+                    <span class="sr-only">上一页</span>
+                  </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link" href="">
+                    <span>&laquo;</span>
+                  </a>
+                </li>
+                {% endif %}
+            
+            
+                {% for i in current_photo_list.paginator.page_num_range %}
+                {% if current_photo_list.number == i %}
+                <li class="page-item active">
+                  <span class="page-link">{{ i }}
+                     <span class="sr-only">(current)</span>
+                    </span>
+                  </li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="/photos/0/0/{{ i }}">{{ i }}</a></li>
+                {% endif %}
+                {% endfor %}
+            
+             
+            
+                {% if current_photo_list.has_next %}
+                <li class="page-item">
+                  <a class="page-link active" href="/photos/0/0/{{ current_photo_list.next_page_number }}">
+                    <span>&raquo;</span>
+                  </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link" href="">
+                    <span>&raquo;</span>
+                  </a>
+                </li>
+                {% endif %}
+            
+                <!-- 最后一页 -->
+                {% if current_photo_list.paginator.num_pages > 10 %}
+                <li class="page-item">
+                  <a class="page-link active" href="/photos/0/0/{{ current_photo_list.paginator.num_pages }}">
+                    <span>&raquo;</span>
+                  </a>
+                </li>
+                {% endif %}
+            
+              </ul>
+            </nav>
+      </div>
+        
 
-{% include 'doll_sites/main-right.html'%}
-
+    </div>
+    <div class="col-lg-3 mt-5 ">
+        {% include 'doll_sites/main-right.html'%}
+    </div>
   </div>
-</section>
 
-{% include 'doll_sites/footer.html' %}
 
-<script src="/static/js/shop_lang_cn.js"></script>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+    {% include 'doll_sites/footer.html' %}
+
+  
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
 
 <script src="/static/js/style.js"></script>
 
-<script src="/static/js/shop_v3.js"></script>
+
+<script>
+  $('#year').text(new Date().getFullYear());
+ </script>
 
 </body>
+
 </html>

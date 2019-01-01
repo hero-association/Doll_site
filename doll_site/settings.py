@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 设置文件上传路径
 MEDIA_URL = '/uploads/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'doll_site/static/doll_site/images/uploads')
+MEDIA_ROOT = os.path.join(BASE_DIR,'doll_sites/static/doll_sites/images/uploads')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -29,9 +29,9 @@ SECRET_KEY = 'zqb=&wzhvb!o0o_y&r&uw%406j$hu3_tqx)8hvsq%qpxar*9rr'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-'162.241.182.12',
-'www.jasonpak.net',
-'127.0.0.1',
+    '162.241.182.12',
+    'www.jasonpak.net',
+    '127.0.0.1',
 ]
 
 
@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 二次元黄网
     'doll_sites',
+    # django自动文档
+    # 'django.contrib.admindocs',
 ]
 
 MIDDLEWARE = [
