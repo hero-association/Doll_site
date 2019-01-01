@@ -76,7 +76,7 @@ class Actress(models.Model):
 	actress_name_ch = models.CharField(max_length=60,null=True,blank=True)
 	actress_name_jp = models.CharField(max_length=60,null=True,blank=True)
 	actress_name_en = models.CharField(max_length=60,null=True,blank=True)
-	actress_pic = models.ImageField(
+	avatar = models.ImageField(
 							upload_to=upload_location,
 							null=True,blank=True,
 							)
