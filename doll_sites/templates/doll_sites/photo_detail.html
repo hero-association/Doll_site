@@ -38,11 +38,7 @@
            
           <div class="card-title">{{ photo_detail.name_chinese }} </div>      
 
-          {% for link in buy_links %}
-            <a href='{{ link }}'>
-              <div class="btn btn-primary">点击购买</div>
-            </a>
-          {% endfor %}
+
       
           <div class="clearfix">
             <div>
@@ -71,33 +67,44 @@
           <!-- 右侧推荐位 -->
 <div class="col-lg-3 mt-5">
 
-  <div class="btn btn-primary">点击购买</div>
 
-    <div class="card-tags">
+    {% for link in buy_links %}
+    <a href='{{ link }}'>
+      <div class="btn btn-primary">点击购买</div>
+    </a>
+  {% endfor %}
+
+    <div class="tags">
       <h4>热搜标签</h4>
-      <ul>
+      
         {% for actress in hot_actress %}
-        <li>
-          <a href="../search/?kwd={{ actress.actress_name_ch }}" title="{{ actress.actress_name_ch }}">  
+
+
+        
+          <a class="btn btn-outline-primary mb-2" href="../search/?kwd={{ actress.actress_name_ch }}" title="{{ actress.actress_name_ch }}">  
             {{ actress.actress_name_ch }}
           </a>
-        </li>
+        
         {% endfor %}
-      </ul>
+      
     </div>
 
     <div class="card-active">
       <h4>相关推荐</h4>
-        <ul>
+        
           {% for photo in related_album %}
-          <li>
+          
             <a href="/photo/{{ photo.get_photo_id}}" title="{{ photo.name_chinese}}">
-              <img class="lazyloads" data-original='{{ photo.get_cover_pic_link }}' alt="{{ photo.name_chinese}}">
+              <img class="card-img-top img-fluid border-light lazyloadx"
+               data-original='{{ photo.get_cover_pic_link }}' 
+
+               src="/static/image/loading.png"
+               alt="{{ photo.name_chinese}}">
               <span>{{ photo.name_chinese }}</span>
             </a>
-          </li>
+          
           {% endfor %}
-        </ul>
+        
     </div>
 
 </div>
