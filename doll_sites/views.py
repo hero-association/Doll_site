@@ -126,16 +126,23 @@ def photodetail(request,photoid):
 	"""详情页"""
 	photo_detail = Photo.objects.get(id=photoid)
 	photo_detail.increase_views_count()		#访问次数+1
+	#照片购买
 	if photo_detail.buy_link is None:
 		buy_links = []
 	else:
-		buy_links = [photo_detail.buy_link,photo_detail.bundle_link]
+		buy_links = [photo_detail.buy_link,]
+	#Bundle购买
+	if photo_detail.bundle_link is None:
+		bundle_links = []
+	else:
+		bundle_links = [photo_detail.bundle_link,]
 	#查询当前演员的相关图集
 	current_actress = photo_detail.model_name.all()
 	related_album = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = current_actress[0]))
 	hot_actress = actress_list = Actress.objects.all()[:6]
 	context = {
-		'buy_links':buy_links,
+		'buy_links':buy_links,		#购买链接列表
+		'bundle_links':bundle_links,		#Bundle链接列表
 		'photo_detail':photo_detail,		#当前相册下的，所有照片列表
 		'related_album':related_album,		#当前演员的相关图集
 		'current_actress':current_actress,

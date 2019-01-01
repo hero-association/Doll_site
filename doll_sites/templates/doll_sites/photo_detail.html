@@ -72,7 +72,13 @@
     <a href='{{ link }}'>
       <div class="btn btn-primary">点击购买</div>
     </a>
-  {% endfor %}
+    {% endfor %}
+
+    {% for link in bundle_links %}
+    <a href='{{ link }}'>
+      <div class="btn btn-primary">点击购买</div>
+    </a>
+    {% endfor %}
 
     <div class="tags">
       <h4>热搜标签</h4>
