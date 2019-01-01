@@ -93,7 +93,10 @@ def photolist(request,series,company,pageid):
 	current_photo_list = paginator.page(pageid)
 	hot_actress = actress_list = Actress.objects.all()[:6]
 	new_photo_list = Photo.objects.order_by(sort)[:6]
-	current_company = Company.objects.get(id=company)
+	if company != 0:
+		current_company = Company.objects.get(id=company)
+	else:
+		current_company = "all_company"
 	nbar = str(current_company)
 
 	context = {
