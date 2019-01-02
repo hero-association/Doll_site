@@ -50,7 +50,7 @@ class Photo(models.Model):
 
 	def get_cover_pic_link(self):
 		current_name = self.id
-		cover_pic_link = PhotoLink.objects.filter(photo=current_name)[0]
+		cover_pic_link = PhotoLink.objects.filter(photo=current_name).order_by('id')[0]
 		return cover_pic_link.pic_link
 
 	# def get_right_recommend:
