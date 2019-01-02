@@ -27,6 +27,10 @@
   <link rel='stylesheet' href='/static/css/bootstrap.css'>
   <link rel='stylesheet' href='/static/css/style.css'>
 
+
+  <!-- fontawsome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
 </head>
 
 
@@ -106,45 +110,67 @@
 
 
     <!-- 热门推荐 -->
-    <section id="hottest" class="container my-3">
-      <div class="clearfix">
-        <p class="text-left  float-left font-weight-bold">
-          热门推荐
-        </p>
+<section id="hottest" class="container my-3">
+         
        
-          <span class="link ml-3">
-            <a href="#" title="尾野寺的夏日物语">
-              尾野寺的夏日物语
+      <div class="row">
+        <div class="col">
+            <p class="text-left  float-left font-weight-bold">
+                热门推荐
+              </p>
+             <div class="d-none d-sm-block">
+                <span class="link ml-3">
+                  <a href="#" title="尾野寺的夏日物语">
+                    尾野寺的夏日物语
+                  </a>
+                </span>
+                <span class="layout">
+                  丨
+                </span>
+                <span class="link">
+                  <a href="#"  title="尾野寺的夏日物语">
+                    尾野寺的夏日物语
+                  </a>
+                </span> 
+        </div>
+        </div>
+        <div class="col-auto mr-auto">
+            <a href="/photos/0/0/1?sort=-views_count" > 
+          
+              <span>
+                  更多 
+                  
+              </span>
+              <i class="fas fa-chevron-right"></i>
             </a>
-          </span>
-          <span class="layout">
-            丨
-          </span>
-          <span class="link">
-            <a href="#"  title="尾野寺的夏日物语">
-              尾野寺的夏日物语
-            </a>
-          </span>
+        </div>
         
-        <a href="/photos/0/0/1?sort=-views_count" class="badge badge-primary  float-right"> 更多 </a>
+        
+       
       </div>
-    
-      <div class="d-flex flex-wrap justify-content-between">
-        {% for photo in recommend_hotest %}
-        <div class="card border-0 col-md-4 col-lg mr-4 p-0">
+
+      
+        <div class="card-deck">
+            {% for photo in recommend_hotest %}
+        <div class="card border-0 ">
     
           <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
             <img class="card-img-top border-light lazyloadx" 
             data-original="{{ photo.get_cover_pic_link }}"
             src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
           </a>
-
           <div class="card-body">
-            <p class="card-text">{{ photo.name_chinese }}</p>
+            <p class="card-text text-center text-truncate">{{ photo.name_chinese }}</p>
           </div>
         </div>
         {% endfor %}
-      </div>
+ 
+        </div>
+        
+    
+    
+      
+     
     </section>
 
 
