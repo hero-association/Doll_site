@@ -115,3 +115,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 0103.json
+db.sqlite3

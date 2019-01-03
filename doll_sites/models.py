@@ -65,7 +65,7 @@ class Photo(models.Model):
 
 	def get_all_pic_link(self):
 		current_name = self.id
-		all_pic_links = PhotoLink.objects.filter(photo=current_name)
+		all_pic_links = PhotoLink.objects.filter(photo=current_name).order_by('id')
 		detail_pic_links = []
 		for all_pic_link in all_pic_links:
 			detail_pic_links.append(all_pic_link.pic_link)
