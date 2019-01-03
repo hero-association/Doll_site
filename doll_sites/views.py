@@ -208,6 +208,7 @@ def searchresult(request):
 
 	context = {
 		'result_list' : result_list,
+		'kwd' : kwd,
 	}
 
 	return render(
