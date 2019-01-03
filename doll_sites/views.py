@@ -143,9 +143,12 @@ def photodetail(request,photoid):
 		bundle_links = [photo_detail.bundle_link,]
 	#查询当前演员的相关图集
 	current_actress = photo_detail.model_name.all().order_by('pk')
-	related_album = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = current_actress[0])).order_by('-views_count')[:10]
+	related_album = []
+	for actress in current_actress:
+		p = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = actress)).order_by('-views_count')
+		related_album += p
 	current_album = Photo.objects.filter(id=photoid)
-	related_album = list(set(related_album) - set(current_album))
+	related_album = list(set(related_album) - set(current_album))[:10]
 	#热搜标签
 	hot_actress = Actress.objects.all().order_by('?')[:6]
 	#相册标签
@@ -190,14 +193,12 @@ def actresslist(request,pageid):
 
 def actressdetail(request,actressid):
 	"""演员详情页"""
-	current_actress = Actress.objects.filter(id=actressid)
-	related_album = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = current_actress[0])).order_by('-views_count')
+	current_actress = list(Actress.objects.filter(id=actressid))
+	related_album = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = current_actress)).order_by('-views_count')
 	related_company = []
 	for album in related_album:
 		related_company.append(album.company)
 	related_company = set(related_company)
-	# for album in related_album:
-	# 	album.company
 
 	context = {
 		'related_album' : related_album,		#当前偶像的相册列表
@@ -215,7 +216,27 @@ def actressdetail(request,actressid):
 def searchresult(request):
 	"""搜索结果页"""
 	kwd = request.GET.get('kwd')
-	result_list = Photo.objects.filter(name_chinese__icontains=kwd)
+	#搜演员
+	searched_actress = Actress.objects.filter(actress_name_ch__icontains=kwd)
+	result_list_actress = []
+	for actress in searched_actress:
+		p = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch=actress)).order_by('-views_count')
+		result_list_actress += p
+	#搜公司
+	searched_company = Company.objects.filter(company_name__icontains=kwd)
+	result_list_company = []
+	for company in searched_company:
+		p = Photo.objects.filter(company = Company.objects.get(company_name=company)).order_by('-views_count')
+		result_list_company += p
+	#搜TAG
+	searched_tag = Tag.objects.filter(tag_name__icontains=kwd)
+	result_list_tag = []
+	for tag in searched_tag:
+		p = Photo.objects.filter(photo_tag = Tag.objects.get(tag_name=tag)).order_by('-views_count')
+		result_list_tag += p
+	#搜标题
+	result_list_title = Photo.objects.filter(name_chinese__icontains=kwd).order_by('views_count')		
+	result_list = result_list_actress + list(result_list_title) + result_list_tag + result_list_company
 
 	context = {
 		'result_list' : result_list,

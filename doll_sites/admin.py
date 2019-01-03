@@ -15,7 +15,7 @@ class PhotoLinkInline(admin.TabularInline):
 class PhotoAdmin(admin.ModelAdmin):
 	search_fields = ['name_chinese']
 	list_display = ('id','series','company','name','name_chinese','date_added','views_count')
-	list_editable = ('company',)
+	list_editable = ('company','name','name_chinese',)
 	inlines = [PhotoFileInline,PhotoLinkInline]
 	list_filter = ('series','company','vip_photo','model_name')
 
