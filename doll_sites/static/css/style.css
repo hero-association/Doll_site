@@ -11,6 +11,17 @@
     border: 1px solid #eeeeee;
     border-radius: 4px;}
     @media (max-width: 576px) {
-        .card-img-top {height: 25rem;
+        .card-img-top {
+            height: 25rem;
         }
     }
+
+
+
+@media (max-width: 576px) {
+    #Carousel {
+        padding: 0;
+        
+
+    }
+}
