@@ -39,14 +39,14 @@
       <div class="d-flex flex-wrap">
           {% block content %}
           {% for photo in current_photo_list %}
-          <div class="card col-lg-2 mr-4 my-3 p-0">
+          <div class="card card-photolist my-3 p-0">
       
             <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
               <img class="card-img-top img-fluid border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
                 src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
             </a>
             <div class="card-body">
-              <p class="card-text">{{ photo.name_chinese }}</p>
+              <p class="card-text text-center text-truncate">{{ photo.name_chinese }}</p>
             </div>
           </div>
           {% endfor %}
@@ -55,7 +55,7 @@
       </div>
       <div>
           <nav aria-label="photo_list">
-              <ul class="pagination justify-content-center">
+              <ul class="pagination justify-content-center mt-4 mb-5">
             
                 <!-- 第一页 -->
                 {% if current_photo_list.paginator.num_pages > 10 %}
@@ -143,7 +143,7 @@
 
 
 
-    {% include 'doll_sites/footer.html' %}
+{% include 'doll_sites/footer.html' %}
 
   
 

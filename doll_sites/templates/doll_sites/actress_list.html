@@ -31,27 +31,27 @@
       <!-- Header & Navigation -->
   {% include 'doll_sites/navi.html' %}
 
-<div class="container">
-<div class="row">
+<section class="container">
+
 
     {% block content %}
 
 
-        <div class="d-flex flex-wrap justify-content-center my-5">
-
-            {% for actress in current_actress_list %}
-            <div class="card  col-lg-2 mr-4 my-3 p-0">
-        
-              <a href="/actress_detail/{{ actress.id }}" title=" {{ actress.actress_name_ch }} " target='_self'>
-                <img class="card-img-top img-fluid  border-light lazyloadx" 
-                data-original="/static/image/loading.png"
-                src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
-              </a>
-              <div class="card-body">
-                <p class="card-text">{{ actress.actress_name_ch }}</p>
+        <div class="d-flex flex-wrap my-5 w-100 card-actress-box justify-content-center">
+              {% for actress in current_actress_list %}
+              <div class="card card-actress mx-2 mb-5 p-0">
+          
+                <a href="/actress_detail/{{ actress.id }}" title=" {{ actress.actress_name_ch }} " target='_self'>
+                  <img class="card-img-top border-light lazyloadx" 
+                  data-original="/static/image/loading.png"
+                  src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+                </a>
+                <div class="card-body">
+                  <p class="card-text text-center text-truncate">{{ actress.actress_name_ch }}</p>
+                </div>
               </div>
-            </div>
-            {% endfor %}
+              {% endfor %}
+       
         </div>
 
 
@@ -60,13 +60,13 @@
 
 
 
-</div>
+</section>
 
 
 <!-- paginator -->
 
 <nav aria-label="actress_list">
-  <ul class="pagination justify-content-center">
+  <ul class="pagination justify-content-center mt-n4 mb-5">
 
     <!-- 第一页 -->
     {% if current_actress_list.paginator.num_pages > 10 %}
