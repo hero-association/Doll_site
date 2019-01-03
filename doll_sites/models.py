@@ -29,12 +29,12 @@ class Photo(models.Model):
 	#照片购买
 	vip_photo = models.BooleanField(default=False)
 	buy_concent = models.CharField(max_length=60,null=True,blank=True)
-	buy_price = models.IntegerField(max_length=60,null=True,blank=True)
+	buy_price = models.IntegerField(null=True,blank=True)
 	buy_link = models.CharField(max_length = 360,null=True,blank=True)
 	#Bundle购买
 	vip_bundle = models.BooleanField(default=False)
 	bundle_concent = models.CharField(max_length=60,null=True,blank=True)
-	bundle_price = models.IntegerField(max_length=60,null=True,blank=True)
+	bundle_price = models.IntegerField(null=True,blank=True)
 	bundle_link = models.CharField(max_length = 360,null=True,blank=True)
 
 	# cover_pic = Photo.PhotoFile.pic

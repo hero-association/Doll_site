@@ -93,7 +93,10 @@ def photolist(request,series,company,pageid):
 	current_photo_list = paginator.page(pageid)
 	hot_actress = actress_list = Actress.objects.all()[:6]
 	new_photo_list = Photo.objects.order_by(sort)[:6]
-	current_company = Company.objects.get(id=company)
+	if company != 0:
+		current_company = Company.objects.get(id=company)
+	else:
+		current_company = "all_company"
 	nbar = str(current_company)
 
 	context = {
@@ -137,7 +140,7 @@ def photodetail(request,photoid):
 	else:
 		bundle_links = [photo_detail.bundle_link,]
 	#查询当前演员的相关图集
-	current_actress = photo_detail.model_name.all()
+	current_actress = photo_detail.model_name.all().order_by('pk')
 	related_album = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = current_actress[0]))
 	hot_actress = actress_list = Actress.objects.all()[:6]
 	context = {

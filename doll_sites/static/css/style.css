@@ -6,10 +6,11 @@
 
 
 .card-img-top {
-    height: 200px;
+    height: 17rem;
     object-fit: cover;
     border: 1px solid #eeeeee;
-    border-radius: 4px;
-}
-
-
+    border-radius: 4px;}
+    @media (max-width: 576px) {
+        .card-img-top {height: 25rem;
+        }
+    }
