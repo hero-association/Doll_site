@@ -148,6 +148,9 @@ def photodetail(request,photoid):
 	related_album = list(set(related_album) - set(current_album))
 	#热搜标签
 	hot_actress = Actress.objects.all().order_by('?')[:6]
+	#相册标签
+	photo_tag = photo_detail.photo_tag.all()
+	# photo_tag = list(set(photo_tag))
 
 	context = {
 		'buy_links':buy_links,		#购买链接列表
@@ -156,6 +159,7 @@ def photodetail(request,photoid):
 		'related_album':related_album,		#当前演员的相关图集
 		'current_actress':current_actress,		
 		'hot_actress':hot_actress,		#热搜标签
+		'photo_tag':photo_tag,		#相册标签
 	}
 
 	return render(
