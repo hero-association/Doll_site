@@ -91,8 +91,10 @@ def photolist(request,series,company,pageid):
 	paginator = DollPaginator(pageid,5,photo_list,limit)
 	# page = request.GET.get('page','1')
 	current_photo_list = paginator.page(pageid)
-	hot_actress = actress_list = Actress.objects.all()[:6]
+	#热搜标签&最新图集
+	hot_actress = Actress.objects.all().order_by('?')[:6]
 	new_photo_list = Photo.objects.order_by(sort)[:6]
+	#导航高亮
 	if company != 0:
 		current_company = Company.objects.get(id=company)
 	else:
@@ -104,7 +106,7 @@ def photolist(request,series,company,pageid):
 		'photo_list':photo_list,		#未分页的相册列表
 		'nbar':nbar,	#导航标志
 		'new_photo_list':new_photo_list,	#最新图集
-		'hot_actress':hot_actress,
+		'hot_actress':hot_actress,		#热搜标签
 	}
 
 	return render(
@@ -141,16 +143,21 @@ def photodetail(request,photoid):
 		bundle_links = [photo_detail.bundle_link,]
 	#查询当前演员的相关图集
 	current_actress = photo_detail.model_name.all().order_by('pk')
-	related_album = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = current_actress[0]))
-	hot_actress = actress_list = Actress.objects.all()[:6]
+	related_album = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = current_actress[0])).order_by('-views_count')[:10]
+	current_album = Photo.objects.filter(id=photoid)
+	related_album = list(set(related_album) - set(current_album))
+	#热搜标签
+	hot_actress = Actress.objects.all().order_by('?')[:6]
+
 	context = {
 		'buy_links':buy_links,		#购买链接列表
 		'bundle_links':bundle_links,		#Bundle链接列表
 		'photo_detail':photo_detail,		#当前相册下的，所有照片列表
 		'related_album':related_album,		#当前演员的相关图集
-		'current_actress':current_actress,
-		'hot_actress':hot_actress,
+		'current_actress':current_actress,		
+		'hot_actress':hot_actress,		#热搜标签
 	}
+
 	return render(
 		request,
 		'doll_sites/photo_detail.html',
