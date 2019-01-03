@@ -11,6 +11,34 @@
     border: 1px solid #eeeeee;
     border-radius: 4px;}
     @media (max-width: 576px) {
-        .card-img-top {height: 25rem;
+        .card-img-top {
+            height: 25rem;
         }
     }
+
+
+
+@media (max-width: 576px) {
+    #Carousel {
+        padding: 0;
+        
+    }
+}
+
+
+.card-actress {
+
+    width: 198px;
+}
+
+
+.card-photolist {
+    width: 160px;
+    margin-right: 20px;
+    margin-left: 20px;
+    
+}
+
+.card-photolist .card-img-top {
+    height: 13rem;
+}

@@ -57,6 +57,9 @@ class Photo(models.Model):
 	# 	right_recommend = Photo.objects.all()[0:2]
 	# 	return right_recommend
 
+	def get_company_name(self):
+		current_company = self.company
+
 	def get_photo_id(self):
 		return self.id
 

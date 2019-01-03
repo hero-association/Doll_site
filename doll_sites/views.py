@@ -148,6 +148,9 @@ def photodetail(request,photoid):
 	related_album = list(set(related_album) - set(current_album))
 	#热搜标签
 	hot_actress = Actress.objects.all().order_by('?')[:6]
+	#相册标签
+	photo_tag = photo_detail.photo_tag.all()
+	# photo_tag = list(set(photo_tag))
 
 	context = {
 		'buy_links':buy_links,		#购买链接列表
@@ -156,6 +159,7 @@ def photodetail(request,photoid):
 		'related_album':related_album,		#当前演员的相关图集
 		'current_actress':current_actress,		
 		'hot_actress':hot_actress,		#热搜标签
+		'photo_tag':photo_tag,		#相册标签
 	}
 
 	return render(
@@ -187,11 +191,18 @@ def actresslist(request,pageid):
 def actressdetail(request,actressid):
 	"""演员详情页"""
 	current_actress = Actress.objects.filter(id=actressid)
-	related_album = Photo.objects.filter(actress=actressid)
+	related_album = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = current_actress[0])).order_by('-views_count')
+	related_company = []
+	for album in related_album:
+		related_company.append(album.company)
+	related_company = set(related_company)
+	# for album in related_album:
+	# 	album.company
 
 	context = {
-		'related_album' : related_album,	#当前偶像的相册列表
+		'related_album' : related_album,		#当前偶像的相册列表
 		'current_actress' : current_actress,		#当前偶像
+		'related_company' : related_company,		#关联的公司
 		'nbar':'actress',	#导航标志
 	}
 
@@ -208,6 +219,7 @@ def searchresult(request):
 
 	context = {
 		'result_list' : result_list,
+		'kwd' : kwd,
 	}
 
 	return render(

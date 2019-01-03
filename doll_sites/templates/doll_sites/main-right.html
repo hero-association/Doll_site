@@ -2,13 +2,15 @@
 
 
   <div class="tags">
-      <h4>热搜标签</h4>
+      <p class="font-weight-bold">热搜标签
+
+      </p>
       
         {% for actress in hot_actress %}
 
 
         
-          <a class="btn btn-outline-primary mb-2" href="../search/?kwd={{ actress.actress_name_ch }}" title="{{ actress.actress_name_ch }}">  
+          <a class="btn btn-sm btn-outline-primary mb-2" href="../search/?kwd={{ actress.actress_name_ch }}" title="{{ actress.actress_name_ch }}">  
             {{ actress.actress_name_ch }}
           </a>
         
@@ -16,8 +18,8 @@
       
     </div>
 
-      <div class="card-active">
-        <h4>相关推荐</h4>
+      <div class="my-4">
+        <p class="font-weight-bold">相关推荐</p>
         
           {% for photo in new_photo_list %}
           
@@ -25,9 +27,8 @@
               <img  class="card-img-top img-fluid border-light lazyloadx" data-original='{{ photo.get_cover_pic_link }}' 
               src="/static/image/loading.png"
               alt="{{ photo.name_chinese}}">
-            
-              <span>{{ photo.name_chinese }}</span>
             </a>
+            <p class="text-center text-truncate p-3">{{ photo.name_chinese }}</p>
             
           
           {% endfor %}
