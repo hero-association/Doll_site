@@ -111,13 +111,20 @@
             <img class="card-img-top border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
               src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
           </a>
-          <div class="card-body">
-            <p class="card-text text-center text-truncate">{{ photo.name_chinese }}</p>
+          <div class="card-body p-1 mt-2">
+            <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
+
+            {% for modelname in photo.model_name.all %}
+            <a href="/actress_detail/{{ actress.id }}" class="card-text text-truncate mb-1 ">
+              <small>{{ modelname }}</small>
+          </a>
+            {% endfor %}
           </div>
         </div>
         {% endfor %}
       </div>
     </section>
+
 
 
     <!-- 热门推荐 -->
@@ -167,9 +174,15 @@
             data-original="{{ photo.get_cover_pic_link }}"
             src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
           </a>
-          <div class="card-body">
-            <p class="card-text text-center text-truncate">{{ photo.name_chinese }}</p>
-          </div>
+          <div class="card-body p-1 mt-2">
+              <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
+  
+              {% for modelname in photo.model_name.all %}
+              <a href="/actress_detail/{{ actress.id }}" class="card-text text-truncate mb-1 ">
+                <small>{{ modelname }}</small>
+            </a>
+              {% endfor %}
+            </div>
         </div>
         {% endfor %}
  
@@ -207,13 +220,17 @@
           {% for photo in recommend_person %}
           <div class="card border-0">
       
-            <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+            <a href="/actress_detail/{{ actress.id }}" title=" {{ photo.name_chinese }} " target='_self'>
               <img class="card-img-top img-fluid border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
                 src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
             </a>
-            <div class="card-body">
-              <p class="card-text text-center text-truncate">{{ photo.actress_name }}</p>
-            </div>
+            <div class="card-body p-1 mt-2  d-flex">
+                {% for modelname in photo.model_name.all %}
+                <p href="/actress_detail/{{ actress.id }}" class="card-text text-truncate mb-1 mr-2">
+                  {{ modelname }}
+                </p>
+                {% endfor %}
+              </div>
           </div>
           {% endfor %}
         </div>
@@ -267,9 +284,15 @@
               <img class="card-img-top border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
                 src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
             </a>
-            <div class="card-body">
-              <p class="card-text text-center text-truncate">{{ photo.name_chinese }}</p>
-            </div>
+            <div class="card-body p-1 mt-2">
+                <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
+    
+                {% for modelname in photo.model_name.all %}
+                <a href="/actress_detail/{{ actress.id }}" class="card-text text-truncate mb-1 ">
+                  <small>{{ modelname }}</small>
+              </a>
+                {% endfor %}
+              </div>
           </div>
           {% endfor %}
         </div>
@@ -302,9 +325,15 @@
               <img class="card-img-top border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
                 src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
             </a>
-            <div class="card-body">
-              <p class="card-text text-center text-truncate">{{ photo.name_chinese }}</p>
-            </div>
+            <div class="card-body p-1 mt-2">
+                <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
+    
+                {% for modelname in photo.model_name.all %}
+                <a href="/actress_detail/{{ actress.id }}" class="card-text text-truncate mb-1 ">
+                  <small>{{ modelname }}</small>
+              </a>
+                {% endfor %}
+              </div>
           </div>
           {% endfor %}
         </div>
@@ -336,9 +365,15 @@
               <img class="card-img-top border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
                 src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
             </a>
-            <div class="card-body">
-              <p class="card-text text-center text-truncate">{{ photo.name_chinese }}</p>
-            </div>
+            <div class="card-body p-1 mt-2">
+                <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
+    
+                {% for modelname in photo.model_name.all %}
+                <a href="/actress_detail/{{ actress.id }}" class="card-text text-truncate mb-1 ">
+                  <small>{{ modelname }}</small>
+              </a>
+                {% endfor %}
+              </div>
           </div>
           {% endfor %}
         </div>
