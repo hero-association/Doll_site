@@ -123,5 +123,5 @@ class PhotoFile(models.Model):
 	photo = models.ForeignKey("Photo",on_delete=models.PROTECT,null=False)
 
 class PhotoLink(models.Model):
-	pic_link = models.CharField(max_length=200)
+	pic_link = models.CharField(max_length=600)
 	photo = models.ForeignKey("Photo",on_delete=models.PROTECT,null=False)
