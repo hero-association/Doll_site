@@ -193,7 +193,7 @@ def actresslist(request,pageid):
 
 def actressdetail(request,actressid):
 	"""演员详情页"""
-	current_actress = list(Actress.objects.filter(id=actressid))
+	current_actress = Actress.objects.get(id=actressid)
 	related_album = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = current_actress)).order_by('-views_count')
 	related_company = []
 	for album in related_album:
