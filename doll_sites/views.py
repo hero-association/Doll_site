@@ -193,7 +193,7 @@ def actresslist(request,pageid):
 
 def actressdetail(request,actressid):
 	"""演员详情页"""
-	current_actress = list(Actress.objects.filter(id=actressid))
+	current_actress = Actress.objects.get(id=actressid)
 	related_album = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = current_actress)).order_by('-views_count')
 	related_company = []
 	for album in related_album:
@@ -237,10 +237,12 @@ def searchresult(request):
 	#搜标题
 	result_list_title = Photo.objects.filter(name_chinese__icontains=kwd).order_by('views_count')		
 	result_list = result_list_actress + list(result_list_title) + result_list_tag + result_list_company
+	result_count = len(result_list)
 
 	context = {
 		'result_list' : result_list,
 		'kwd' : kwd,
+		'result_count' : result_count,
 	}
 
 	return render(

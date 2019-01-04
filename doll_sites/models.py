@@ -18,24 +18,24 @@ class Series(models.Model):
 
 class Photo(models.Model):
 	"""图片集"""
-	series = models.ForeignKey("Series",on_delete=models.PROTECT,null=False)
-	company = models.ForeignKey("Company",max_length = 60,null=True,blank=True,on_delete=models.PROTECT)
-	name = models.CharField(max_length = 60)
-	name_chinese = models.CharField(max_length=60)
-	model_name = models.ManyToManyField("Actress")
-	date_added = models.DateTimeField(null=True,blank=True,auto_now_add=True)
-	photo_tag = models.ManyToManyField("Tag",blank=True)
-	views_count = models.PositiveIntegerField(default=0)
+	series = models.ForeignKey("Series",on_delete=models.PROTECT,null=False)	#欧美|日本|中国
+	company = models.ForeignKey("Company",max_length = 60,null=True,blank=True,on_delete=models.PROTECT)	#公司
+	name = models.CharField(max_length = 60)	#标题
+	name_chinese = models.CharField(max_length=60)	#中文标题
+	model_name = models.ManyToManyField("Actress")	#演员名
+	date_added = models.DateTimeField(null=True,blank=True,auto_now_add=True)	#添加日期
+	photo_tag = models.ManyToManyField("Tag",blank=True)	#标签
+	views_count = models.PositiveIntegerField(default=0)	#点击量
 	#照片购买
-	vip_photo = models.BooleanField(default=False)
-	buy_concent = models.CharField(max_length=60,null=True,blank=True)
-	buy_price = models.IntegerField(null=True,blank=True)
-	buy_link = models.CharField(max_length = 360,null=True,blank=True)
+	vip_photo = models.BooleanField(default=False)	#是否付费
+	buy_concent = models.CharField(max_length=60,null=True,blank=True)	#付费说明
+	buy_price = models.IntegerField(null=True,blank=True)	#价格
+	buy_link = models.CharField(max_length = 360,null=True,blank=True)	#购买链接
 	#Bundle购买
-	vip_bundle = models.BooleanField(default=False)
-	bundle_concent = models.CharField(max_length=60,null=True,blank=True)
-	bundle_price = models.IntegerField(null=True,blank=True)
-	bundle_link = models.CharField(max_length = 360,null=True,blank=True)
+	vip_bundle = models.BooleanField(default=False)	#是否有Bundle
+	bundle_concent = models.CharField(max_length=60,null=True,blank=True)	#Bundle说明
+	bundle_price = models.IntegerField(null=True,blank=True)	#价格
+	bundle_link = models.CharField(max_length = 360,null=True,blank=True)	#购买链接
 
 	# cover_pic = Photo.PhotoFile.pic
 	# cover_pic._meta.get_field('Photo').rel.to
@@ -52,6 +52,9 @@ class Photo(models.Model):
 		current_name = self.id
 		cover_pic_link = PhotoLink.objects.filter(photo=current_name).order_by('id')[0]
 		return cover_pic_link.pic_link
+
+	def get_actress_name(self):
+		actress_name = self.model_name.all()
 
 	# def get_right_recommend:
 	# 	right_recommend = Photo.objects.all()[0:2]
