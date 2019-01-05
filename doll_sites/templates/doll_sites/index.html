@@ -226,9 +226,9 @@
             </a>
             <div class="card-body p-1 mt-2  d-flex">
                 {% for modelname in photo.model_name.all %}
-                <p href="/actress_detail/{{ actress.id }}" class="card-text text-truncate mb-1 mr-2">
+                <a href="/actress_detail/{{ actress.id }}" class="card-text text-truncate mb-1 mr-2">
                   {{ modelname }}
-                </p>
+                </a>
                 {% endfor %}
               </div>
           </div>
