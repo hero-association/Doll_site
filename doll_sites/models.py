@@ -6,6 +6,9 @@ from django.db import models
 def upload_location(instance,filename):
 	return "{0}/{1}".format(instance.photo,filename)
 
+def avatar_upload_location(instance,filename):
+	return "{0}/{1}".format(instance.actress_name_ch,filename)
+
 class Series(models.Model):
 	"""图片的分类"""
 	#db_table = "Serie"
@@ -83,7 +86,7 @@ class Actress(models.Model):
 	actress_name_jp = models.CharField(max_length=60,null=True,blank=True)
 	actress_name_en = models.CharField(max_length=60,null=True,blank=True)
 	avatar = models.ImageField(
-							upload_to=upload_location,
+							upload_to=avatar_upload_location,
 							null=True,blank=True,
 							)
 
