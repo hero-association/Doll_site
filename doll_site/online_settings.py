@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 设置文件上传路径
 MEDIA_URL = '/uploads/'
-MEDIA_ROOT = ('/home/jasonpak/webapps/django_test/little_bear/doll_sites/static/doll_sites/images/uploads')
+MEDIA_ROOT = ('/home/jasonpak/webapps/test_static/doll_sites/images/uploads')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
