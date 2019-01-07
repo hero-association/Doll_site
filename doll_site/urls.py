@@ -32,6 +32,8 @@ urlpatterns = [
     path('about/',views.about,name='about_page'),
     url(r'^$', RedirectView.as_view(url='/index'), name='go-to-index'),
     url(r'^index/$', views.index, name='index'),
+    #百度验证
+    path('baidu_verify_jiNtuP7fb1.html',views.index,name='baidu')
     path('photos/<int:series>/<int:company>/<int:pageid>', views.photolist, name='Photos'),
     path('actress/<int:pageid>',views.actresslist,name='actress_list'),
     path('photo/<int:photoid>', views.photodetail, name='Photo-detail'),
