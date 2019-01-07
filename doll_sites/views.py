@@ -263,6 +263,17 @@ def about(request):
 		context
 	)
 
+def baidu(request):
+	'''百度验证'''
+	context = {
+		'nbar':'about',	#导航标志
+	}
+
+	return render(
+		request,
+		'doll_sites/baidu_verify_jiNtuP7fb1.html',
+		context
+	)
 # class PhotoDetailView(generic.DetailView):
 # 	model = Photo
 # 	template_name = 'doll_sites/photo_detail.html'
