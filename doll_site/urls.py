@@ -30,10 +30,10 @@ urlpatterns = [
     url(r'^favicon\.ico$', favicon_view),
     path('admin/', admin.site.urls),
     path('about/',views.about,name='about_page'),
-    url(r'^$', RedirectView.as_view(url='/index'), name='go-to-index'),
-    url(r'^index/$', views.index, name='index'),
     #百度验证
     path('baidu_verify_jiNtuP7fb1.html',views.baidu,name='baidu'),
+    path('',views.index,name='/'),
+    path('index/',views.index,name='index'),
     path('photos/<int:series>/<int:company>/<int:pageid>', views.photolist, name='Photos'),
     path('actress/<int:pageid>',views.actresslist,name='actress_list'),
     path('photo/<int:photoid>', views.photodetail, name='Photo-detail'),
