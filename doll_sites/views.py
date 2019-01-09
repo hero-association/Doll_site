@@ -158,7 +158,7 @@ def photodetail(request,photoid):
 	context = {
 		'buy_links':buy_links,		#购买链接列表
 		'bundle_links':bundle_links,		#Bundle链接列表
-		'photo_detail':photo_detail,		#当前相册下的，所有照片列表
+		'photo_detail':photo_detail,		#当前相册
 		'related_album':related_album,		#当前演员的相关图集
 		'current_actress':current_actress,		
 		'hot_actress':hot_actress,		#热搜标签
