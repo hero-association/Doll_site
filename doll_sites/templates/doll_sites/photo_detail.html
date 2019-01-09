@@ -31,95 +31,100 @@
   <!-- Header & Navigation -->
   {% include 'doll_sites/navi.html' %}
 
-<section class="main">
-  <div class="container">
-    <div class="row ">
+
+  <!-- Content -->
+
+<section class="container">
+    <div class="row d-flex">
         <div class="col-lg-9 mt-5">
-           
-          <div class="card-title">{{ photo_detail.name_chinese }} </div>
-                
-          <!-- <div class="card-title">{{ photo_tag }} </div>     -->
+            <h5 class="h5">{{ photo_detail.name_chinese }} </h5>
+            <div class="mt-5">
 
-      
-          <div class="clearfix">
-            <div>
             {% block content %}
-              {% for pic in photo_detail.get_all_pic_link %}
-                <img 
-                  onclick="zoom(this, this.src, 0, 0, 0)" 
-                  class="lazyloadx col-lg-9" 
-                  src="/static/image/loading.png"
-                  onmouseover="img_onmouseoverfunc(this)" 
-                  lazyloadthumb="1" 
-                  
-                  alt="{{ Photo_detail.name_chinese }}" 
-                  data-original="{{ pic }}" 
-                  lazyloaded="true"
-                  style="margin-bottom: 20px" 
-                >
-              {% endfor %}
-                {% endblock %}
-               </div>
-          </div>
-      
-        
+            {% for pic in photo_detail.get_all_pic_link %}
+              <img 
+                onclick="zoom(this, this.src, 0, 0, 0)" 
+                class="lazyloadx col-lg-10 p-0 mb-5" 
+                src="/static/image/loading.png"
+                onmouseover="img_onmouseoverfunc(this)" 
+                lazyloadthumb="1" 
+                
+                alt="{{ Photo_detail.name_chinese }}" 
+                data-original="{{ pic }}" 
+                lazyloaded="true"  >
+            
+             {% endfor %}
+              {% endblock %}
+             </div>
+
+
           </div>
 
+                
           <!-- 右侧推荐位 -->
-<div class="col-lg-3 mt-5">
+          <div class="col-lg-3 mt-5">
 
-
-    {% for link in buy_links %}
-    <a href='{{ link }}'>
-      <div class="btn btn-primary">点击购买</div>
-    </a>
-    {% endfor %}
-
-    {% for link in bundle_links %}
-    <a href='{{ link }}'>
-      <div class="btn btn-primary">点击购买</div>
-    </a>
-    {% endfor %}
-
-    <div class="tags">
-      <h4>热搜标签</h4>
-      
-        {% for actress in hot_actress %}
-          <a class="btn btn-outline-primary mb-2" href="../search/?kwd={{ actress.actress_name_ch }}" title="{{ actress.actress_name_ch }}">  
-            {{ actress.actress_name_ch }}
-          </a>
-        
-        {% endfor %}
-      
-    </div>
-
-    <div class="card-active">
-      <h4>相关推荐</h4>
-        
-          {% for photo in related_album %}
+              {% for link in buy_links %}
+              <a class="btn btn-primary" href='{{ link }}'>
+                点击购买
+              
+              </a>
+              {% endfor %}
           
-            <a href="/photo/{{ photo.get_photo_id}}" title="{{ photo.name_chinese}}">
-              <img class="card-img-top img-fluid border-light lazyloadx"
-               data-original='{{ photo.get_cover_pic_link }}' 
-
-               src="/static/image/loading.png"
-               alt="{{ photo.name_chinese}}">
-              <span>{{ photo.name_chinese }}</span>
-            </a>
+              {% for link in bundle_links %}
+              <a href='{{ link }}'>
+                <div class="btn btn-primary">点击购买</div>
+              </a>
+              {% endfor %}
           
-          {% endfor %}
-        
-    </div>
+              <div class="tags">
+                <h4>热搜标签</h4>
+                
+                  {% for actress in hot_actress %}
+                    <a class="btn btn-outline-primary mb-2" href="../search/?kwd={{ actress.actress_name_ch }}" title="{{ actress.actress_name_ch }}">  
+                      {{ actress.actress_name_ch }}
+                    </a>
+                  
+                  {% endfor %}
 
-</div>
+                  <div class="">
+                      <h4>相关推荐</h4>
+                        
+                          {% for photo in related_album %}
+                          
+                            <a href="/photo/{{ photo.get_photo_id}}" title="{{ photo.name_chinese}}">
+                              <img class="card-img-top img-fluid border-light lazyloadx"
+                               data-original='{{ photo.get_cover_pic_link }}' 
+                
+                               src="/static/image/loading.png"
+                               alt="{{ photo.name_chinese}}">
+                              <span>{{ photo.name_chinese }}</span>
+                            </a>
+                          
+                          {% endfor %}
+                        
+                    </div>
 
 
-    </div>
+            </div>
+
+         
+          </div>
+           
+         
+                
+
+
+
+
+   
+      
 
 	
 
 
 </section>
+
 
 {% include 'doll_sites/footer.html' %}
 

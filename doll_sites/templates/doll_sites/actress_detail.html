@@ -39,33 +39,27 @@
   <div class="container ">
 
     <div class="row mt-5">
-      <div class="col">
-          <h3>小熊社</h3>
-          <p class="mt-5">小熊社-ロリータ世界！|萝莉图库|白丝|cosplay</p>
-
-          <div>
-
-            <img  class="avatar" src="" alt="">
+      <div class="col d-flex">
+            <img class="h-75 w-25 img-fluid border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
+              src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+              <div>
+              <h3>{{ current_actress }}</h3>
             <p>
                 {{ related_company }}
               </p>
-
-            
-
-          </div>
           <p>
             {{ related_album }}
           </p>
-   
+        </div>
       </div>
     </div>
 
-   
+
+
     
-
-
-
   </div>
+
+
 
 
 {% include 'doll_sites/footer.html' %}
