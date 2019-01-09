@@ -39,6 +39,9 @@
   {% include 'doll_sites/navi.html' %}
 
 
+  <a  href="#" class="bg-dark" id="scroll">
+      <i class="fas fa-chevron-up text-white "></i>
+  </a>
 
   
 
@@ -390,7 +393,25 @@
 
   <script>
       $('#year').text(new Date().getFullYear());
-     </script>
+
+
+      // --
+
+$(document).ready(function(){ 
+    $(window).scroll(function(){ 
+        if ($(this).scrollTop() > 100) { 
+            $('#scroll').fadeIn(); 
+        } else { 
+            $('#scroll').fadeOut(); 
+        } 
+    }); 
+    $('#scroll').click(function(){ 
+        $("html, body").animate({ scrollTop: 0 }, 600); 
+        return false; 
+    }); 
+});
+
+</script>
 
 </body>
 </html>
