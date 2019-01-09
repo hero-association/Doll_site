@@ -13,8 +13,7 @@
       content="
         {% for actress in current_actress %} 
           {{ actress.actress_name_ch }},日文名{{ actress.actress_name_jp }},英文名{{ actress.actress_name_en }},本图集是她在{{ photo_detail.company }}公司,拍摄的{{ photo_detail.name_chinese }}系列,包含{% for tag in photo_tag %}{{ tag.tag_name }}、{% endfor %}等元素,是小熊社精心收集的萝莉图集。
-        {% endfor %}
-      " 
+        {% endfor %}" 
     />
     <meta 
       name="keywords" 
@@ -24,8 +23,7 @@
                {% for tag in photo_tag %} 
                  {{ tag.tag_name }},
                {% endfor %}
-               {{ photo_detail.company }}
-      " 
+               {{ photo_detail.company }}" 
     />
     <title> 
       {% for actress in current_actress %} 
