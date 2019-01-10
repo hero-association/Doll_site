@@ -40,9 +40,11 @@
 
     <div class="row mt-5">
       <div class="col d-flex">
+<!-- actress avatar -->
             <img class="h-75 w-25 img-fluid border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
               src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
               <div>
+
               <h3>{{ current_actress }}</h3>
             <p>
                 {{ related_company }}
@@ -53,14 +55,49 @@
         </div>
       </div>
     </div>
-
-
-
-
-    
-
     
   </div>
+
+  <section id="europeanActress" class="container my-3">
+      <div class="row">
+          <div class="col">
+              <p class="text-left  float-left font-weight-bold">
+                  日本偶像
+                </p>
+          </div>
+          <div class="col-auto mr-auto">
+              <a href="/photos/2/0/1" >
+                <span>
+                    更多
+                </span>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+          </div>
+        </div>
+
+  
+    <div class="card-deck">
+      {% for photo in recommend_japanese %}
+      <div class="card border-0 col-md-4 col-lg mr-4 p-0">
+  
+        <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+          <img class="card-img-top border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
+            src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+        </a>
+        <div class="card-body p-1 mt-2">
+            <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
+
+            {% for modelname in photo.model_name.all %}
+            <a href="/actress_detail/{{ actress.id }}" class="card-text text-truncate mb-1 ">
+              <small>{{ modelname }}</small>
+          </a>
+            {% endfor %}
+          </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
 
 
 
