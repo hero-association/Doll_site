@@ -40,16 +40,20 @@
 
     <div class="row mt-5">
       <div class="col d-flex">
-            <img class="h-75 w-25 img-fluid border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
+            <img class="h-75 w-25 img-fluid border border-light lazyloadx" data-original="{{ current_actress.avatar }}"
               src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
               <div>
               <h3>{{ current_actress }}</h3>
-            <p>
-                {{ related_company }}
-              </p>
-          <p>
-            {{ related_album }}
-          </p>
+              {% for company in related_company %}
+                <p>
+                  {{ company }}
+                </p>
+              {%  endfor %}
+              {% for album in related_album %}
+                <p>
+                  {{ album }}
+                </p>
+              {% endfor %}
         </div>
       </div>
     </div>
