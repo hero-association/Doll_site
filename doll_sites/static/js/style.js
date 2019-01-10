@@ -1,4 +1,34 @@
 /**/
+
+/**/
+
+// -- copy right year
+
+$('#year').text(new Date().getFullYear());
+
+
+// -- scroll to top
+
+$(document).ready(function(){ 
+$(window).scroll(function(){ 
+  if ($(this).scrollTop() > 100) { 
+      $('#scroll').fadeIn(); 
+  } else { 
+      $('#scroll').fadeOut(); 
+  } 
+}); 
+$('#scroll').click(function(){ 
+  $("html, body").animate({ scrollTop: 0 }, 600); 
+  return false; 
+}); 
+});
+
+
+
+
+
+
+
 var M='https://show.metinfo.cn/muban/M1156012/359/,cn,10001,,10001,M1156012',D=M.split(',');M=new Array();M['weburl']=D[0];M['lang']=D[1];M['classnow']=parseInt(D[2]);M['id']=parseInt(D[3]);M['module']=parseInt(D[4]);M['tem']=D[0]+'templates/'+D[5];var deviceType = /iPad/.test(navigator.userAgent) ? 't' : /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Silk/.test(navigator.userAgent) ? 'm' : 'd',is_ucbro=/UC/.test(navigator.userAgent);
 /*jquery.min.js*/
 /*! jQuery v1.11.3 | (c) 2005, 2015 jQuery Foundation, Inc. | jquery.org/license */

@@ -8,9 +8,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="applicable-device" content="pc,mobile">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta name="description" content="小熊社|萝莉图库|白丝|cosplay" />
-    <meta name="keywords" content="小熊社|萝莉图库|白丝|cosplay" />
-    <title> 小熊社-ロリータ世界！|萝莉图库|白丝|cosplay </title>
+    <meta name="description" content="小熊社的相册列表，提供包括Candydoll、Silverstar、Imouto、U15等多个品牌的写真图集，涵盖了包括EvaR,ElonaV,LauraB,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱等海内外知名演员" />
+    <meta name="keywords" content="萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱" />
+    <title> 相册列表-小熊社-免费自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv </title>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127776067-1"></script>
@@ -33,21 +33,33 @@
   <!-- Header & Navigation -->
   {% include 'doll_sites/navi.html' %}
 
+  <a  href="#" class="bg-dark" id="scroll">
+    <i class="fas fa-chevron-up text-white "></i>
+</a>
+
+
+
 <div class="container">
   <div class="row">
     <div class="col-lg-9 mt-5 ">
       <div class="d-flex flex-wrap">
           {% block content %}
           {% for photo in current_photo_list %}
-          <div class="card card-photolist my-3 p-0">
+          <div class="card card-photolist border-0 my-3 p-0">
       
             <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
               <img class="card-img-top img-fluid border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
                 src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
             </a>
-            <div class="card-body">
-              <p class="card-text text-center text-truncate">{{ photo.name_chinese }}</p>
-            </div>
+            <div class="card-body p-1 mt-2">
+                <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
+    
+                {% for modelname in photo.model_name.all %}
+                <a href="/actress_detail/{{ actress.id }}" class="card-text text-truncate mb-1 ">
+                  <small>{{ modelname }}</small>
+              </a>
+                {% endfor %}
+              </div>
           </div>
           {% endfor %}
           {% endblock %}
@@ -156,9 +168,6 @@
 <script src="/static/js/style.js"></script>
 
 
-<script>
-  $('#year').text(new Date().getFullYear());
- </script>
 
 </body>
 
