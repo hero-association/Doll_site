@@ -59,6 +59,11 @@ class Photo(models.Model):
 	def get_actress_name(self):
 		actress_name = self.model_name.all()
 
+	def get_actress_id(self):
+		actress = self.model_name.all()[0]
+		actress = Actress.objects.get(actress_name_ch=actress)
+		return actress.id
+
 	# def get_right_recommend:
 	# 	right_recommend = Photo.objects.all()[0:2]
 	# 	return right_recommend
