@@ -1,6 +1,10 @@
 /**/
 
 /**/
+
+//
+
+
 // -- scroll to top
 
 $(document).ready(function(){ 
@@ -29,7 +33,33 @@ $(document).ready(function(){
       effect : 'fadeIn',
       failure_limit : 10,
   })
-})
+});
+
+
+$('.carousel').carousel(
+  {
+    interval: 3000,
+    keyboard: true,
+    pause: 'hover',
+  }
+)
+
+$('#slider').on('slide.bs.carousel',function() {
+  console.log('slide!');
+});
+
+    $('#slider').on('slid.bs.carousel',function() {
+  console.log('slid!');
+});
+  
+
+
+
+
+
+
+
+
 
 
 
