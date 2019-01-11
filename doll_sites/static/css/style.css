@@ -67,3 +67,18 @@
     opacity:1;filter:"alpha(opacity=100)";
     -ms-filter:"alpha(opacity=100)";
 }
+
+
+
+.avatar_actress {
+    width: 140px;
+    height: 180px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+
+.actress-photo {
+    width: 180px;
+    margin-top: 3rem;
+}
