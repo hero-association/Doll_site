@@ -24,9 +24,10 @@ $('#year').text(new Date().getFullYear());
 
 // -- lazyload
 $(document).ready(function(){
-  $('.lazyloadx').lazyload({
-      threshold : 50,
+  $('img.lazyloadx').lazyload({
+      threshold : 200,
       effect : 'fadeIn',
+      failure_limit : 10,
   })
 })
 
