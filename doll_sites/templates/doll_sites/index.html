@@ -182,7 +182,7 @@
             </a>
   
               {% for modelname in photo.model_name.all %}
-              <a href="/actress_detail/{{ actress.id }}" class="card-text text-truncate mb-1 ">
+              <a href="/actress_detail/{{ modelname.id }}" class="card-text text-truncate mb-1 ">
                 <small>{{ modelname }}</small>
             </a>
               {% endfor %}
@@ -230,7 +230,7 @@
             </a>
             <div class="card-body p-1 mt-2  d-flex">
                 {% for modelname in photo.model_name.all %}
-                <a href="/actress_detail/{{ actress.id }}" class="card-text text-truncate mb-1 mr-2">
+                <a href="/actress_detail/{{ modelname.id }}" class="card-text text-truncate mb-1 mr-2">
                   {{ modelname }}
                 </a>
                 {% endfor %}
@@ -292,7 +292,7 @@
                 <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
               </a>
                 {% for modelname in photo.model_name.all %}
-                <a href="/actress_detail/{{ actress.id }}" class="card-text text-truncate mb-1 ">
+                <a href="/actress_detail/{{ modelname.id }}" class="card-text text-truncate mb-1 ">
                   <small>{{ modelname }}</small>
               </a>
                 {% endfor %}
@@ -333,7 +333,7 @@
                 <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
               </a>
                 {% for modelname in photo.model_name.all %}
-                <a href="/actress_detail/{{ actress.id }}" class="card-text text-truncate mb-1 ">
+                <a href="/actress_detail/{{ modelname.id }}" class="card-text text-truncate mb-1 ">
                   <small>{{ modelname }}</small>
               </a>
                 {% endfor %}
@@ -374,7 +374,7 @@
               </a>
     
                 {% for modelname in photo.model_name.all %}
-                <a href="/actress_detail/{{ actress.id }}" class="card-text text-truncate mb-1 ">
+                <a href="/actress_detail/{{ modelname.id }}" class="card-text text-truncate mb-1 ">
                   <small>{{ modelname }}</small>
               </a>
                 {% endfor %}
