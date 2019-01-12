@@ -94,6 +94,7 @@ class Actress(models.Model):
 							upload_to=avatar_upload_location,
 							null=True,blank=True,
 							)
+	description = models.TextField(max_length=9999,null=True,blank=True)
 
 	def __str__(self):
 		return self.actress_name_ch
