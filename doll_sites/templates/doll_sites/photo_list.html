@@ -47,15 +47,15 @@
           {% for photo in current_photo_list %}
           <div class="card card-photolist border-0 my-3 p-0">
       
-            <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
               <img class="card-img-top img-fluid border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
                 src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
-            </a>
+           
             <div class="card-body p-1 mt-2">
                 <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
-    
+              </a>
                 {% for modelname in photo.model_name.all %}
-                <a href="/actress_detail/{{ actress.id }}" class="card-text text-truncate mb-1 ">
+                <a href="/actress_detail/{{ modelname.pk }}" class="card-text text-truncate mb-1 ">
                   <small>{{ modelname }}</small>
               </a>
                 {% endfor %}
@@ -160,13 +160,11 @@
   
 
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
-
-<script src="/static/js/style.js"></script>
-
+  <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/jquery.lazyload.js"></script>
+  
+  <script src="/static/js/main.js"></script>
 
 
 </body>
