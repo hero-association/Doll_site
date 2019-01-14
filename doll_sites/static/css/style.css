@@ -11,20 +11,8 @@
     object-fit: cover;
     border: 1px solid #eeeeee;
     border-radius: 4px;}
-    @media (max-width: 576px) {
-        .card-img-top {
-            height: 25rem;
-        }
-    }
 
-
-
-@media (max-width: 576px) {
-    #Carousel {
-        padding: 0;
-        
-    }
-}
+ 
 
 
 .card-actress {
@@ -100,4 +88,39 @@
 .photo-link {
     color: #343a40;
 
+}
+
+
+
+@media (max-width: 576px) {
+    .card-img-top {
+        height: 25rem;
+    }
+    .card-photolist{
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .card-photolist .card-img-top {
+        height: 25rem;
+    }
+    .card-actress {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    
+}
+
+
+
+@media (max-width: 576px) {
+#Carousel {
+    padding: 0;
+    
+}
 }
