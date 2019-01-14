@@ -14,9 +14,8 @@ def index(request):
 	recommend_japanese = Photo.objects.filter(series=2).order_by('?')[:5]
 	recommend_chinese = Photo.objects.filter(series=3).order_by('?')[:5]
 	recommend_newest = Photo.objects.order_by('-date_added')[:5]
-	recommend_hotest = Photo.objects.order_by('?')[:5]
-	recommend_persons = Photo.objects.order_by('?')[6:16:2]
-	recommend_person = recommend_persons[:4]
+	recommend_hotest = Photo.objects.order_by('-views_count')[:5]
+	recommend_person = Actress.objects.order_by('?')[:4]
 	context = {
 				'num_pic':num_pic,		#总图片数
 				'num_photo':num_photo,		#总相册数

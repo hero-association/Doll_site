@@ -225,19 +225,17 @@
 
       
         <div class="card-deck mb-4">
-          {% for photo in recommend_person %}
+          {% for person in recommend_person %}
           <div class="card border-0">
       
-            <a  href="/actress_detail/{{ photo.get_actress_id }}" title=" {{ photo.name_chinese }} " target='_self'>
-              <img class="card-img-top img-fluid border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
-                src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+            <a  href="/actress_detail/{{ person.id }}" title=" {{ person.actress_name_ch }} " target='_self'>
+              <img class="card-img-top img-fluid border border-light lazyloadx" data-original="/static/doll_sites/images/uploads/{{ person.avatar }}"
+                src="/static/image/loading.png" alt="{{ person.actress_name_ch }}" lazyloadthumb="1" lazyloaded="true">
             </a>
             <div class="card-body p-1 mt-2  d-flex">
-                {% for modelname in photo.model_name.all %}
-                <a href="/actress_detail/{{ modelname.id }}" class="card-text text-truncate mb-1 mr-2">
-                  {{ modelname }}
+                <a href="/actress_detail/{{ person.id }}" class="card-text text-truncate mb-1 mr-2">
+                  {{ person.actress_name_ch }}
                 </a>
-                {% endfor %}
               </div>
           </div>
           {% endfor %}
