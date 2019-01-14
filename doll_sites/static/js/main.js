@@ -36,7 +36,7 @@ $(document).ready(function(){
 });
 
 
-$('.carousel').carousel(
+$('.carousel').Carousel(
   {
     interval: 3000,
     keyboard: true,
