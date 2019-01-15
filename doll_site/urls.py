@@ -21,17 +21,6 @@ from django.conf.urls.static import static
 from django.urls import include
 from doll_sites import views
 from django.views.generic.base import RedirectView
-from django.contrib.sitemaps import GenericSitemap
-from django.contrib.sitemaps.views import sitemap
-from doll_sites.models import Photo,Actress
-
-album_dict = {
-    'queryset': Photo.objects.all(),
-    'date_field': 'date_added',
-}
-actress_dict = {
-    'queryset': Actress.objects.all(),
-}
 
 favicon_view = RedirectView.as_view(url='/static/image/favicon.ico', permanent=True)
 
@@ -39,13 +28,6 @@ urlpatterns = [
     # Django文档
     # path(r'^admin/doc/',include('django.contrib.admindocs.urls')),
     url(r'^favicon\.ico$', favicon_view),
-    url(r'^sitemap\.xml$', sitemap,
-        {'sitemaps': {
-            'album': GenericSitemap(album_dict, priority=0.6),
-            'actress': GenericSitemap(actress_dict, priority=0.7),
-            }
-        },
-        name='django.contrib.sitemaps.views.sitemap'),
     path('admin/', admin.site.urls),
     path('about/',views.about,name='about_page'),
     #百度验证
