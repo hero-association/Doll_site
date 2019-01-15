@@ -86,6 +86,9 @@ class Photo(models.Model):
 		self.views_count += 1
 		self.save(update_fields=['views_count'])
 
+	def get_absolute_url(self):
+		return '/photo/%i' % self.id
+
 class Actress(models.Model):
 	actress_name_ch = models.CharField(max_length=60,null=True,blank=True)
 	actress_name_jp = models.CharField(max_length=60,null=True,blank=True)
@@ -104,7 +107,8 @@ class Actress(models.Model):
 		all_photos = Photo.objects.filter(model_name=current_actress)
 		return all_photos
 
-	# def get_actress_company(self):
+	def get_absolute_url(self):
+		return '/actress_detail/%i' % self.id
 
 
 class Tag(models.Model):
