@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress
+from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig
 
 
 class PhotoFileInline(admin.TabularInline):
@@ -59,6 +59,10 @@ class TagAdmin(admin.ModelAdmin):
 class ActressAdmin(admin.ModelAdmin):
 	list_display = ('actress_name_ch','actress_name_jp','actress_name_en')
 
+class SiteConfigAdmin(admin.ModelAdmin):
+	list_display = ('config_name','config_value')
+	list_editable = ('config_value',)
+
 # Register the admin class with the associated model
 admin.site.register(Photo, PhotoAdmin)
 admin.site.register(Series, SeriesAdmin)
@@ -67,3 +71,4 @@ admin.site.register(Company, CompanyAdmin)
 admin.site.register(Actress,ActressAdmin)
 admin.site.register(PhotoFile)
 admin.site.register(PhotoLink)
+admin.site.register(SiteConfig,SiteConfigAdmin)

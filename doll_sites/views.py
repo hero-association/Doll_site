@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress
+from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress,SiteConfig
 from django.views import generic
 from django.core.paginator import Paginator
 
@@ -131,10 +131,14 @@ def photodetail(request,photoid):
 	photo_detail = Photo.objects.get(id=photoid)
 	photo_detail.increase_views_count()		#访问次数+1
 	#照片购买
-	if photo_detail.buy_link is None:
-		buy_links = []
+	payment_status = SiteConfig.objects.get(config_name='Payment_links')
+	if payment_status.config_value == 'True':
+		if photo_detail.buy_link is None:
+			buy_links = []
+		else:
+			buy_links = [photo_detail.buy_link,]
 	else:
-		buy_links = [photo_detail.buy_link,]
+		buy_links = []
 	#Bundle购买
 	if photo_detail.bundle_link is None:
 		bundle_links = []

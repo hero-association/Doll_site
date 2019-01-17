@@ -138,3 +138,7 @@ class PhotoFile(models.Model):
 class PhotoLink(models.Model):
 	pic_link = models.CharField(max_length=1024)
 	photo = models.ForeignKey("Photo",on_delete=models.PROTECT,null=False)
+
+class SiteConfig(models.Model):
+	config_name = models.CharField(default=None,max_length=100)
+	config_value = models.CharField(default=None,max_length=100)
