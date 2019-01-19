@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig
+from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig,Order
 
 
 class PhotoFileInline(admin.TabularInline):
@@ -56,6 +56,9 @@ class CompanyAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
 	list_display = ('tag_name',)
 
+class OrderAdmin(admin.ModelAdmin):
+	model = Order
+
 class ActressAdmin(admin.ModelAdmin):
 	list_display = ('actress_name_ch','actress_name_jp','actress_name_en')
 
@@ -72,3 +75,4 @@ admin.site.register(Actress,ActressAdmin)
 admin.site.register(PhotoFile)
 admin.site.register(PhotoLink)
 admin.site.register(SiteConfig,SiteConfigAdmin)
+admin.site.register(Order,OrderAdmin)

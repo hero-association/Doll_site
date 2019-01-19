@@ -64,10 +64,8 @@
     <div class="row d-flex">
         <div class="col-lg-9 mt-5">
             <h5 class="h5">{{ photo_detail.name_chinese }}</h5>
-            <!-- 调试原串 -->
-            <h5 class="h5">{{ single_signature }}</h5>
 
-            <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay'>
+            <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
               <!-- {% csrf_token %} -->
               <input id='api_user' name='api_user' type='text' value='{{ api_user }}' />
               <input id='price' name='price' type='text' value='{{ order_price }}' />
@@ -77,6 +75,7 @@
               <input id='order_info' name='order_info' type='text' value='{{ order_info }}'/>
               <input id='notify_url' name='notify_url' type='text' value='{{ notify_url }}'/>
               <input id='signature' name='signature' type='text' value='{{ single_signature }}'/>
+              <input id='order_type' name='order_type' type='text' value='single'/>
               <input id='btn_pay' type='submit'>
             </form>
 
@@ -120,7 +119,7 @@
                 lazyloadthumb="1" 
                 
                 alt="{{ Photo_detail.name_chinese }}" 
-                data-original="{{ pic }}" 
+                data-original="{{ pic123 }}" 
                 lazyloaded="true"  >
             
              {% endfor %}
@@ -138,7 +137,7 @@
                 
                   {% for actress in hot_actress %}
                     <a class="btn btn-sm btn-outline-primary mb-2 " href="../search/?kwd={{ actress.actress_name_ch }}" title="{{ actress.actress_name_ch }}">  
-                      {{ actress.actress_name_ch }}
+                      {{ actress.actress_name_ch123 }}
                     </a>
                   
                   {% endfor %}
@@ -148,8 +147,8 @@
                         
                           {% for photo in related_album %}
                           
-                            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title="{{ photo.name_chinese}}">
-                              <img class="card-img-top img-fluid border-light lazyloadx" data-original='{{ photo.get_cover_pic_link }}' src="/static/image/loading.png"
+                            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title="{{ photo.name_chinese }}">
+                              <img class="card-img-top img-fluid border-light lazyloadx" data-original='{{ photo.get_cover_pic_link123 }}' src="/static/image/loading.png"
                                 alt="{{ photo.name_chinese}}" lazyloadthumb="1" lazyloaded="true">
                              
                             
@@ -183,6 +182,18 @@
 
   <!-- <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script> -->
   <script type="text/javascript">
+  $("btn_pay").click(function(s){
+    $.post("/create_order",
+      {
+        order_id:$("#order_id").val();
+        order_info:$("#order_info").val();
+        order_status:"pending";
+        order_type:$("#order_type").val();
+        price:$("#price").val();
+      }
+    )
+  }
+
   $().ready(function(){
       function get_type(){
           return ($("#type_alipay").is(':checked') ? "2" : "1" ); 
@@ -227,7 +238,6 @@
           e.preventDefault();
           return false;
       });
-  });
   </script> 
 
 

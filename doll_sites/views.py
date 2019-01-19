@@ -1,5 +1,6 @@
 #encoding: utf-8
 from django.shortcuts import render
+from doll_sites import models
 from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress,SiteConfig
 from django.views import generic
 from django.core.paginator import Paginator
@@ -164,13 +165,13 @@ def photodetail(request,photoid):
 	#创建订单
 	api_user = '182553c7'
 	api_key = 'c3ff51b8-a1f5-4ad3-8b93-f770b81a02f0'
-	order_price = int(photo_detail.buy_price)
+	order_price = str(photo_detail.buy_price)+".00"
 	user_id = 'user_mail'
-	redirect = 'https://paypayzhu.com/#/test'
 	pay_type = int(2)
 	order_id = str(random.randint(1,9999999999))
+	redirect = 'http://127.0.0.1:8000/order/' + order_id
 	order_info = photo_detail.id
-	notify_url = '/notify'
+	notify_url = 'http://requestbin.fullcontact.com/16xwxr61'
 	single_signature = make_signature(order_price,pay_type,redirect,order_id,order_info,notify_url)
 	context = {
 		'buy_links':buy_links,		#购买链接列表
@@ -196,6 +197,28 @@ def photodetail(request,photoid):
 		'doll_sites/photo_detail.html',
 		context
 	)
+
+def order(request,order_id):
+	order_id = order_id
+	current_order = Order.objects.get(id=order_id)
+	related_album = Photo.objects.get(id=photo_id)
+	order_status = current_order.order_status
+	photo_id = current_order.order_info
+	photo_name = related_album.name_chinese
+	product_name = photo_name + current_order.order_type
+	price = current_order.order_price
+	if current_order.order_type == 'Single':
+		download_link = related_album.buy_link
+	else:
+		download_link = related_album.bundle_link
+	context = {
+		'order_id':order_id,
+		'order_status':order_status,
+		'product_name':product_name,
+		'price':price,
+		'download_link':download_link,
+	}
+
 
 def make_signature(price,pay_type,redirect,order_id,order_info,notify_url):
 
@@ -258,6 +281,23 @@ def post_payment(request):
 		return HttpResponse(json.dumps(data))
 	else:
 		return HttpResponse('It is not a POST request!!!')
+
+def create_order(request):
+	if request.method == 'POST':
+		order_id = request.POST.get('order_id')
+		order_info = request.POST.get('order_info')
+		order_status = 'pending'
+		order_type = request.POST.get('order_type')
+		order_price = request.POST.get('price')
+		models.Order.objects.create(
+			order_id=order_id,
+			order_info=order_info,
+			order_status=order_status,
+			order_type=order_type,
+			order_price=order_price,
+        )
+		return HttpResponse('Created!')
+
 
 def actresslist(request,pageid):
 	"""演员列表页"""

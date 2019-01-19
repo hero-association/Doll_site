@@ -135,6 +135,16 @@ class PhotoFile(models.Model):
 							)
 	photo = models.ForeignKey("Photo",on_delete=models.PROTECT,null=False)
 
+class Order(models.Model):
+	order_id = models.CharField(max_length = 1024)
+	date_created = models.DateTimeField(auto_now_add = True)
+	date_update = models.DateTimeField(blank=True,null=True,auto_now=True)
+	order_info = models.CharField(max_length = 2048)
+	order_status = models.CharField(max_length = 1024)
+	order_type = models.CharField(max_length = 1024)
+	order_price = models.CharField(max_length = 1024)
+	paid_price = models.CharField(blank=True,null=True,max_length = 1024)
+
 class PhotoLink(models.Model):
 	pic_link = models.CharField(max_length=1024)
 	photo = models.ForeignKey("Photo",on_delete=models.PROTECT,null=False)
