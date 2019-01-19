@@ -1,10 +1,15 @@
+#encoding: utf-8
 from django.shortcuts import render
 from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress,SiteConfig
 from django.views import generic
 from django.core.paginator import Paginator
+import random
+import hashlib
+import json
+import urllib
+from django.shortcuts import HttpResponse
 
 # Create your views here.
-
 def index(request):
 	"""网站主页"""
 	num_pic = PhotoLink.objects.all().count()
@@ -156,8 +161,17 @@ def photodetail(request,photoid):
 	hot_actress = Actress.objects.all().order_by('?')[:6]
 	#相册标签
 	photo_tag = photo_detail.photo_tag.all()
-	# photo_tag = list(set(photo_tag))
-
+	#创建订单
+	api_user = '182553c7'
+	api_key = 'c3ff51b8-a1f5-4ad3-8b93-f770b81a02f0'
+	order_price = int(photo_detail.buy_price)
+	user_id = 'user_mail'
+	redirect = 'https://paypayzhu.com/#/test'
+	pay_type = int(2)
+	order_id = str(random.randint(1,9999999999))
+	order_info = photo_detail.id
+	notify_url = '/notify'
+	single_signature = make_signature(order_price,pay_type,redirect,order_id,order_info,notify_url)
 	context = {
 		'buy_links':buy_links,		#购买链接列表
 		'bundle_links':bundle_links,		#Bundle链接列表
@@ -166,6 +180,15 @@ def photodetail(request,photoid):
 		'current_actress':current_actress,		
 		'hot_actress':hot_actress,		#热搜标签
 		'photo_tag':photo_tag,		#相册标签
+		#支付参数
+		'api_user':api_user,
+		'order_price':order_price,
+		'pay_type':pay_type,
+		'redirect':redirect,
+		'order_id':order_id,
+		'order_info':order_info,
+		'notify_url':notify_url,
+		'single_signature':single_signature,
 	}
 
 	return render(
@@ -173,6 +196,68 @@ def photodetail(request,photoid):
 		'doll_sites/photo_detail.html',
 		context
 	)
+
+def make_signature(price,pay_type,redirect,order_id,order_info,notify_url):
+
+	api_user = '182553c7'
+	api_key = 'c3ff51b8-a1f5-4ad3-8b93-f770b81a02f0'
+
+	param = {
+        'api_user' : api_user,
+        'price': price,
+        'type': pay_type,
+        'redirect': redirect,
+        'order_id': order_id,
+        'order_info': order_info,
+        'notify_url' : notify_url,
+    }
+    
+	param_keys = list(param.keys())
+	param_keys.sort()
+    
+	param_str = api_key
+    
+	for key in param_keys:
+		param_str += str(param[key])
+
+	# for key in param_keys:
+	# 	if isinstance(param[key], str):
+	# 		param_str += str(param[key].encode('utf-8'))
+	# 	else:
+	# 		param_str += str(param[key])
+    
+	param_str = param_str.encode('utf-8')
+	signature = hashlib.md5(param_str).hexdigest()
+	return signature
+
+def pay_info(order_price,pay_type,mail_addr,order_info,order_id):
+	redirect = '/about'
+	data = {
+		'api_user' : '182553c7',
+		'api_key' : 'c3ff51b8-a1f5-4ad3-8b93-f770b81a02f0',
+		'price' : str(order_price),
+		'user_id' : mail_addr,
+		'redirect' : "https://paypayzhu.com/#/test",
+		'type' : pay_type,
+		'mail_addr' : mail_addr,
+		'order_id' : str(random.randint(1,9999999999)),
+		'order_info' : order_info,
+		'signature' : make_signature(order_price,pay_type,redirect,order_id,order_info,notify_url),
+	}
+	return data
+	
+def post_payment(request):
+	if request.method == 'POST':
+		price = request.POST.get('price')
+		pay_type = int(request.POST.get('type', 1))
+		mail_addr = request.POST.get('mail_addr')
+		order_id = request.POST.get('order_id')
+		order_info = request.POST.get('order_info')		
+
+		data = pay_info(price,pay_type,mail_addr,order_info,order_id)
+		return HttpResponse(json.dumps(data))
+	else:
+		return HttpResponse('It is not a POST request!!!')
 
 def actresslist(request,pageid):
 	"""演员列表页"""

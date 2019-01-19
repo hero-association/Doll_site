@@ -46,6 +46,7 @@ urlpatterns = [
             }
         },
         name='django.contrib.sitemaps.views.sitemap'),
+    url(r'post_payment',views.post_payment,name='post_payment'),
     path('admin/', admin.site.urls),
     path('about/',views.about,name='about_page'),
     #百度验证

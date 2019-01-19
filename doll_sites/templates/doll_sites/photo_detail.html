@@ -25,14 +25,14 @@
                {% endfor %}
                {{ photo_detail.company }}" 
     />
-    <title> 
+<!--     <title> 
       {% for actress in current_actress %} 
         {{ actress.actress_name_ch }}
       {% endfor %}
       {{ photo_detail.company }}
       {{ photo_detail.name_chinese }}
       - 小熊社
-    </title>
+    </title> -->
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127776067-1"></script>
@@ -58,12 +58,56 @@
 </a>
 
 
-  <!-- Content -->
+<!-- Content -->
 
 <section class="container">
     <div class="row d-flex">
         <div class="col-lg-9 mt-5">
             <h5 class="h5">{{ photo_detail.name_chinese }}</h5>
+            <!-- 调试原串 -->
+            <h5 class="h5">{{ single_signature }}</h5>
+
+            <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay'>
+              <!-- {% csrf_token %} -->
+              <input id='api_user' name='api_user' type='text' value='{{ api_user }}' />
+              <input id='price' name='price' type='text' value='{{ order_price }}' />
+              <input id='type' name='type' type='text' value='{{ pay_type }}'/>
+              <input id='redirect' name='redirect' type='text' value='{{ redirect }}'/>
+              <input id='order_id' name='order_id' type='text' value='{{ order_id }}'/>
+              <input id='order_info' name='order_info' type='text' value='{{ order_info }}'/>
+              <input id='notify_url' name='notify_url' type='text' value='{{ notify_url }}'/>
+              <input id='signature' name='signature' type='text' value='{{ single_signature }}'/>
+              <input id='btn_pay' type='submit'>
+            </form>
+
+            <!-- <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay_json'>
+              {% csrf_token %}
+              <input id='api_user' name='api_user' type='text' value='{{ api_user }}' />
+              <input id='price' name='price' type='text' value='{{ order_price }}' />
+              <input id='type' name='type' type='text' value='{{ pay_type }}'/>
+              <input id='redirect' name='redirect' type='text' value='{{ redirect }}'/>
+              <input id='order_id' name='order_id' type='text' value='{{ order_id }}'/>
+              <input id='order_info' name='order_info' type='text' value='{{ order_info }}'/>
+              <input id='signature' name='signature' type='text' value='{{ buy_pay_sign }}'/>
+              <input id='btn_pay' type='submit'>
+            </form>
+            
+            <form>
+              {% csrf_token %}
+              商品价格: <input type="text" id="pay_price" value='{{ order_price }}' disabled>元<br/>
+              <input type="radio" id="type_alipay" name="type" value="2" checked="checked">
+              <span>支付宝支付</span><br><br>
+              邮箱：
+              <input type="text" id="user_mail" required>
+              <input type="submit" id="btn_buy" value="确认购买"/>
+            </form> -->
+
+<!--             {% for link in buy_links %}
+              <a class="btn btn-primary" href='{{ buy_codepay_api }}'>
+                点击购买
+              </a>
+            {% endfor %} -->
+          
             <div class="mt-5">
 
             {% block content %}
@@ -88,21 +132,7 @@
 
                 
           <!-- 右侧推荐位 -->
-          <div class="col-lg-3 mt-5">
-
-              {% for link in buy_links %}
-              <a class="btn btn-primary" href='{{ link }}'>
-                点击购买
-              
-              </a>
-              {% endfor %}
-          
-              {% for link in bundle_links %}
-              <a href='{{ link }}'>
-                <div class="btn btn-primary">点击购买</div>
-              </a>
-              {% endfor %}
-          
+          <div class="col-lg-3 mt-5">        
               <div class="tags">
                 <h5 class="mb-3" >热搜标签</h5>
                 
@@ -148,7 +178,57 @@
   <script src="/static/js/jquery.lazyload.js"></script>
   
   <script src="/static/js/main.js"></script>
+  <script type="text/javascript"></script>
 
+
+  <!-- <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script> -->
+  <script type="text/javascript">
+  $().ready(function(){
+      function get_type(){
+          return ($("#type_alipay").is(':checked') ? "2" : "1" ); 
+      }
+
+      $("#btn_buy").click(function(e){        
+          $.post("/post_payment",
+              {
+                  price : $("#pay_price").val(), 
+                  type : get_type(),
+                  mail_addr : $("#text").val(),
+                  order_info : $("#order_info").val(),
+                  // order_id : $("#order_id").val(),
+              },
+              function(data){ 
+                  console.log(data);
+                  console.log(data.code);
+                  $("#api_user").val(data.data.api_user);
+                  $("#price").val(data.data.price);
+                  $("#type").val(data.data.type);
+                  $("#redirect").val(data.data.redirect);
+                  $("#order_id").val(data.data.order_id);
+                  $("#text").val(data.data.mail_addr);
+                  $("#order_info").val(data.data.order_info);
+                  $("#signature").val(data.data.signature);
+                  $('#btn_pay').click();
+                  // if (data.code > 0){
+                  //     $("#api_user").val(data.data.api_user);
+                  //     $("#price").val(data.data.price);
+                  //     $("#type").val(data.data.type);
+                  //     $("#redirect").val(data.data.redirect);
+                  //     $("#order_id").val(data.data.order_id);
+                  //     $("#text").val(data.data.mail_addr);
+                  //     $("#order_info").val(data.data.order_info);
+                  //     $("#signature").val(data.data.signature);
+                  //     $('#btn_pay').click();
+                  // } else {
+                  //     alert(data.msg);
+                  }
+              }, "json"
+          );
+          e.preventDefault();
+          return false;
+      });
+  });
+  </script> 
 
 
 </body>
