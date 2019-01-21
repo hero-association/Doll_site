@@ -287,10 +287,10 @@ def pay_info(order_price,pay_type,mail_addr,order_info,order_id):
 	}
 	return data
 	
-def post_payment(request):
+def payment_response(request):
 	if request.method == 'POST':
 		order_id = request.POST.get('order_id')
-		current_order = Order.objects.get(order_id=order_id)
+		current_order = Order.objects.filter(order_id=order_id)
 		current_order.update(order_status='Paid')
 		return HttpResponse('Paid!')
 	else:
