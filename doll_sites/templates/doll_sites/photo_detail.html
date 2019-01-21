@@ -65,7 +65,8 @@
         <div class="col-lg-9 mt-5">
             <h5 class="h5">{{ photo_detail.name_chinese }}</h5>
 
-            <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
+<!--             <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank"> -->
+            <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay'>
               <!-- {% csrf_token %} -->
               <input id='api_user' name='api_user' type='text' value='{{ api_user }}' />
               <input id='price' name='price' type='text' value='{{ order_price }}' />
@@ -76,7 +77,7 @@
               <input id='notify_url' name='notify_url' type='text' value='{{ notify_url }}'/>
               <input id='signature' name='signature' type='text' value='{{ single_signature }}'/>
               <input id='order_type' name='order_type' type='text' value='single'/>
-              <input id='btn_pay' type='submit'>
+              <input id='btn_pay' value='提交' type='submit' onclick="create_order()">
             </form>
 
             <!-- <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay_json'>
@@ -179,9 +180,32 @@
   <script src="/static/js/main.js"></script>
   <script type="text/javascript"></script>
 
+  <script type='text/javascript'>
+    function create_order(){
+      $.post("/create_order",{
+        order_id:$("#order_id").val(),
+        order_info:$("#order_info").val(),
+        order_status:"pending",
+        order_type:$("#order_type").val(),
+        price:$("#price").val(),
+        }
+      )
+      // $.post("https://www.paypayzhu.com/api/pay_json",{
+      //   api_user:$("#api_user").val(),
+      //   price:$("#price").val(),
+      //   type:$("#type").val(),
+      //   redirect:$("#redirect").val(),
+      //   order_id:$("#order_id").val(),
+      //   order_info:$("#order_info").val(),
+      //   notify_url:$("#notify_url").val(),
+      //   signature:$("#signature").val(),
+      //   }
+      // )
+    }
+  </script>
 
   <!-- <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script> -->
-  <script type="text/javascript">
+ <!--  <script type="text/javascript">
   $("btn_pay").click(function(s){
     $.post("/create_order",
       {
@@ -220,25 +244,25 @@
                   $("#order_info").val(data.data.order_info);
                   $("#signature").val(data.data.signature);
                   $('#btn_pay').click();
-                  // if (data.code > 0){
-                  //     $("#api_user").val(data.data.api_user);
-                  //     $("#price").val(data.data.price);
-                  //     $("#type").val(data.data.type);
-                  //     $("#redirect").val(data.data.redirect);
-                  //     $("#order_id").val(data.data.order_id);
-                  //     $("#text").val(data.data.mail_addr);
-                  //     $("#order_info").val(data.data.order_info);
-                  //     $("#signature").val(data.data.signature);
-                  //     $('#btn_pay').click();
-                  // } else {
-                  //     alert(data.msg);
+                  if (data.code > 0){
+                      $("#api_user").val(data.data.api_user);
+                      $("#price").val(data.data.price);
+                      $("#type").val(data.data.type);
+                      $("#redirect").val(data.data.redirect);
+                      $("#order_id").val(data.data.order_id);
+                      $("#text").val(data.data.mail_addr);
+                      $("#order_info").val(data.data.order_info);
+                      $("#signature").val(data.data.signature);
+                      $('#btn_pay').click();
+                  } else {
+                      alert(data.msg);
                   }
               }, "json"
           );
           e.preventDefault();
           return false;
       });
-  </script> 
+  </script>  -->
 
 
 </body>

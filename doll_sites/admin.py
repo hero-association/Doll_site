@@ -58,6 +58,7 @@ class TagAdmin(admin.ModelAdmin):
 
 class OrderAdmin(admin.ModelAdmin):
 	model = Order
+	list_display = ('order_id','order_info','order_status','order_type','order_price','date_created','date_update')
 
 class ActressAdmin(admin.ModelAdmin):
 	list_display = ('actress_name_ch','actress_name_jp','actress_name_en')

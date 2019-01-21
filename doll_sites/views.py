@@ -1,13 +1,14 @@
 #encoding: utf-8
 from django.shortcuts import render
 from doll_sites import models
-from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress,SiteConfig
+from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress,SiteConfig,Order
 from django.views import generic
 from django.core.paginator import Paginator
 import random
 import hashlib
 import json
 import urllib
+import datetime
 from django.shortcuts import HttpResponse
 
 # Create your views here.
@@ -168,7 +169,9 @@ def photodetail(request,photoid):
 	order_price = str(photo_detail.buy_price)+".00"
 	user_id = 'user_mail'
 	pay_type = int(2)
-	order_id = str(random.randint(1,9999999999))
+	nowtime = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+	random_id = str(random.randint(1000000,9999999))
+	order_id = str(pay_type)+str(nowtime)+random_id
 	redirect = 'http://127.0.0.1:8000/order/' + order_id
 	order_info = photo_detail.id
 	notify_url = 'http://requestbin.fullcontact.com/16xwxr61'
@@ -198,19 +201,28 @@ def photodetail(request,photoid):
 		context
 	)
 
-def order(request,order_id):
-	order_id = order_id
-	current_order = Order.objects.get(id=order_id)
+def order_detail(request,order_id):
+	order_id = str(order_id)
+	current_order = Order.objects.get(order_id=order_id)
+	photo_id = current_order.order_info
 	related_album = Photo.objects.get(id=photo_id)
 	order_status = current_order.order_status
-	photo_id = current_order.order_info
 	photo_name = related_album.name_chinese
-	product_name = photo_name + current_order.order_type
-	price = current_order.order_price
-	if current_order.order_type == 'Single':
+	photo_actress = list(related_album.model_name.all())
+	actress_name = ''
+	for actress in photo_actress:
+		actress_name += str(actress)
+	download_link = ''
+
+	if current_order.order_type == 'single':
 		download_link = related_album.buy_link
+		order_type = '照片集'
 	else:
 		download_link = related_album.bundle_link
+		order_type = '照片+视频'
+	product_name = '['+actress_name+']' +' '+ photo_name +' '+ order_type
+	price = current_order.order_price
+
 	context = {
 		'order_id':order_id,
 		'order_status':order_status,
@@ -218,6 +230,12 @@ def order(request,order_id):
 		'price':price,
 		'download_link':download_link,
 	}
+
+	return render(
+		request,
+		'doll_sites/order_detail.html',
+		context
+	)
 
 
 def make_signature(price,pay_type,redirect,order_id,order_info,notify_url):
@@ -263,7 +281,7 @@ def pay_info(order_price,pay_type,mail_addr,order_info,order_id):
 		'redirect' : "https://paypayzhu.com/#/test",
 		'type' : pay_type,
 		'mail_addr' : mail_addr,
-		'order_id' : str(random.randint(1,9999999999)),
+		'order_id' : str(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')) + str(random.randint(1000000,9999999)),
 		'order_info' : order_info,
 		'signature' : make_signature(order_price,pay_type,redirect,order_id,order_info,notify_url),
 	}
@@ -271,14 +289,10 @@ def pay_info(order_price,pay_type,mail_addr,order_info,order_id):
 	
 def post_payment(request):
 	if request.method == 'POST':
-		price = request.POST.get('price')
-		pay_type = int(request.POST.get('type', 1))
-		mail_addr = request.POST.get('mail_addr')
 		order_id = request.POST.get('order_id')
-		order_info = request.POST.get('order_info')		
-
-		data = pay_info(price,pay_type,mail_addr,order_info,order_id)
-		return HttpResponse(json.dumps(data))
+		current_order = Order.objects.get(order_id=order_id)
+		current_order.update(order_status='Paid')
+		return HttpResponse('Paid!')
 	else:
 		return HttpResponse('It is not a POST request!!!')
 
