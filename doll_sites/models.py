@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -8,6 +9,11 @@ def upload_location(instance,filename):
 
 def avatar_upload_location(instance,filename):
 	return "{0}/{1}".format(instance.actress_name_ch,filename)
+
+class Users(User):
+	name = models.CharField(max_length=20)  #可以自己再添加其他的字段
+	message =  models.CharField(max_length=20)
+	emails = models.EmailField(default=0)
 
 class Series(models.Model):
 	"""图片的分类"""

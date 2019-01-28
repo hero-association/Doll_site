@@ -38,6 +38,8 @@ ALLOWED_HOSTS = [
 
 # Application definition
 
+SITE_ID = 1
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,6 +51,11 @@ INSTALLED_APPS = [
     # 二次元黄网
     'doll_sites',
     'corsheaders',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
 ]
 
 MIDDLEWARE = [
@@ -62,6 +69,27 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
+
+# Auth基本设定
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = None
+LOGIN_REDIRECT_URL = '/accounts/profile/'
+LOGIN_REDIRECT_URL = "/"
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+# # 邮箱设定
+# EMAIL_HOST = 'smtp.qq.com'
+# EMAIL_PORT = 25
+# EMAIL_HOST_USER = 'xxxx3116@qq.com' # 你的 QQ 账号和授权码
+# EMAIL_HOST_PASSWORD = 'xxxx'
+# EMAIL_USE_TLS = True  # 这里必须是 True，否则发送不成功
+# EMAIL_FROM = 'xxxx3116@qq.com' # 你的 QQ 账号
+# DEFAULT_FROM_EMAIL = 'xxxx3116@qq.com'
 
 #跨域增加忽略
 CORS_ALLOW_CREDENTIALS = True

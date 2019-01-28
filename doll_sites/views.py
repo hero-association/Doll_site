@@ -59,7 +59,7 @@ class DollPaginator(Paginator):
         super(DollPaginator, self).__init__(*args, **kwargs)
 
     def page_num_range(self):
-  #总页数小于实际展示页
+	#总页数小于实际展示页
         if self.num_pages < self.per_pager_num:
             return range(1,self.num_pages+1)
 
@@ -390,6 +390,18 @@ def searchresult(request):
 	return render(
 		request,
 		'doll_sites/search.html',
+		context
+	)
+
+def profile(request):
+	"""用户资料"""
+	context = {
+		'nbar':'profile',	#导航标志
+	}
+
+	return render(
+		request,
+		'doll_sites/profile.html',
 		context
 	)
 

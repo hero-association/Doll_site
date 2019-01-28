@@ -61,6 +61,9 @@ urlpatterns = [
     path('photo/<int:photoid>', views.photodetail, name='Photo-detail'),
     path('actress_detail/<int:actressid>',views.actressdetail,name='actress_detail'),
     path('search/',views.searchresult,name='searchresult'),
+    # url(r'^accounts/', include('allauth.urls')),
+    path('accounts/', include('allauth.urls')),
+    path(r'^profile/$', views.profile, name='profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,document_root=settings.STATICFILES_DIRS)
 
 
