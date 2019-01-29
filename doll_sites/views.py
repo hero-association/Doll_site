@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress
+from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress,SiteConfig,SlideBanner
 from django.views import generic
 from django.core.paginator import Paginator
 
@@ -10,6 +10,7 @@ def index(request):
 	num_pic = PhotoLink.objects.all().count()
 	num_photo = Photo.objects.all().count()
 	company_list = Company.objects.all()[:5]
+	silde_banner = SlideBanner.objects.all()
 	recommend_european = Photo.objects.filter(series=1).order_by('?')[:5]
 	recommend_japanese = Photo.objects.filter(series=2).order_by('?')[:5]
 	recommend_chinese = Photo.objects.filter(series=3).order_by('?')[:5]
@@ -19,13 +20,14 @@ def index(request):
 	context = {
 				'num_pic':num_pic,		#总图片数
 				'num_photo':num_photo,		#总相册数
+				'company_list':company_list,		#公司列表
+				'silde_banner':silde_banner,		#轮播图
 				'recommend_european':recommend_european,		#推荐相册-欧美
 				'recommend_japanese':recommend_japanese,		#推荐相册-日本
 				'recommend_chinese':recommend_chinese,		#推荐相册-中国
 				'recommend_newest':recommend_newest,		#推荐相册-最新
 				'recommend_hotest':recommend_hotest,		#推荐相册-最热
 				'recommend_person':recommend_person,		#推荐偶像
-				'company_list':company_list,		#公司列表
 				'nbar':'home',	#导航标志
 	}
 	return render(
@@ -131,10 +133,14 @@ def photodetail(request,photoid):
 	photo_detail = Photo.objects.get(id=photoid)
 	photo_detail.increase_views_count()		#访问次数+1
 	#照片购买
-	if photo_detail.buy_link is None:
-		buy_links = []
+	payment_status = SiteConfig.objects.get(config_name='Payment_links')
+	if payment_status.config_value == 'True':
+		if photo_detail.buy_link is None:
+			buy_links = []
+		else:
+			buy_links = [photo_detail.buy_link,]
 	else:
-		buy_links = [photo_detail.buy_link,]
+		buy_links = []
 	#Bundle购买
 	if photo_detail.bundle_link is None:
 		bundle_links = []

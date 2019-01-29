@@ -116,3 +116,6 @@ dmypy.json
 .pyre/
 0103.json
 db.sqlite3
+doll_sites/static/doll_sites/images/uploads/01.png/01.png
+doll_sites/static/doll_sites/images/uploads/01_T6bkjaG.png
+doll_sites/static/doll_sites/images/uploads/02.png
