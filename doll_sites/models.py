@@ -9,6 +9,9 @@ def upload_location(instance,filename):
 def avatar_upload_location(instance,filename):
 	return "{0}/{1}".format(instance.actress_name_ch,filename)
 
+def banner_upload_location(instance,filename):
+	return "{0}".format(filename)
+
 class Series(models.Model):
 	"""图片的分类"""
 	#db_table = "Serie"
@@ -142,3 +145,10 @@ class PhotoLink(models.Model):
 class SiteConfig(models.Model):
 	config_name = models.CharField(default=None,max_length=100)
 	config_value = models.CharField(default=None,max_length=100)
+
+class SlideBanner(models.Model):
+	banner_pic = models.ImageField(
+							upload_to=banner_upload_location
+							)
+	banner_title = models.CharField(max_length=999)
+	banner_link = models.CharField(max_length=999)

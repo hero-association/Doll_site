@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig
+from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig,SlideBanner
 
 
 class PhotoFileInline(admin.TabularInline):
@@ -72,3 +72,4 @@ admin.site.register(Actress,ActressAdmin)
 admin.site.register(PhotoFile)
 admin.site.register(PhotoLink)
 admin.site.register(SiteConfig,SiteConfigAdmin)
+admin.site.register(SlideBanner)
