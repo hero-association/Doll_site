@@ -32,7 +32,9 @@ ALLOWED_HOSTS = [
 '162.241.182.12',
 'www.jasonpak.net',
 'jasonpak.webfactional.com',
-'alolita.net'
+'alolita.net',
+'lolizhan.com',
+'www.lolizhan.com',
 'django.contrib.sitemaps',
 ]
 
