@@ -108,6 +108,8 @@ def photolist(request,series,company,pageid):
 		'nbar':nbar,	#导航标志
 		'new_photo_list':new_photo_list,	#最新图集
 		'hot_actress':hot_actress,		#热搜标签
+		'series':series,
+		'company':company,
 	}
 
 	return render(

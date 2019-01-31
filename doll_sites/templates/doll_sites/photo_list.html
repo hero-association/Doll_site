@@ -72,7 +72,7 @@
                 <!-- 第一页 -->
                 {% if current_photo_list.paginator.num_pages > 10 %}
                 <li class="page-item">
-                  <a class="page-link active" href="/photos/0/0/1">
+                  <a class="page-link active" href="/photos/{{ series }}/{{ company }}/1">
                     <span>&laquo;</span>
                   </a>
                 </li>
@@ -80,7 +80,7 @@
             
                 {% if current_photo_list.has_previous %}
                 <li class="page-item">
-                  <a class="page-link" href="/photos/0/0/{{ current_photo_list.previous_page_number }}">
+                  <a class="page-link" href="/photos/{{ series }}/{{ company }}/{{ current_photo_list.previous_page_number }}">
                     <span>&laquo;</span>
                     <span class="sr-only">上一页</span>
                   </a>
@@ -102,7 +102,7 @@
                     </span>
                   </li>
                 {% else %}
-                <li class="page-item"><a class="page-link" href="/photos/0/0/{{ i }}">{{ i }}</a></li>
+                <li class="page-item"><a class="page-link" href="/photos/{{ series }}/{{ company }}/{{ i }}">{{ i }}</a></li>
                 {% endif %}
                 {% endfor %}
             
@@ -110,7 +110,7 @@
             
                 {% if current_photo_list.has_next %}
                 <li class="page-item">
-                  <a class="page-link active" href="/photos/0/0/{{ current_photo_list.next_page_number }}">
+                  <a class="page-link active" href="/photos/{{ series }}/{{ company }}/{{ current_photo_list.next_page_number }}">
                     <span>&raquo;</span>
                   </a>
                 </li>
@@ -125,7 +125,7 @@
                 <!-- 最后一页 -->
                 {% if current_photo_list.paginator.num_pages > 10 %}
                 <li class="page-item">
-                  <a class="page-link active" href="/photos/0/0/{{ current_photo_list.paginator.num_pages }}">
+                  <a class="page-link active" href="/photos/{{ series }}/{{ company }}/{{ current_photo_list.paginator.num_pages }}">
                     <span>&raquo;</span>
                   </a>
                 </li>
