@@ -35,6 +35,8 @@ ALLOWED_HOSTS = [
 'alolita.net'
 ]
 
+#no-www强制跳转
+PREPEND_WWW = True
 
 # Application definition
 
@@ -45,7 +47,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 二次元黄网
     'doll_sites',
 ]
 
