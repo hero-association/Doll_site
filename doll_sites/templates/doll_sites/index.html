@@ -125,8 +125,14 @@
         <div class="card border-0">
     
           <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
-            <img class="card-img-top border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
-              src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+            <img 
+              class="card-img-top border-light lazyloadx" 
+              data-original="{{ photo.get_cover_pic_link }}"
+              src="/static/image/loading.png" 
+              alt="{{ photo.name_chinese }} {{ photo.company }} {% for modelname in photo.model_name.all %}{{ modelname }}{% endfor %}" 
+              lazyloadthumb="1" 
+              lazyloaded="true"
+            >
           
           <div class="card-body p-1 mt-2">
             <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
@@ -187,9 +193,13 @@
             {% for photo in recommend_hotest %}
             <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
         <div class="card border-0 ">
-            <img class="card-img-top border-light lazyloadx" 
-            data-original="{{ photo.get_cover_pic_link }}"
-            src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+            <img 
+              class="card-img-top border-light lazyloadx" 
+              data-original="{{ photo.get_cover_pic_link }}"
+              src="/static/image/loading.png"               
+              alt="{{ photo.name_chinese }} {{ photo.company }} {% for modelname in photo.model_name.all %}{{ modelname }}{% endfor %}"  
+              lazyloadthumb="1" lazyloaded="true"
+            >
           
           <div class="card-body p-1 mt-2">
               <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
@@ -297,8 +307,14 @@
           <div class="card border-0">
       
             <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
-              <img class="card-img-top border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
-                src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+              <img 
+                class="card-img-top border border-light lazyloadx" 
+                data-original="{{ photo.get_cover_pic_link }}"
+                src="/static/image/loading.png" 
+                alt="{{ photo.name_chinese }} {{ photo.company }} {% for modelname in photo.model_name.all %}{{ modelname }}{% endfor %}" 
+                lazyloadthumb="1" 
+                lazyloaded="true"
+              >
             
             <div class="card-body p-1 mt-2">
                 <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
@@ -338,8 +354,14 @@
           <div class="card border-0 col-md-4 col-lg mr-4 p-0">
       
             <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
-              <img class="card-img-top border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
-                src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+              <img 
+                class="card-img-top border border-light lazyloadx" 
+                data-original="{{ photo.get_cover_pic_link }}"
+                src="/static/image/loading.png" 
+                alt="{{ photo.name_chinese }} {{ photo.company }} {% for modelname in photo.model_name.all %}{{ modelname }}{% endfor %}" 
+                lazyloadthumb="1" 
+                lazyloaded="true"
+              >
            
             <div class="card-body p-1 mt-2">
                 <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
@@ -378,8 +400,14 @@
           <div class="card border-0">
       
             <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
-              <img class="card-img-top border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
-                src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+              <img 
+                class="card-img-top border border-light lazyloadx" 
+                data-original="{{ photo.get_cover_pic_link }}"
+                src="/static/image/loading.png" 
+                alt="{{ photo.name_chinese }} {{ photo.company }} {% for modelname in photo.model_name.all %}{{ modelname }}{% endfor %}" 
+                lazyloadthumb="1" 
+                lazyloaded="true"
+              >
             
             <div class="card-body p-1 mt-2">
                 <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
