@@ -48,11 +48,18 @@
           <div class="card card-photolist border-0 my-3 p-0">
       
             <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
-              <img class="card-img-top img-fluid border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
-                src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+              <img 
+                class="card-img-top img-fluid border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
+                src="/static/image/loading.png" 
+                alt="{{ photo.name_chinese }} {{ photo.company }} {% for modelname in photo.model_name.all %}{{ modelname }}{% endfor %}"
+                lazyloadthumb="1" 
+                lazyloaded="true"
+              >
            
             <div class="card-body p-1 mt-2">
-                <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
+                <p class="card-text  text-truncate mb-0">
+                  {{ photo.name_chinese }}
+                </p>
               </a>
                 {% for modelname in photo.model_name.all %}
                 <a href="/actress_detail/{{ modelname.pk }}" class="card-text text-truncate mb-1 ">
