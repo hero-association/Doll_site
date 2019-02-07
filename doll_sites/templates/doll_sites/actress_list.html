@@ -45,10 +45,15 @@
               {% for actress in current_actress_list %}
               <div class="card card-actress mx-2 mb-5 p-0">
           
-                <a href="/actress_detail/{{ actress.id }}" title=" {{ actress.actress_name_ch }} " target='_self'>
-                  <img class="card-img-top border-light lazyloadx" 
-                  data-original="/static/doll_sites/images/uploads/{{ actress.avatar }} "
-                  src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+                <a href="/actress_detail/{{ actress.id }}" title="{{ actress.actress_name_ch }}" target='_self'>
+                  <img 
+                    class="card-img-top border-light lazyloadx" 
+                    data-original="/static/doll_sites/images/uploads/{{ actress.avatar }}"
+                    src="/static/image/loading.png" 
+                    alt="{{ actress.actress_name_ch }}" 
+                    lazyloadthumb="1" 
+                    lazyloaded="true"
+                  >
                 </a>
                 <div class="card-body">
                   <p class="card-text text-center text-truncate">{{ actress.actress_name_ch }}</p>
