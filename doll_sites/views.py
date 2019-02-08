@@ -2,6 +2,9 @@ from django.shortcuts import render
 from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress,SiteConfig,SlideBanner
 from django.views import generic
 from django.core.paginator import Paginator
+from apscheduler.schedulers.background import BackgroundScheduler
+from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
+import sqlite3
 
 # Create your views here.
 
@@ -281,6 +284,71 @@ def baidu(request):
 		'doll_sites/baidu_verify_jiNtuP7fb1.html',
 		context
 	)
+
+#定时任务
+try:
+	# 实例化调度器
+	scheduler = BackgroundScheduler()
+	# 调度器使用DjangoJobStore()
+	scheduler.add_jobstore(DjangoJobStore(), "default")
+	# 每天固定时间执行任务：
+	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='1', minute='54', second='10',id='task_time')
+	def temperature_count():
+		# 这里写你要执行的任务
+		conn = sqlite3.connect('db.sqlite3')
+		c = conn.cursor()
+		#截至当日总计
+		cursor = c.execute("SELECT views_count,id from doll_sites_photo")
+		cursor = list(cursor)
+		now_view = []
+		for row in cursor:
+			now_view.append((row))
+		#截至昨日总计
+		cursor = c.execute("SELECT history_views_count,id from doll_sites_photo")
+		cursor = list(cursor)
+		history_view = []
+		for row in cursor:
+			history_view.append(row)
+		#今日统计
+		today_counts = []
+		today_pk = []
+		n = 0
+		for view in now_view:
+			today_pk.append(view[1])
+			view = view[0] - history_view[n][0]
+			today_counts.append(view)
+			n += 1
+		#当前热度
+		cursor = c.execute("SELECT temperature,id from doll_sites_photo")
+		cursor = list(cursor)
+		temperature = []
+		for row in cursor:
+			temperature.append(row)
+		n = 0
+		for temper in temperature:
+			pk = temper[1]
+			temper = temper[0]*0.5632 + today_counts[n]
+			temper = round(temper,3)
+			updatesql = "UPDATE doll_sites_photo set temperature = %f where ID = %i" % (temper,pk)
+			cursor = c.execute(updatesql)
+			conn.commit()
+			n += 1
+		#更新history_view
+		for view in now_view:
+			pk = view[1]
+			view = view[0]
+			updatesql = "UPDATE doll_sites_photo set history_views_count = %f where ID = %i" % (view,pk)
+			cursor = c.execute(updatesql)
+			conn.commit()
+		conn.close()
+
+	register_events(scheduler)
+	scheduler.start()
+except Exception as e:
+	print(e)
+	# 有错误就停止定时器
+	scheduler.shutdown()
+
 # class PhotoDetailView(generic.DetailView):
 # 	model = Photo
 # 	template_name = 'doll_sites/photo_detail.html'

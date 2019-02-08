@@ -34,7 +34,6 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -47,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     # 二次元黄网
     'doll_sites',
+    'django_apscheduler',
     # django自动文档
     # 'django.contrib.admindocs',
 ]

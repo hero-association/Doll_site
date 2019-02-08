@@ -33,6 +33,7 @@ ALLOWED_HOSTS = [
 'www.jasonpak.net',
 'jasonpak.webfactional.com',
 'alolita.net',
+'www.alolita.net',
 'lolizhan.com',
 'www.lolizhan.com',
 'django.contrib.sitemaps',
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
     'doll_sites',
+    'django_apscheduler',
 ]
 
 MIDDLEWARE = [
