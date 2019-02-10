@@ -319,7 +319,7 @@ try:
 	def temperature_count():
 		# 这里写你要执行的任务
 		# conn = sqlite3.connect('db.sqlite3')
-		conn = psycopg2.connect(database="really_test_database", user="jasonpak", password="Fuck.ch1na", host="127.0.0.1", port="5432")
+		conn = psycopg2.connect(database="test_database", user="jasonpak", password="Fuck.ch1na", host="127.0.0.1", port="5432")
 		c = conn.cursor()
 		#截至当日总计
 		c.execute("SELECT views_count,id from doll_sites_photo")
