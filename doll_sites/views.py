@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from apscheduler.schedulers.background import BackgroundScheduler
 from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
 import sqlite3
+import psycopg2
 import random
 
 # Create your views here.
@@ -311,10 +312,11 @@ try:
 	# 调度器使用DjangoJobStore()
 	scheduler.add_jobstore(DjangoJobStore(), "default")
 	# 每天固定时间执行任务：
-	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='1', minute='54', second='10',id='task_time')
+	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='2', minute='14', second='10',id='task_time')
 	def temperature_count():
 		# 这里写你要执行的任务
-		conn = sqlite3.connect('db.sqlite3')
+		# conn = sqlite3.connect('db.sqlite3')
+		conn = psycopg2.connect(database="really_test_database", user="jasonpak", password="Fuck.ch1na", host="127.0.0.1", port="5432")
 		c = conn.cursor()
 		#截至当日总计
 		cursor = c.execute("SELECT views_count,id from doll_sites_photo")
