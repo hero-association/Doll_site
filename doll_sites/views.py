@@ -311,8 +311,11 @@ try:
 	scheduler = BackgroundScheduler()
 	# 调度器使用DjangoJobStore()
 	scheduler.add_jobstore(DjangoJobStore(), "default")
-	# 每天固定时间执行任务：
-	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='18', minute='31', second='40',id='task_time')
+	
+	# 循环执行任务：
+	@register_job(scheduler, 'interval', second='10',id='task_time')
+	# # 每天固定时间执行任务：
+	# @register_job(scheduler, 'cron', day_of_week='mon-sun', hour='18', minute='31', second='40',id='task_time')
 	def temperature_count():
 		# 这里写你要执行的任务
 		# conn = sqlite3.connect('db.sqlite3')
