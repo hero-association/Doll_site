@@ -32,12 +32,14 @@ class Photo(models.Model):
 	date_added = models.DateTimeField(null=True,blank=True,auto_now_add=True)	#添加日期
 	photo_tag = models.ManyToManyField("Tag",blank=True)	#标签
 	views_count = models.PositiveIntegerField(default=0)	#点击量
-	#照片购买
+	history_views_count = models.PositiveIntegerField(default=0)	#截至昨日点击量
+	temperature = models.FloatField(default=0)	#相册热度
+	"""照片购买"""
 	vip_photo = models.BooleanField(default=False)	#是否付费
 	buy_concent = models.CharField(max_length=60,null=True,blank=True)	#付费说明
 	buy_price = models.IntegerField(null=True,blank=True)	#价格
 	buy_link = models.CharField(max_length = 360,null=True,blank=True)	#购买链接
-	#Bundle购买
+	"""Bundle购买"""
 	vip_bundle = models.BooleanField(default=False)	#是否有Bundle
 	bundle_concent = models.CharField(max_length=60,null=True,blank=True)	#Bundle说明
 	bundle_price = models.IntegerField(null=True,blank=True)	#价格

@@ -2,6 +2,11 @@ from django.shortcuts import render
 from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress,SiteConfig,SlideBanner
 from django.views import generic
 from django.core.paginator import Paginator
+from apscheduler.schedulers.background import BackgroundScheduler
+from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
+import sqlite3
+import psycopg2
+import random
 
 # Create your views here.
 
@@ -92,9 +97,27 @@ def photolist(request,series,company,pageid):
 	paginator = DollPaginator(pageid,5,photo_list,limit)
 	# page = request.GET.get('page','1')
 	current_photo_list = paginator.page(pageid)
-	#热搜标签&最新图集
+	#热搜标签
 	hot_actress = Actress.objects.all().order_by('?')[:6]
-	new_photo_list = Photo.objects.order_by(sort)[:6]
+	#最新图集
+	right_side_sort = '-date_added'
+	if sort == '-date_added':
+		right_side_sort = '-views_count'
+	if series == 0:
+		if company == 0:
+			new_photo_list = Photo.objects
+		else:
+			new_photo_list = Photo.objects.filter(company=company)
+	else:
+		if company == 0:
+			new_photo_list = Photo.objects.filter(series=series)
+		else:
+			new_photo_list = Photo.objects.filter(series=series,company=company)
+	new_photo_list = new_photo_list.order_by(right_side_sort)[:12]
+	new_photo_list = list(new_photo_list)
+	random.shuffle(new_photo_list)
+	new_photo_list = new_photo_list[:4]
+
 	#导航高亮
 	if company != 0:
 		current_company = Company.objects.get(id=company)
@@ -281,6 +304,72 @@ def baidu(request):
 		'doll_sites/baidu_verify_jiNtuP7fb1.html',
 		context
 	)
+
+#定时任务
+try:
+	# 实例化调度器
+	scheduler = BackgroundScheduler()
+	# 调度器使用DjangoJobStore()
+	scheduler.add_jobstore(DjangoJobStore(), "default")
+	# 每天固定时间执行任务：
+	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='2', minute='14', second='10',id='task_time')
+	def temperature_count():
+		# 这里写你要执行的任务
+		# conn = sqlite3.connect('db.sqlite3')
+		conn = psycopg2.connect(database="really_test_database", user="jasonpak", password="Fuck.ch1na", host="127.0.0.1", port="5432")
+		c = conn.cursor()
+		#截至当日总计
+		cursor = c.execute("SELECT views_count,id from doll_sites_photo")
+		cursor = list(cursor)
+		now_view = []
+		for row in cursor:
+			now_view.append((row))
+		#截至昨日总计
+		cursor = c.execute("SELECT history_views_count,id from doll_sites_photo")
+		cursor = list(cursor)
+		history_view = []
+		for row in cursor:
+			history_view.append(row)
+		#今日统计
+		today_counts = []
+		today_pk = []
+		n = 0
+		for view in now_view:
+			today_pk.append(view[1])
+			view = view[0] - history_view[n][0]
+			today_counts.append(view)
+			n += 1
+		#当前热度
+		cursor = c.execute("SELECT temperature,id from doll_sites_photo")
+		cursor = list(cursor)
+		temperature = []
+		for row in cursor:
+			temperature.append(row)
+		n = 0
+		for temper in temperature:
+			pk = temper[1]
+			temper = temper[0]*0.5632 + today_counts[n]
+			temper = round(temper,3)
+			updatesql = "UPDATE doll_sites_photo set temperature = %f where ID = %i" % (temper,pk)
+			cursor = c.execute(updatesql)
+			conn.commit()
+			n += 1
+		#更新history_view
+		for view in now_view:
+			pk = view[1]
+			view = view[0]
+			updatesql = "UPDATE doll_sites_photo set history_views_count = %f where ID = %i" % (view,pk)
+			cursor = c.execute(updatesql)
+			conn.commit()
+		conn.close()
+
+	register_events(scheduler)
+	scheduler.start()
+except Exception as e:
+	print(e)
+	# 有错误就停止定时器
+	scheduler.shutdown()
+
 # class PhotoDetailView(generic.DetailView):
 # 	model = Photo
 # 	template_name = 'doll_sites/photo_detail.html'
