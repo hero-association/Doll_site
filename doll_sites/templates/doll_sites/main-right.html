@@ -27,10 +27,10 @@
               <img  class="card-img-top img-fluid border-light lazyloadx" data-original='{{ photo.get_cover_pic_link }}' 
               src="/static/image/loading.png"
               alt="{{ photo.name_chinese}}"
-              lazyloadthumb="1" lazyloaded="true">
-            
-            <p class="text-center text-truncate p-3">{{ photo.name_chinese }}</p>
-          </a>
+              lazyloadthumb="1" lazyloaded="true"
+            >
+              <p class="text-center text-truncate p-3">{{ photo.name_chinese }}</p>
+            </a>
           
           {% endfor %}
         

@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from apscheduler.schedulers.background import BackgroundScheduler
 from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
 import sqlite3
+import random
 
 # Create your views here.
 
@@ -95,9 +96,27 @@ def photolist(request,series,company,pageid):
 	paginator = DollPaginator(pageid,5,photo_list,limit)
 	# page = request.GET.get('page','1')
 	current_photo_list = paginator.page(pageid)
-	#热搜标签&最新图集
+	#热搜标签
 	hot_actress = Actress.objects.all().order_by('?')[:6]
-	new_photo_list = Photo.objects.order_by(sort)[:6]
+	#最新图集
+	right_side_sort = '-date_added'
+	if sort == '-date_added':
+		right_side_sort = '-views_count'
+	if series == 0:
+		if company == 0:
+			new_photo_list = Photo.objects
+		else:
+			new_photo_list = Photo.objects.filter(company=company)
+	else:
+		if company == 0:
+			new_photo_list = Photo.objects.filter(series=series)
+		else:
+			new_photo_list = Photo.objects.filter(series=series,company=company)
+	new_photo_list = new_photo_list.order_by(right_side_sort)[:12]
+	new_photo_list = list(new_photo_list)
+	random.shuffle(new_photo_list)
+	new_photo_list = new_photo_list[:4]
+
 	#导航高亮
 	if company != 0:
 		current_company = Company.objects.get(id=company)
