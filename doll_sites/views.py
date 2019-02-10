@@ -313,7 +313,7 @@ try:
 	scheduler.add_jobstore(DjangoJobStore(), "default")
 	
 	# 循环执行任务：
-	@register_job(scheduler, 'interval', second='10',id='task_time')
+	@register_job(scheduler,'interval',seconds=60,id='task_time',replace_existing=True)
 	# # 每天固定时间执行任务：
 	# @register_job(scheduler, 'cron', day_of_week='mon-sun', hour='18', minute='31', second='40',id='task_time')
 	def temperature_count():
@@ -371,7 +371,7 @@ try:
 except Exception as e:
 	print(e)
 	# 有错误就停止定时器
-	scheduler.shutdown()
+	# scheduler.shutdown()
 
 # class PhotoDetailView(generic.DetailView):
 # 	model = Photo
