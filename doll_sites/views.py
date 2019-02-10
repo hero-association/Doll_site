@@ -313,9 +313,9 @@ try:
 	scheduler.add_jobstore(DjangoJobStore(), "default")
 	
 	# 循环执行任务：
-	@register_job(scheduler,'interval',seconds=60,id='task_time',replace_existing=True)
+	# @register_job(scheduler,'interval',seconds=60,id='task_time',replace_existing=True)
 	# # 每天固定时间执行任务：
-	# @register_job(scheduler, 'cron', day_of_week='mon-sun', hour='18', minute='31', second='40',id='task_time')
+	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='20', minute='00', second='40',id='task_time')
 	def temperature_count():
 		# 这里写你要执行的任务
 		# conn = sqlite3.connect('db.sqlite3')
