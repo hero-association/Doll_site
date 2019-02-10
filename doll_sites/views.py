@@ -323,12 +323,14 @@ try:
 		c = conn.cursor()
 		#截至当日总计
 		cursor = c.execute("SELECT views_count,id from doll_sites_photo")
+		cursor = cursor.fetchall()
 		cursor = list(cursor)
 		now_view = []
 		for row in cursor:
 			now_view.append((row))
 		#截至昨日总计
 		cursor = c.execute("SELECT history_views_count,id from doll_sites_photo")
+		cursor = cursor.fetchall()
 		cursor = list(cursor)
 		history_view = []
 		for row in cursor:
@@ -344,6 +346,7 @@ try:
 			n += 1
 		#当前热度
 		cursor = c.execute("SELECT temperature,id from doll_sites_photo")
+		cursor = cursor.fetchall()
 		cursor = list(cursor)
 		temperature = []
 		for row in cursor:
