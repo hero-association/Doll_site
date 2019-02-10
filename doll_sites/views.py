@@ -312,7 +312,7 @@ try:
 	# 调度器使用DjangoJobStore()
 	scheduler.add_jobstore(DjangoJobStore(), "default")
 	# 每天固定时间执行任务：
-	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='2', minute='14', second='10',id='task_time')
+	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='2', minute='22', second='10',id='task_time')
 	def temperature_count():
 		# 这里写你要执行的任务
 		# conn = sqlite3.connect('db.sqlite3')
