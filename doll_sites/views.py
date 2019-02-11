@@ -5,10 +5,17 @@ from django.core.paginator import Paginator
 from apscheduler.schedulers.background import BackgroundScheduler
 from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
 import sqlite3
-import psycopg2
+# import psycopg2
 import random
 
 # Create your views here.
+def get_index_recommend(series_id):
+	series_hot = Photo.objects.filter(series=series_id).order_by('-temperature')[:20]
+	series_new = Photo.objects.filter(series=series_id).order_by('-temperature')[:10]
+	series_index_recommend = list(set(list(series_hot) + list(series_new)))
+	random.shuffle(series_index_recommend)
+	series_index_recommend = series_index_recommend[:5]
+	return series_index_recommend
 
 def index(request):
 	"""网站主页"""
@@ -16,11 +23,19 @@ def index(request):
 	num_photo = Photo.objects.all().count()
 	company_list = Company.objects.all()[:5]
 	silde_banner = SlideBanner.objects.all()
-	recommend_european = Photo.objects.filter(series=1).order_by('?')[:5]
-	recommend_japanese = Photo.objects.filter(series=2).order_by('?')[:5]
-	recommend_chinese = Photo.objects.filter(series=3).order_by('?')[:5]
+	#首页欧洲推荐
+	recommend_european = get_index_recommend(1)
+	#首页日本推荐
+	recommend_japanese = get_index_recommend(2)
+	#首页中国推荐
+	recommend_chinese = get_index_recommend(3)
+	#首页最新推荐
 	recommend_newest = Photo.objects.order_by('-date_added')[:5]
-	recommend_hotest = Photo.objects.order_by('-views_count')[:5]
+	#首页热门推荐
+	recommend_hotest = Photo.objects.order_by('-temperature')[:15]
+	recommend_hotest = list(recommend_hotest)
+	random.shuffle(recommend_hotest)
+	recommend_hotest = recommend_hotest[:5]
 	recommend_person = Actress.objects.order_by('?')[:4]
 	context = {
 				'num_pic':num_pic,		#总图片数
@@ -175,8 +190,11 @@ def photodetail(request,photoid):
 	current_actress = photo_detail.model_name.all().order_by('pk')
 	related_album = []
 	for actress in current_actress:
-		p = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = actress)).order_by('-views_count')
+		p = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = actress)).order_by('-temperature')[:20]
 		related_album += p
+		q = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = actress)).order_by('-date_added')[:5]
+		related_album += q
+	random.shuffle(related_album)
 	current_album = Photo.objects.filter(id=photoid)
 	related_album = list(set(related_album) - set(current_album))[:10]
 	#热搜标签
@@ -311,21 +329,26 @@ try:
 	scheduler = BackgroundScheduler()
 	# 调度器使用DjangoJobStore()
 	scheduler.add_jobstore(DjangoJobStore(), "default")
-	# 每天固定时间执行任务：
-	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='2', minute='14', second='10',id='task_time')
+	
+	# 循环执行任务：
+	# @register_job(scheduler,'interval',seconds=60,id='task_time',replace_existing=True)
+	# # 每天固定时间执行任务：
+	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='20', minute='00', second='40',id='task_time')
 	def temperature_count():
 		# 这里写你要执行的任务
-		# conn = sqlite3.connect('db.sqlite3')
-		conn = psycopg2.connect(database="really_test_database", user="jasonpak", password="Fuck.ch1na", host="127.0.0.1", port="5432")
+		conn = sqlite3.connect('db.sqlite3')
+		# conn = psycopg2.connect(database="test_database", user="jasonpak", password="Fuck.ch1na", host="127.0.0.1", port="5432")
 		c = conn.cursor()
 		#截至当日总计
-		cursor = c.execute("SELECT views_count,id from doll_sites_photo")
+		c.execute("SELECT views_count,id from doll_sites_photo")
+		cursor = c.fetchall()
 		cursor = list(cursor)
 		now_view = []
 		for row in cursor:
 			now_view.append((row))
 		#截至昨日总计
-		cursor = c.execute("SELECT history_views_count,id from doll_sites_photo")
+		c.execute("SELECT history_views_count,id from doll_sites_photo")
+		cursor = c.fetchall()
 		cursor = list(cursor)
 		history_view = []
 		for row in cursor:
@@ -340,7 +363,8 @@ try:
 			today_counts.append(view)
 			n += 1
 		#当前热度
-		cursor = c.execute("SELECT temperature,id from doll_sites_photo")
+		c.execute("SELECT temperature,id from doll_sites_photo")
+		cursor = c.fetchall()
 		cursor = list(cursor)
 		temperature = []
 		for row in cursor:
