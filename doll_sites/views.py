@@ -190,13 +190,16 @@ def photodetail(request,photoid):
 	current_actress = photo_detail.model_name.all().order_by('pk')
 	related_album = []
 	for actress in current_actress:
-		p = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = actress)).order_by('-temperature')[:20]
+		p = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = actress)).order_by('-temperature')[:11]
 		related_album += p
-		q = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = actress)).order_by('-date_added')[:5]
+		q = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = actress)).order_by('-date_added')[:4]
 		related_album += q
-	random.shuffle(related_album)
 	current_album = Photo.objects.filter(id=photoid)
-	related_album = list(set(related_album) - set(current_album))[:10]
+	related_album = list(set(related_album) - set(current_album))
+	random.shuffle(related_album)
+	related_album = related_album[:10]
+	
+	
 	#热搜标签
 	hot_actress = Actress.objects.all().order_by('?')[:6]
 	#相册标签
