@@ -17,6 +17,15 @@ def get_index_recommend(series_id):
 	series_index_recommend = series_index_recommend[:5]
 	return series_index_recommend
 
+def get_hot_search_actress():
+	high_temperature_actress = []
+	# high_temperature_actress = Actress.objects.order_by('-temperature')[:10]
+	recommend_actress = Actress.objects.filter(hot_search=True)
+	hot_actress_list = list(set(list(high_temperature_actress)+list(recommend_actress)))
+	random.shuffle(hot_actress_list)
+	hot_actress_list = hot_actress_list[:6]
+	return hot_actress_list
+
 def index(request):
 	"""网站主页"""
 	num_pic = PhotoLink.objects.all().count()
@@ -113,7 +122,7 @@ def photolist(request,series,company,pageid):
 	# page = request.GET.get('page','1')
 	current_photo_list = paginator.page(pageid)
 	#热搜标签
-	hot_actress = Actress.objects.all().order_by('?')[:6]
+	hot_actress = get_hot_search_actress()
 	#最新图集
 	right_side_sort = '-date_added'
 	if sort == '-date_added':
@@ -201,7 +210,7 @@ def photodetail(request,photoid):
 	
 	
 	#热搜标签
-	hot_actress = Actress.objects.all().order_by('?')[:6]
+	hot_actress = get_hot_search_actress()
 	#相册标签
 	photo_tag = photo_detail.photo_tag.all()
 	# photo_tag = list(set(photo_tag))
@@ -388,6 +397,10 @@ try:
 			updatesql = "UPDATE doll_sites_photo set history_views_count = %f where ID = %i" % (view,pk)
 			cursor = c.execute(updatesql)
 			conn.commit()
+		# #演员热度,所有相册依次求和	
+		# c.execute("SELECT views_count,id from doll_sites_photo")
+		# cursor = c.fetchall()
+		# cursor = list(cursor)
 		conn.close()
 
 	register_events(scheduler)
