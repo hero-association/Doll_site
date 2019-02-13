@@ -116,3 +116,11 @@ dmypy.json
 .pyre/
 0103.json
 db.sqlite3
+mysite_alldata.json
+statistics.py
+doll_sites/static/doll_sites/images/uploads/01.png/01.png
+doll_sites/static/doll_sites/images/uploads/01_T6bkjaG.png
+doll_sites/static/doll_sites/images/uploads/01_y5HmlWR.png
+doll_sites/static/doll_sites/images/uploads/02.png
+doll_sites/static/doll_sites/images/uploads/02_PofLYox.png
+0201.json
