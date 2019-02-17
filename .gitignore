@@ -124,13 +124,3 @@ doll_sites/static/doll_sites/images/uploads/02_PofLYox.png
 0201.json
 mysite_alldata.json
 statistics.py
-doll_sites/migrations/0032_auto_20190217_2217.py
-doll_sites/migrations/0031_order_ppz_order_id.py
-doll_sites/migrations/0030_auto_20190217_1803.py
-doll_sites/migrations/0029_useralbumpaidrecord_photo_id.py
-doll_sites/migrations/0028_useralbumpaidrecord_date_paid.py
-doll_sites/migrations/0027_auto_20190215_0012.py
-doll_sites/migrations/0026_userpaidrecord.py
-doll_sites/migrations/0025_auto_20190214_0317.py
-doll_sites/migrations/0024_auto_20190214_0231.py
-doll_sites/migrations/0023_auto_20190214_0206.py
