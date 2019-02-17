@@ -164,6 +164,7 @@ class Actress(models.Model):
 							null=True,blank=True,
 							)
 	description = models.TextField(max_length=9999,null=True,blank=True)
+	count_album = models.IntegerField(default=0)
 	temperature = models.FloatField(default=0)
 	#是否进入热搜标签池
 	hot_search = models.BooleanField(default=False)
