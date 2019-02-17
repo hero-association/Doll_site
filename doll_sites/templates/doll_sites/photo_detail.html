@@ -65,6 +65,7 @@
         <div class="col-lg-9 mt-5">
             <h5 class="h5">{{ photo_detail.name_chinese }}</h5>
 
+            {% if buy_links %}
             {% if user.is_authenticated %}
               {% if album_already_paid %}
               <a href="{% for link in buy_links %}{{link}}{% endfor %}" target="_blank">资源下载链接</a>
@@ -88,6 +89,7 @@
               <p>{{ buy_content }}</p>
             {% else %}
               <a href="/accounts/login/?next=/photo/{{ photo_detail.id }}" class="nav-link">请先登录！</a>
+            {% endif %}
             {% endif %}
             <!-- <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay_json'>
               {% csrf_token %}
