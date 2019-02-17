@@ -236,7 +236,7 @@ def photodetail(request,photoid):
 	nowtime = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 	random_id = str(random.randint(1000000,9999999))
 	order_id = str(pay_type)+str(nowtime)+random_id
-	redirect = 'http://127.0.0.1:8000/order/' + order_id
+	redirect = 'http://test.lolizhan.com/order/' + order_id
 	order_info = photo_detail.id
 	notify_url = 'http://requestbin.fullcontact.com/16xwxr61'
 	single_signature = make_signature(order_price,pay_type,redirect,order_id,order_info,notify_url)
