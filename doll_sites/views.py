@@ -1,5 +1,7 @@
+#encoding: utf-8
 from django.shortcuts import render
-from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress,SiteConfig,SlideBanner
+from doll_sites import models
+from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress,SiteConfig,SlideBanner,Order,UserAlbumPaidRecord
 from django.views import generic
 from django.core.paginator import Paginator
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -7,8 +9,15 @@ from django_apscheduler.jobstores import DjangoJobStore, register_events, regist
 # import sqlite3
 import psycopg2
 import random
+import hashlib
+import json
+import urllib
+import datetime
+from django.shortcuts import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.db.models import Q
 
-# Create your views here.
 def get_index_recommend(series_id):
 	series_hot = Photo.objects.filter(series=series_id).order_by('-temperature')[:20]
 	series_new = Photo.objects.filter(series=series_id).order_by('-temperature')[:10]
@@ -74,7 +83,7 @@ class DollPaginator(Paginator):
         super(DollPaginator, self).__init__(*args, **kwargs)
 
     def page_num_range(self):
-  #总页数小于实际展示页
+	#总页数小于实际展示页
         if self.num_pages < self.per_pager_num:
             return range(1,self.num_pages+1)
 
@@ -88,7 +97,6 @@ class DollPaginator(Paginator):
         #最大页数为实际总页数
         if(self.current_page+part)>self.num_pages:
             return range(self.num_pages-self.per_pager_num+1,self.num_pages+1)
-
         
         return range(self.current_page-part,self.current_page+part+1)
 
@@ -170,6 +178,7 @@ def photolist(request,series,company,pageid):
 
 def photodetail(request,photoid):
 	"""详情页"""
+	user = request.user
 	photo_detail = Photo.objects.get(id=photoid)
 	photo_detail.increase_views_count()		#访问次数+1
 	#照片购买
@@ -186,6 +195,11 @@ def photodetail(request,photoid):
 		bundle_links = []
 	else:
 		bundle_links = [photo_detail.bundle_link,]
+	#当前相册的购买状态
+	if UserAlbumPaidRecord.objects.filter( Q(photo_id=photoid) & Q(user_id=user.username) ):
+		album_already_paid = True
+	else:
+		album_already_paid = False
 	#查询当前演员的相关图集
 	current_actress = photo_detail.model_name.all().order_by('pk')
 	related_album = []
@@ -198,14 +212,25 @@ def photodetail(request,photoid):
 	related_album = list(set(related_album) - set(current_album))
 	random.shuffle(related_album)
 	related_album = related_album[:10]
-	
-	
+	buy_content = photo_detail.buy_content
+	bundle_content = photo_detail.bundle_content
 	#热搜标签
 	hot_actress = Actress.objects.all().order_by('?')[:6]
 	#相册标签
 	photo_tag = photo_detail.photo_tag.all()
-	# photo_tag = list(set(photo_tag))
-
+	#创建订单
+	api_user = '182553c7'
+	api_key = 'c3ff51b8-a1f5-4ad3-8b93-f770b81a02f0'
+	order_price = str(photo_detail.buy_price)+".00"
+	user_name = 'user_mail'
+	pay_type = int(2)	#表示支付宝
+	nowtime = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+	random_id = str(random.randint(1000000,9999999))
+	order_id = str(pay_type)+str(nowtime)+random_id
+	redirect = 'http://127.0.0.1:8000/order/' + order_id
+	order_info = photo_detail.id
+	notify_url = 'http://requestbin.fullcontact.com/16xwxr61'
+	single_signature = make_signature(order_price,pay_type,redirect,order_id,order_info,notify_url)
 	context = {
 		'buy_links':buy_links,		#购买链接列表
 		'bundle_links':bundle_links,		#Bundle链接列表
@@ -214,6 +239,18 @@ def photodetail(request,photoid):
 		'current_actress':current_actress,		
 		'hot_actress':hot_actress,		#热搜标签
 		'photo_tag':photo_tag,		#相册标签
+		#支付参数
+		'api_user':api_user,
+		'order_price':order_price,
+		'pay_type':pay_type,
+		'redirect':redirect,
+		'order_id':order_id,
+		'order_info':order_info,
+		'notify_url':notify_url,
+		'single_signature':single_signature,
+		'buy_content':buy_content,
+		'bundle_content':bundle_content,
+		'album_already_paid':album_already_paid,
 	}
 
 	return render(
@@ -221,6 +258,135 @@ def photodetail(request,photoid):
 		'doll_sites/photo_detail.html',
 		context
 	)
+
+def order_detail(request,order_id):
+	order_id = str(order_id)
+	current_order = Order.objects.get(order_id=order_id)
+	photo_id = current_order.order_info
+	related_album = Photo.objects.get(id=photo_id)
+	order_status = current_order.order_status
+	photo_name = related_album.name_chinese
+	photo_actress = list(related_album.model_name.all())
+	actress_name = ''
+	for actress in photo_actress:
+		actress_name += str(actress)
+	download_link = ''
+
+	if current_order.order_type == 'single':
+		download_link = related_album.buy_link
+		order_type = '照片集'
+	elif current_order.order_type == 'bundle':
+		download_link = related_album.bundle_link
+		order_type = '照片+视频'
+	elif current_order.order_type == 'member':
+		download_link = ''
+		order_type = '购买会员'
+	product_name = '['+actress_name+']' +' '+ photo_name +' '+ order_type
+	price = current_order.order_price
+
+	context = {
+		'order_id':order_id,
+		'order_status':order_status,
+		'product_name':product_name,
+		'price':price,
+		'download_link':download_link,
+	}
+
+	return render(
+		request,
+		'doll_sites/order_detail.html',
+		context
+	)
+
+
+def make_signature(price,pay_type,redirect,order_id,order_info,notify_url):
+
+	api_user = '182553c7'
+	api_key = 'c3ff51b8-a1f5-4ad3-8b93-f770b81a02f0'
+
+	param = {
+        'api_user' : api_user,
+        'price': price,
+        'type': pay_type,
+        'redirect': redirect,
+        'order_id': order_id,
+        'order_info': order_info,
+        'notify_url' : notify_url,
+    }
+    
+	param_keys = list(param.keys())
+	param_keys.sort()
+    
+	param_str = api_key
+    
+	for key in param_keys:
+		param_str += str(param[key])
+
+	# for key in param_keys:
+	# 	if isinstance(param[key], str):
+	# 		param_str += str(param[key].encode('utf-8'))
+	# 	else:
+	# 		param_str += str(param[key])
+    
+	param_str = param_str.encode('utf-8')
+	signature = hashlib.md5(param_str).hexdigest()
+	return signature
+
+def pay_info(order_price,pay_type,mail_addr,order_info,order_id):
+	redirect = '/about'
+	data = {
+		'api_user' : '182553c7',
+		'api_key' : 'c3ff51b8-a1f5-4ad3-8b93-f770b81a02f0',
+		'price' : str(order_price),
+		'user_id' : mail_addr,
+		'redirect' : "https://paypayzhu.com/#/test",
+		'type' : pay_type,
+		'mail_addr' : mail_addr,
+		'order_id' : str(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')) + str(random.randint(1000000,9999999)),
+		'order_info' : order_info,
+		'signature' : make_signature(order_price,pay_type,redirect,order_id,order_info,notify_url),
+	}
+	return data
+	
+def payment_response(request):
+	if request.method == 'POST':
+		order_id = request.POST.get('order_id')
+		ppz_order_id = request.POST.get('ppz_order_id')
+		real_price = request.POST.get('real_price')
+		current_order = Order.objects.filter(order_id=order_id)
+		if current_order:
+			current_order.update(order_status='Paid')
+			current_order.update(ppz_order_id='ppz_order_id')
+			current_order.update(paid_price='real_price')
+			return HttpResponse('Paid!')
+		else:
+			return HttpResponse('Not Exist!')
+	else:
+		return HttpResponse('It is not a POST request!!!')
+
+def create_order(request):
+	if request.method == 'POST':
+		user_name = request.POST.get('user_name')
+		order_id = request.POST.get('order_id')
+		order_info = request.POST.get('order_info')
+		order_status = request.POST.get('order_status')
+		order_type = request.POST.get('order_type')
+		order_price = request.POST.get('price')
+		if Order.objects.filter(order_id=order_id):
+			return HttpResponse('Already Exist!')
+		else:
+			models.Order.objects.create(
+				user_name=user_name,
+				order_id=order_id,
+				order_info=order_info,
+				order_status=order_status,
+				order_type=order_type,
+				order_price=order_price,
+	        )
+			return HttpResponse('Created!')
+	else:
+		return HttpResponse('It is not a POST request!!!')
+
 
 def actresslist(request,pageid):
 	"""演员列表页"""
@@ -299,6 +465,22 @@ def searchresult(request):
 	return render(
 		request,
 		'doll_sites/search.html',
+		context
+	)
+
+@login_required
+def profile(request):
+	"""用户资料"""
+	user = request.user
+	user_paid_albums = Order.objects.filter(user_name=user).order_by('-date_created')
+	context = {
+		'nbar':'profile',	#导航标志
+		'user':user,
+		'user_paid_albums':user_paid_albums,
+	}
+	return render(
+		request,
+		'doll_sites/profile.html',
 		context
 	)
 

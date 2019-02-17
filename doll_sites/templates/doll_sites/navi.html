@@ -54,12 +54,32 @@
                   <a href="/about/" class="nav-link">关于</a>
               </li>
           </ul>
+
           <form class="form-inline my-2 my-lg-0" method="get" action="/search/">
                 <input class="form-control mr-sm-2" type="search" placeholder="工口小学生赛高酱" aria-label="Search" name="kwd" value='{{ kwd }}'>
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">
                     <i class="fas fa-search"></i>  搜索
                 </button>
               </form>
+          {% load account %}
+          {% user_display user as user_display %}
+          <ul class="navbar-nav mr-auto">
+              {% if user_display %}
+              <li class="nav-item">
+                  <a href="/accounts/profile/" class="nav-link">{{ user_display }}</a>
+              </li>
+              <li class="nav-item">
+                  <a href="/accounts/logout/" class="nav-link">登出</a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                  <a href="/accounts/signup/" class="nav-link">注册</a>
+              </li>
+              <li class="nav-item">
+                  <a href="/accounts/login/" class="nav-link">登录</a>
+              </li>
+              {% endif %}
+          </ul>
       </div>
   </div>
 </nav>

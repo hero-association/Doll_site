@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
+from django.contrib import admin,auth
 from django.urls import path
 from django.conf.urls import url
 from django.conf import settings
@@ -46,6 +46,11 @@ urlpatterns = [
             }
         },
         name='django.contrib.sitemaps.views.sitemap'),
+    url(r'payment_response',views.payment_response,name='payment_response'),    
+    url('^',include('django.contrib.auth.urls')),  #默认的用户模块视图
+    url(r'accounts/profile/$', views.profile, name='profile'),  #自定义的用户资料页面
+    url(r'create_order',views.create_order,name='create_order'),
+    path('order/<str:order_id>',views.order_detail,name='order'),
     path('admin/', admin.site.urls),
     path('about/',views.about,name='about_page'),
     #百度验证
@@ -57,6 +62,7 @@ urlpatterns = [
     path('photo/<int:photoid>', views.photodetail, name='Photo-detail'),
     path('actress_detail/<int:actressid>',views.actressdetail,name='actress_detail'),
     path('search/',views.searchresult,name='searchresult'),
+    path('accounts/', include('allauth.urls')),
+    path(r'^profile/$', views.profile, name='profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,document_root=settings.STATICFILES_DIRS)
-
 

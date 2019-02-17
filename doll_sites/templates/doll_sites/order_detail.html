@@ -1,0 +1,129 @@
+
+
+<!DOCTYPE HTML>
+<html class="h-100">
+    <head>
+
+        <meta name="renderer" content="webkit">
+        <meta name="referrer" content="never">
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="applicable-device" content="pc,mobile">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+        <meta name="description" content="订单详情 - 小熊社，自由的萝莉图库，提供包括Candydoll、Silverstar、Imouto、U15等多个品牌的写真图集，涵盖了包括EvaR,ElonaV,LauraB,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱等海内外知名演员" />
+        <meta name="keywords" content="{{ kwd }},小熊社,搜索页,萝莉图库,白丝,cosplay" />
+        <title> 订单详情 - 小熊社 </title>
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127776067-1"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'UA-127776067-1');
+      </script>
+    
+    <!-- 引入 Bootstrap -->
+      <link rel='stylesheet' href='/static/css/bootstrap.css'>
+      <link rel='stylesheet' href='/static/css/style.css'>
+    
+    
+  <!-- fontawsome -->
+  <link href="/static/css/all.css" rel="stylesheet"> <!--load all styles -->
+    
+    </head>
+
+
+<body class="d-flex flex-column h-100">
+
+  <!-- Header & Navigation -->
+  {% include 'doll_sites/navi.html' %}
+
+
+  <div class="container">
+  
+    <div class="row">
+      <div class="col my-5">
+
+        <h5 class="mb-3" >支付成功！</h5>
+        <p>
+          订单号： {{ order_id }}
+        </p>
+        <p>
+          订单状态： {{ order_status }}
+        </p>
+        <p>
+          商品名称： {{ product_name }}
+        </p>
+        <p>
+          价格： {{ price }}
+        </p>
+        <p>
+          下载链接： <a href="{{ download_link }}">{{ download_link }}</a>
+        </p>
+
+        <a href="/accounts/profile/">返回购买记录</a>
+
+        <div class="d-flex flex-wrap my-5 w-100 card-actress-box ">
+
+
+        {% for result in result_list %}
+
+        <div class="card border-0 col-lg-2 mr-4  p-0">
+  
+            <a href="/photo/{{ result.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+              <img class="card-img-top img-fluid border-light lazyloadx" data-original="{{ result.get_cover_pic_link }}"
+                src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+            </a>
+            <div class="card-body">
+              <p class="card-text text-center text-truncate">{{ result }}</p>
+            </div>
+          </div>
+  
+        {% endfor %}
+
+      </div>
+
+
+      {% if result_count == 0 %}
+      <div class="col justify-content-center" >
+        <img src="" alt="">
+
+      </div>
+
+      {% endif %}
+  
+    </div>
+  </div>
+</div>
+
+
+  <div class="d-flex flex-wrap justify-content-between">
+      {% for photo in recommend_newest %}
+      <div class="card border-0 col-md-8 col-lg  p-0">
+  
+        <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+          <img class="card-img-top img-fluid border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
+            src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+        </a>
+        <div class="card-body">
+          <p class="card-text">{{ photo.name_chinese }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+
+
+{% include 'doll_sites/footer.html' %}
+
+
+  <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/jquery.lazyload.js"></script>
+  
+  <script src="/static/js/main.js"></script>
+
+</body>
+</html>

@@ -25,14 +25,14 @@
                {% endfor %}
                {{ photo_detail.company }}" 
     />
-    <title> 
+<!--     <title> 
       {% for actress in current_actress %} 
         {{ actress.actress_name_ch }}
       {% endfor %}
       {{ photo_detail.company }}
       {{ photo_detail.name_chinese }}
       - 小熊社
-    </title>
+    </title> -->
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127776067-1"></script>
@@ -58,12 +58,65 @@
 </a>
 
 
-  <!-- Content -->
+<!-- Content -->
 
 <section class="container">
     <div class="row d-flex">
         <div class="col-lg-9 mt-5">
             <h5 class="h5">{{ photo_detail.name_chinese }}</h5>
+
+            {% if user.is_authenticated %}
+              {% if album_already_paid %}
+              <a href="{% for link in buy_links %}{{link}}{% endfor %}" target="_blank">资源下载链接</a>
+              {% else %}
+              <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
+                <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
+                <input id='price' name='price' type='hidden' value='{{ order_price }}' />
+                <input id='type' name='type' type='hidden' value='{{ pay_type }}'/>
+                <input id='redirect' name='redirect' type='hidden' value='{{ redirect }}'/>
+                <input id='order_id' name='order_id' type='hidden' value='{{ order_id }}'/>
+                <input id='order_info' name='order_info' type='hidden' value='{{ order_info }}'/>
+                <input id='notify_url' name='notify_url' type='hidden' value='{{ notify_url }}'/>
+                <input id='signature' name='signature' type='hidden' value='{{ single_signature }}'/>
+                <input id='order_type' name='order_type' type='hidden' value='single'/>
+                {% load account %}
+                {% user_display user as user_display %}
+                <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}'/>
+                <input id='btn_pay' value='购买' type='submit' onclick="create_order()">
+              </form>
+              {% endif %}
+              <p>{{ buy_content }}</p>
+            {% else %}
+              <a href="/accounts/login/?next=/photo/{{ photo_detail.id }}" class="nav-link">请先登录！</a>
+            {% endif %}
+            <!-- <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay_json'>
+              {% csrf_token %}
+              <input id='api_user' name='api_user' type='text' value='{{ api_user }}' />
+              <input id='price' name='price' type='text' value='{{ order_price }}' />
+              <input id='type' name='type' type='text' value='{{ pay_type }}'/>
+              <input id='redirect' name='redirect' type='text' value='{{ redirect }}'/>
+              <input id='order_id' name='order_id' type='text' value='{{ order_id }}'/>
+              <input id='order_info' name='order_info' type='text' value='{{ order_info }}'/>
+              <input id='signature' name='signature' type='text' value='{{ buy_pay_sign }}'/>
+              <input id='btn_pay' type='submit'>
+            </form>
+            
+            <form>
+              {% csrf_token %}
+              商品价格: <input type="text" id="pay_price" value='{{ order_price }}' disabled>元<br/>
+              <input type="radio" id="type_alipay" name="type" value="2" checked="checked">
+              <span>支付宝支付</span><br><br>
+              邮箱：
+              <input type="text" id="user_mail" required>
+              <input type="submit" id="btn_buy" value="确认购买"/>
+            </form> -->
+
+<!--             {% for link in buy_links %}
+              <a class="btn btn-primary" href='{{ buy_codepay_api }}'>
+                点击购买
+              </a>
+            {% endfor %} -->
+          
             <div class="mt-5">
 
             {% block content %}
@@ -87,27 +140,13 @@
 
                 
           <!-- 右侧推荐位 -->
-          <div class="col-lg-3 mt-5">
-
-              {% for link in buy_links %}
-              <a class="btn btn-primary" href='{{ link }}'>
-                点击购买
-              
-              </a>
-              {% endfor %}
-          
-              {% for link in bundle_links %}
-              <a href='{{ link }}'>
-                <div class="btn btn-primary">点击购买</div>
-              </a>
-              {% endfor %}
-          
+          <div class="col-lg-3 mt-5">        
               <div class="tags">
                 <h5 class="mb-3" >热搜标签</h5>
                 
                   {% for actress in hot_actress %}
                     <a class="btn btn-sm btn-outline-primary mb-2 " href="../search/?kwd={{ actress.actress_name_ch }}" title="{{ actress.actress_name_ch }}">  
-                      {{ actress.actress_name_ch }}
+                      {{ actress.actress_name_ch123 }}
                     </a>
                   
                   {% endfor %}
@@ -117,8 +156,8 @@
                         
                           {% for photo in related_album %}
                           
-                            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title="{{ photo.name_chinese}}">
-                              <img class="card-img-top img-fluid border-light lazyloadx" data-original='{{ photo.get_cover_pic_link }}' src="/static/image/loading.png"
+                            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title="{{ photo.name_chinese }}">
+                              <img class="card-img-top img-fluid border-light lazyloadx" data-original='{{ photo.get_cover_pic_link123 }}' src="/static/image/loading.png"
                                 alt="{{ photo.name_chinese}}" lazyloadthumb="1" lazyloaded="true">
                              
                             
@@ -147,7 +186,92 @@
   <script src="/static/js/jquery.lazyload.js"></script>
   
   <script src="/static/js/main.js"></script>
+  <script type="text/javascript"></script>
 
+  <script type='text/javascript'>
+    function create_order(){
+      $.post("/create_order",{
+        user_name:$('#user_name').val(),
+        order_id:$("#order_id").val(),
+        order_info:$("#order_info").val(),
+        order_status:"pending",
+        order_type:$("#order_type").val(),
+        price:$("#price").val(),
+        }
+      )
+      // $.post("https://www.paypayzhu.com/api/pay_json",{
+      //   api_user:$("#api_user").val(),
+      //   price:$("#price").val(),
+      //   type:$("#type").val(),
+      //   redirect:$("#redirect").val(),
+      //   order_id:$("#order_id").val(),
+      //   order_info:$("#order_info").val(),
+      //   notify_url:$("#notify_url").val(),
+      //   signature:$("#signature").val(),
+      //   }
+      // )
+    }
+  </script>
+
+  <!-- <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script> -->
+ <!--  <script type="text/javascript">
+  $("btn_pay").click(function(s){
+    $.post("/create_order",
+      {
+        order_id:$("#order_id").val();
+        order_info:$("#order_info").val();
+        order_status:"pending";
+        order_type:$("#order_type").val();
+        price:$("#price").val();
+      }
+    )
+  }
+
+  $().ready(function(){
+      function get_type(){
+          return ($("#type_alipay").is(':checked') ? "2" : "1" ); 
+      }
+
+      $("#btn_buy").click(function(e){        
+          $.post("/post_payment",
+              {
+                  price : $("#pay_price").val(), 
+                  type : get_type(),
+                  mail_addr : $("#text").val(),
+                  order_info : $("#order_info").val(),
+                  // order_id : $("#order_id").val(),
+              },
+              function(data){ 
+                  console.log(data);
+                  console.log(data.code);
+                  $("#api_user").val(data.data.api_user);
+                  $("#price").val(data.data.price);
+                  $("#type").val(data.data.type);
+                  $("#redirect").val(data.data.redirect);
+                  $("#order_id").val(data.data.order_id);
+                  $("#text").val(data.data.mail_addr);
+                  $("#order_info").val(data.data.order_info);
+                  $("#signature").val(data.data.signature);
+                  $('#btn_pay').click();
+                  if (data.code > 0){
+                      $("#api_user").val(data.data.api_user);
+                      $("#price").val(data.data.price);
+                      $("#type").val(data.data.type);
+                      $("#redirect").val(data.data.redirect);
+                      $("#order_id").val(data.data.order_id);
+                      $("#text").val(data.data.mail_addr);
+                      $("#order_info").val(data.data.order_info);
+                      $("#signature").val(data.data.signature);
+                      $('#btn_pay').click();
+                  } else {
+                      alert(data.msg);
+                  }
+              }, "json"
+          );
+          e.preventDefault();
+          return false;
+      });
+  </script>  -->
 
 
 </body>

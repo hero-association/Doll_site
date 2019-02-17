@@ -2,8 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig,SlideBanner
-
+from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig,Order,UserProfile,UserAlbumPaidRecord
 
 class PhotoFileInline(admin.TabularInline):
 	model = PhotoFile
@@ -30,7 +29,7 @@ class PhotoAdmin(admin.ModelAdmin):
             'fields': ('name', 'name_chinese','photo_tag')
         }),
         ('Pay', {
-            'fields': ('vip_photo', 'buy_link','vip_bundle','bundle_link')
+            'fields': ('vip_photo', 'buy_link','buy_price','buy_content','vip_bundle','bundle_link','bundle_price','bundle_content')
         }),
         # ('photos', {
         #     'classes': ('collapse',),
@@ -56,6 +55,10 @@ class CompanyAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
 	list_display = ('tag_name',)
 
+class OrderAdmin(admin.ModelAdmin):
+	model = Order
+	list_display = ('order_id','order_info','order_status','order_type','order_price','date_created','date_update')
+
 class ActressAdmin(admin.ModelAdmin):
 	list_display = ('actress_name_ch','actress_name_jp','actress_name_en')
 
@@ -73,3 +76,6 @@ admin.site.register(PhotoFile)
 admin.site.register(PhotoLink)
 admin.site.register(SiteConfig,SiteConfigAdmin)
 admin.site.register(SlideBanner)
+admin.site.register(UserProfile)
+admin.site.register(Order,OrderAdmin)
+admin.site.register(UserAlbumPaidRecord)

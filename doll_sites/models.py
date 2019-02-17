@@ -1,7 +1,10 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
-
+# webmail.webfaction.com - Web Mail
+# mail.webfaction.com - IMAP and POP
+# smtp.webfaction.com - SMTP
 
 def upload_location(instance,filename):
 	return "{0}/{1}".format(instance.photo,filename)
@@ -12,9 +15,75 @@ def avatar_upload_location(instance,filename):
 def banner_upload_location(instance,filename):
 	return "{0}".format(filename)
 
+class UserProfile(models.Model):
+	"""对Django自带的User表进行扩展"""
+	user = models.OneToOneField(User,on_delete=models.CASCADE, related_name='profile')
+	emails = models.EmailField(default=0)
+	member_type = models.IntegerField(default=0)	#0为非会员，1为普通会员
+	member_expire = models.DateTimeField(null=True,blank=True)		#会员过期时间
+	count_coin = models.DecimalField(default=0,max_digits=8,decimal_places=2) 	#金币余额
+	Album_paid_count = models.IntegerField(default=0)		#相册购买总数
+
+	def __str__(self):
+		return "{}'s profile".format(self.user.__str__())
+
+class UserAlbumPaidRecord(models.Model):
+	user_id = models.CharField(max_length = 1024)
+	order_id = models.CharField(max_length = 1024)	#同Order表ID字段
+	photo_id = models.CharField(max_length = 1024)	#同Photo表ID字段
+	order_type = models.CharField(max_length = 1024)	#字符串:single,bundle,member
+	date_paid = models.DateTimeField(blank=True,null=True)	#购买成功日期
+
+	def get_album_name(self):
+		photo_id = str(self.photo_id)
+		album = Photo.objects.get(id=photo_id)
+		album_name = album.name_chinese
+		return album_name
+
+	def get_actress_name(self):
+		photo_id = str(self.photo_id)
+		album = Photo.objects.get(id=photo_id)
+		actress_name = album.model_name
+		return actress_name
+
+	def get_company(self):
+		photo_id = str(self.photo_id)
+		album = Photo.objects.get(id=photo_id)
+		company_name = album.company
+		return company_name
+
+class Order(models.Model):
+	user_name = models.CharField(max_length = 1024)	#对应用户表<用户名>字段
+	order_id = models.CharField(max_length = 1024)
+	date_created = models.DateTimeField(auto_now_add = True)
+	date_update = models.DateTimeField(blank=True,null=True,auto_now=True)
+	order_info = models.CharField(max_length = 2048)	#等于相册ID
+	order_status = models.CharField(max_length = 1024)
+	order_type = models.CharField(max_length = 1024)	#字符串:single,bundle,member
+	order_price = models.CharField(max_length = 1024)
+	paid_price = models.CharField(blank=True,null=True,max_length = 1024)
+	ppz_order_id = models.CharField(max_length = 1024,null=True,blank=True)	#paypayzhu平台的订单号
+
+	def get_album_name(self):
+		photo_id = str(self.order_info)
+		album = Photo.objects.get(id=photo_id)
+		album_name = album.name_chinese
+		return album_name
+
+	def get_actress_name(self):
+		photo_id = str(self.order_info)
+		album = Photo.objects.get(id=photo_id)
+		actress_name = album.model_name
+		return actress_name
+
+	def get_company(self):
+		photo_id = str(self.order_info)
+		album = Photo.objects.get(id=photo_id)
+		company_name = album.company
+		return company_name
+
 class Series(models.Model):
 	"""图片的分类"""
-	#db_table = "Serie"
 	text = models.CharField(max_length=40)
 	date_added = models.DateTimeField(auto_now_add=True)
 
@@ -36,12 +105,12 @@ class Photo(models.Model):
 	temperature = models.FloatField(default=0)	#相册热度
 	"""照片购买"""
 	vip_photo = models.BooleanField(default=False)	#是否付费
-	buy_concent = models.CharField(max_length=60,null=True,blank=True)	#付费说明
+	buy_content = models.CharField(max_length=60,null=True,blank=True)	#付费说明
 	buy_price = models.IntegerField(null=True,blank=True)	#价格
 	buy_link = models.CharField(max_length = 360,null=True,blank=True)	#购买链接
 	"""Bundle购买"""
 	vip_bundle = models.BooleanField(default=False)	#是否有Bundle
-	bundle_concent = models.CharField(max_length=60,null=True,blank=True)	#Bundle说明
+	bundle_content = models.CharField(max_length=60,null=True,blank=True)	#Bundle说明
 	bundle_price = models.IntegerField(null=True,blank=True)	#价格
 	bundle_link = models.CharField(max_length = 360,null=True,blank=True)	#购买链接
 
@@ -51,10 +120,6 @@ class Photo(models.Model):
 	def __str__(self):
 		"""返回模型的字符串表示"""
 		return self.name
-
-	# def get_recommend_photo_cover_link(self):
-	# 	current_name = 1
-	# 	return current_name
 
 	def get_cover_pic_link(self):
 		current_name = self.id
@@ -68,10 +133,6 @@ class Photo(models.Model):
 		actress = self.model_name.all()[0]
 		actress = Actress.objects.get(actress_name_ch=actress)
 		return actress.id
-
-	# def get_right_recommend:
-	# 	right_recommend = Photo.objects.all()[0:2]
-	# 	return right_recommend
 
 	def get_company_name(self):
 		current_company = self.company
@@ -138,11 +199,11 @@ class PhotoFile(models.Model):
 							upload_to=upload_location,
 							null=True,blank=True,
 							)
-	photo = models.ForeignKey("Photo",on_delete=models.PROTECT,null=False)
+	photo = models.ForeignKey("Photo",on_delete=models.CASCADE,null=False)
 
 class PhotoLink(models.Model):
 	pic_link = models.CharField(max_length=1024)
-	photo = models.ForeignKey("Photo",on_delete=models.PROTECT,null=False)
+	photo = models.ForeignKey("Photo",on_delete=models.CASCADE,null=False)
 
 class SiteConfig(models.Model):
 	config_name = models.CharField(default=None,max_length=100)
