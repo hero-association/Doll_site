@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig,Order,Users
+from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig,Order,UserProfile,UserAlbumPaidRecord
 
 
 class PhotoFileInline(admin.TabularInline):
@@ -30,7 +30,7 @@ class PhotoAdmin(admin.ModelAdmin):
             'fields': ('name', 'name_chinese','photo_tag')
         }),
         ('Pay', {
-            'fields': ('vip_photo', 'buy_link','buy_price','buy_concent','vip_bundle','bundle_link','bundle_price','bundle_concent')
+            'fields': ('vip_photo', 'buy_link','buy_price','buy_content','vip_bundle','bundle_link','bundle_price','bundle_content')
         }),
         # ('photos', {
         #     'classes': ('collapse',),
@@ -75,6 +75,7 @@ admin.site.register(Company, CompanyAdmin)
 admin.site.register(Actress,ActressAdmin)
 admin.site.register(PhotoFile)
 admin.site.register(PhotoLink)
-admin.site.register(Users)
+admin.site.register(UserProfile)
 admin.site.register(SiteConfig,SiteConfigAdmin)
 admin.site.register(Order,OrderAdmin)
+admin.site.register(UserAlbumPaidRecord)

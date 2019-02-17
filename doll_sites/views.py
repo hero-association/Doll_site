@@ -1,7 +1,7 @@
 #encoding: utf-8
 from django.shortcuts import render
 from doll_sites import models
-from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress,SiteConfig,Order
+from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress,SiteConfig,Order,UserAlbumPaidRecord
 from django.views import generic
 from django.core.paginator import Paginator
 import random
@@ -10,6 +10,9 @@ import json
 import urllib
 import datetime
 from django.shortcuts import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.db.models import Q
 
 # Create your views here.
 def index(request):
@@ -73,7 +76,6 @@ class DollPaginator(Paginator):
         #最大页数为实际总页数
         if(self.current_page+part)>self.num_pages:
             return range(self.num_pages-self.per_pager_num+1,self.num_pages+1)
-
         
         return range(self.current_page-part,self.current_page+part+1)
 
@@ -135,6 +137,7 @@ def photolist(request,series,company,pageid):
 
 def photodetail(request,photoid):
 	"""详情页"""
+	user = request.user
 	photo_detail = Photo.objects.get(id=photoid)
 	photo_detail.increase_views_count()		#访问次数+1
 	#照片购买
@@ -151,6 +154,11 @@ def photodetail(request,photoid):
 		bundle_links = []
 	else:
 		bundle_links = [photo_detail.bundle_link,]
+	#当前相册的购买状态
+	if UserAlbumPaidRecord.objects.filter( Q(photo_id=photoid) & Q(user_id=user.username) ):
+		album_already_paid = True
+	else:
+		album_already_paid = False
 	#查询当前演员的相关图集
 	current_actress = photo_detail.model_name.all().order_by('pk')
 	related_album = []
@@ -159,6 +167,8 @@ def photodetail(request,photoid):
 		related_album += p
 	current_album = Photo.objects.filter(id=photoid)
 	related_album = list(set(related_album) - set(current_album))[:10]
+	buy_content = photo_detail.buy_content
+	bundle_content = photo_detail.bundle_content
 	#热搜标签
 	hot_actress = Actress.objects.all().order_by('?')[:6]
 	#相册标签
@@ -167,8 +177,8 @@ def photodetail(request,photoid):
 	api_user = '182553c7'
 	api_key = 'c3ff51b8-a1f5-4ad3-8b93-f770b81a02f0'
 	order_price = str(photo_detail.buy_price)+".00"
-	user_id = 'user_mail'
-	pay_type = int(2)
+	user_name = 'user_mail'
+	pay_type = int(2)	#表示支付宝
 	nowtime = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 	random_id = str(random.randint(1000000,9999999))
 	order_id = str(pay_type)+str(nowtime)+random_id
@@ -193,6 +203,9 @@ def photodetail(request,photoid):
 		'order_info':order_info,
 		'notify_url':notify_url,
 		'single_signature':single_signature,
+		'buy_content':buy_content,
+		'bundle_content':bundle_content,
+		'album_already_paid':album_already_paid,
 	}
 
 	return render(
@@ -217,9 +230,12 @@ def order_detail(request,order_id):
 	if current_order.order_type == 'single':
 		download_link = related_album.buy_link
 		order_type = '照片集'
-	else:
+	elif current_order.order_type == 'bundle':
 		download_link = related_album.bundle_link
 		order_type = '照片+视频'
+	elif current_order.order_type == 'member':
+		download_link = ''
+		order_type = '购买会员'
 	product_name = '['+actress_name+']' +' '+ photo_name +' '+ order_type
 	price = current_order.order_price
 
@@ -290,27 +306,41 @@ def pay_info(order_price,pay_type,mail_addr,order_info,order_id):
 def payment_response(request):
 	if request.method == 'POST':
 		order_id = request.POST.get('order_id')
+		ppz_order_id = request.POST.get('ppz_order_id')
+		real_price = request.POST.get('real_price')
 		current_order = Order.objects.filter(order_id=order_id)
-		current_order.update(order_status='Paid')
-		return HttpResponse('Paid!')
+		if current_order:
+			current_order.update(order_status='Paid')
+			current_order.update(ppz_order_id='ppz_order_id')
+			current_order.update(paid_price='real_price')
+			return HttpResponse('Paid!')
+		else:
+			return HttpResponse('Not Exist!')
 	else:
 		return HttpResponse('It is not a POST request!!!')
 
 def create_order(request):
 	if request.method == 'POST':
+		user_name = request.POST.get('user_name')
 		order_id = request.POST.get('order_id')
 		order_info = request.POST.get('order_info')
-		order_status = 'pending'
+		order_status = request.POST.get('order_status')
 		order_type = request.POST.get('order_type')
 		order_price = request.POST.get('price')
-		models.Order.objects.create(
-			order_id=order_id,
-			order_info=order_info,
-			order_status=order_status,
-			order_type=order_type,
-			order_price=order_price,
-        )
-		return HttpResponse('Created!')
+		if Order.objects.filter(order_id=order_id):
+			return HttpResponse('Already Exist!')
+		else:
+			models.Order.objects.create(
+				user_name=user_name,
+				order_id=order_id,
+				order_info=order_info,
+				order_status=order_status,
+				order_type=order_type,
+				order_price=order_price,
+	        )
+			return HttpResponse('Created!')
+	else:
+		return HttpResponse('It is not a POST request!!!')
 
 
 def actresslist(request,pageid):
@@ -393,12 +423,16 @@ def searchresult(request):
 		context
 	)
 
+@login_required
 def profile(request):
 	"""用户资料"""
+	user = request.user
+	user_paid_albums = Order.objects.filter(user_name=user).order_by('-date_created')
 	context = {
 		'nbar':'profile',	#导航标志
+		'user':user,
+		'user_paid_albums':user_paid_albums,
 	}
-
 	return render(
 		request,
 		'doll_sites/profile.html',

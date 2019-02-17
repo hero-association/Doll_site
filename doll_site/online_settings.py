@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.github',
 ]
 
 MIDDLEWARE = [
@@ -72,8 +71,7 @@ MIDDLEWARE = [
 
 # Auth基本设定
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
-ACCOUNT_EMAIL_REQUIRED = True
-LOGIN_REDIRECT_URL = '/accounts/profile/'
+ACCOUNT_EMAIL_REQUIRED = None
 LOGIN_REDIRECT_URL = "/"
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 
@@ -83,13 +81,13 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # 邮箱设定
-EMAIL_HOST = 'smtp.qq.com'
-EMAIL_PORT = 25
-EMAIL_HOST_USER = 'xxxx3116@qq.com' # 你的 QQ 账号和授权码
-EMAIL_HOST_PASSWORD = 'xxxx'
-EMAIL_USE_TLS = True  # 这里必须是 True，否则发送不成功
-EMAIL_FROM = 'xxxx3116@qq.com' # 你的 QQ 账号
-DEFAULT_FROM_EMAIL = 'xxxx3116@qq.com'
+# EMAIL_HOST = 'smtp.qq.com'
+# EMAIL_PORT = 25
+# EMAIL_HOST_USER = 'xxxx3116@qq.com' # 你的 QQ 账号和授权码
+# EMAIL_HOST_PASSWORD = 'xxxx'
+# EMAIL_USE_TLS = True  # 这里必须是 True，否则发送不成功
+# EMAIL_FROM = 'xxxx3116@qq.com' # 你的 QQ 账号
+# DEFAULT_FROM_EMAIL = 'xxxx3116@qq.com'
 
 #跨域增加忽略
 CORS_ALLOW_CREDENTIALS = True

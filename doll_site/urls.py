@@ -47,7 +47,8 @@ urlpatterns = [
         },
         name='django.contrib.sitemaps.views.sitemap'),
     url(r'payment_response',views.payment_response,name='payment_response'),    
-    url('^', include('django.contrib.auth.urls')),  #默认的用户模块视图
+    url('^',include('django.contrib.auth.urls')),  #默认的用户模块视图
+    url(r'accounts/profile/$', views.profile, name='profile'),  #自定义的用户资料页面
     url(r'create_order',views.create_order,name='create_order'),
     path('order/<str:order_id>',views.order_detail,name='order'),
     path('admin/', admin.site.urls),
@@ -61,9 +62,7 @@ urlpatterns = [
     path('photo/<int:photoid>', views.photodetail, name='Photo-detail'),
     path('actress_detail/<int:actressid>',views.actressdetail,name='actress_detail'),
     path('search/',views.searchresult,name='searchresult'),
-    # url(r'^accounts/', include('allauth.urls')),
     path('accounts/', include('allauth.urls')),
     path(r'^profile/$', views.profile, name='profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,document_root=settings.STATICFILES_DIRS)
-
 
