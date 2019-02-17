@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig,Order,UserProfile,UserAlbumPaidRecord
+from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig,Order,UserProfile,UserAlbumPaidRecord,SlideBanner
 
 class PhotoFileInline(admin.TabularInline):
 	model = PhotoFile
