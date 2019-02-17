@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import corsheaders
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -82,13 +83,13 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # 邮箱设定
-# EMAIL_HOST = 'smtp.qq.com'
-# EMAIL_PORT = 25
-# EMAIL_HOST_USER = 'xxxx3116@qq.com' # 你的 QQ 账号和授权码
-# EMAIL_HOST_PASSWORD = 'xxxx'
-# EMAIL_USE_TLS = True  # 这里必须是 True，否则发送不成功
-# EMAIL_FROM = 'xxxx3116@qq.com' # 你的 QQ 账号
-# DEFAULT_FROM_EMAIL = 'xxxx3116@qq.com'
+EMAIL_HOST = 'smtp.webfaction.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'service_lolizhan'
+EMAIL_HOST_PASSWORD = 'Fuck.ch1na'
+EMAIL_USE_TLS = True
+EMAIL_FROM = 'service@lolizhan.com'
+DEFAULT_FROM_EMAIL = 'service@lolizhan.com'
 
 #跨域增加忽略
 CORS_ALLOW_CREDENTIALS = True
