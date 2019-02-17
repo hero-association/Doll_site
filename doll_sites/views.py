@@ -238,7 +238,7 @@ def photodetail(request,photoid):
 	order_id = str(pay_type)+str(nowtime)+random_id
 	redirect = 'http://test.lolizhan.com/order/' + order_id
 	order_info = photo_detail.id
-	notify_url = 'http://requestbin.fullcontact.com/16xwxr61'
+	notify_url = 'http://test.lolizhan.com/payment_response'
 	single_signature = make_signature(order_price,pay_type,redirect,order_id,order_info,notify_url)
 	context = {
 		'buy_links':buy_links,		#购买链接列表
