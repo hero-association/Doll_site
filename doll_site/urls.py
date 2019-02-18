@@ -63,6 +63,6 @@ urlpatterns = [
     path('actress_detail/<int:actressid>',views.actressdetail,name='actress_detail'),
     path('search/',views.searchresult,name='searchresult'),
     path('accounts/', include('allauth.urls')),
-    path(r'^profile/$', views.profile, name='profile'),
+    path('accounts/profile', views.profile, name='profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,document_root=settings.STATICFILES_DIRS)
 
