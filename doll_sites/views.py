@@ -367,7 +367,20 @@ def payment_response(request):
 			current_order.update(order_status='Paid')
 			current_order.update(ppz_order_id='ppz_order_id')
 			current_order.update(paid_price='real_price')
-			return HttpResponse('Paid!')
+			user_name = Order.objects.filter(order_id=order_id)[0].user_name
+			order_info = Order.objects.filter(order_id=order_id)[0].order_info
+			order_type = Order.objects.filter(order_id=order_id)[0].order_type
+			if UserAlbumPaidRecord.objects.filter(order_id=order_id):
+				return HttpResponse('Already Exist!')
+			else:
+				paid_record = UserAlbumPaidRecord.objects.filter(order_id=order_id)
+				paid_record.create(
+					user_id=user_name,
+					order_id=order_id,
+					photo_id=order_info,
+					order_type=order_type,
+				)
+				return HttpResponse('Paid!')
 		else:
 			return HttpResponse('Not Exist!')
 	else:

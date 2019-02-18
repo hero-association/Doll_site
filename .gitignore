@@ -123,12 +123,7 @@ doll_sites/static/doll_sites/images/uploads/01_y5HmlWR.png
 doll_sites/static/doll_sites/images/uploads/02_PofLYox.png
 0201.json
 statistics.py
-mysite_alldata.json
-doll_sites/static/doll_sites/images/uploads/01.png/01.png
-doll_sites/static/doll_sites/images/uploads/01_T6bkjaG.png
-doll_sites/static/doll_sites/images/uploads/01_y5HmlWR.png
-doll_sites/static/doll_sites/images/uploads/02.png
-doll_sites/static/doll_sites/images/uploads/02_PofLYox.png
+doll_sites/static/doll_sites/images/uploads/*.png
 0201.json
-doll_sites/migrations/*.py
 0217.json
+doll_sites/migrations/*.py

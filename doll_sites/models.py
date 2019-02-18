@@ -32,7 +32,7 @@ class UserAlbumPaidRecord(models.Model):
 	order_id = models.CharField(max_length = 1024)	#同Order表ID字段
 	photo_id = models.CharField(max_length = 1024)	#同Photo表ID字段
 	order_type = models.CharField(max_length = 1024)	#字符串:single,bundle,member
-	date_paid = models.DateTimeField(blank=True,null=True)	#购买成功日期
+	date_paid = models.DateTimeField(blank=True,null=True,auto_now_add=True)	#购买成功日期
 
 	def get_album_name(self):
 		photo_id = str(self.photo_id)
