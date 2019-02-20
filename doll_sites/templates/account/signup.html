@@ -6,9 +6,16 @@
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
 {% block content %}
-<h1 class="h1">{% trans "注册账号" %}</h1>
+<div class="text-center mb-4 font-weight-bold" style="font-size: 28px;" >
+  <a class="nav-link text-dark" href='/'> <img width="40"  class="d-inline-block align-center pb-2 mr-1" src="/static/image/logo-border.png" alt="">
+  小熊社</a>
+  <div class=" dropdown-divider "> </div>
 
-<div class="my-3">{% blocktrans %}如果你已经注册过，请点击  <a href="{{ login_url }}"> 登录 </a>{% endblocktrans %}</div>
+</div>
+ 
+<h4 class="h4 mb-2">{% trans "注册账号" %}</h4>
+
+<div class="mb-3">{% blocktrans %}如果你已经注册过，请点击  <a href="{{ login_url }}"> 登录 </a>{% endblocktrans %}</div>
 
 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
     {% csrf_token %}
