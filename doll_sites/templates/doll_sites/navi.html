@@ -67,23 +67,26 @@
             </div>
           {% load account %}
           {% user_display user as user_display %}
-          <ul class="navbar-nav mr-auto">
+          
               {% if user_display %}
-              <li class="nav-item">
-                  <a href="/accounts/profile/" class="nav-link">{{ user_display }}</a>
-              </li>
-              <li class="nav-item">
-                  <a href="/accounts/logout/" class="nav-link">登出</a>
-              </li>
+              
+                  <a href="/accounts/profile/" class="nav-link text-light px-0">
+                    <i class="fas fa-user mr-1"></i>
+                    {{ user_display }}
+                </a>
+             
+                  <a href="/accounts/logout/" class="nav-link text-light">登出</a>
+              
               {% else %}
-              <li class="nav-item">
-                  <a href="/accounts/signup/" class="nav-link">注册</a>
-              </li>
-              <li class="nav-item">
-                  <a href="/accounts/login/" class="nav-link">登录</a>
-              </li>
+              
+                 
+                  <a href="/accounts/signup/" class=" btn btn-outline-light " role="button">注册</a>
+               
+              
+                  <a href="/accounts/login/" class="nav-link text-light">登录</a>
+              
               {% endif %}
-          </ul>
+          
       </div>
   </div>
 </nav>
