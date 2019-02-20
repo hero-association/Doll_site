@@ -35,7 +35,7 @@
   <!-- Header & Navigation -->
   {% include 'doll_sites/navi.html' %}
 
-<div class="container text-center">
+<div class="container ">
   <!--消息块-->
   {% if messages %}
   <div class="container">
@@ -52,10 +52,10 @@
   <div>
 
   <h2>用户资料</h2>
-  <ul>
-      <li>用户名: {{ user.username }}</li>
-      <li>注册日期: {{ user.date_joined }}</li>
-      <li>Email: {{ user.email }}</li>
+  <ul class="list-group list-group-flush">
+      <li class="list-group-item">用户名: {{ user.username }}</li>
+      <li class="sr-only list-group-item">注册日期: {{ user.date_joined }}</li>
+      <li class=" list-group-item">Email: {{ user.email }}</li>
   </ul>
   {% if user.is_authenticated %}
   <a href="{% url 'account_change_password' %}">修改密码</a>
