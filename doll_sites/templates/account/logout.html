@@ -1,6 +1,7 @@
 {% extends "account/base.html" %}
 
 {% load i18n %}
+{% load widget_tweaks %}
 
 {% block head_title %}{% trans "Sign Out" %}{% endblock %}
 
@@ -14,7 +15,7 @@
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
   {% endif %}
-  <button type="submit">{% trans '确定' %}</button>
+  <button type="submit" class="btn btn-success">{% trans '确定' %}</button>
 </form>
 
 
