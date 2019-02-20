@@ -1,21 +1,24 @@
 {% extends "account/base.html" %}
 
 {% load i18n %}
+{% load widget_tweaks %}
 
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Sign Up" %}</h1>
+<h1 class="h1">{% trans "注册账号" %}</h1>
 
-<p>{% blocktrans %}如果你已经注册过，请点击  <a href="{{ login_url }}"> 登录 </a>{% endblocktrans %}</p>
+<div class="my-3">{% blocktrans %}如果你已经注册过，请点击  <a href="{{ login_url }}"> 登录 </a>{% endblocktrans %}</div>
 
 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
+    {% csrf_token %}
+    {% include 'account/snippets/bs4_form.html' with form=form %}
+    {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <button type="submit">{% trans "注册" %} &raquo;</button>
+  <div class="form-group">
+  <button class="btn btn-primary px-5" type="submit">{% trans "注册" %}</button>
+  </div>
 </form>
 
 {% endblock %}
