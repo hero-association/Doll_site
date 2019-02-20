@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load account socialaccount %}
+{% load widget_tweaks %}
 
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
@@ -35,12 +36,31 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 
 <form class="login" method="POST" action="{% url 'account_login' %}">
   {% csrf_token %}
-  {{ form.as_p }}
+
+  {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+  {% endfor %}
+
+  {% for field in form.visible_fields %}
+  <div class="form-group">
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {{ field|add_class:'form-control' }}
+    {% for error in field.errors %}
+      <span class="help-block">{{ error }}</span>
+    {% endfor %}
+  </div>
+  {% endfor %}
+
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
+
   <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "忘记密码?" %}</a>
-  <button class="primaryAction" type="submit">{% trans "登录" %}</button>
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-success">{% trans "登录" %}&raquo;</button>
+  </div>
+
 </form>
 
 {% endblock %}
