@@ -1,6 +1,7 @@
 {% extends "account/base.html" %}
 
 {% load i18n %}
+{% load widget_tweaks %}
 
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
@@ -11,11 +12,13 @@
 
 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
     {% csrf_token %}
-    {{ form.as_p }}
+    {% include 'account/snippets/bs4_form.html' with form=form %}
     {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
+  <div class="form-group">
   <button class="btn btn-primary px-5" type="submit">{% trans "注册" %}</button>
+  </div>
 </form>
 
 {% endblock %}
