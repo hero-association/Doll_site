@@ -34,12 +34,12 @@
         <img width="30"  class="d-inline-block align-center pb-1 mr-1" src="/static/image/logo.png" alt="">
         小熊社
     </a>
-      <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-          <span class="navbar-toggler-icon"></span>
+      <button class="navbar-toggler border-0" data-toggle="collapse" data-target="#navbarCollapse">
+            <i class="fas fa-bars"></i>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
-          <div class="mr-auto d-flex ">
-          <ul class="navbar-nav mr-lg-3">
+          
+          <ul class="navbar-nav mr-auto mr-lg-4">
               <li class="nav-item {% if nbar == 'home' %}active{% endif %}">
                   <a href="/" class="nav-link">首页</a>
               </li>
@@ -57,14 +57,27 @@
               </li>
           </ul>
 
-          <form class="form-inline  my-2 my-lg-0" method="get" action="/search/">
-                <input class="form-control mr-sm-2" type="search" placeholder="工口小学生赛高酱" aria-label="Search" name="kwd" value='{{ kwd }}'>
-                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">
-                    <i class="fas fa-search"></i>  搜索
-                </button>
-              </form>
+        <!-- <form class="form-inline  my-2 my-lg-0" method="get" action="/search/">
+                                <input class="form-control mr-sm-2" type="search" placeholder="工口小学生赛高酱" aria-label="Search" name="kwd" value='{{ kwd }}'>
+                                <button class="btn my-2 my-sm-0" type="submit" >
+                                    <i class="fas fa-search text-light"></i> 
+                                </button>
+                              </form> -->
+        <form class="form-inline  my-2 my-lg-0" method="get" action="/search/">
+            
+                <div class="input-group ">
+                    <input type="text" class="form-control" placeholder="工口小学生赛高酱" aria-label="Search" aria-describedby="" name="kwd"
+                        value='{{ kwd }}'>
+        
+                    <button class="btn btn-outline-secondary " type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+        
+                </div>
+            
+        </form>
 
-            </div>
+        <div class="ml-auto d-lg-flex">
           {% load account %}
           {% user_display user as user_display %}
           
@@ -84,9 +97,9 @@
                
               
                   <a href="/accounts/login/" class="nav-link text-light">登录</a>
-              
+                
               {% endif %}
-          
+            </div>
       </div>
   </div>
 </nav>
