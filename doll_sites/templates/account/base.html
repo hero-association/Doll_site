@@ -9,7 +9,7 @@
 
     <link rel='stylesheet' href='/static/css/bootstrap.css'>
     <link rel='stylesheet' href='/static/css/style.css'>
-    <link href="/static/css/account.css" rel="stylesheet">
+    <!-- <link href="/static/css/account.css" rel="stylesheet"> -->
 </head>
 <body>
 
@@ -30,17 +30,15 @@
 
 {% block base_content %}
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-12 col-sm-8 col-md-6 offset-sm-2 offset-md-3 px-xl-5">
-            <div class="card rounded-0 px-3 px-lg-4">
+            <div class="card-base card rounded-0 px-3 px-lg-4 mx-auto" >
                 <!-- <div class="card-header text-center bg-white py-2">
                     <h3 class="my-1 text-info">{% block user_title %}账号管理{% endblock %}</h3>
                 </div> -->
-                <div class="card-body card-login">{% block content %}{% endblock %}</div>
+                <div class="card-body">{% block content %}{% endblock %}</div>
             </div>
         </div>
-    </div>
-</div>
+    
+
 {% endblock %}
 
 {% block extra_body %}

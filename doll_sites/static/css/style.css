@@ -5,7 +5,6 @@
 }
 
 
-
 .card-img-top {
     height: 17rem;
     object-fit: cover;
@@ -124,3 +123,11 @@
     
 }
 }
+
+
+@media (min-width: 576px) {
+    .card-base {
+        width: 400px;
+    }
+    }
+
