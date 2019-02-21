@@ -440,7 +440,7 @@ def searchresult(request):
 def profile(request):
 	"""用户资料"""
 	user = request.user
-	user_paid_albums = UserAlbumPaidRecord.objects.filter(user_name=user).order_by('-date_created')
+	user_paid_albums = Order.objects.filter(user_name=user).order_by('-date_created')
 	context = {
 		'nbar':'profile',	#导航标志
 		'user':user,
