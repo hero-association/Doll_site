@@ -1,8 +1,9 @@
-{% load account %}{% user_display user as user_display %}{% load i18n %}{% autoescape off %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Hello from {{ site_name }}!
+{% load account %}{% user_display user as user_display %}{% load i18n %}{% autoescape off %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %} 【小熊社客户服务】
 
-You're receiving this e-mail because user {{ user_display }} has given yours as an e-mail address to connect their account.
+您好，您的账户 {{ username }} 正在请求验证邮箱。
+请确认是您本人所为，并点击下方链接进行验证。
 
-To confirm this is correct, go to {{ activate_url }}
+{{ activate_url }}
 {% endblocktrans %}{% endautoescape %}
-{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Thank you from {{ site_name }}!
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}感谢您使用小熊社!
 {{ site_domain }}{% endblocktrans %}

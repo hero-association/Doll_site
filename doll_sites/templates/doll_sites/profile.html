@@ -27,7 +27,12 @@
 <!-- 引入 Bootstrap -->
   <link rel='stylesheet' href='/static/css/bootstrap.css'>
   <link rel='stylesheet' href='/static/css/style.css'>
+  <!-- fontawsome -->
+<link href="/static/css/all.css" rel="stylesheet">
+
 </head>
+
+
 
 
 <body class="d-flex flex-column h-100">
@@ -49,34 +54,73 @@
       {% endfor %}
   </div>
   {% endif %} -->
-  <div>
+  
+<section id="profile-header" class="my-4">
+  <div class="card">
+      <h4 class="card-header h4 ">用户资料</h4>
+<div class="card-body">
+      <div class="mb-3">
+          <i class="fas fa-user mr-1"></i>
+        用户名: {{ user.username }}
+      </div>
+      <div class="sr-only ">注册日期: {{ user.date_joined }}</div>
+      <div >
+          <i class="fas fa-envelope mr-1"></i>
+        Email: 
+        {% if user.email %}
+        {{ user.email }}
+        {% else %}
+        <a href="">前往设置</a>
+        {% endif %}
+      </div>
 
-  <h2>用户资料</h2>
-  <ul class="list-group list-group-flush">
-      <li class="list-group-item">用户名: {{ user.username }}</li>
-      <li class="sr-only list-group-item">注册日期: {{ user.date_joined }}</li>
-      <li class=" list-group-item">Email: {{ user.email }}</li>
-  </ul>
-  {% if user.is_authenticated %}
-  <a href="{% url 'account_change_password' %}">修改密码</a>
-  <a href="{% url 'account_logout' %}">退出登录</a>
+
+  
+
+    </div>
+
+    {% if user.is_authenticated %}
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <a class="mr-4" href="{% url 'account_change_password' %}">修改密码</a>
+            <a href="{% url 'account_logout' %}">退出登录</a>
+
+        </li>
+      </ul>
+ 
+
   {% endif %}
-
-  <h2>我的购买</h2>
-  {% for album in user_paid_albums %}
-  <ul>
-      <li>
-        <span>商品名: <a href="/photo/{{ album.order_info }}">{{ album.get_album_name }}</a></span>
-        <span>{% for actress in album.get_actress_name.all %}演员名: <a href="/actress_detail/{{ actress.id }}">{{ actress }}</a>{% endfor %}</span>
-        <span>所属公司: {{ album.get_company }}</span>
-        <span>日期: {{ album.date_created }}</span>
-        <span>状态: {{ album.order_status }}</span>
-      </li>
-  </ul>
-  {% endfor %}
+  
 
   </div>
-</div>
+
+ 
+    
+  
+</section>
+
+<section id="buy-history" class="my-4"> 
+
+  <div class="card">
+      <h4 class="card-header h4 ">我的购买</h4>
+    
+        <ul class="list-group list-group-flush ">
+            {% for album in user_paid_albums %}
+              <li class="list-group-item">               
+                <div class="row buy-list ">
+                      <div class="col-lg-3 ">商品名: <a href="/photo/{{ album.order_info }}">{{ album.get_album_name }}</a>
+                      </div>
+                      <div class="col-lg-2 pl-lg-0 ">{% for actress in album.get_actress_name.all %}演员名: 
+                        <a href="/actress_detail/{{ actress.id }}">{{ actress }}</a>{% endfor %}
+                      </div>
+                      <div class="col-lg-2  px-lg-1">所属公司: {{ album.get_company }}</div>
+                      <div class="col-lg-3 ">日期: {{ album.date_created }}</div>
+                  </div>
+              </li>
+            {% endfor %}
+          </ul>
+  </div>
+</section>
 
 {% include 'doll_sites/footer.html' %}
 

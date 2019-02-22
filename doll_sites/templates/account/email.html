@@ -5,7 +5,14 @@
 {% block head_title %}{% trans "Account" %}{% endblock %}
 
 {% block content %}
-    <h1>{% trans "E-mail Addresses" %}</h1>
+<div class="text-center mb-4 font-weight-bold" style="font-size: 28px;" >
+    <a class="nav-link text-dark" href='/'> <img width="40"  class="d-inline-block align-center pb-2 mr-1" src="/static/image/logo-border.png" alt="">
+    小熊社</a>
+    <div class=" dropdown-divider "> </div>
+  
+  </div>
+
+<h4 class="h4 mb-2">{% trans "添加 E-mail地址" %}</h4>
 {% if user.emailaddress_set.all %}
 <p>{% trans 'The following e-mail addresses are associated with your account:' %}</p>
 
@@ -40,17 +47,18 @@
 </form>
 
 {% else %}
-<p><strong>{% trans 'Warning:'%}</strong> {% trans "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc." %}</p>
+<p ><strong class="text-danger">{% trans 'Warning:'%}</strong> {% trans "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc." %}</p>
 
 {% endif %}
 
 
-    <h2>{% trans "Add E-mail Address" %}</h2>
+<!-- <h4 class="h4 mb-2">{% trans "添加 E-mail地址" %}</h4> -->
 
     <form method="post" action="{% url 'account_email' %}" class="add_email">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button name="action_add" type="submit">{% trans "Add E-mail" %}</button>
+        {% include 'account/snippets/bs4_form.html' with form=form %}
+
+        <button class="btn btn-primary" name="action_add" type="submit">{% trans "Add E-mail" %}</button>
     </form>
 
 {% endblock %}
