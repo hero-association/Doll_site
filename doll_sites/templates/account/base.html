@@ -1,16 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html class="h-100">
 <head>
-    <meta charset="utf-8">
-    <meta name="description" content="用户账号管理，使用django-allauth社交用户系统，支持Baidu、Github等社交账号登录。">
-    <meta name="keywords" content="django-allauth,社交用户系统,OAuth 2.0">
 
-    <title>{% block head_title %}{% endblock %}</title>
+    <meta name="renderer" content="webkit">
+    <meta name="referrer" content="never">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="小熊社|萝莉图库|白丝|cosplay" />
+    <meta name="keywords" content="小熊社|萝莉图库|白丝|cosplay" />
+    <title> 小熊社-免费自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv </title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127776067-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-    <link rel='stylesheet' href='/static/css/bootstrap.css'>
-    <link rel='stylesheet' href='/static/css/style.css'>
-    <!-- <link href="/static/css/account.css" rel="stylesheet"> -->
+    gtag('config', 'UA-127776067-1');
+  </script>
+
+<!-- 引入 Bootstrap -->
+  <link rel='stylesheet' href='/static/css/bootstrap.css'>
+  <link rel='stylesheet' href='/static/css/style.css'>
 </head>
+
 <body>
 
 <!-- {% block message %}
@@ -28,21 +43,28 @@
     {% endif %}
 {% endblock %} -->
 
-{% block base_content %}
+
+
+
+<!-- {% block base_content %} -->
 <div class="container mt-5">
-            <div class="card-base card rounded-0 px-3 px-lg-4 mx-auto" >
-                <!-- <div class="card-header text-center bg-white py-2">
-                    <h3 class="my-1 text-info">{% block user_title %}账号管理{% endblock %}</h3>
-                </div> -->
+
+
+            <div class="card-base card  px-3 px-lg-4 mx-auto" >
+                
                 <div class="card-body">{% block content %}{% endblock %}</div>
             </div>
-        </div>
+        
     
 
-{% endblock %}
 
-{% block extra_body %}
-{% endblock %}
+
+</div>
+<!-- {% endblock %} -->
+<!-- {% block extra_body %}
+{% endblock %} -->
+
+
 
 </body>
 </html>
