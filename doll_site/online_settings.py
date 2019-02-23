@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import corsheaders
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -32,9 +33,15 @@ ALLOWED_HOSTS = [
 '162.241.182.12',
 'www.jasonpak.net',
 'jasonpak.webfactional.com',
-'alolita.net'
+'alolita.net',
+'www.alolita.net',
+'lolizhan.com',
+'www.lolizhan.com',
+'django.contrib.sitemaps',
 ]
 
+#no-www强制跳转
+PREPEND_WWW = True
 
 # Application definition
 
@@ -48,13 +55,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
-    # 二次元黄网
     'doll_sites',
+    'django_apscheduler',
     'corsheaders',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'crispy_forms',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -70,8 +79,12 @@ MIDDLEWARE = [
 ]
 
 # Auth基本设定
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
-ACCOUNT_EMAIL_REQUIRED = None
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = None
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 10
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 LOGIN_REDIRECT_URL = "/"
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 
@@ -81,13 +94,13 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # 邮箱设定
-# EMAIL_HOST = 'smtp.qq.com'
-# EMAIL_PORT = 25
-# EMAIL_HOST_USER = 'xxxx3116@qq.com' # 你的 QQ 账号和授权码
-# EMAIL_HOST_PASSWORD = 'xxxx'
-# EMAIL_USE_TLS = True  # 这里必须是 True，否则发送不成功
-# EMAIL_FROM = 'xxxx3116@qq.com' # 你的 QQ 账号
-# DEFAULT_FROM_EMAIL = 'xxxx3116@qq.com'
+EMAIL_HOST = 'smtp.webfaction.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'service_lolizhan'
+EMAIL_HOST_PASSWORD = 'Fuck.ch1na'
+EMAIL_USE_TLS = True
+EMAIL_FROM = 'service@lolizhan.com'
+DEFAULT_FROM_EMAIL = 'service@lolizhan.com'
 
 #跨域增加忽略
 CORS_ALLOW_CREDENTIALS = True
@@ -185,9 +198,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-Hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
