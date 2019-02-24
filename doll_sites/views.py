@@ -7,7 +7,7 @@ from django.core.paginator import Paginator
 from apscheduler.schedulers.background import BackgroundScheduler
 from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
 # import sqlite3
-import psycopg2
+# import psycopg2
 import random
 import hashlib
 import json
@@ -540,62 +540,38 @@ try:
 	# 循环执行任务：
 	# @register_job(scheduler,'interval',seconds=60,id='task_time',replace_existing=True)
 	# # 每天固定时间执行任务：
-	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='20', minute='00', second='40',id='task_time')
+	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='04', minute='30', second='00',id='task_time')
 	def temperature_count():
 		# 这里写你要执行的任务
 		# conn = sqlite3.connect('db.sqlite3')
 		conn = psycopg2.connect(database="test_database", user="jasonpak", password="Fuck.ch1na", host="127.0.0.1", port="5432")
 		c = conn.cursor()
-		#截至当日总计
-		c.execute("SELECT views_count,id from doll_sites_photo")
+		today_static_count = []
+		for static in today_his_count:
+			today_views = static[0]-static[1]
+			today_static = (today_views,static[2])
+			updatesql = "UPDATE doll_sites_photo set yesterday_views_count = %i where ID = %i" % (today_static[0],today_static[1])
+			cursor = c.execute(updatesql)
+			updatesql = "UPDATE doll_sites_photo set history_views_count = %i where ID = %i" % (static[0],static[2])
+			cursor = c.execute(updatesql)
+
+			test = round(static[0]*1.2,0)
+			updatesql = "UPDATE doll_sites_photo set views_count = %i where ID = %i" % (test,static[2])
+			cursor = c.execute(updatesql)
+
+			conn.commit()
+
+		cursor = c.execute("SELECT temperature,yesterday_views_count,id from doll_sites_photo")
 		cursor = c.fetchall()
-		cursor = list(cursor)
-		now_view = []
-		for row in cursor:
-			now_view.append((row))
-		#截至昨日总计
-		c.execute("SELECT history_views_count,id from doll_sites_photo")
-		cursor = c.fetchall()
-		cursor = list(cursor)
-		history_view = []
-		for row in cursor:
-			history_view.append(row)
-		#今日统计
-		today_counts = []
-		today_pk = []
-		n = 0
-		for view in now_view:
-			today_pk.append(view[1])
-			view = view[0] - history_view[n][0]
-			today_counts.append(view)
-			n += 1
-		#当前热度
-		c.execute("SELECT temperature,id from doll_sites_photo")
-		cursor = c.fetchall()
-		cursor = list(cursor)
-		temperature = []
-		for row in cursor:
-			temperature.append(row)
-		n = 0
-		for temper in temperature:
-			pk = temper[1]
-			temper = temper[0]*0.5632 + today_counts[n]
+		temperature = list(cursor)
+		today_temperature = []
+		for static in temperature:
+			temper = static[0]*0.5632
 			temper = round(temper,3)
-			updatesql = "UPDATE doll_sites_photo set temperature = %f where ID = %i" % (temper,pk)
+			today_static = (temper+static[1],static[2])
+			updatesql = "UPDATE doll_sites_photo set temperature = %f where ID = %i" % (today_static[0],today_static[1])
 			cursor = c.execute(updatesql)
 			conn.commit()
-			n += 1
-		#更新history_view
-		for view in now_view:
-			pk = view[1]
-			view = view[0]
-			updatesql = "UPDATE doll_sites_photo set history_views_count = %f where ID = %i" % (view,pk)
-			cursor = c.execute(updatesql)
-			conn.commit()
-		# #演员热度,所有相册依次求和	
-		# c.execute("SELECT views_count,id from doll_sites_photo")
-		# cursor = c.fetchall()
-		# cursor = list(cursor)
 		conn.close()
 
 	register_events(scheduler)
