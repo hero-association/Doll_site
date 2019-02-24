@@ -554,11 +554,6 @@ try:
 			cursor = c.execute(updatesql)
 			updatesql = "UPDATE doll_sites_photo set history_views_count = %i where ID = %i" % (static[0],static[2])
 			cursor = c.execute(updatesql)
-
-			test = round(static[0]*1.2,0)
-			updatesql = "UPDATE doll_sites_photo set views_count = %i where ID = %i" % (test,static[2])
-			cursor = c.execute(updatesql)
-
 			conn.commit()
 
 		cursor = c.execute("SELECT temperature,yesterday_views_count,id from doll_sites_photo")
