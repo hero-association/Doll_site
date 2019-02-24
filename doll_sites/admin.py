@@ -23,7 +23,7 @@ class PhotoAdmin(admin.ModelAdmin):
 	save_on_top = True
 	fieldsets = (
         ('Basic', {
-            'fields': ('series', 'company', 'model_name', )
+            'fields': ('series', 'company', 'model_name','temperature' )
         }),
         ('Info', {
             'fields': ('name', 'name_chinese','photo_tag')
