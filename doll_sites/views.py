@@ -213,10 +213,14 @@ def photodetail(request,photoid):
 	current_actress = photo_detail.model_name.all().order_by('pk')
 	related_album = []
 	for actress in current_actress:
-		p = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = actress)).order_by('-temperature')[:11]
+		actress_q = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = actress)).order_by('-temperature')
+		r = actress_q.filter(buy_link__isnull = False)
+		related_album += r
+		p = actress_q[:11]
 		related_album += p
-		q = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = actress)).order_by('-date_added')[:4]
+		q = actress_q.order_by('-date_added')[:4]
 		related_album += q
+
 	current_album = Photo.objects.filter(id=photoid)
 	related_album = list(set(related_album) - set(current_album))
 	random.shuffle(related_album)
