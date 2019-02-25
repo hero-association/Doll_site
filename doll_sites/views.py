@@ -7,7 +7,7 @@ from django.core.paginator import Paginator
 from apscheduler.schedulers.background import BackgroundScheduler
 from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
 # import sqlite3
-# import psycopg2
+import psycopg2
 import random
 import hashlib
 import json
