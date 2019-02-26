@@ -544,12 +544,14 @@ try:
 	# 循环执行任务：
 	# @register_job(scheduler,'interval',seconds=60,id='task_time',replace_existing=True)
 	# # 每天固定时间执行任务：
-	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='04', minute='30', second='00',id='task_time')
+	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='12', minute='53', second='00',id='task_time')
 	def temperature_count():
 		# 这里写你要执行的任务
 		# conn = sqlite3.connect('db.sqlite3')
 		conn = psycopg2.connect(database="test_database", user="jasonpak", password="Fuck.ch1na", host="127.0.0.1", port="5432")
 		c = conn.cursor()
+		cursor = c.execute("SELECT views_count,history_views_count,id from doll_sites_photo")
+		today_his_count = list(cursor)
 		today_static_count = []
 		for static in today_his_count:
 			today_views = static[0]-static[1]
