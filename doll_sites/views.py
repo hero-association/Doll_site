@@ -551,6 +551,7 @@ try:
 		conn = psycopg2.connect(database="test_database", user="jasonpak", password="Fuck.ch1na", host="127.0.0.1", port="5432")
 		c = conn.cursor()
 		cursor = c.execute("SELECT views_count,history_views_count,id from doll_sites_photo")
+		cursor = c.fetchall()
 		today_his_count = list(cursor)
 		today_static_count = []
 		for static in today_his_count:
