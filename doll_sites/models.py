@@ -102,7 +102,7 @@ class Photo(models.Model):
 	photo_tag = models.ManyToManyField("Tag",blank=True)	#标签
 	views_count = models.PositiveIntegerField(default=0)	#总点击量
 	history_views_count = models.PositiveIntegerField(default=0)	#截至昨日总点击量
-	yesterday_views_count = models.PositiveIntegerField(default=0)	#昨日点击量
+	yesterday_views_count = models.PositiveIntegerField(default=0,null=True)	#昨日点击量
 	temperature = models.FloatField(default=0)	#相册热度
 	"""照片购买"""
 	vip_photo = models.BooleanField(default=False)	#是否付费
