@@ -544,7 +544,7 @@ try:
 	# 循环执行任务：
 	# @register_job(scheduler,'interval',seconds=60,id='task_time',replace_existing=True)
 	# # 每天固定时间执行任务：
-	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='12', minute='53', second='00',id='task_time')
+	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='13', minute='16', second='00',id='task_time')
 	def temperature_count():
 		# 这里写你要执行的任务
 		# conn = sqlite3.connect('db.sqlite3')
