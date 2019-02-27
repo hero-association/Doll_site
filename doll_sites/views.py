@@ -497,8 +497,9 @@ def about(request):
 		context
 	)
 
-def member(request,redirect_url='/'):
+def member(request):
 	'''会员页面'''
+	redirect_url = request.GET.get('redirect_url')
 	month_price = MemberConfig.objects.get(config_name='month_price')
 	month_content = MemberConfig.objects.get(config_name='month_content')
 	season_price = MemberConfig.objects.get(config_name='season_price')
@@ -514,7 +515,7 @@ def member(request,redirect_url='/'):
 	nowtime = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 	random_id = str(random.randint(1000000,9999999))
 	order_id = str(pay_type)+str(nowtime)+random_id
-	redirect = str(redirect_url)
+	redirect = 'http://127.0.0.1:8000' + str(redirect_url)
 	notify_url = 'http://requestbin.fullcontact.com/1al00m61'
 	month_order_info = 'month_member'
 	month_signature = make_signature(month_price.config_value,pay_type,redirect,order_id,month_order_info,notify_url)
