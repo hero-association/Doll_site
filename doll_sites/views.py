@@ -1,7 +1,8 @@
 #encoding: utf-8
 from django.shortcuts import render
 from doll_sites import models
-from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress,SiteConfig,Order,UserAlbumPaidRecord
+from django.contrib.auth.models import User
+from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress,SiteConfig,Order,UserAlbumPaidRecord,MemberConfig,UserProfile
 from django.views import generic
 from django.core.paginator import Paginator
 import random
@@ -281,12 +282,6 @@ def make_signature(price,pay_type,redirect,order_id,order_info,notify_url):
     
 	for key in param_keys:
 		param_str += str(param[key])
-
-	# for key in param_keys:
-	# 	if isinstance(param[key], str):
-	# 		param_str += str(param[key].encode('utf-8'))
-	# 	else:
-	# 		param_str += str(param[key])
     
 	param_str = param_str.encode('utf-8')
 	signature = hashlib.md5(param_str).hexdigest()
@@ -314,6 +309,7 @@ def payment_response(request):
 		ppz_order_id = request.POST.get('ppz_order_id')
 		real_price = request.POST.get('real_price')
 		current_order = Order.objects.filter(order_id=order_id)
+		current_order_object = Order.objects.get(order_id=order_id)
 		if current_order:
 			current_order.update(order_status='Paid')
 			current_order.update(ppz_order_id='ppz_order_id')
@@ -321,17 +317,51 @@ def payment_response(request):
 			user_name = Order.objects.filter(order_id=order_id)[0].user_name
 			order_info = Order.objects.filter(order_id=order_id)[0].order_info
 			order_type = Order.objects.filter(order_id=order_id)[0].order_type
-			if UserAlbumPaidRecord.objects.filter(order_id=order_id):
-				return HttpResponse('Already Exist!')
+			if current_order_object.order_info == 'month_member':
+				days_add = 30
+			elif current_order_object.order_info == 'season_member':
+				days_add = 90
+			elif current_order_object.order_info == 'year_member':
+				days_add = 365
+			if current_order_object.order_type == 'member':	#处理会员
+				user_id = User.objects.get(username=user_name)
+				user_profile = UserProfile.objects.filter(user=user_id)
+				user_profile_object = UserProfile.objects.get(user=user_id)
+				if user_profile:	#有就更新
+					user_profile = UserProfile.objects.get(user=user_id)
+					if user_profile_object.member_type == False:	#不是会员的情况
+						user_profile.update(member_type=True)
+						last_day = datetime.date.today()
+						new_expire_time = last_day + datetime.timedelta(days=days_add)
+						user_profile.update(member_expire=new_expire_time)
+						return HttpResponse('Member Paid!')
+					else:	#是会员的情况
+						last_day = user_profile.member_expire
+						user_profile = UserProfile.objects.filter(user=user_id)
+						new_expire_time = last_day + datetime.timedelta(days=days_add)
+						user_profile.update(member_expire=new_expire_time)
+						return HttpResponse('Member Paid!')
+				else:	#没有profile就创建
+					last_day = datetime.date.today()
+					new_expire_time = last_day + datetime.timedelta(days=days_add)
+					models.UserProfile.objects.create(
+						user=user_id,
+						member_type=True,
+						member_expire=new_expire_time,
+			        )
+					return HttpResponse('Member Paid!')
 			else:
-				paid_record = UserAlbumPaidRecord.objects.filter(order_id=order_id)
-				paid_record.create(
-					user_id=user_name,
-					order_id=order_id,
-					photo_id=order_info,
-					order_type=order_type,
-				)
-				return HttpResponse('Paid!')
+				if UserAlbumPaidRecord.objects.filter(order_id=order_id):	#创建已购列表
+					return HttpResponse('Already Exist!')
+				else:
+					paid_record = UserAlbumPaidRecord.objects.filter(order_id=order_id)
+					paid_record.create(
+						user_id=user_name,
+						order_id=order_id,
+						photo_id=order_info,
+						order_type=order_type,
+					)
+					return HttpResponse('Paid!')
 		else:
 			return HttpResponse('Not Exist!')
 	else:
@@ -445,11 +475,15 @@ def searchresult(request):
 def profile(request):
 	"""用户资料"""
 	user = request.user
-	user_paid_albums = Order.objects.filter(user_name=user).order_by('-date_created')
+	user_paid_albums = Order.objects.filter( Q(user_name=user) & Q(order_type='single') & Q(order_status='Paid') ).order_by('-date_created')
+	user_profile = UserProfile.objects.get(user=user)
+	member_expire = user_profile.member_expire
 	context = {
 		'nbar':'profile',	#导航标志
 		'user':user,
 		'user_paid_albums':user_paid_albums,
+		'member_expire':member_expire,
+		'user_profile':user_profile,
 	}
 	return render(
 		request,
@@ -466,6 +500,58 @@ def about(request):
 	return render(
 		request,
 		'doll_sites/about.html',
+		context
+	)
+
+def member(request,redirect_url='/'):
+	'''会员页面'''
+	month_price = MemberConfig.objects.get(config_name='month_price')
+	month_content = MemberConfig.objects.get(config_name='month_content')
+	season_price = MemberConfig.objects.get(config_name='season_price')
+	season_content = MemberConfig.objects.get(config_name='season_content')
+	year_price = MemberConfig.objects.get(config_name='year_price')
+	year_content = MemberConfig.objects.get(config_name='year_content')
+	intro_text = MemberConfig.objects.get(config_name='intro_text')
+	#创建订单
+	api_user = '182553c7'
+	api_key = 'c3ff51b8-a1f5-4ad3-8b93-f770b81a02f0'
+	user_name = 'user_mail'
+	pay_type = int(2)	#表示支付宝
+	nowtime = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+	random_id = str(random.randint(1000000,9999999))
+	order_id = str(pay_type)+str(nowtime)+random_id
+	redirect = str(redirect_url)
+	notify_url = 'http://requestbin.fullcontact.com/1al00m61'
+	month_order_info = 'month_member'
+	month_signature = make_signature(month_price.config_value,pay_type,redirect,order_id,month_order_info,notify_url)
+	season_order_info = 'season_member'
+	season_signature = make_signature(season_price.config_value,pay_type,redirect,order_id,season_order_info,notify_url)
+	year_order_info = 'season_member'
+	year_signature = make_signature(year_price.config_value,pay_type,redirect,order_id,year_order_info,notify_url)
+	context = {
+		'month_price':month_price,
+		'month_content':month_content,
+		'season_price':season_price,
+		'season_content':season_content,
+		'year_price':year_price,
+		'year_content':year_content,
+		'intro_text':intro_text,
+		'redirect':redirect,
+		'api_user':api_user,
+		'user_name':user_name,
+		'pay_type':pay_type,
+		'order_id':order_id,
+		'notify_url':notify_url,
+		'month_order_info':month_order_info,
+		'month_signature':month_signature,
+		'season_order_info':season_order_info,
+		'season_signature':season_signature,
+		'year_order_info':year_order_info,
+		'year_signature':year_signature,
+	}
+	return render(
+		request,
+		'doll_sites/member_order.html',
 		context
 	)
 

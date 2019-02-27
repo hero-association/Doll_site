@@ -44,40 +44,101 @@
       </div>
 
     <div class="card-deck mt-5 col-10 mx-auto">
+
       <div class="card">
         <div class="card-body">
           <p>月度会员</p>
-          <p>会员描述描述描述</p>
-          <form action="">
-            <input class="btn btn-block btn-primary" value="立即购买" type="submit">
-          </form>
+          <p>{{ month_price.config_value }}</p>
+            {% if user.is_authenticated %}
+                <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
+                {% else %}
+                <form id='pay_form'>
+                {% endif %}
+                  <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
+                  <input id='price' name='price' type='hidden' value='{{ month_price.config_value }}' />
+                  <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
+                  <input id='redirect' name='redirect' type='hidden' value='{{ redirect }}' />
+                  <input id='order_id' name='order_id' type='hidden' value='{{ order_id }}' />
+                  <input id='order_info' name='order_info' type='hidden' value={{ month_order_info }}>
+                  <input id='notify_url' name='notify_url' type='hidden' value='{{ notify_url }}' />
+                  <input id='signature' name='signature' type='hidden' value='{{ month_signature }}' />
+                  <input id='order_type' name='order_type' type='hidden' value='member'/>
+                  {% load account %}
+                  {% user_display user as user_display %}
+                  <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
+                  {% if user.is_authenticated %}
+                  <input class="btn btn-block btn-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order()">
+                  {% else %}
+                  <input class="btn btn-block btn-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
+                  {% endif %}
+                </form>
         </div>
       </div>
+
       <div class="card">
-          <div class="card-body">
-            <p>季度会员</p>
-            <p>会员描述描述描述</p>
-            <form action="">
-              <input class="btn btn-block btn-primary" value="立即购买" type="submit">
-            </form>
-          </div>
+        <div class="card-body">
+          <p>季度会员</p>
+          <p>{{ season_price.config_value }}</p>
+            {% if user.is_authenticated %}
+                <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
+                {% else %}
+                <form id='pay_form'>
+                {% endif %}
+                  <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
+                  <input id='price' name='price' type='hidden' value='{{ season_price.config_value }}' />
+                  <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
+                  <input id='redirect' name='redirect' type='hidden' value='{{ redirect }}' />
+                  <input id='order_id' name='order_id' type='hidden' value='{{ order_id }}' />
+                  <input id='order_info' name='order_info' type='hidden' value='{{ season_order_info }}'>
+                  <input id='notify_url' name='notify_url' type='hidden' value='{{ notify_url }}' />
+                  <input id='signature' name='signature' type='hidden' value='{{ season_signature }}' />
+                  <input id='order_type' name='order_type' type='hidden' value='member'/>
+                  {% load account %}
+                  {% user_display user as user_display %}
+                  <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
+                  {% if user.is_authenticated %}
+                  <input class="btn btn-block btn-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order()">
+                  {% else %}
+                  <input class="btn btn-block btn-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
+                  {% endif %}
+                </form>
         </div>
-        <div class="card">
-            <div class="card-body">
-              <p>年度会员</p>
-              <p>会员描述描述描述</p>
-              <form action="">
-                <input class="btn btn-block btn-primary" value="立即购买" type="submit">
-              </form>
-            </div>
-          </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <p>年度会员</p>
+          <p>{{ year_price.config_value }}</p>
+            {% if user.is_authenticated %}
+                <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
+                {% else %}
+                <form id='pay_form'>
+                {% endif %}
+                  <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
+                  <input id='price' name='price' type='hidden' value='{{ year_price.config_value }}' />
+                  <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
+                  <input id='redirect' name='redirect' type='hidden' value='{{ redirect }}' />
+                  <input id='order_id' name='order_id' type='hidden' value='{{ order_id }}' />
+                  <input id='order_info' name='order_info' type='hidden' value={{ year_order_info }}>
+                  <input id='notify_url' name='notify_url' type='hidden' value='{{ notify_url }}' />
+                  <input id='signature' name='signature' type='hidden' value='{{ year_signature }}' />
+                  <input id='order_type' name='order_type' type='hidden' value='member'/>
+                  {% load account %}
+                  {% user_display user as user_display %}
+                  <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
+                  {% if user.is_authenticated %}
+                  <input class="btn btn-block btn-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order()">
+                  {% else %}
+                  <input class="btn btn-block btn-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
+                  {% endif %}
+                </form>
+        </div>
+      </div>
+
     </div>
 
     <div class="text-center col-8 mt-5 mx-auto">
-      <p>多个可用节点，位于美/日/港/欧 (GDPR 适用) 等地。
-          部分节点享受流量折扣，最高 90% OFF。
-          不提供订阅配置，提供二维码及一键配置链接，需手动配置和更新。
-          通过邮件及工单系统进行售后支持。</p>
+      <p>{{ intro_text.config_value }}</p>
 
     </div>
 
@@ -93,6 +154,20 @@
 
 {% include 'doll_sites/footer.html' %}
 
+
+  <script type='text/javascript'>
+    function create_order(){
+      $.post("/create_order",{
+        user_name:$('#user_name').val(),
+        order_id:$("#order_id").val(),
+        order_info:$("#order_info").val(),
+        order_status:"pending",
+        order_type:$("#order_type").val(),
+        price:$("#price").val(),
+        }
+      )
+    }
+  </script>
 
   <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
