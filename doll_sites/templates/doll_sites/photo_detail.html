@@ -92,7 +92,6 @@
           <div class="col-lg-3 mt-5">
           
             {% if buy_links %}
-            {% if user.is_authenticated %}
             <div class="card mb-3 text-center">
               <div class="card-body">
                 <p>{{ buy_content }}</p>
@@ -101,7 +100,12 @@
           
                 <a href="{% for link in buy_links %}{{link}}{% endfor %}" target="_blank">资源下载链接</a>
                 {% else %}
+
+                {% if user.is_authenticated %}
                 <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
+                {% else %}
+                <form id='pay_form'>
+                {% endif %}
                   <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
                   <input id='price' name='price' type='hidden' value='{{ order_price }}' />
                   <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
@@ -114,15 +118,16 @@
                   {% load account %}
                   {% user_display user as user_display %}
                   <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
+                  {% if user.is_authenticated %}
                   <input class="btn btn-primary btn-lg btn-block" id='btn_pay' value='购买' type='submit' onclick="create_order()">
+                  {% else %}
+                  <input class="btn btn-primary btn-lg btn-block" id='btn_pay' value='购买' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
+                  {% endif %}
                 </form>
           
           
                 {% endif %}
-          
-                {% else %}
                 <a href="/accounts/login/?next=/photo/{{ photo_detail.id }}" class="nav-link"></a>
-                {% endif %}
               </div>
             </div>
             {% endif %}
