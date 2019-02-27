@@ -172,8 +172,11 @@ def photodetail(request,photoid):
 	"""详情页"""
 	user = request.user
 	#判断用户是否为VIP
-	user_profile_object = UserProfile.objects.get(user=user)
-	user_vip_status = user_profile_object.member_type
+	if user.is_authenticated:
+		user_profile_object = UserProfile.objects.get(user=user)
+		user_vip_status = user_profile_object.member_type
+	else:
+		user_vip_status = False
 	photo_detail = Photo.objects.get(id=photoid)
 	photo_detail.increase_views_count()		#访问次数+1
 	#照片购买
