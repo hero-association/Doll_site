@@ -67,8 +67,10 @@
           
             <div class="mt-5">
             {% if vip_album %}
+            <div class="mb-4">
                 <p>本图集为VIP相册，请购买VIP后观看</p>
-                <a href="/member"><p>BUY NOW</p></a>
+                <a class="btn btn-primary" href="/member">升级为会员</a>
+              </div>
                 <img 
                   onclick="zoom(this, this.src, 0, 0, 0)" 
                   class=" col-lg-10 p-0 mb-5" 
@@ -79,14 +81,15 @@
                   alt="{{ Photo_detail.name_chinese }}" 
                   data-original="{{ photo_detail.get_cover_pic_link }}" 
                   lazyloaded="true">
+                <div class="bg-secondary mr-5">隐藏会员内容占位符</div>
             {% else %}
               {% for pic in photo_detail.get_all_pic_link %}
                 <img 
                   onclick="zoom(this, this.src, 0, 0, 0)" 
                   class=" col-lg-10 p-0 mb-5" 
                   src="{{ pic }}"
-                  onmouseover="img_onmouseoverfunc(this)" 
-                  lazyloadthumb="1" 
+                  onmouseover="img_onmouseoverfunc(this)"
+                  lazyloadthumb="1"
                   
                   alt="{{ Photo_detail.name_chinese }}" 
                   data-original="{{ pic }}" 
@@ -105,14 +108,20 @@
             {% if buy_links %}
             <div class="card mb-3 text-center">
               <div class="card-body">
-                <p>{{ buy_content }}</p>
-                <p class="lead"><strong>￥{{ order_price }}</strong></p>
-                {% if album_already_paid %}
+                  
+               
+                  {% if album_already_paid %}
+                  <p>{{ buy_content }}</p>
           
-                <a href="{% for link in buy_links %}{{link}}{% endfor %}" target="_blank">资源下载链接</a>
+                <a class="btn btn-block btn-primary" href="{% for link in buy_links %}{{link}}{% endfor %}" target="_blank">前往下载</a>
                 {% else %}
 
+                <p>{{ buy_content }}</p>
+
+                
+                <p class="lead"><strong>￥{{ order_price }}</strong></p>
                 {% if user.is_authenticated %}
+                
                 <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
                 {% else %}
                 <form id='pay_form'>
@@ -204,80 +213,8 @@
         price:$("#price").val(),
         }
       )
-      // $.post("https://www.paypayzhu.com/api/pay_json",{
-      //   api_user:$("#api_user").val(),
-      //   price:$("#price").val(),
-      //   type:$("#type").val(),
-      //   redirect:$("#redirect").val(),
-      //   order_id:$("#order_id").val(),
-      //   order_info:$("#order_info").val(),
-      //   notify_url:$("#notify_url").val(),
-      //   signature:$("#signature").val(),
-      //   }
-      // )
     }
   </script>
-
-  <!-- <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script> -->
- <!--  <script type="text/javascript">
-  $("btn_pay").click(function(s){
-    $.post("/create_order",
-      {
-        order_id:$("#order_id").val();
-        order_info:$("#order_info").val();
-        order_status:"pending";
-        order_type:$("#order_type").val();
-        price:$("#price").val();
-      }
-    )
-  }
-
-  $().ready(function(){
-      function get_type(){
-          return ($("#type_alipay").is(':checked') ? "2" : "1" ); 
-      }
-
-      $("#btn_buy").click(function(e){        
-          $.post("/post_payment",
-              {
-                  price : $("#pay_price").val(), 
-                  type : get_type(),
-                  mail_addr : $("#text").val(),
-                  order_info : $("#order_info").val(),
-                  // order_id : $("#order_id").val(),
-              },
-              function(data){ 
-                  console.log(data);
-                  console.log(data.code);
-                  $("#api_user").val(data.data.api_user);
-                  $("#price").val(data.data.price);
-                  $("#type").val(data.data.type);
-                  $("#redirect").val(data.data.redirect);
-                  $("#order_id").val(data.data.order_id);
-                  $("#text").val(data.data.mail_addr);
-                  $("#order_info").val(data.data.order_info);
-                  $("#signature").val(data.data.signature);
-                  $('#btn_pay').click();
-                  if (data.code > 0){
-                      $("#api_user").val(data.data.api_user);
-                      $("#price").val(data.data.price);
-                      $("#type").val(data.data.type);
-                      $("#redirect").val(data.data.redirect);
-                      $("#order_id").val(data.data.order_id);
-                      $("#text").val(data.data.mail_addr);
-                      $("#order_info").val(data.data.order_info);
-                      $("#signature").val(data.data.signature);
-                      $('#btn_pay').click();
-                  } else {
-                      alert(data.msg);
-                  }
-              }, "json"
-          );
-          e.preventDefault();
-          return false;
-      });
-  </script>  -->
-
 
 </body>
 </html>
