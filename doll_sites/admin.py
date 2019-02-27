@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig,Order,UserProfile,UserAlbumPaidRecord,SlideBanner
+from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig,Order,UserProfile,UserAlbumPaidRecord,SlideBanner,MemberConfig
 
 class PhotoFileInline(admin.TabularInline):
 	model = PhotoFile
@@ -66,6 +66,10 @@ class SiteConfigAdmin(admin.ModelAdmin):
 	list_display = ('config_name','config_value')
 	list_editable = ('config_value',)
 
+class MemberConfigAdmin(admin.ModelAdmin):
+	list_display = ('config_name','config_value')
+	list_editable = ('config_value',)
+
 # Register the admin class with the associated model
 admin.site.register(Photo, PhotoAdmin)
 admin.site.register(Series, SeriesAdmin)
@@ -77,5 +81,6 @@ admin.site.register(PhotoLink)
 admin.site.register(SiteConfig,SiteConfigAdmin)
 admin.site.register(SlideBanner)
 admin.site.register(UserProfile)
+admin.site.register(MemberConfig,MemberConfigAdmin)
 admin.site.register(Order,OrderAdmin)
 admin.site.register(UserAlbumPaidRecord)
