@@ -187,6 +187,8 @@ def photodetail(request,photoid):
 	notify_url = 'http://requestbin.fullcontact.com/16xwxr61'
 	single_signature = make_signature(order_price,pay_type,redirect,order_id,order_info,notify_url)
 	current_url = request.path
+	#VIP相册逻辑
+	vip_album = photo_detail.vip_photo
 	context = {
 		'buy_links':buy_links,		#购买链接列表
 		'bundle_links':bundle_links,		#Bundle链接列表
@@ -208,6 +210,7 @@ def photodetail(request,photoid):
 		'bundle_content':bundle_content,
 		'album_already_paid':album_already_paid,
 		'current_url':current_url,
+		'vip_album':vip_album,
 	}
 
 	return render(

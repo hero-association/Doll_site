@@ -66,23 +66,33 @@
             <h5 class="h5">{{ photo_detail.name_chinese }}</h5>
           
             <div class="mt-5">
-
-            {% block content %}
-            {% for pic in photo_detail.get_all_pic_link %}
-              <img 
-                onclick="zoom(this, this.src, 0, 0, 0)" 
-                class=" col-lg-10 p-0 mb-5" 
-                src="{{ pic }}"
-                onmouseover="img_onmouseoverfunc(this)" 
-                lazyloadthumb="1" 
-                
-                alt="{{ Photo_detail.name_chinese }}" 
-                data-original="{{ pic }}" 
-                lazyloaded="true"  >
-            
-             {% endfor %}
-              {% endblock %}
-             </div>
+            {% if vip_album %}
+                <p>本图集为VIP相册，请购买VIP后观看</p>
+                <img 
+                  onclick="zoom(this, this.src, 0, 0, 0)" 
+                  class=" col-lg-10 p-0 mb-5" 
+                  src="{{ photo_detail.get_cover_pic_link }}"
+                  onmouseover="img_onmouseoverfunc(this)" 
+                  lazyloadthumb="1" 
+                  
+                  alt="{{ Photo_detail.name_chinese }}" 
+                  data-original="{{ photo_detail.get_cover_pic_link }}" 
+                  lazyloaded="true">
+            {% else %}
+              {% for pic in photo_detail.get_all_pic_link %}
+                <img 
+                  onclick="zoom(this, this.src, 0, 0, 0)" 
+                  class=" col-lg-10 p-0 mb-5" 
+                  src="{{ pic }}"
+                  onmouseover="img_onmouseoverfunc(this)" 
+                  lazyloadthumb="1" 
+                  
+                  alt="{{ Photo_detail.name_chinese }}" 
+                  data-original="{{ pic }}" 
+                  lazyloaded="true">
+              {% endfor %}
+            {% endif %}
+            </div>
 
 
           </div>
@@ -144,19 +154,13 @@
 
                   <div class="my-4">
                       <h5 class="mb-3">相关推荐</h5>
-                        
                           {% for photo in related_album %}
-                          
                             <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title="{{ photo.name_chinese }}">
                               <img class="card-img-top img-fluid border-light lazyloadx" data-original='{{ photo.get_cover_pic_link }}' src="/static/image/loading.png"
                                 alt="{{ photo.name_chinese}}" lazyloadthumb="1" lazyloaded="true">
-                             
-                            
-
                             <p class="text-center text-truncate p-3">{{ photo.name_chinese }}</p>
                           </a>
-                          {% endfor %}
-                        
+                          {% endfor %}  
                     </div>
 
 
