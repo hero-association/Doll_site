@@ -67,7 +67,10 @@
           
             <div class="mt-5">
             {% if vip_album %}
+            <div class="mb-4">
                 <p>本图集为VIP相册，请购买VIP后观看</p>
+                <a class="btn btn-primary" href="/">升级为会员</a>
+              </div>
                 <img 
                   onclick="zoom(this, this.src, 0, 0, 0)" 
                   class=" col-lg-10 p-0 mb-5" 
@@ -84,8 +87,8 @@
                   onclick="zoom(this, this.src, 0, 0, 0)" 
                   class=" col-lg-10 p-0 mb-5" 
                   src="{{ pic }}"
-                  onmouseover="img_onmouseoverfunc(this)" 
-                  lazyloadthumb="1" 
+                  onmouseover="img_onmouseoverfunc(this)"
+                  lazyloadthumb="1"
                   
                   alt="{{ Photo_detail.name_chinese }}" 
                   data-original="{{ pic }}" 
@@ -104,14 +107,20 @@
             {% if buy_links %}
             <div class="card mb-3 text-center">
               <div class="card-body">
-                <p>{{ buy_content }}</p>
-                <p class="lead"><strong>￥{{ order_price }}</strong></p>
-                {% if album_already_paid %}
+                  
+               
+                  {% if album_already_paid %}
+                  <p>{{ buy_content }}</p>
           
-                <a href="{% for link in buy_links %}{{link}}{% endfor %}" target="_blank">资源下载链接</a>
+                <a class="btn btn-block btn-primary" href="{% for link in buy_links %}{{link}}{% endfor %}" target="_blank">前往下载</a>
                 {% else %}
 
+                <p>{{ buy_content }}</p>
+
+                
+                <p class="lead"><strong>￥{{ order_price }}</strong></p>
                 {% if user.is_authenticated %}
+                
                 <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
                 {% else %}
                 <form id='pay_form'>
