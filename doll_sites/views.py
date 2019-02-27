@@ -173,8 +173,11 @@ def photodetail(request,photoid):
 	user = request.user
 	#判断用户是否为VIP
 	if user.is_authenticated:
-		user_profile_object = UserProfile.objects.get(user=user)
-		user_vip_status = user_profile_object.member_type
+		try:
+			user_profile_object = UserProfile.objects.get(user=user)
+			user_vip_status = user_profile_object.member_type
+		except:
+			user_vip_status = False
 	else:
 		user_vip_status = False
 	photo_detail = Photo.objects.get(id=photoid)
