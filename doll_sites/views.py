@@ -376,8 +376,8 @@ def payment_response(request):
 			if current_order_object.order_type == 'member':	#处理会员
 				user_id = User.objects.get(username=user_name)
 				user_profile = UserProfile.objects.filter(user=user_id)
-				user_profile_object = UserProfile.objects.get(user=user_id)
-				if user_profile:	#有就更新
+				try:	#有资料的情况
+					user_profile_object = UserProfile.objects.get(user=user_id)
 					user_profile = UserProfile.objects.get(user=user_id)
 					if user_profile_object.member_type == False:	#不是会员的情况
 						user_profile.update(member_type=True)
@@ -391,7 +391,7 @@ def payment_response(request):
 						new_expire_time = last_day + datetime.timedelta(days=days_add)
 						user_profile.update(member_expire=new_expire_time)
 						return HttpResponse('Member Paid!')
-				else:	#没有profile就创建
+				except:	#没有资料的情况
 					last_day = datetime.date.today()
 					new_expire_time = last_day + datetime.timedelta(days=days_add)
 					models.UserProfile.objects.create(
@@ -526,14 +526,16 @@ def profile(request):
 	"""用户资料"""
 	user = request.user
 	user_paid_albums = Order.objects.filter( Q(user_name=user) & Q(order_type='single') & Q(order_status='Paid') ).order_by('-date_created')
-	user_profile = UserProfile.objects.get(user=user)
-	member_expire = user_profile.member_expire
+	try:
+		user_profile = UserProfile.objects.get(user=user)
+		member_expire = user_profile.member_expire
+	except:
+		member_expire = False
 	context = {
 		'nbar':'profile',	#导航标志
 		'user':user,
 		'user_paid_albums':user_paid_albums,
 		'member_expire':member_expire,
-		'user_profile':user_profile,
 	}
 	return render(
 		request,
