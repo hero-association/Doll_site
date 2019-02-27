@@ -45,12 +45,6 @@ def index(request):
 		context
 	)
 
-# class PhotoIndexView(generic.ListView):
-# 	model = Photo
-# 	template_name = 'doll_sites/index.html'
-# 	# queryset = Photo.objects.order_by('-date_added')
-# 	context_object_name = 'Photo_index'
-
 #保证循环的次数在规定的展示栏个数，如果设置11，循环的次数保证在11次
 class DollPaginator(Paginator):
     def __init__(self,current_page,per_pager_num,*args,**kwargs):
@@ -124,21 +118,12 @@ def photolist(request,series,company,pageid):
 		context
 	)
 
-# class PhotoListView(generic.ListView):
-# 	model = Photo
-# 	template_name = 'doll_sites/photo_list.html'
-# 	# queryset = Photo.objects.order_by('date_added')
-# 	context_object_name = 'Photo_list'
-
-# 	ordering = ['-id'] 
-
-# 	def get_right_recommend(self):
-# 		right_recommend = Photo_list[0:3]
-# 		return right_recommend
-
 def photodetail(request,photoid):
 	"""详情页"""
 	user = request.user
+	#判断用户是否为VIP
+	user_profile_object = UserProfile.objects.get(user=user)
+	user_vip_status = user_profile_object.member_type
 	photo_detail = Photo.objects.get(id=photoid)
 	photo_detail.increase_views_count()		#访问次数+1
 	#照片购买
@@ -212,6 +197,7 @@ def photodetail(request,photoid):
 		'album_already_paid':album_already_paid,
 		'current_url':current_url,
 		'vip_album':vip_album,
+		'user_vip_status':user_vip_status,
 	}
 
 	return render(
@@ -566,21 +552,3 @@ def baidu(request):
 		'doll_sites/baidu_verify_jiNtuP7fb1.html',
 		context
 	)
-# class PhotoDetailView(generic.DetailView):
-# 	model = Photo
-# 	template_name = 'doll_sites/photo_detail.html'
-# 	context_object_name = 'Photo_detail'
-
-# def photo_detail(request,pk):
-#     try:
-#         photo_id = Photo.objects.get(pk=pk)
-#     except Photo.DoesNotExist:
-#         raise Http404("Photo does not exist")
-
-#     # photo_details = models.Photo.objects.get(Photo, pk=pk)
-    
-#     return render(
-#         request,
-#         'doll_sites/photo_detail.html',
-#         context = {'photo_details':photo_id,}
-#     )

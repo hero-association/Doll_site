@@ -67,10 +67,26 @@
           
             <div class="mt-5">
             {% if vip_album %}
-            <div class="mb-4">
-                <p>本图集为VIP相册，请购买VIP后观看</p>
-                <a class="btn btn-primary" href="/member">升级为会员</a>
-              </div>
+              {% if user_vip_status %}
+              <!-- 如果是会员 -->
+                {% for pic in photo_detail.get_all_pic_link %}
+                  <img 
+                    onclick="zoom(this, this.src, 0, 0, 0)" 
+                    class=" col-lg-10 p-0 mb-5" 
+                    src="{{ pic }}"
+                    onmouseover="img_onmouseoverfunc(this)"
+                    lazyloadthumb="1"
+                    
+                    alt="{{ Photo_detail.name_chinese }}" 
+                    data-original="{{ pic }}" 
+                    lazyloaded="true">
+                {% endfor %}
+              {% else %}
+                <!-- 如果不是会员 -->
+                <div class="mb-4">
+                    <p>本图集为VIP相册，请购买VIP后观看</p>
+                    <a class="btn btn-primary" href="/member">升级为会员</a>
+                </div>
                 <img 
                   onclick="zoom(this, this.src, 0, 0, 0)" 
                   class=" col-lg-10 p-0 mb-5" 
@@ -82,6 +98,7 @@
                   data-original="{{ photo_detail.get_cover_pic_link }}" 
                   lazyloaded="true">
                 <div class="bg-secondary mr-5">隐藏会员内容占位符</div>
+              {% endif %}
             {% else %}
               {% for pic in photo_detail.get_all_pic_link %}
                 <img 
