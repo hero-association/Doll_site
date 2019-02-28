@@ -584,7 +584,7 @@ def member(request):
 	month_signature = make_signature(month_price.config_value,pay_type,redirect,order_id,month_order_info,notify_url)
 	season_order_info = 'season_member'
 	season_signature = make_signature(season_price.config_value,pay_type,redirect,order_id_season,season_order_info,notify_url)
-	year_order_info = 'season_member'
+	year_order_info = 'year_member'
 	year_signature = make_signature(year_price.config_value,pay_type,redirect,order_id_year,year_order_info,notify_url)
 	context = {
 		'month_price':month_price,
