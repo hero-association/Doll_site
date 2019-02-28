@@ -127,22 +127,20 @@
               <div class="card-body">
                   
                
-                  {% if album_already_paid %}
-                  <p>{{ buy_content }}</p>
+                {% if album_already_paid %}
+                <p>{{ buy_content }}</p>
           
                 <a class="btn btn-block btn-primary" href="{% for link in buy_links %}{{link}}{% endfor %}" target="_blank">前往下载</a>
                 {% else %}
 
                 <p>{{ buy_content }}</p>
-
-                
                 <p class="lead"><strong>￥{{ order_price }}</strong></p>
-                {% if user.is_authenticated %}
-                
-                <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
-                {% else %}
-                <form id='pay_form'>
-                {% endif %}
+
+                  {% if user.is_authenticated %}
+                  <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
+                  {% else %}
+                  <form id='pay_form'>
+                  {% endif %}
                   <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
                   <input id='price' name='price' type='hidden' value='{{ order_price }}' />
                   <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
@@ -160,7 +158,7 @@
                   {% else %}
                   <input class="btn btn-primary btn-lg btn-block" id='btn_pay' value='购买' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
                   {% endif %}
-                </form>
+                  </form>
           
           
                 {% endif %}
