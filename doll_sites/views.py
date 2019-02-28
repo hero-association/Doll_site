@@ -514,7 +514,11 @@ def member(request):
 	pay_type = int(2)	#表示支付宝
 	nowtime = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 	random_id = str(random.randint(1000000,9999999))
+	random_id_2 = str(random.randint(1000000,9999999))
+	random_id_3 = str(random.randint(1000000,9999999))
 	order_id = str(pay_type)+str(nowtime)+random_id
+	order_id_season = str(pay_type)+str(nowtime)+random_id_2
+	order_id_year = str(pay_type)+str(nowtime)+random_id_3
 	redirect = 'http://127.0.0.1:8000' + str(redirect_url)
 	notify_url = 'http://requestbin.fullcontact.com/1al00m61'
 	month_order_info = 'month_member'
@@ -536,6 +540,8 @@ def member(request):
 		'user_name':user_name,
 		'pay_type':pay_type,
 		'order_id':order_id,
+		'order_id_season':order_id_season,
+		'order_id_year':order_id_year,
 		'notify_url':notify_url,
 		'month_order_info':month_order_info,
 		'month_signature':month_signature,
@@ -543,6 +549,7 @@ def member(request):
 		'season_signature':season_signature,
 		'year_order_info':year_order_info,
 		'year_signature':year_signature,
+
 	}
 	return render(
 		request,
