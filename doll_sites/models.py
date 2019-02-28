@@ -103,19 +103,18 @@ class Photo(models.Model):
 	history_views_count = models.PositiveIntegerField(default=0)	#截至昨日总点击量
 	yesterday_views_count = models.PositiveIntegerField(default=0,null=True)	#昨日点击量
 	temperature = models.FloatField(default=0)	#相册热度
-	"""照片购买"""
-	vip_photo = models.BooleanField(default=False)	#是否付费
+	#VIP相册
+	vip_photo = models.BooleanField(default=False)
+	#付费下载
 	buy_content = models.CharField(max_length=60,null=True,blank=True)	#付费说明
 	buy_price = models.IntegerField(null=True,blank=True)	#价格
 	buy_link = models.CharField(max_length = 360,null=True,blank=True)	#购买链接
-	"""Bundle购买"""
-	vip_bundle = models.BooleanField(default=False)	#是否有Bundle
+	#高级购买(VIP不免费)
+	vip_bundle = models.BooleanField(default=False)
+	#暂未启用
 	bundle_content = models.CharField(max_length=60,null=True,blank=True)	#Bundle说明
 	bundle_price = models.IntegerField(null=True,blank=True)	#价格
 	bundle_link = models.CharField(max_length = 360,null=True,blank=True)	#购买链接
-
-	# cover_pic = Photo.PhotoFile.pic
-	# cover_pic._meta.get_field('Photo').rel.to
 
 	def __str__(self):
 		"""返回模型的字符串表示"""

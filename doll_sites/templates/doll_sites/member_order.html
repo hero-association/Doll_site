@@ -47,7 +47,7 @@
 
       <div class="card">
         <div class="card-body">
-          <p>月度会员{{ order_id }}</p>
+          <p>月度会员</p>
           <p>{{ month_price.config_value }}</p>
             {% if user.is_authenticated %}
                 <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
@@ -77,7 +77,7 @@
 
       <div class="card">
         <div class="card-body">
-          <p>季度会员{{ order_id_season }}</p>
+          <p>季度会员</p>
           <p>{{ season_price.config_value }}</p>
             {% if user.is_authenticated %}
                 <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
@@ -107,7 +107,7 @@
 
       <div class="card">
         <div class="card-body">
-          <p>年度会员{{ order_id_year }}</p>
+          <p>年度会员</p>
           <p>{{ year_price.config_value }}</p>
             {% if user.is_authenticated %}
                 <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
