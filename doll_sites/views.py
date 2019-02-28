@@ -501,7 +501,7 @@ def member(request):
 	'''会员页面'''
 	current_url = request.path
 	redirect_url = request.GET.get('redirect_url')
-	month_price = current_url = request.pathConfig.objects.get(config_name='month_price')
+	month_price = MemberConfig.objects.get(config_name='month_price')
 	month_content = MemberConfig.objects.get(config_name='month_content')
 	season_price = MemberConfig.objects.get(config_name='season_price')
 	season_content = MemberConfig.objects.get(config_name='season_content')
