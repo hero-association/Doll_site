@@ -47,7 +47,7 @@
 
       <div class="card">
         <div class="card-body">
-          <p>月度会员</p>
+          <p>月度会员{{ order_id }}</p>
           <p>{{ month_price.config_value }}</p>
             {% if user.is_authenticated %}
                 <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
@@ -77,7 +77,7 @@
 
       <div class="card">
         <div class="card-body">
-          <p>季度会员</p>
+          <p>季度会员{{ order_id_season }}</p>
           <p>{{ season_price.config_value }}</p>
             {% if user.is_authenticated %}
                 <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
@@ -88,8 +88,8 @@
                   <input id='price' name='price' type='hidden' value='{{ season_price.config_value }}' />
                   <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
                   <input id='redirect' name='redirect' type='hidden' value='{{ redirect }}' />
-                  <input id='order_id' name='order_id' type='hidden' value='{{ order_id_season }}' />
-                  <input id='order_info' name='order_info' type='hidden' value='{{ season_order_info }}'>
+                  <input id='order_id_season' name='order_id' type='hidden' value='{{ order_id_season }}' />
+                  <input id='order_info_season' name='order_info' type='hidden' value='{{ season_order_info }}'>
                   <input id='notify_url' name='notify_url' type='hidden' value='{{ notify_url }}' />
                   <input id='signature' name='signature' type='hidden' value='{{ season_signature }}' />
                   <input id='order_type' name='order_type' type='hidden' value='member'/>
@@ -97,7 +97,7 @@
                   {% user_display user as user_display %}
                   <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
                   {% if user.is_authenticated %}
-                  <input class="btn btn-block btn-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order()">
+                  <input class="btn btn-block btn-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order_season()">
                   {% else %}
                   <input class="btn btn-block btn-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
                   {% endif %}
@@ -107,7 +107,7 @@
 
       <div class="card">
         <div class="card-body">
-          <p>年度会员</p>
+          <p>年度会员{{ order_id_year }}</p>
           <p>{{ year_price.config_value }}</p>
             {% if user.is_authenticated %}
                 <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
@@ -118,8 +118,8 @@
                   <input id='price' name='price' type='hidden' value='{{ year_price.config_value }}' />
                   <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
                   <input id='redirect' name='redirect' type='hidden' value='{{ redirect }}' />
-                  <input id='order_id' name='order_id' type='hidden' value='{{ order_id_year }}' />
-                  <input id='order_info' name='order_info' type='hidden' value={{ year_order_info }}>
+                  <input id='order_id_year' name='order_id' type='hidden' value='{{ order_id_year }}' />
+                  <input id='order_info_year' name='order_info' type='hidden' value={{ year_order_info }}>
                   <input id='notify_url' name='notify_url' type='hidden' value='{{ notify_url }}' />
                   <input id='signature' name='signature' type='hidden' value='{{ year_signature }}' />
                   <input id='order_type' name='order_type' type='hidden' value='member'/>
@@ -127,7 +127,7 @@
                   {% user_display user as user_display %}
                   <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
                   {% if user.is_authenticated %}
-                  <input class="btn btn-block btn-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order()">
+                  <input class="btn btn-block btn-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order_year()">
                   {% else %}
                   <input class="btn btn-block btn-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
                   {% endif %}
@@ -161,6 +161,34 @@
         user_name:$('#user_name').val(),
         order_id:$("#order_id").val(),
         order_info:$("#order_info").val(),
+        order_status:"pending",
+        order_type:$("#order_type").val(),
+        price:$("#price").val(),
+        }
+      )
+    }
+  </script>
+
+  <script type='text/javascript'>
+    function create_order_season(){
+      $.post("/create_order",{
+        user_name:$('#user_name').val(),
+        order_id:$("#order_id_season").val(),
+        order_info:$("#order_info_season").val(),
+        order_status:"pending",
+        order_type:$("#order_type").val(),
+        price:$("#price").val(),
+        }
+      )
+    }
+  </script>
+
+  <script type='text/javascript'>
+    function create_order_year(){
+      $.post("/create_order",{
+        user_name:$('#user_name').val(),
+        order_id:$("#order_id_year").val(),
+        order_info:$("#order_info_year").val(),
         order_status:"pending",
         order_type:$("#order_type").val(),
         price:$("#price").val(),
