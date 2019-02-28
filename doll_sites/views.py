@@ -572,15 +572,19 @@ def member(request):
 	pay_type = int(2)	#表示支付宝
 	nowtime = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 	random_id = str(random.randint(1000000,9999999))
+	random_id_2 = str(random.randint(1000000,9999999))
+	random_id_3 = str(random.randint(1000000,9999999))
 	order_id = str(pay_type)+str(nowtime)+random_id
+	order_id_season = str(pay_type)+str(nowtime)+random_id_2
+	order_id_year = str(pay_type)+str(nowtime)+random_id_3
 	redirect = 'http://test.lolizhan.com' + str(redirect_url)
 	notify_url = 'http://test.lolizhan.com/payment_response'
 	month_order_info = 'month_member'
 	month_signature = make_signature(month_price.config_value,pay_type,redirect,order_id,month_order_info,notify_url)
 	season_order_info = 'season_member'
-	season_signature = make_signature(season_price.config_value,pay_type,redirect,order_id,season_order_info,notify_url)
+	season_signature = make_signature(season_price.config_value,pay_type,redirect,order_id_season,season_order_info,notify_url)
 	year_order_info = 'season_member'
-	year_signature = make_signature(year_price.config_value,pay_type,redirect,order_id,year_order_info,notify_url)
+	year_signature = make_signature(year_price.config_value,pay_type,redirect,order_id_year,year_order_info,notify_url)
 	context = {
 		'month_price':month_price,
 		'month_content':month_content,
@@ -594,6 +598,8 @@ def member(request):
 		'user_name':user_name,
 		'pay_type':pay_type,
 		'order_id':order_id,
+		'order_id_season':order_id_season,
+		'order_id_year':order_id_year,
 		'notify_url':notify_url,
 		'month_order_info':month_order_info,
 		'month_signature':month_signature,
