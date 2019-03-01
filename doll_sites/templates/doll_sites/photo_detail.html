@@ -64,6 +64,11 @@
     <div class="row">
         <div class="col-lg-9 mt-5">
             <h5 class="h5">{{ photo_detail.name_chinese }}</h5>
+            {% for modelname in photo.model_name.all %}
+            <a href="/actress_detail/{{ modelname.id }}" class="card-text text-truncate mb-1 ">
+              <small>{{ modelname }}</small>
+          </a>
+            {% endfor %}
           
             <div class="mt-5">
             {% if vip_album %}
@@ -72,7 +77,7 @@
                 {% for pic in photo_detail.get_all_pic_link %}
                   <img 
                     onclick="zoom(this, this.src, 0, 0, 0)" 
-                    class=" col-lg-10 p-0 mb-5" 
+                    class="lazyloadx col-lg-10 p-0 mb-5" 
                     src="{{ pic }}"
                     onmouseover="img_onmouseoverfunc(this)"
                     lazyloadthumb="1"
@@ -89,7 +94,7 @@
                 </div>
                 <img 
                   onclick="zoom(this, this.src, 0, 0, 0)" 
-                  class=" col-lg-10 p-0 mb-5" 
+                  class="lazyloadx col-lg-10 p-0 mb-5" 
                   src="{{ photo_detail.get_cover_pic_link }}"
                   onmouseover="img_onmouseoverfunc(this)" 
                   lazyloadthumb="1" 
@@ -103,7 +108,7 @@
               {% for pic in photo_detail.get_all_pic_link %}
                 <img 
                   onclick="zoom(this, this.src, 0, 0, 0)" 
-                  class=" col-lg-10 p-0 mb-5" 
+                  class="lazyloadx col-lg-10 p-0 mb-5" 
                   src="{{ pic }}"
                   onmouseover="img_onmouseoverfunc(this)"
                   lazyloadthumb="1"
