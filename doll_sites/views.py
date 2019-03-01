@@ -147,10 +147,19 @@ def photodetail(request,photoid):
 	else:
 		bundle_links = [photo_detail.bundle_link,]
 	#当前相册的购买状态
-	if UserAlbumPaidRecord.objects.filter( Q(photo_id=photoid) & Q(user_id=user.username) ):
-		album_already_paid = True
+	if photo_detail.vip_bundle == False:
+		if user_vip_status == True:
+			album_already_paid = True
+		else:
+			if UserAlbumPaidRecord.objects.filter( Q(photo_id=photoid) & Q(user_id=user.username) ):
+				album_already_paid = True
+			else:
+				album_already_paid = False
 	else:
-		album_already_paid = False
+		if UserAlbumPaidRecord.objects.filter( Q(photo_id=photoid) & Q(user_id=user.username) ):
+			album_already_paid = True
+		else:
+			album_already_paid = False
 	#查询当前演员的相关图集
 	current_actress = photo_detail.model_name.all().order_by('pk')
 	related_album = []
