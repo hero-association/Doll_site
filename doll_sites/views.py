@@ -244,11 +244,6 @@ def photodetail(request,photoid):
 	order_info = photo_detail.id
 	notify_url = 'http://test.lolizhan.com/payment_response'
 	single_signature = make_signature(order_price,pay_type,redirect,order_id,order_info,notify_url)
-	#自动照片链接
-	if photo_detail.suited_count == 0:
-		auto_link_list = []
-	else:
-		auto_link_list = photo_detail.get_auto_pic_link
 	context = {
 		'buy_links':buy_links,		#购买链接列表
 		'bundle_links':bundle_links,		#Bundle链接列表
@@ -269,7 +264,6 @@ def photodetail(request,photoid):
 		'buy_content':buy_content,
 		'bundle_content':bundle_content,
 		'album_already_paid':album_already_paid,
-		'auto_link_list':auto_link_list,
 	}
 
 	return render(
