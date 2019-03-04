@@ -114,6 +114,8 @@ class Photo(models.Model):
 	bundle_content = models.CharField(max_length=60,null=True,blank=True)	#Bundle说明
 	bundle_price = models.IntegerField(null=True,blank=True)	#价格
 	bundle_link = models.CharField(max_length = 360,null=True,blank=True)	#购买链接
+	"""自动链接数量"""
+	suited_count = models.IntegerField(default=0)
 
 	# cover_pic = Photo.PhotoFile.pic
 	# cover_pic._meta.get_field('Photo').rel.to
@@ -147,6 +149,13 @@ class Photo(models.Model):
 		detail_pic_links = []
 		for all_pic_link in all_pic_links:
 			detail_pic_links.append(all_pic_link.pic_link)
+		if self.suited_count != 0:
+			num = 2
+			first_pic_link = PhotoLink.objects.get(photo=current_name).pic_link[0:-5]
+		while num <= self.suited_count:
+			pic_link = first_pic_link + str(num) + '.jpg'
+			detail_pic_links.append(pic_link)
+			num += 1
 		return detail_pic_links
 
 	def increase_views_count(self):
