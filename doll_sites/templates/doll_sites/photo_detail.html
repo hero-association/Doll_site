@@ -133,10 +133,21 @@
                 data-original="{{ pic }}" 
                 lazyloaded="true"
               >
-             {% endfor %}
-              {% endblock %}
+            {% endfor %}
+            {% for pic in auto_link_list %}
+              <img 
+                onclick="zoom(this, this.src, 0, 0, 0)" 
+                class="lazyloadx col-lg-10 p-0 mb-5" 
+                src="/static/image/loading.png"
+                onmouseover="img_onmouseoverfunc(this)" 
+                lazyloadthumb="1"
+                alt="{{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}" 
+                data-original="{{ pic }}" 
+                lazyloaded="true"
+              >
+            {% endfor %}
+            {% endblock %}
              </div>
-
 
           </div>
 
@@ -144,7 +155,7 @@
           <!-- 右侧推荐位 -->
           <div class="col-lg-3 mt-5">        
               <div class="tags">
-                <h5 class="mb-3" >热搜标签</h5>
+                <h5 class="mb-3">热搜标签</h5>
                 
                   {% for actress in hot_actress %}
                     <a class="btn btn-sm btn-outline-primary mb-2 " href="../search/?kwd={{ actress.actress_name_ch }}" title="{{ actress.actress_name_ch }}">  
