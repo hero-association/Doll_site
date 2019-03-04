@@ -31,10 +31,9 @@ class PhotoAdmin(admin.ModelAdmin):
         ('Pay', {
             'fields': ('vip_photo', 'buy_link','buy_price','buy_content','vip_bundle','bundle_link','bundle_price','bundle_content')
         }),
-        # ('photos', {
-        #     'classes': ('collapse',),
-        #     'fields': ('registration_required', 'template_name'),
-        # }),
+        ('auto_image_link', {
+            'fields': ('suited_count',)
+        }),
     )
 	# search_field = ('series') #添加快速查询栏
 
