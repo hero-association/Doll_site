@@ -152,10 +152,10 @@ class Photo(models.Model):
 		if self.suited_count != 0:
 			num = 2
 			first_pic_link = PhotoLink.objects.get(photo=current_name).pic_link[0:-5]
-		while num <= self.suited_count:
-			pic_link = first_pic_link + str(num) + '.jpg'
-			detail_pic_links.append(pic_link)
-			num += 1
+			while num <= self.suited_count:
+				pic_link = first_pic_link + str(num) + '.jpg'
+				detail_pic_links.append(pic_link)
+				num += 1
 		return detail_pic_links
 
 	def increase_views_count(self):
