@@ -30,6 +30,8 @@ SECRET_KEY = 'zqb=&wzhvb!o0o_y&r&uw%406j$hu3_tqx)8hvsq%qpxar*9rr'
 DEBUG = False
 
 ALLOWED_HOSTS = [
+'103.44.220.116',
+'103.44.220.79',
 '162.241.182.12',
 'www.jasonpak.net',
 'jasonpak.webfactional.com',
