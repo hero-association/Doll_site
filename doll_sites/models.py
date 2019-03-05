@@ -12,6 +12,9 @@ def upload_location(instance,filename):
 def avatar_upload_location(instance,filename):
 	return "{0}/{1}".format(instance.actress_name_ch,filename)
 
+def banner_upload_location(instance,filename):
+	return "{0}".format(filename)
+
 class UserProfile(models.Model):
 	"""对Django自带的User表进行扩展"""
 	user = models.OneToOneField(User,on_delete=models.CASCADE, related_name='profile')
