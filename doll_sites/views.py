@@ -560,6 +560,7 @@ def member(request):
 		'year_order_info':year_order_info,
 		'year_signature':year_signature,
 		'current_url':current_url,
+		'nbar':'member',	#导航标志
 	}
 	return render(
 		request,
