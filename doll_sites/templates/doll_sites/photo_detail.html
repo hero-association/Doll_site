@@ -63,21 +63,16 @@
 <section class="container">
     <div class="row">
         <div class="col-lg-9 mt-5">
-            {% if vip_album %}
-            <h5 class="h5">{{ photo_detail.name_chinese }} <span class="badge badge-warning">会员</span>
-            </h5>
 
-            
-            {% elif vip_bundle %}
-            <h5 class="h5">{{ photo_detail.name_chinese }}</h5> <span class="badge badge-warning">精品</span>
-
-            
-
+          <h5 class="h5">{{ photo_detail.name_chinese }}
+            {% if photo_detail.vip_bundle %}
+              <span class="badge badge-warning">精品</span>
             {% else %}
-            <h5 class="h5">{{ photo_detail.name_chinese }}</h5>
-
-           
+              {% if vip_album %}
+                <span class="badge badge-warning">会员</span>
+              {% endif %}
             {% endif %}
+          </h5>
             {% for actress in current_actress %}
             <a href="{{ actress.get_absolute_url }}" class="card-text text-truncate mb-1 ">
               {{ actress.actress_name_ch }}
