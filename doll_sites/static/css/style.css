@@ -119,21 +119,23 @@
   box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.08);
 }
 
-.blur-image {
-  filter: blur(5px);
-}
-
 .relative-box {
   position: relative;
+  background-color: rgb(226, 226, 226);
   overflow: hidden;
-  background-color: rgb(179, 179, 179);
 }
+/* .blur-img {
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+} */
+
 .buy-content {
-  padding: 100px;
   position: absolute;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  background-color: #00000052;
+  width: 88%;
+  z-index: 2;
+  background-color: #0000007a;
   border: 1px solid #5c5c5c;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

@@ -62,9 +62,9 @@
 
 <section class="container">
     <div class="row">
-        <div class="col-lg-9 mt-5">
+        <div class="col-lg-9 mt-5 ">
 
-          <h5 class="h5">{{ photo_detail.name_chinese }}
+          <h5>{{ photo_detail.name_chinese }}
             {% if photo_detail.vip_bundle %}
               <span class="badge badge-warning">精品</span>
             {% else %}
@@ -83,7 +83,7 @@
             
 
           
-            <div class="mt-3">
+            <div class="mt-5">
             {% if vip_album %}
               {% if user_vip_status %}
               <!-- 如果是会员 -->
@@ -101,13 +101,15 @@
                 {% endfor %}
               {% else %}
                 <!-- 如果不是会员 -->
-                <div class="mb-4">
-                    <p>本图集为VIP相册，请购买VIP后观看</p>
-                    <a class="btn btn-primary" href="/member?redirect_url={{ current_url }}">升级为会员</a>
-                </div>
+                <div class="mb-4 relative-box col-lg-10 p-0">
+                  <div class="buy-content p-5 text-center">
+                    <p class="text-white">本图集为VIP相册，请购买VIP后观看</p>
+                    <a class="btn btn-primary " href="/member?redirect_url={{ current_url }}">升级为会员</a>
+                  </div>
+                
                 <img 
                   onclick="zoom(this, this.src, 0, 0, 0)" 
-                  class="lazyloadx col-lg-10 p-0 mb-5" 
+                  class="lazyloadx blur-img w-100" 
                   src="{{ photo_detail.get_cover_pic_link }}"
                   onmouseover="img_onmouseoverfunc(this)" 
                   lazyloadthumb="1" 
@@ -115,6 +117,9 @@
                   alt="{{ Photo_detail.name_chinese }}" 
                   data-original="{{ photo_detail.get_cover_pic_link }}" 
                   lazyloaded="true">
+
+                </div>
+                  
                 
               {% endif %}
             {% else %}
