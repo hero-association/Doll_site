@@ -230,5 +230,4 @@ class SlideBanner(models.Model):
 
 class MemberConfig(models.Model):
 	config_name = models.CharField(default=None,max_length=100)
-	config_value = models.CharField(default=None,max_length=100)
-
+	config_value = models.CharField(default=None,max_length=9999)

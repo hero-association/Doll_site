@@ -62,8 +62,26 @@
 
 <section class="container">
     <div class="row">
-        <div class="col-lg-9 mt-5">
-            <h5 class="h5">{{ photo_detail.name_chinese }}</h5>
+        <div class="col-lg-9 mt-5 ">
+
+          <h5>{{ photo_detail.name_chinese }}
+            {% if photo_detail.vip_bundle %}
+              <span class="badge badge-warning">精品</span>
+            {% else %}
+              {% if vip_album %}
+                <span class="badge badge-warning">会员</span>
+              {% endif %}
+            {% endif %}
+          </h5>
+            {% for actress in current_actress %}
+            <a href="{{ actress.get_absolute_url }}" class="card-text text-truncate mb-1 ">
+              {{ actress.actress_name_ch }}
+          </a>
+        {% endfor %}
+
+
+            
+
           
             <div class="mt-5">
             {% if vip_album %}
@@ -71,8 +89,8 @@
               <!-- 如果是会员 -->
                 {% for pic in photo_detail.get_all_pic_link %}
                   <img 
-                    onclick="zoom(this, this.src, 0, 0, 0)" 
-                    class=" col-lg-10 p-0 mb-5" 
+                    onclick="zoom(this, this.src, 0, 0, 0)"
+                    class="lazyloadx col-lg-10 p-0 mb-5"
                     src="{{ pic }}"
                     onmouseover="img_onmouseoverfunc(this)"
                     lazyloadthumb="1"
@@ -83,13 +101,15 @@
                 {% endfor %}
               {% else %}
                 <!-- 如果不是会员 -->
-                <div class="mb-4">
-                    <p>本图集为VIP相册，请购买VIP后观看</p>
-                    <a class="btn btn-primary" href="/member?redirect_url={{ current_url }}">升级为会员</a>
-                </div>
+                <div class="mb-4 relative-box col-lg-10 p-0">
+                  <div class="buy-content p-5 text-center">
+                    <p class="text-white">本图集为VIP相册，请购买VIP后观看</p>
+                    <a class="btn btn-primary " href="/member?redirect_url={{ current_url }}">升级为会员</a>
+                  </div>
+                
                 <img 
                   onclick="zoom(this, this.src, 0, 0, 0)" 
-                  class=" col-lg-10 p-0 mb-5" 
+                  class="lazyloadx blur-img w-100" 
                   src="{{ photo_detail.get_cover_pic_link }}"
                   onmouseover="img_onmouseoverfunc(this)" 
                   lazyloadthumb="1" 
@@ -97,13 +117,16 @@
                   alt="{{ Photo_detail.name_chinese }}" 
                   data-original="{{ photo_detail.get_cover_pic_link }}" 
                   lazyloaded="true">
-                <div class="bg-secondary mr-5">隐藏会员内容占位符</div>
+
+                </div>
+                  
+                
               {% endif %}
             {% else %}
               {% for pic in photo_detail.get_all_pic_link %}
                 <img 
                   onclick="zoom(this, this.src, 0, 0, 0)" 
-                  class=" col-lg-10 p-0 mb-5" 
+                  class="lazyloadx col-lg-10 p-0 mb-5" 
                   src="{{ pic }}"
                   onmouseover="img_onmouseoverfunc(this)"
                   lazyloadthumb="1"
@@ -125,20 +148,20 @@
               <div class="card-body">
                   
                
-                {% if album_already_paid %}
-                <p>{{ buy_content }}</p>
+                  {% if album_already_paid %}
+                  <p>{{ buy_content }}</p>
           
                 <a class="btn btn-block btn-primary" href="{% for link in buy_links %}{{link}}{% endfor %}" target="_blank">前往下载</a>
                 {% else %}
 
                 <p>{{ buy_content }}</p>
                 <p class="lead"><strong>￥{{ order_price }}</strong></p>
-
-                  {% if user.is_authenticated %}
-                  <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
-                  {% else %}
-                  <form id='pay_form'>
-                  {% endif %}
+              
+                {% if user.is_authenticated %}
+                <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
+                {% else %}
+                <form id='pay_form'>
+                {% endif %}
                   <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
                   <input id='price' name='price' type='hidden' value='{{ order_price }}' />
                   <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
@@ -156,7 +179,7 @@
                   {% else %}
                   <input class="btn btn-primary btn-lg btn-block" id='btn_pay' value='购买' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
                   {% endif %}
-                  </form>
+                </form>
           
           
                 {% endif %}

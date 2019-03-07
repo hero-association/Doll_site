@@ -75,7 +75,7 @@
         {% if user.email %}
         {{ user.email }}
         {% else %}
-        <a href="">前往设置</a>
+        <a href="{% url 'account_email' %}">前往设置</a>
         {% endif %}
       </div>
 

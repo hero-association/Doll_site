@@ -38,17 +38,17 @@
 
   <div class="container text-center">
     <div class="text-center font-weight-bold mt-5" style="font-size: 28px;" >
-        <a class="nav-link text-dark" href='/'> <img width="40"  class="d-inline-block align-center pb-2 mr-1" src="/static/image/logo-border.png" alt="">
+        <a class="nav-link d-inline text-dark" href='/'> <img width="40"  class="d-inline-block align-center pb-2 mr-1" src="/static/image/logo-border.png" alt="">
         小熊社</a>
         <div class=" dropdown-divider mx-auto" style="width: 200px;"> </div>
       </div>
 
-    <div class="card-deck mt-5 col-10 mx-auto">
+    <div class="card-columns mt-5 col-10 mx-auto">
 
-      <div class="card">
+      <div class="card p-3">
         <div class="card-body">
-          <p>月度会员</p>
-          <p>{{ month_price.config_value }}</p>
+          <h5>月度会员</h5>
+          <p>¥ {{ month_price.config_value }}</p>
             {% if user.is_authenticated %}
                 <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
                 {% else %}
@@ -67,18 +67,18 @@
                   {% user_display user as user_display %}
                   <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
                   {% if user.is_authenticated %}
-                  <input class="btn btn-block btn-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order()">
+                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order()">
                   {% else %}
-                  <input class="btn btn-block btn-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
+                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
                   {% endif %}
                 </form>
         </div>
       </div>
 
-      <div class="card">
+      <div class="card card-shadow px-3 pt-3">
         <div class="card-body">
-          <p>季度会员</p>
-          <p>{{ season_price.config_value }}</p>
+          <h5>季度会员</h5>
+          <p>¥ {{ season_price.config_value }}</p>
             {% if user.is_authenticated %}
                 <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
                 {% else %}
@@ -97,18 +97,19 @@
                   {% user_display user as user_display %}
                   <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
                   {% if user.is_authenticated %}
-                  <input class="btn btn-block btn-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order_season()">
+                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order_season()">
                   {% else %}
-                  <input class="btn btn-block btn-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
+                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
                   {% endif %}
                 </form>
         </div>
+        <div class="card-footer bg-white">多数人选择</div>
       </div>
 
-      <div class="card">
+      <div class="card p-3">
         <div class="card-body">
-          <p>年度会员</p>
-          <p>{{ year_price.config_value }}</p>
+          <h5>年度会员</h5>
+          <p>¥ {{ year_price.config_value }}</p>
             {% if user.is_authenticated %}
                 <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
                 {% else %}
@@ -127,9 +128,9 @@
                   {% user_display user as user_display %}
                   <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
                   {% if user.is_authenticated %}
-                  <input class="btn btn-block btn-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order_year()">
+                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order_year()">
                   {% else %}
-                  <input class="btn btn-block btn-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
+                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
                   {% endif %}
                 </form>
         </div>
@@ -141,14 +142,6 @@
       <p>{{ intro_text.config_value }}</p>
 
     </div>
-
-
-
-
-    
-
-
-
   </div>
 
 

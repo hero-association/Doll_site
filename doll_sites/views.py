@@ -536,10 +536,18 @@ def profile(request):
 	user = request.user
 	user_paid_albums = Order.objects.filter( Q(user_name=user) & Q(order_type='single') & Q(order_status='Paid') ).order_by('-date_created')
 	try:
-		user_profile = UserProfile.objects.get(user=user)
-		member_expire = user_profile.member_expire
+		user_profile_object = UserProfile.objects.get(user=user)
+		user_vip_status = user_profile_object.member_type
 	except:
-		member_expire = False
+		user_vip_status = False
+	if user_vip_status == True:
+		try:
+			user_profile = UserProfile.objects.get(user=user)
+			member_expire = user_profile.member_expire
+		except:
+			member_expire = []
+	else:
+		member_expire = []
 	context = {
 		'nbar':'profile',	#导航标志
 		'user':user,
@@ -618,6 +626,7 @@ def member(request):
 		'year_order_info':year_order_info,
 		'year_signature':year_signature,
 		'current_url':current_url,
+		'nbar':'member',	#导航标志
 	}
 	return render(
 		request,
