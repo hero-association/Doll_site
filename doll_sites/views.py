@@ -519,7 +519,7 @@ def member(request):
 	current_url = request.path
 	redirect_url = request.GET.get('redirect_url')
 	if redirect_url == None:
-		redirect_url = '/'
+		redirect_url = '/accounts/profile/'
 	month_price = MemberConfig.objects.get(config_name='month_price')
 	month_content = MemberConfig.objects.get(config_name='month_content')
 	season_price = MemberConfig.objects.get(config_name='season_price')
