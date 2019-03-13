@@ -598,7 +598,7 @@ def member(request):
 	order_id_season = str(pay_type)+str(nowtime)+random_id_2
 	order_id_year = str(pay_type)+str(nowtime)+random_id_3
 	redirect = 'http://www.lolizhan.com' + str(redirect_url)
-	notify_url = 'http://requestbin.fullcontact.com/1al00m61'
+	notify_url = 'http://www.lolizhan.com/payment_response'
 	month_order_info = 'month_member'
 	month_signature = make_signature(month_price.config_value,pay_type,redirect,order_id,month_order_info,notify_url)
 	season_order_info = 'season_member'
