@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig,Order,UserProfile,UserAlbumPaidRecord,SlideBanner
+from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig,Order,UserProfile,UserAlbumPaidRecord,SlideBanner,MemberConfig
 
 class PhotoFileInline(admin.TabularInline):
 	model = PhotoFile
@@ -56,12 +56,16 @@ class TagAdmin(admin.ModelAdmin):
 
 class OrderAdmin(admin.ModelAdmin):
 	model = Order
-	list_display = ('order_id','order_info','order_status','order_type','order_price','date_created','date_update')
+	list_display = ('order_id','user_name','order_info','order_status','order_type','order_price','date_created','date_update')
 
 class ActressAdmin(admin.ModelAdmin):
 	list_display = ('actress_name_ch','actress_name_jp','actress_name_en')
 
 class SiteConfigAdmin(admin.ModelAdmin):
+	list_display = ('config_name','config_value')
+	list_editable = ('config_value',)
+
+class MemberConfigAdmin(admin.ModelAdmin):
 	list_display = ('config_name','config_value')
 	list_editable = ('config_value',)
 
@@ -76,5 +80,6 @@ admin.site.register(PhotoLink)
 admin.site.register(SiteConfig,SiteConfigAdmin)
 admin.site.register(SlideBanner)
 admin.site.register(UserProfile)
+admin.site.register(MemberConfig,MemberConfigAdmin)
 admin.site.register(Order,OrderAdmin)
 admin.site.register(UserAlbumPaidRecord)
