@@ -63,19 +63,14 @@
           <i class="fas fa-user mr-1"></i>
         用户名: {{ user.username }}
       </div>
-      {% if member_expire %}
-      <div class="mb-3">
-          <i class="fas fa-user mr-1"></i>
-        会员期限: {{ member_expire }}
-      </div>
-      {% endif %}
+      <div class="sr-only ">注册日期: {{ user.date_joined }}</div>
       <div >
           <i class="fas fa-envelope mr-1"></i>
         Email: 
         {% if user.email %}
         {{ user.email }}
         {% else %}
-        <a href="{% url 'account_email' %}">前往设置</a>
+        <a href="">前往设置</a>
         {% endif %}
       </div>
 
@@ -99,6 +94,9 @@
 
   </div>
 
+ 
+    
+  
 </section>
 
 <section id="buy-history" class="my-4"> 

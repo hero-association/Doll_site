@@ -31,7 +31,7 @@ $(document).ready(function(){
   $('img.lazyloadx').lazyload({
       threshold : 200,
       effect : 'fadeIn',
-      failure_limit :50,
+      failure_limit : 10,
   })
 });
 

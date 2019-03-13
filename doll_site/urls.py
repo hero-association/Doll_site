@@ -64,6 +64,5 @@ urlpatterns = [
     path('search/',views.searchresult,name='searchresult'),
     path('accounts/', include('allauth.urls')),
     path('accounts/profile', views.profile, name='profile'),
-    path('member/', views.member, name='member'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,document_root=settings.STATICFILES_DIRS)
 
