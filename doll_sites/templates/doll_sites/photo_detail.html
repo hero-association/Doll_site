@@ -95,7 +95,7 @@
                     onmouseover="img_onmouseoverfunc(this)"
                     lazyloadthumb="1"
                     
-                    alt="{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}" 
+                    alt="{{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}" 
                     data-original="{{ pic }}" 
                     lazyloaded="true">
                 {% endfor %}
