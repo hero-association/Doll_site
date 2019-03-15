@@ -29,7 +29,7 @@ $(document).ready(function() {
   $("img.lazyloadx").lazyload({
     threshold: 100,
     effect: "fadeIn",
-    failure_limit: 70
+    failure_limit: 100
   });
 });
 
