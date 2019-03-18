@@ -100,7 +100,10 @@ class Photo(models.Model):
 	model_name = models.ManyToManyField("Actress")	#演员名
 	date_added = models.DateTimeField(null=True,blank=True,auto_now_add=True)	#添加日期
 	photo_tag = models.ManyToManyField("Tag",blank=True)	#标签
-	views_count = models.PositiveIntegerField(default=0)	#点击量
+	views_count = models.PositiveIntegerField(default=0)	#总点击量
+	history_views_count = models.PositiveIntegerField(default=0)	#截至昨日总点击量
+	yesterday_views_count = models.PositiveIntegerField(default=0,null=True)	#昨日点击量
+	temperature = models.FloatField(default=0)	#相册热度
 	#VIP相册
 	vip_photo = models.BooleanField(default=False)
 	#付费下载
