@@ -18,6 +18,7 @@ def banner_upload_location(instance,filename):
 class UserProfile(models.Model):
 	"""对Django自带的User表进行扩展"""
 	user = models.OneToOneField(User,on_delete=models.CASCADE, related_name='profile')
+	emails = models.EmailField(default=0,null=True,blank=True)
 	member_type = models.BooleanField(default=False)
 	member_expire = models.DateField(null=True,blank=True)		#会员过期时间
 	count_coin = models.DecimalField(default=0,max_digits=8,decimal_places=2) 	#金币余额
@@ -234,3 +235,4 @@ class SlideBanner(models.Model):
 class MemberConfig(models.Model):
 	config_name = models.CharField(default=None,max_length=100)
 	config_value = models.CharField(default=None,max_length=9999)
+
