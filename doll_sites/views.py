@@ -1,7 +1,8 @@
 #encoding: utf-8
 from django.shortcuts import render
 from doll_sites import models
-from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress,SiteConfig,SlideBanner,Order,UserAlbumPaidRecord
+from django.contrib.auth.models import User
+from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress,SiteConfig,SlideBanner,Order,UserAlbumPaidRecord,MemberConfig,UserProfile
 from django.views import generic
 from django.core.paginator import Paginator
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -73,12 +74,6 @@ def index(request):
 		'doll_sites/index.html',
 		context
 	)
-
-# class PhotoIndexView(generic.ListView):
-# 	model = Photo
-# 	template_name = 'doll_sites/index.html'
-# 	# queryset = Photo.objects.order_by('-date_added')
-# 	context_object_name = 'Photo_index'
 
 #保证循环的次数在规定的展示栏个数，如果设置11，循环的次数保证在11次
 class DollPaginator(Paginator):
@@ -173,21 +168,18 @@ def photolist(request,series,company,pageid):
 		context
 	)
 
-# class PhotoListView(generic.ListView):
-# 	model = Photo
-# 	template_name = 'doll_sites/photo_list.html'
-# 	# queryset = Photo.objects.order_by('date_added')
-# 	context_object_name = 'Photo_list'
-
-# 	ordering = ['-id'] 
-
-# 	def get_right_recommend(self):
-# 		right_recommend = Photo_list[0:3]
-# 		return right_recommend
-
 def photodetail(request,photoid):
 	"""详情页"""
 	user = request.user
+	#判断用户是否为VIP
+	if user.is_authenticated:
+		try:
+			user_profile_object = UserProfile.objects.get(user=user)
+			user_vip_status = user_profile_object.member_type
+		except:
+			user_vip_status = False
+	else:
+		user_vip_status = False
 	photo_detail = Photo.objects.get(id=photoid)
 	photo_detail.increase_views_count()		#访问次数+1
 	#照片购买
@@ -205,10 +197,19 @@ def photodetail(request,photoid):
 	else:
 		bundle_links = [photo_detail.bundle_link,]
 	#当前相册的购买状态
-	if UserAlbumPaidRecord.objects.filter( Q(photo_id=photoid) & Q(user_id=user.username) ):
-		album_already_paid = True
+	if photo_detail.vip_bundle == False:
+		if user_vip_status == True:
+			album_already_paid = True
+		else:
+			if UserAlbumPaidRecord.objects.filter( Q(photo_id=photoid) & Q(user_id=user.username) ):
+				album_already_paid = True
+			else:
+				album_already_paid = False
 	else:
-		album_already_paid = False
+		if UserAlbumPaidRecord.objects.filter( Q(photo_id=photoid) & Q(user_id=user.username) ):
+			album_already_paid = True
+		else:
+			album_already_paid = False
 	#查询当前演员的相关图集
 	current_actress = photo_detail.model_name.all().order_by('pk')
 	related_album = []
@@ -244,6 +245,9 @@ def photodetail(request,photoid):
 	order_info = photo_detail.id
 	notify_url = 'http://test.lolizhan.com/payment_response'
 	single_signature = make_signature(order_price,pay_type,redirect,order_id,order_info,notify_url)
+	current_url = request.path
+	#VIP相册逻辑
+	vip_album = photo_detail.vip_photo
 	context = {
 		'buy_links':buy_links,		#购买链接列表
 		'bundle_links':bundle_links,		#Bundle链接列表
@@ -264,6 +268,9 @@ def photodetail(request,photoid):
 		'buy_content':buy_content,
 		'bundle_content':bundle_content,
 		'album_already_paid':album_already_paid,
+		'current_url':current_url,
+		'vip_album':vip_album,
+		'user_vip_status':user_vip_status,
 	}
 
 	return render(
@@ -334,12 +341,6 @@ def make_signature(price,pay_type,redirect,order_id,order_info,notify_url):
     
 	for key in param_keys:
 		param_str += str(param[key])
-
-	# for key in param_keys:
-	# 	if isinstance(param[key], str):
-	# 		param_str += str(param[key].encode('utf-8'))
-	# 	else:
-	# 		param_str += str(param[key])
     
 	param_str = param_str.encode('utf-8')
 	signature = hashlib.md5(param_str).hexdigest()
@@ -367,6 +368,7 @@ def payment_response(request):
 		ppz_order_id = request.POST.get('ppz_order_id')
 		real_price = request.POST.get('real_price')
 		current_order = Order.objects.filter(order_id=order_id)
+		current_order_object = Order.objects.get(order_id=order_id)
 		if current_order:
 			current_order.update(order_status='Paid')
 			current_order.update(ppz_order_id='ppz_order_id')
@@ -374,17 +376,51 @@ def payment_response(request):
 			user_name = Order.objects.filter(order_id=order_id)[0].user_name
 			order_info = Order.objects.filter(order_id=order_id)[0].order_info
 			order_type = Order.objects.filter(order_id=order_id)[0].order_type
-			if UserAlbumPaidRecord.objects.filter(order_id=order_id):
-				return HttpResponse('Already Exist!')
+			if current_order_object.order_info == 'month_member':
+				days_add = 30
+			elif current_order_object.order_info == 'season_member':
+				days_add = 90
+			elif current_order_object.order_info == 'year_member':
+				days_add = 365
+			if current_order_object.order_type == 'member':	#处理会员
+				user_id = User.objects.get(username=user_name)
+				user_profile = UserProfile.objects.filter(user=user_id)
+				try:	#有资料的情况
+					user_profile_object = UserProfile.objects.get(user=user_id)
+					user_profile = UserProfile.objects.get(user=user_id)
+					if user_profile_object.member_type == False:	#不是会员的情况
+						user_profile.update(member_type=True)
+						last_day = datetime.date.today()
+						new_expire_time = last_day + datetime.timedelta(days=days_add)
+						user_profile.update(member_expire=new_expire_time)
+						return HttpResponse('Member Paid!')
+					else:	#是会员的情况
+						last_day = user_profile.member_expire
+						user_profile = UserProfile.objects.filter(user=user_id)
+						new_expire_time = last_day + datetime.timedelta(days=days_add)
+						user_profile.update(member_expire=new_expire_time)
+						return HttpResponse('Member Paid!')
+				except:	#没有资料的情况
+					last_day = datetime.date.today()
+					new_expire_time = last_day + datetime.timedelta(days=days_add)
+					models.UserProfile.objects.create(
+						user=user_id,
+						member_type=True,
+						member_expire=new_expire_time,
+			        )
+					return HttpResponse('Member Paid!')
 			else:
-				paid_record = UserAlbumPaidRecord.objects.filter(order_id=order_id)
-				paid_record.create(
-					user_id=user_name,
-					order_id=order_id,
-					photo_id=order_info,
-					order_type=order_type,
-				)
-				return HttpResponse('Paid!')
+				if UserAlbumPaidRecord.objects.filter(order_id=order_id):	#创建已购列表
+					return HttpResponse('Already Exist!')
+				else:
+					paid_record = UserAlbumPaidRecord.objects.filter(order_id=order_id)
+					paid_record.create(
+						user_id=user_name,
+						order_id=order_id,
+						photo_id=order_info,
+						order_type=order_type,
+					)
+					return HttpResponse('Paid!')
 		else:
 			return HttpResponse('Not Exist!')
 	else:
@@ -498,11 +534,25 @@ def searchresult(request):
 def profile(request):
 	"""用户资料"""
 	user = request.user
-	user_paid_albums = Order.objects.filter(user_name=user).order_by('-date_created')
+	user_paid_albums = Order.objects.filter( Q(user_name=user) & Q(order_type='single') & Q(order_status='Paid') ).order_by('-date_created')
+	try:
+		user_profile_object = UserProfile.objects.get(user=user)
+		user_vip_status = user_profile_object.member_type
+	except:
+		user_vip_status = False
+	if user_vip_status == True:
+		try:
+			user_profile = UserProfile.objects.get(user=user)
+			member_expire = user_profile.member_expire
+		except:
+			member_expire = []
+	else:
+		member_expire = []
 	context = {
 		'nbar':'profile',	#导航标志
 		'user':user,
 		'user_paid_albums':user_paid_albums,
+		'member_expire':member_expire,
 	}
 	return render(
 		request,
@@ -522,6 +572,70 @@ def about(request):
 		context
 	)
 
+def member(request):
+	'''会员页面'''
+	current_url = request.path
+	redirect_url = request.GET.get('redirect_url')
+	if redirect_url == None:
+		redirect_url = '/accounts/profile/'
+	month_price = MemberConfig.objects.get(config_name='month_price')
+	month_content = MemberConfig.objects.get(config_name='month_content')
+	season_price = MemberConfig.objects.get(config_name='season_price')
+	season_content = MemberConfig.objects.get(config_name='season_content')
+	year_price = MemberConfig.objects.get(config_name='year_price')
+	year_content = MemberConfig.objects.get(config_name='year_content')
+	intro_text = MemberConfig.objects.get(config_name='intro_text')
+	#创建订单
+	api_user = '182553c7'
+	api_key = 'c3ff51b8-a1f5-4ad3-8b93-f770b81a02f0'
+	user_name = 'user_mail'
+	pay_type = int(2)	#表示支付宝
+	nowtime = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+	random_id = str(random.randint(1000000,9999999))
+	random_id_2 = str(random.randint(1000000,9999999))
+	random_id_3 = str(random.randint(1000000,9999999))
+	order_id = str(pay_type)+str(nowtime)+random_id
+	order_id_season = str(pay_type)+str(nowtime)+random_id_2
+	order_id_year = str(pay_type)+str(nowtime)+random_id_3
+	redirect = 'http://127.0.0.1:8000' + str(redirect_url)
+	notify_url = 'http://requestbin.fullcontact.com/1al00m61'
+	month_order_info = 'month_member'
+	month_signature = make_signature(month_price.config_value,pay_type,redirect,order_id,month_order_info,notify_url)
+	season_order_info = 'season_member'
+	season_signature = make_signature(season_price.config_value,pay_type,redirect,order_id_season,season_order_info,notify_url)
+	year_order_info = 'year_member'
+	year_signature = make_signature(year_price.config_value,pay_type,redirect,order_id_year,year_order_info,notify_url)
+	context = {
+		'month_price':month_price,
+		'month_content':month_content,
+		'season_price':season_price,
+		'season_content':season_content,
+		'year_price':year_price,
+		'year_content':year_content,
+		'intro_text':intro_text,
+		'redirect':redirect,
+		'api_user':api_user,
+		'user_name':user_name,
+		'pay_type':pay_type,
+		'order_id':order_id,
+		'order_id_season':order_id_season,
+		'order_id_year':order_id_year,
+		'notify_url':notify_url,
+		'month_order_info':month_order_info,
+		'month_signature':month_signature,
+		'season_order_info':season_order_info,
+		'season_signature':season_signature,
+		'year_order_info':year_order_info,
+		'year_signature':year_signature,
+		'current_url':current_url,
+		'nbar':'member',	#导航标志
+	}
+	return render(
+		request,
+		'doll_sites/member_order.html',
+		context
+	)
+
 def baidu(request):
 	'''百度验证'''
 	context = {
@@ -533,7 +647,6 @@ def baidu(request):
 		'doll_sites/baidu_verify_jiNtuP7fb1.html',
 		context
 	)
-
 #定时任务
 try:
 	# 实例化调度器

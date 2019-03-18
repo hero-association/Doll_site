@@ -19,8 +19,8 @@ class UserProfile(models.Model):
 	"""对Django自带的User表进行扩展"""
 	user = models.OneToOneField(User,on_delete=models.CASCADE, related_name='profile')
 	emails = models.EmailField(default=0,null=True,blank=True)
-	member_type = models.IntegerField(default=0)	#0为非会员，1为普通会员
-	member_expire = models.DateTimeField(null=True,blank=True)		#会员过期时间
+	member_type = models.BooleanField(default=False)
+	member_expire = models.DateField(null=True,blank=True)		#会员过期时间
 	count_coin = models.DecimalField(default=0,max_digits=8,decimal_places=2) 	#金币余额
 	Album_paid_count = models.IntegerField(default=0)		#相册购买总数
 
@@ -100,17 +100,16 @@ class Photo(models.Model):
 	model_name = models.ManyToManyField("Actress")	#演员名
 	date_added = models.DateTimeField(null=True,blank=True,auto_now_add=True)	#添加日期
 	photo_tag = models.ManyToManyField("Tag",blank=True)	#标签
-	views_count = models.PositiveIntegerField(default=0)	#总点击量
-	history_views_count = models.PositiveIntegerField(default=0)	#截至昨日总点击量
-	yesterday_views_count = models.PositiveIntegerField(default=0,null=True)	#昨日点击量
-	temperature = models.FloatField(default=0)	#相册热度
-	"""照片购买"""
-	vip_photo = models.BooleanField(default=False)	#是否付费
+	views_count = models.PositiveIntegerField(default=0)	#点击量
+	#VIP相册
+	vip_photo = models.BooleanField(default=False)
+	#付费下载
 	buy_content = models.CharField(max_length=60,null=True,blank=True)	#付费说明
 	buy_price = models.IntegerField(null=True,blank=True)	#价格
 	buy_link = models.CharField(max_length = 360,null=True,blank=True)	#购买链接
-	"""Bundle购买"""
-	vip_bundle = models.BooleanField(default=False)	#是否有Bundle
+	#高级购买(VIP不免费)
+	vip_bundle = models.BooleanField(default=False)
+	#暂未启用
 	bundle_content = models.CharField(max_length=60,null=True,blank=True)	#Bundle说明
 	bundle_price = models.IntegerField(null=True,blank=True)	#价格
 	bundle_link = models.CharField(max_length = 360,null=True,blank=True)	#购买链接
@@ -229,3 +228,8 @@ class SlideBanner(models.Model):
 							)
 	banner_title = models.CharField(max_length=999)
 	banner_link = models.CharField(max_length=999)
+
+class MemberConfig(models.Model):
+	config_name = models.CharField(default=None,max_length=100)
+	config_value = models.CharField(default=None,max_length=9999)
+
