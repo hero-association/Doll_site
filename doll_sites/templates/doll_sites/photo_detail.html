@@ -95,7 +95,7 @@
                     onmouseover="img_onmouseoverfunc(this)"
                     lazyloadthumb="1"
                     
-                    alt="{{ Photo_detail.name_chinese }}" 
+                    alt="{{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}" 
                     data-original="{{ pic }}" 
                     lazyloaded="true">
                 {% endfor %}
@@ -117,10 +117,8 @@
                   alt="{{ Photo_detail.name_chinese }}" 
                   data-original="{{ photo_detail.get_cover_pic_link }}" 
                   lazyloaded="true">
-
                 </div>
-                  
-                
+     
               {% endif %}
             {% else %}
               {% for pic in photo_detail.get_all_pic_link %}
@@ -131,7 +129,7 @@
                   onmouseover="img_onmouseoverfunc(this)"
                   lazyloadthumb="1"
                   
-                  alt="{{ Photo_detail.name_chinese }}" 
+                  alt="{{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}" 
                   data-original="{{ pic }}" 
                   lazyloaded="true">
               {% endfor %}

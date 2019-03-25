@@ -7,7 +7,7 @@ from django.views import generic
 from django.core.paginator import Paginator
 from apscheduler.schedulers.background import BackgroundScheduler
 from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
-# import sqlite3
+import sqlite3
 # import psycopg2
 import random
 import hashlib
@@ -241,9 +241,9 @@ def photodetail(request,photoid):
 	nowtime = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 	random_id = str(random.randint(1000000,9999999))
 	order_id = str(pay_type)+str(nowtime)+random_id
-	redirect = 'http://test.lolizhan.com/order/' + order_id
+	redirect = 'http://www.lolizhan.com/order/' + order_id
 	order_info = photo_detail.id
-	notify_url = 'http://test.lolizhan.com/payment_response'
+	notify_url = 'http://www.lolizhan.com/payment_response'
 	single_signature = make_signature(order_price,pay_type,redirect,order_id,order_info,notify_url)
 	current_url = request.path
 	#VIP相册逻辑
@@ -647,6 +647,7 @@ def baidu(request):
 		'doll_sites/baidu_verify_jiNtuP7fb1.html',
 		context
 	)
+
 #定时任务
 try:
 	# 实例化调度器
@@ -657,11 +658,11 @@ try:
 	# 循环执行任务：
 	# @register_job(scheduler,'interval',seconds=60,id='task_time',replace_existing=True)
 	# # 每天固定时间执行任务：
-	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='12', minute='53', second='00',id='task_time')
+	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='04', minute='21', second='00',id='task_time')
 	def temperature_count():
 		# 这里写你要执行的任务
-		# conn = sqlite3.connect('db.sqlite3')
-		conn = psycopg2.connect(database="test_database", user="jasonpak", password="Fuck.ch1na", host="127.0.0.1", port="5432")
+		conn = sqlite3.connect('db.sqlite3')
+		# conn = psycopg2.connect(database="test_database", user="jasonpak", password="Fuck.ch1na", host="127.0.0.1", port="5432")
 		c = conn.cursor()
 		cursor = c.execute("SELECT views_count,history_views_count,id from doll_sites_photo")
 		cursor = c.fetchall()
@@ -695,3 +696,4 @@ except Exception as e:
 	print(e)
 	# 有错误就停止定时器
 	scheduler.shutdown()
+
