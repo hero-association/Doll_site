@@ -7,8 +7,8 @@ from django.views import generic
 from django.core.paginator import Paginator
 from apscheduler.schedulers.background import BackgroundScheduler
 from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
-import sqlite3
-# import psycopg2
+# import sqlite3
+import psycopg2
 import random
 import hashlib
 import json
@@ -661,8 +661,8 @@ try:
 	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='04', minute='21', second='00',id='task_time')
 	def temperature_count():
 		# 这里写你要执行的任务
-		conn = sqlite3.connect('db.sqlite3')
-		# conn = psycopg2.connect(database="test_database", user="jasonpak", password="Fuck.ch1na", host="127.0.0.1", port="5432")
+		# conn = sqlite3.connect('db.sqlite3')
+		conn = psycopg2.connect(database="test_database", user="jasonpak", password="Fuck.ch1na", host="127.0.0.1", port="5432")
 		c = conn.cursor()
 		cursor = c.execute("SELECT views_count,history_views_count,id from doll_sites_photo")
 		cursor = c.fetchall()
