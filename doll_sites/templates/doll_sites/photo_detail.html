@@ -89,9 +89,8 @@
               <!-- 如果是会员 -->
                 {% for pic in photo_detail.get_all_pic_link %}
                   <img 
-                    onclick="zoom(this, this.src, 0, 0, 0)"
                     class="lazyloadx col-lg-10 p-0 mb-5"
-                    src="{{ pic }}"
+                    src="/static/image/loading.png"
                     onmouseover="img_onmouseoverfunc(this)"
                     lazyloadthumb="1"
                     
@@ -108,7 +107,6 @@
                   </div>
                 
                 <img 
-                  onclick="zoom(this, this.src, 0, 0, 0)" 
                   class="lazyloadx blur-img w-100" 
                   src="{{ photo_detail.get_cover_pic_link }}"
                   onmouseover="img_onmouseoverfunc(this)" 
@@ -123,9 +121,8 @@
             {% else %}
               {% for pic in photo_detail.get_all_pic_link %}
                 <img 
-                  onclick="zoom(this, this.src, 0, 0, 0)" 
                   class="lazyloadx col-lg-10 p-0 mb-5" 
-                  src="{{ pic }}"
+                  src="/static/image/loading.png"
                   onmouseover="img_onmouseoverfunc(this)"
                   lazyloadthumb="1"
                   
@@ -207,11 +204,7 @@
                           </a>
                           {% endfor %}  
                     </div>
-
-
             </div>
-
-         
           </div>
 	
         </div>
