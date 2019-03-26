@@ -47,6 +47,8 @@
 <!-- 引入 Bootstrap -->
   <link rel='stylesheet' href='/static/css/bootstrap.css'>
   <link rel='stylesheet' href='/static/css/style.css'>
+  <link rel='stylesheet' href='/static/css/video-js.css'>
+
 </head>
 <body >
 
@@ -63,6 +65,7 @@
 <section class="container">
     <div class="row">
         <div class="col-lg-9 mt-5 ">
+
 
           <h5>{{ photo_detail.name_chinese }}
             {% if photo_detail.vip_bundle %}
@@ -81,6 +84,11 @@
 
 
             
+        <video id='my-video' class='video-js col-lg-10' controls preload='auto' poster='{{ pic }}'
+        data-setup='{}'>
+        <source src='https://vjs.zencdn.net/v/oceans.mp4' type='video/mp4'>
+        <source src='MY_VIDEO.webm' type='video/webm'>
+      </video>
 
           
             <div class="mt-5">
@@ -237,8 +245,12 @@
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/js/jquery.lazyload.js"></script>
   <script src="/static/js/main.js"></script>
+  <script src="/static/js/video.js"></script>
+
 
   <script type="text/javascript"></script>
+
+
 
   <script type='text/javascript'>
     function create_order(){
