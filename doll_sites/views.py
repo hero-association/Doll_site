@@ -371,8 +371,8 @@ def payment_response(request):
 		current_order_object = Order.objects.get(order_id=order_id)
 		if current_order:
 			current_order.update(order_status='Paid')
-			current_order.update(ppz_order_id='ppz_order_id')
-			current_order.update(paid_price='real_price')
+			current_order.update(ppz_order_id=ppz_order_id)
+			current_order.update(paid_price=real_price)
 			user_name = Order.objects.filter(order_id=order_id)[0].user_name
 			order_info = Order.objects.filter(order_id=order_id)[0].order_info
 			order_type = Order.objects.filter(order_id=order_id)[0].order_type
