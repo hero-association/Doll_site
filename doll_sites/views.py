@@ -49,12 +49,16 @@ def index(request):
 	#首页中国推荐
 	recommend_chinese = get_index_recommend(3)
 	#首页最新推荐
-	recommend_newest = Photo.objects.order_by('-date_added')[:5]
+	recommend_newest = Photo.objects.order_by('-date_added')[:35]
+	recommend_newest = list(recommend_newest)
+	random.shuffle(recommend_newest)
+	recommend_newest = recommend_newest[:5]
 	#首页热门推荐
 	recommend_hotest = Photo.objects.order_by('-temperature')[:15]
 	recommend_hotest = list(recommend_hotest)
 	random.shuffle(recommend_hotest)
 	recommend_hotest = recommend_hotest[:5]
+	#首页热门偶像
 	recommend_person = Actress.objects.order_by('?')[:4]
 	context = {
 				'num_pic':num_pic,		#总图片数
