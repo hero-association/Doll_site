@@ -156,8 +156,8 @@ class Photo(models.Model):
 				num += 1
 		return detail_pic_links
 
-	def increase_views_count(self):
-		self.views_count += 1
+	def increase_views_count(self,num=1):
+		self.views_count += num
 		self.save(update_fields=['views_count'])
 
 	def get_absolute_url(self):

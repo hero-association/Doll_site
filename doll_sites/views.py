@@ -49,12 +49,16 @@ def index(request):
 	#首页中国推荐
 	recommend_chinese = get_index_recommend(3)
 	#首页最新推荐
-	recommend_newest = Photo.objects.order_by('-date_added')[:5]
+	recommend_newest = Photo.objects.order_by('-date_added')[:35]
+	recommend_newest = list(recommend_newest)
+	random.shuffle(recommend_newest)
+	recommend_newest = recommend_newest[:5]
 	#首页热门推荐
 	recommend_hotest = Photo.objects.order_by('-temperature')[:15]
 	recommend_hotest = list(recommend_hotest)
 	random.shuffle(recommend_hotest)
 	recommend_hotest = recommend_hotest[:5]
+	#首页热门偶像
 	recommend_person = Actress.objects.order_by('?')[:4]
 	context = {
 				'num_pic':num_pic,		#总图片数
@@ -181,7 +185,8 @@ def photodetail(request,photoid):
 	else:
 		user_vip_status = False
 	photo_detail = Photo.objects.get(id=photoid)
-	photo_detail.increase_views_count()		#访问次数+1
+	#访问次数+1
+	photo_detail.increase_views_count()
 	#照片购买
 	payment_status = SiteConfig.objects.get(config_name='Payment_links')
 	if payment_status.config_value == 'True':
@@ -578,6 +583,12 @@ def member(request):
 	redirect_url = request.GET.get('redirect_url')
 	if redirect_url == None:
 		redirect_url = '/accounts/profile/'
+	photo_id = redirect_url[7:]
+	try:
+		photo_detail = Photo.objects.get(id=photo_id)
+		photo_detail.increase_views_count(5)
+	except:
+		photo_detail = None
 	month_price = MemberConfig.objects.get(config_name='month_price')
 	month_content = MemberConfig.objects.get(config_name='month_content')
 	season_price = MemberConfig.objects.get(config_name='season_price')
@@ -606,6 +617,7 @@ def member(request):
 	year_order_info = 'year_member'
 	year_signature = make_signature(year_price.config_value,pay_type,redirect,order_id_year,year_order_info,notify_url)
 	context = {
+		'photo_detail':photo_detail,
 		'month_price':month_price,
 		'month_content':month_content,
 		'season_price':season_price,
@@ -696,4 +708,3 @@ except Exception as e:
 	print(e)
 	# 有错误就停止定时器
 	scheduler.shutdown()
-
