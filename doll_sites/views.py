@@ -253,6 +253,18 @@ def photodetail(request,photoid):
 	current_url = request.path
 	#VIP相册逻辑
 	vip_album = photo_detail.vip_photo
+	#SEO信息
+	actress_list = ''
+	for actress in current_actress:
+		actress_list += str(actress)
+		actress_list += ','
+	tag_list = ''
+	for t in photo_tag:
+		tag_list += str(t)
+		tag_list += ','
+	title = actress_list + str(photo_detail.company) + ' ' + str(photo_detail.name_chinese) + ' - 小熊社'
+	keywords = actress_list + tag_list + str(photo_detail.company)
+	description = '本图集是' + actress_list + '在' + str(photo_detail.company) + '公司拍摄的' + str(photo_detail.name_chinese) + '系列,包含了' + tag_list + '等元素,是小熊社精心收集的萝莉图集。'
 	context = {
 		'buy_links':buy_links,		#购买链接列表
 		'bundle_links':bundle_links,		#Bundle链接列表
@@ -276,6 +288,10 @@ def photodetail(request,photoid):
 		'current_url':current_url,
 		'vip_album':vip_album,
 		'user_vip_status':user_vip_status,
+		#SEO
+		'title':title,
+		'keywords':keywords,
+		'description':description,
 	}
 
 	return render(
@@ -617,7 +633,6 @@ def member(request):
 	year_order_info = 'year_member'
 	year_signature = make_signature(year_price.config_value,pay_type,redirect,order_id_year,year_order_info,notify_url)
 	context = {
-		'photo_detail':photo_detail,
 		'month_price':month_price,
 		'month_content':month_content,
 		'season_price':season_price,

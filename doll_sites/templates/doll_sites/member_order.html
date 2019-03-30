@@ -48,7 +48,7 @@
 
       <div class="card p-3">
         <div class="card-body">
-          <h5>月度会员{{ photo_detail }}</h5>
+          <h5>月度会员</h5>
           <p>¥ {{ month_price.config_value }}</p>
             {% if user.is_authenticated %}
                 <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">

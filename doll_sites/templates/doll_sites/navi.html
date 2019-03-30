@@ -1,32 +1,45 @@
-
-
-<!DOCTYPE html>
-<html lang="en">
 <head>
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127776067-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
+    <meta name="renderer" content="webkit">
+    <meta name="referrer" content="never">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta 
+      name="description" 
+      content="{{ description }}" 
+    />
+    <meta 
+      name="keywords" 
+      content="{{ keywords }}" 
+    />
+    <title>
+      {{ title }}
+    </title>
 
-        gtag('config', 'UA-127776067-1');
-    </script>
+<!-- 引入 Bootstrap -->
+  <link rel='stylesheet' href='/static/css/bootstrap.css'>
+  <link rel='stylesheet' href='/static/css/style.css'>
+  <link rel='stylesheet' href='/static/css/video-js.css'>
 
-    <!-- 引入 Bootstrap -->
-    <link rel='stylesheet' href='/static/css/bootstrap.css'>
-    <link rel='stylesheet' href='/static/css/style.css'>
+<!-- fontawsome -->
+  <link href="/static/css/all.css" rel="stylesheet">
+<!--load all styles -->
 
-    <!-- fontawsome -->
-    <link href="/static/css/all.css" rel="stylesheet">
-    <!--load all styles -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127776067-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-127776067-1');
+  </script>
 
 </head>
         
 <body>
-    
-
 
 <nav class="navbar d-block navbar-expand-sm navbar-dark bg-dark ">
   <div class="container">
@@ -60,23 +73,15 @@
               </li>
           </ul>
 
-        <!-- <form class="form-inline  my-2 my-lg-0" method="get" action="/search/">
-                                <input class="form-control mr-sm-2" type="search" placeholder="工口小学生赛高酱" aria-label="Search" name="kwd" value='{{ kwd }}'>
-                                <button class="btn my-2 my-sm-0" type="submit" >
-                                    <i class="fas fa-search text-light"></i> 
-                                </button>
-                              </form> -->
         <form class="form-inline  my-2 my-lg-0" method="get" action="/search/">
             
                 <div class="input-group ">
-                    <input type="text" class="form-control" placeholder="工口小学生赛高酱" aria-label="Search" aria-describedby="" name="kwd"
-                        value='{{ kwd }}'>
-                        <div class="input-group-append">
-        
+                  <input type="text" class="form-control" placeholder="工口小学生赛高酱" aria-label="Search" aria-describedby="" name="kwd"value="{{ kwd }}">
+                  <div class="input-group-append">
                     <button class="btn btn-outline-secondary " type="submit">
-                        <i class="fas fa-search"></i>
+                      <i class="fas fa-search"></i>
                     </button>
-                </div>
+                  </div>
                 </div>
             
         </form>
@@ -107,7 +112,3 @@
       </div>
   </div>
 </nav>
-
-</body>
-
-</html>
