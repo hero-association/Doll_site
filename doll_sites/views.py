@@ -60,18 +60,25 @@ def index(request):
 	recommend_hotest = recommend_hotest[:5]
 	#首页热门偶像
 	recommend_person = Actress.objects.order_by('?')[:4]
+	#SEO
+	title = '偶像列表-小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
+	keywords = '萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱'
+	description = '小熊社是自由的萝莉图库,提供包括Candydoll、Silverstar、Imouto、U15等多个品牌的写真图集,涵盖了包括EvaR,ElonaV,LauraB,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱等海内外知名萝莉'
 	context = {
-				'num_pic':num_pic,		#总图片数
-				'num_photo':num_photo,		#总相册数
-				'company_list':company_list,		#公司列表
-				'silde_banner':silde_banner,		#轮播图
-				'recommend_european':recommend_european,		#推荐相册-欧美
-				'recommend_japanese':recommend_japanese,		#推荐相册-日本
-				'recommend_chinese':recommend_chinese,		#推荐相册-中国
-				'recommend_newest':recommend_newest,		#推荐相册-最新
-				'recommend_hotest':recommend_hotest,		#推荐相册-最热
-				'recommend_person':recommend_person,		#推荐偶像
-				'nbar':'home',	#导航标志
+		'title':title,
+		'keywords':keywords,
+		'description':description,
+		'num_pic':num_pic,		#总图片数
+		'num_photo':num_photo,		#总相册数
+		'company_list':company_list,		#公司列表
+		'silde_banner':silde_banner,		#轮播图
+		'recommend_european':recommend_european,		#推荐相册-欧美
+		'recommend_japanese':recommend_japanese,		#推荐相册-日本
+		'recommend_chinese':recommend_chinese,		#推荐相册-中国
+		'recommend_newest':recommend_newest,		#推荐相册-最新
+		'recommend_hotest':recommend_hotest,		#推荐相册-最热
+		'recommend_person':recommend_person,		#推荐偶像
+		'nbar':'home',	#导航标志
 	}
 	return render(
 		request,
@@ -156,7 +163,14 @@ def photolist(request,series,company,pageid):
 		current_company = "all_company"
 	nbar = str(current_company)
 
+	#SEO
+	title = '相册列表-小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
+	keywords = '萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱'
+	description = '小熊社是自由的萝莉图库,提供包括Candydoll、Silverstar、Imouto、U15等多个品牌的写真图集,涵盖了包括EvaR,ElonaV,LauraB,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱等海内外知名萝莉'
 	context = {
+		'title':title,
+		'keywords':keywords,
+		'description':description,
 		'current_photo_list':current_photo_list,		#分页的相册列表
 		'photo_list':photo_list,		#未分页的相册列表
 		'nbar':nbar,	#导航标志
@@ -324,8 +338,14 @@ def order_detail(request,order_id):
 		order_type = '购买会员'
 	product_name = '['+actress_name+']' +' '+ photo_name +' '+ order_type
 	price = current_order.order_price
-
+	#SEO
+	title = '订单详情-小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
+	keywords = '萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱'
+	description = '小熊社是自由的萝莉图库,提供包括Candydoll、Silverstar、Imouto、U15等多个品牌的写真图集,涵盖了包括EvaR,ElonaV,LauraB,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱等海内外知名萝莉'
 	context = {
+		'title':title,
+		'keywords':keywords,
+		'description':description,
 		'order_id':order_id,
 		'order_status':order_status,
 		'product_name':product_name,
@@ -476,10 +496,15 @@ def actresslist(request,pageid):
 	actress_list = Actress.objects.all().order_by('actress_name_ch')
 	limit = 20
 	paginator = DollPaginator(pageid,5,actress_list,limit)
-	# page = request.GET.get('page','1')
-
 	current_actress_list = paginator.page(pageid)
+	#SEO
+	title = '偶像列表-小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
+	keywords = '萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱'
+	description = '小熊社是自由的萝莉图库,提供包括Candydoll、Silverstar、Imouto、U15等多个品牌的写真图集,涵盖了包括EvaR,ElonaV,LauraB,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱等海内外知名萝莉'
 	context = {
+		'title':title,
+		'keywords':keywords,
+		'description':description,
 		'current_actress_list' : current_actress_list,		#分页的偶像列表
 		'actress_list' : actress_list,		#未分页的偶像列表
 		'nbar':'actress',	#导航标志
@@ -499,8 +524,18 @@ def actressdetail(request,actressid):
 	for album in related_album:
 		related_company.append(album.company)
 	related_company = set(related_company)
-
+	#SEO
+	company_list = ''
+	for c in related_company:
+		company_list += str(c)
+		company_list += ','
+	title = str(current_actress.actress_name_ch) + ' - 小熊社'
+	keywords = company_list + str(current_actress.actress_name_ch)
+	description = str(current_actress.description)
 	context = {
+		'title':title,
+		'keywords':keywords,
+		'description':description,
 		'related_album' : related_album,		#当前偶像的相册列表
 		'current_actress' : current_actress,		#当前偶像
 		'related_company' : related_company,		#关联的公司
@@ -539,7 +574,14 @@ def searchresult(request):
 	result_list = set(result_list_actress + list(result_list_title) + result_list_tag + result_list_company)
 	result_count = len(result_list)
 
+	#SEO
+	title = kwd + ' - 共 ' + str(result_count) + ' 个搜索结果 - 小熊社'
+	keywords = kwd + ',萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱'
+	description = '小熊社是自由的萝莉图库,提供包括Candydoll、Silverstar、Imouto、U15等多个品牌的写真图集,涵盖了包括EvaR,ElonaV,LauraB,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱等海内外知名萝莉'
 	context = {
+		'title':title,
+		'keywords':keywords,
+		'description':description,
 		'result_list' : result_list,
 		'kwd' : kwd,
 		'result_count' : result_count,
@@ -569,7 +611,14 @@ def profile(request):
 			member_expire = []
 	else:
 		member_expire = []
+	#SEO
+	title = '会员中心-小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
+	keywords = '萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱'
+	description = '小熊社是自由的萝莉图库,提供包括Candydoll、Silverstar、Imouto、U15等多个品牌的写真图集,涵盖了包括EvaR,ElonaV,LauraB,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱等海内外知名萝莉'
 	context = {
+		'title':title,
+		'keywords':keywords,
+		'description':description,
 		'nbar':'profile',	#导航标志
 		'user':user,
 		'user_paid_albums':user_paid_albums,
@@ -583,7 +632,14 @@ def profile(request):
 
 def about(request):
 	"""关于页面"""
+	title = '小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
+	keywords = '萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱'
+	description = '小熊社是自由的萝莉图库,提供包括Candydoll、Silverstar、Imouto、U15等多个品牌的写真图集,涵盖了包括EvaR,ElonaV,LauraB,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱等海内外知名萝莉'
 	context = {
+		#SEO
+		'title':title,
+		'keywords':keywords,
+		'description':description,
 		'nbar':'about',	#导航标志
 	}
 
@@ -632,7 +688,14 @@ def member(request):
 	season_signature = make_signature(season_price.config_value,pay_type,redirect,order_id_season,season_order_info,notify_url)
 	year_order_info = 'year_member'
 	year_signature = make_signature(year_price.config_value,pay_type,redirect,order_id_year,year_order_info,notify_url)
+	#SEO
+	title = '会员购买-小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
+	keywords = '萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱'
+	description = '小熊社是自由的萝莉图库,提供包括Candydoll、Silverstar、Imouto、U15等多个品牌的写真图集,涵盖了包括EvaR,ElonaV,LauraB,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱等海内外知名萝莉'
 	context = {
+		'title':title,
+		'keywords':keywords,
+		'description':description,
 		'month_price':month_price,
 		'month_content':month_content,
 		'season_price':season_price,

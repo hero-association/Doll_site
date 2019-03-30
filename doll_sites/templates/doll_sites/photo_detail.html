@@ -1,6 +1,10 @@
 <!DOCTYPE HTML>
 <html class="h-100">
 
+{% include 'doll_sites/head.html' %}
+
+<body>
+
 <!-- Header & Navigation -->
 {% include 'doll_sites/navi.html' %}
 
@@ -135,7 +139,7 @@
                 <h5 class="mb-3" >热搜标签</h5>
                 
                   {% for actress in hot_actress %}
-                    <a class="btn btn-sm btn-outline-primary mb-2 " href="../search/?kwd={{ actress.actress_name_ch }}" title="{{ actress.actress_name_ch }}">  
+                    <a class="btn btn-sm btn-outline-primary mb-2 " href="../search/?kwd={{ actress.actress_name_ch }}" title="{{ actress.actress_name_ch }}" onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_hotlabel_detail'});">  
                       {{ actress.actress_name_ch }}
                     </a>
                   
@@ -144,7 +148,7 @@
                   <div class="my-4">
                       <h5 class="mb-3">相关推荐</h5>
                           {% for photo in related_album %}
-                            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title="{{ photo.name_chinese }}" target="_blank" onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_RightSide'});">
+                            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title="{{ photo.name_chinese }}" onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_rightSide_detail'});">
                               <img class="card-img-top img-fluid border-light lazyloadx" data-original='{{ photo.get_cover_pic_link }}' src="/static/image/loading.png"
                                 alt="{{ photo.name_chinese}}" lazyloadthumb="1" lazyloaded="true">
                             <p class="text-center text-truncate p-3">{{ photo.name_chinese }}</p>

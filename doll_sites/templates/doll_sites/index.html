@@ -1,56 +1,16 @@
-
 <!DOCTYPE HTML>
 <html>
 <head>
 
-    <meta name="renderer" content="webkit">
-    <meta name="referrer" content="never">
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="applicable-device" content="pc,mobile">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta name="description" content="小熊社是免费自由的萝莉图库，提供包括Candydoll、Silverstar、Imouto、U15等多个品牌的写真图集，涵盖了包括EvaR,ElonaV,LauraB,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱等海内外知名演员" />
-    <meta name="keywords" content="萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱" />
-    <title> 小熊社-免费自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv </title>
-
-<!-- Baidu ZhanZhang Verify -->
-    <meta name="baidu-site-verification" content="jiNtuP7fb1" />
-<!-- Sogou Verify -->
-    <meta name="sogou_site_verification" content="NSpQ4kboB4"/>
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127776067-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-127776067-1');
-    </script>
-
-<!-- 引入 Bootstrap -->
-  <link rel='stylesheet' href='/static/css/bootstrap.css'>
-  <link rel='stylesheet' href='/static/css/style.css'>
-
-
-  <!-- fontawsome -->
-  <link href="/static/css/all.css" rel="stylesheet"> <!--load all styles -->
-
-
-</head>
-
+{% include 'doll_sites/head.html' %}
 
 <body class="d-flex flex-column h-100">
 
   {% include 'doll_sites/navi.html' %}
 
-
   <a  href="#" class="bg-dark" id="scroll">
       <i class="fas fa-chevron-up text-white "></i>
   </a>
-
-  
-
 
  <!-- Carousel -->
 
@@ -80,7 +40,7 @@
         {% else %}
         <div class="carousel-item">
         {% endif %}
-          <a href={{ banners.banner_link }}>
+          <a href={{ banners.banner_link }} onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Banner_index'});">
             <img class="d-block w-100" src="/static/doll_sites/images/uploads/{{ banners.banner_pic }}" alt="{{ banners.banner_title }}">
           </a>
         </div>
@@ -126,7 +86,7 @@
         {% for photo in recommend_newest %}
         <div class="card border-0">
     
-          <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+          <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self' onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
             <img 
               class="card-img-top border-light lazyloadx" 
               data-original="{{ photo.get_cover_pic_link }}"
@@ -177,7 +137,7 @@
       
         <div class="card-deck mb-4">
             {% for photo in recommend_hotest %}
-            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self' onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_hotest_index'});">
         <div class="card border-0 ">
             <img 
               class="card-img-top border-light lazyloadx" 
@@ -234,7 +194,7 @@
           {% for person in recommend_person %}
           <div class="card border-0">
       
-            <a  href="/actress_detail/{{ person.id }}" title=" {{ person.actress_name_ch }} " target='_self'>
+            <a  href="/actress_detail/{{ person.id }}" title=" {{ person.actress_name_ch }} " target='_self' onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_actress_index'});">
               <img class="card-img-top img-fluid border border-light lazyloadx" data-original="/static/doll_sites/images/uploads/{{ person.avatar }}"
                 src="/static/image/loading.png" alt="{{ person.actress_name_ch }}" lazyloadthumb="1" lazyloaded="true">
             </a>
@@ -292,7 +252,7 @@
           {% for photo in recommend_european %}
           <div class="card border-0">
       
-            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self' onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_euro_index'});">
               <img 
                 class="card-img-top border border-light lazyloadx" 
                 data-original="{{ photo.get_cover_pic_link }}"
@@ -339,7 +299,7 @@
           {% for photo in recommend_japanese %}
           <div class="card border-0 col-md-4 col-lg mr-4 p-0">
       
-            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self' onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_japan_index'});">
               <img 
                 class="card-img-top border border-light lazyloadx" 
                 data-original="{{ photo.get_cover_pic_link }}"
@@ -385,7 +345,7 @@
           {% for photo in recommend_chinese %}
           <div class="card border-0">
       
-            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self' onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_china_index'});">
               <img 
                 class="card-img-top border border-light lazyloadx" 
                 data-original="{{ photo.get_cover_pic_link }}"
