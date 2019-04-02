@@ -61,7 +61,7 @@ def index(request):
 	#首页热门偶像
 	recommend_person = Actress.objects.order_by('?')[:4]
 	#SEO
-	title = '偶像列表-小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
+	title = '小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
 	keywords = '萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱'
 	description = '小熊社是自由的萝莉图库,提供包括Candydoll、Silverstar、Imouto、U15等多个品牌的写真图集,涵盖了包括EvaR,ElonaV,LauraB,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱等海内外知名萝莉'
 	context = {
