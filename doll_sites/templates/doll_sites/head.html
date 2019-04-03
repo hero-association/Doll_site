@@ -20,9 +20,17 @@
 <!--load all styles -->
 
 <!-- Baidu ZhanZhang Verify -->
-    <meta name="baidu-site-verification" content="jiNtuP7fb1" />
+  <meta name="baidu-site-verification" content="jiNtuP7fb1" />
 <!-- Sogou Verify -->
-    <meta name="sogou_site_verification" content="NSpQ4kboB4"/>
+  <meta name="sogou_site_verification" content="NSpQ4kboB4"/>
+
+<!-- Get User Info -->
+  <script type='text/javascript'>
+    function get_user_info(){
+      $.get("/get_user_info",)
+    }
+    window.onload = get_user_info;
+  </script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127776067-1"></script>

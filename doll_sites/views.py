@@ -18,6 +18,7 @@ from django.shortcuts import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
+from django.http import JsonResponse
 
 def get_index_recommend(series_id):
 	series_hot = Photo.objects.filter(series=series_id).order_by('-temperature')[:20]
@@ -490,6 +491,26 @@ def create_order(request):
 	else:
 		return HttpResponse('It is not a POST request!!!')
 
+def get_user_info(request):
+	if request.method == 'GET':
+		user = request.user
+		if user.is_authenticated:
+			user_id = user.id
+			try:
+				user_profile_object = UserProfile.objects.get(user=user)
+				if user_profile_object.member_type == True:
+					user_status = 'vip'
+				else:
+					user_status = 'normal'
+			except:
+				user_status = 'normal'
+		else:
+			user_status = ''
+			user_id = ''
+		response = {'user_id':user_id,'user_status':user_status}
+		return JsonResponse(response)
+	else:
+		return HttpResponse('It is not a GET request!!!')
 
 def actresslist(request,pageid):
 	"""演员列表页"""
