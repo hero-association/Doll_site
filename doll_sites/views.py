@@ -190,11 +190,17 @@ def photolist(request,series,company,pageid):
 def photodetail(request,photoid):
 	"""详情页"""
 	user = request.user
+	nowdate = datetime.datetime.now().strftime('%Y%m%d')
 	#判断用户是否为VIP
 	if user.is_authenticated:
 		try:
 			user_profile_object = UserProfile.objects.get(user=user)
-			user_vip_status = user_profile_object.member_type
+			user_vip_expiration = user_profile_object.member_expire
+			user_vip_expiration = user_vip_expiration.strftime('%Y%m%d')
+			if int(user_vip_expiration) - int(nowdate) >= 0:
+				user_vip_status = True
+			else:
+				user_vip_status = False
 		except:
 			user_vip_status = False
 	else:
@@ -499,7 +505,13 @@ def get_user_info(request):
 			try:
 				user_profile_object = UserProfile.objects.get(user=user)
 				if user_profile_object.member_type == True:
-					user_status = 'vip'
+					nowdate = datetime.datetime.now().strftime('%Y%m%d')
+					user_vip_expiration = user_profile_object.member_expire
+					user_vip_expiration = user_vip_expiration.strftime('%Y%m%d')
+					if int(user_vip_expiration) - int(nowdate) >= 0:
+						user_status = 'vip'
+					else:
+						user_status = 'expired'
 				else:
 					user_status = 'normal'
 			except:
