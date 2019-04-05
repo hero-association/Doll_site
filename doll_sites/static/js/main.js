@@ -3,32 +3,6 @@
 /**/
 
 
-window.onload = function(){
-
-  document.getElementById("button-demo").addEventListener("click", getUserInfo);
-
-
-  function getUserInfo() {
-    const xhr = new XMLHttpRequest();
-
-    xhr.open('GET', '/get_user_info', true);
-
-    xhr.onload = function () {
-      if (this.status === 200) {
-        const userInfo = JSON.parse(this.responseText);
-
-        console.log(userInfo);
-
-
-      }
-    }
-
-    xhr.send();
-
-
-  }
-
-};
 
 //
 
