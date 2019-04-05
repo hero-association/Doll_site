@@ -33,10 +33,7 @@
 
 window.onload = function(){
 
-document.getElementById("button-demo").addEventListener("click", getUserInfo);
-
-
-function getUserInfo() {
+var getUserInfo =  function() {
   const xhr = new XMLHttpRequest();
 
   xhr.open('GET', '/get_user_info', true);
@@ -55,6 +52,8 @@ function getUserInfo() {
 
 
 }
+
+getUserInfo();
 
 };
 
