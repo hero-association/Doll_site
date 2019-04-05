@@ -501,7 +501,7 @@ def get_user_info(request):
 	if request.method == 'GET':
 		user = request.user
 		if user.is_authenticated:
-			user_id = user.id
+			user_id = str(user.id)
 			try:
 				user_profile_object = UserProfile.objects.get(user=user)
 				if user_profile_object.member_type == True:
