@@ -24,22 +24,28 @@
 <!-- Sogou Verify -->
   <meta name="sogou_site_verification" content="NSpQ4kboB4"/>
 
-<!-- Get User Info -->
-  <script type='text/javascript'>
-    function get_user_info(){
-      $.get("/get_user_info",)
-    }
-    window.onload = get_user_info;
-  </script>
-
 <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127776067-1"></script>
+
   <script>
+ 
+
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
-    gtag('config', 'UA-127776067-1');
+    // var user_id = 12;
+    // gtag('set', 'dimension1', 'user_id');
+
+    gtag('config', 'UA-127776067-1', {
+      'custom_map': {
+        'dimension1': 'user_id',
+    }
+    });
+
+    gtag('event', 'user_id_dimenson', {'user_id': 12});
   </script>
+
+
 
 </head>

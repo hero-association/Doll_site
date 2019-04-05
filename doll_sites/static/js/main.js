@@ -2,9 +2,38 @@
 
 /**/
 
+
+window.onload = function(){
+
+  document.getElementById("button-demo").addEventListener("click", getUserInfo);
+
+
+  function getUserInfo() {
+    const xhr = new XMLHttpRequest();
+
+    xhr.open('GET', '/get_user_info', true);
+
+    xhr.onload = function () {
+      if (this.status === 200) {
+        const userInfo = JSON.parse(this.responseText);
+
+        console.log(userInfo);
+
+
+      }
+    }
+
+    xhr.send();
+
+
+  }
+
+};
+
 //
 
 // -- scroll to top
+
 
 $(document).ready(function() {
   $(window).scroll(function() {
@@ -50,9 +79,12 @@ $("#slider").on("slid.bs.carousel", function() {
 
 
   //video.js setup
-  videojs(document.querySelector('.video-js'));
-  videojs('.video-js', {
-    controls: true,
-    autoplay: true,
-    preload: 'auto'
-  });
+  // videojs(document.querySelector('.video-js'));
+  // videojs('.video-js', {
+  //   controls: true,
+  //   autoplay: true,
+  //   preload: 'auto'
+  // });
+
+  
+
