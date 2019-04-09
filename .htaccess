@@ -1,6 +1,0 @@
-RewriteEngine On
-RewriteCond %{HTTP_HOST} ^lolizhan.com [NC]
-RewriteRule ^(.*)$ https://www.lolizhan.com/$1 [L,R=301]
-RewriteCond %{HTTP_HOST} ^alolita.com [NC,OR] 
-RewriteCond %{HTTP_HOST} ^www.alolita.com [NC] 
-RewriteRule ^(.*)$ https://www.lolizhan.com/$1 [L,R=301]
