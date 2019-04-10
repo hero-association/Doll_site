@@ -268,9 +268,9 @@ def photodetail(request,photoid):
 	nowtime = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 	random_id = str(random.randint(1000000,9999999))
 	order_id = str(pay_type)+str(nowtime)+random_id
-	redirect = 'http://127.0.0.1:8000' + current_url + '?paid=true&item=single'
+	redirect = 'https://www.lolizhan.com' + current_url + '?paid=true&item=single'
 	order_info = photo_detail.id
-	notify_url = 'http://www.lolizhan.com/payment_response'
+	notify_url = 'https://www.lolizhan.com/payment_response'
 	single_signature = make_signature(order_price,pay_type,redirect,order_id,order_info,notify_url)
 	current_url = request.path
 	#VIP相册逻辑
@@ -763,13 +763,13 @@ def member(request):
 	order_id_year = str(pay_type)+str(nowtime)+random_id_3
 	notify_url = 'http://www.lolizhan.com/payment_response'
 	month_order_info = 'month_member'
-	month_redirect = 'http://127.0.0.1:8000' + str(redirect_url) + '&item=' + month_order_info
+	month_redirect = 'https://www.lolizhan.com' + str(redirect_url) + '&item=' + month_order_info
 	month_signature = make_signature(month_price.config_value,pay_type,month_redirect,order_id,month_order_info,notify_url)
 	season_order_info = 'season_member'
-	season_redirect = 'http://127.0.0.1:8000' + str(redirect_url) + '&item=' + month_order_info
+	season_redirect = 'https://www.lolizhan.com' + str(redirect_url) + '&item=' + month_order_info
 	season_signature = make_signature(season_price.config_value,pay_type,season_redirect,order_id_season,season_order_info,notify_url)
 	year_order_info = 'year_member'
-	year_redirect = 'http://127.0.0.1:8000' + str(redirect_url) + '&item=' + month_order_info
+	year_redirect = 'https://www.lolizhan.com' + str(redirect_url) + '&item=' + month_order_info
 	year_signature = make_signature(year_price.config_value,pay_type,year_redirect,order_id_year,year_order_info,notify_url)	
 	#SEO
 	title = '会员购买-小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
