@@ -735,7 +735,7 @@ def member(request):
 	current_url = request.get_full_path()
 	redirect_url = request.GET.get('redirect_url')
 	if redirect_url == None:
-		redirect_url = '/accounts/profile/'
+		redirect_url = '/accounts/profile?'
 	photo_id = redirect_url[7:]
 	try:
 		photo_detail = Photo.objects.get(id=photo_id)
