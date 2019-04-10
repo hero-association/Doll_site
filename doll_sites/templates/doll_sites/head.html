@@ -56,8 +56,35 @@
 
       getUserInfo();
 
-    };
+      //构造带参数的请求地址，用于获取订单详情
+      var order_item = getUrlParam('item');
+      var photo_id = {{ photo_detail.id }}
+      var get_url = '/get_order_info?item='
+      get_url = get_url + order_item + '&photo_id=' + photo_id
+      //当检查到paid信号时，获取订单详情
+      var getPaidInfo = function () {
+        if ( getUrlParam('paid') === 'true' ) {
+          const osign = new XMLHttpRequest();
+          osign.open('GET', get_url, true)
+          //上报订单各参数，完成统计
+          osign.onload = function () {
+            if (this.status === 200) {
+              var paidInfo = JSON.parse(this.responseText);
+              gtag('event', 'order', {'send_to': 'UA-127776067-1','event_category': 'order_item','event_label': osign.order_item});
+              gtag('event', 'order', {'send_to': 'UA-127776067-1','event_category': 'order_detail','event_label': osign.order_detail});
+              gtag('event', 'order', {'send_to': 'UA-127776067-1','event_category': 'origin_page','event_label': osign.origin_page});
+              gtag('event', 'order', {'send_to': 'UA-127776067-1','event_category': 'origin_actress','event_label': osign.origin_actress});
+              gtag('event', 'order', {'send_to': 'UA-127776067-1','event_category': 'origin_series','event_label': osign.origin_series});
+              gtag('event', 'order', {'send_to': 'UA-127776067-1','event_category': 'origin_race','event_label': osign.origin_race});
+            }
+          }
+          osign.send();
+        }
+      }
 
+      getPaidInfo();
+
+    }
 
 
 
@@ -79,6 +106,33 @@
 
 
     }
+
+
+    //paraName 获取URL中的参数
+　　function getUrlParam(paraName) {
+　　　　var url = document.location.toString();
+　　　　var arrObj = url.split("?");
+
+　　　　if (arrObj.length > 1) {
+　　　　　　var arrPara = arrObj[1].split("&");
+　　　　　　var arr;
+
+　　　　　　for (var i = 0; i < arrPara.length; i++) {
+　　　　　　　　arr = arrPara[i].split("=");
+
+　　　　　　　　if (arr != null && arr[0] == paraName) {
+　　　　　　　　　　return arr[1];
+　　　　　　　　}
+　　　　　　}
+　　　　　　return "";
+　　　　}
+　　　　else {
+　　　　　　return "";
+　　　　}
+　　}
+    
+
+
 
   </script>
 

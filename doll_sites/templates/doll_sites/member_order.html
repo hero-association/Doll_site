@@ -132,7 +132,8 @@
         order_type:$("#order_type").val(),
         price:$("#price").val(),
         }
-      )
+      );
+      gtag('event', 'create_order', {'send_to': 'UA-127776067-1','event_category': 'item','event_label': 'month_member'});
     }
   </script>
 
@@ -146,7 +147,8 @@
         order_type:$("#order_type").val(),
         price:$("#price").val(),
         }
-      )
+      );
+      gtag('event', 'create_order', {'send_to': 'UA-127776067-1','event_category': 'item','event_label': 'season_member'});
     }
   </script>
 
@@ -160,7 +162,8 @@
         order_type:$("#order_type").val(),
         price:$("#price").val(),
         }
-      )
+      );
+      gtag('event', 'create_order', {'send_to': 'UA-127776067-1','event_category': 'item','event_label': 'year_member'});
     }
   </script>
 
