@@ -48,6 +48,7 @@ urlpatterns = [
         name='django.contrib.sitemaps.views.sitemap'),
     url(r'payment_response',views.payment_response,name='payment_response'),
     url(r'get_user_info',views.get_user_info,name='get_user_info'),
+    url(r'get_order_info',views.get_order_info,name='get_order_info'),
     url('^',include('django.contrib.auth.urls')),  #默认的用户模块视图
     url(r'accounts/profile/$', views.profile, name='profile'),  #自定义的用户资料页面
     url(r'create_order',views.create_order,name='create_order'),

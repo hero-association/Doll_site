@@ -33,13 +33,6 @@
               {{ actress.actress_name_ch }}
           </a>
         {% endfor %}
-        
-
-        <video id='my-video' class='video-js col-lg-10 video-sm' controls preload='auto' poster='{{ pic }}'
-        data-setup='{}'>
-        <source src='https://vjs.zencdn.net/v/oceans.mp4' type='video/mp4'>
-        <source src='MY_VIDEO.webm' type='video/webm'>
-      </video>
 
             <div class="mt-5">
             {% if vip_album %}
@@ -61,7 +54,7 @@
                 <div class="mb-4 relative-box col-lg-10 p-0">
                   <div class="buy-content p-5 text-center">
                     <p class="text-white">本图集为VIP相册，请购买VIP后观看</p>
-                    <a class="btn btn-primary " href="/member?redirect_url={{ current_url }}">升级为会员</a>
+                    <a class="btn btn-primary " href="/member?redirect_url={{ current_url }}?paid=true">升级为会员</a>
                   </div>
                 
                 <img 

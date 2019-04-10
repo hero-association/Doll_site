@@ -190,6 +190,7 @@ def photolist(request,series,company,pageid):
 def photodetail(request,photoid):
 	"""详情页"""
 	user = request.user
+	current_url = request.get_full_path()
 	nowdate = datetime.datetime.now().strftime('%Y%m%d')
 	#判断用户是否为VIP
 	if user.is_authenticated:
@@ -267,9 +268,9 @@ def photodetail(request,photoid):
 	nowtime = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 	random_id = str(random.randint(1000000,9999999))
 	order_id = str(pay_type)+str(nowtime)+random_id
-	redirect = 'http://www.lolizhan.com/order/' + order_id
+	redirect = 'https://test.lolizhan.com' + current_url + '?paid=true&item=single'
 	order_info = photo_detail.id
-	notify_url = 'http://www.lolizhan.com/payment_response'
+	notify_url = 'http://test.lolizhan.com/payment_response'
 	single_signature = make_signature(order_price,pay_type,redirect,order_id,order_info,notify_url)
 	current_url = request.path
 	#VIP相册逻辑
@@ -524,6 +525,53 @@ def get_user_info(request):
 	else:
 		return HttpResponse('It is not a GET request!!!')
 
+def get_order_info(request):
+	if request.method == 'GET':
+		item = request.GET.get('item')
+		try:
+			photo_id = request.GET.get('photo_id')
+		except:
+			photo_id = 'others'
+		"""订单详情"""
+		if item == 'single':
+			order_item = 'album'
+			order_detail = 'photo_id'
+		else:
+			order_item = 'vip'
+			order_detail = item
+		"""订单来源"""
+		try:
+			if photo_id == 'others':
+				origin_page = 'others'
+				origin_album = 'None'
+				origin_actress = 'None'
+				origin_series = 'None'
+				origin_race = 'None'
+			else:
+				origin_photo = Photo.objects.get(id=int(photo_id))
+				origin_page = 'photo_detail'
+				origin_album = str(photo_id)
+				origin_actress_quary = origin_photo.model_name.all()
+				origin_actress = []
+				for actress in origin_actress_quary:
+					origin_actress.append(actress.actress_name_en)
+				origin_series = str(origin_photo.company)
+				origin_race = str(origin_photo.series)
+			response = {
+				'order_item':order_item,
+				'order_detail':order_detail,
+				'origin_page':origin_page,
+				'origin_album':origin_album,
+				'origin_actress':origin_actress,
+				'origin_series':origin_series,
+				'origin_race':origin_race,
+			}
+			return JsonResponse(response,json_dumps_params={'ensure_ascii':False})
+		except:
+			return HttpResponse('Matching Query do not Exist!')
+	else:
+		return HttpResponse('It is not a GET request!!!')
+
 def actresslist(request,pageid):
 	"""演员列表页"""
 	actress_list = Actress.objects.all().order_by('actress_name_ch')
@@ -684,7 +732,7 @@ def about(request):
 
 def member(request):
 	'''会员页面'''
-	current_url = request.path
+	current_url = request.get_full_path()
 	redirect_url = request.GET.get('redirect_url')
 	if redirect_url == None:
 		redirect_url = '/accounts/profile/'
@@ -713,14 +761,16 @@ def member(request):
 	order_id = str(pay_type)+str(nowtime)+random_id
 	order_id_season = str(pay_type)+str(nowtime)+random_id_2
 	order_id_year = str(pay_type)+str(nowtime)+random_id_3
-	redirect = 'http://test.lolizhan.com' + str(redirect_url)
-	notify_url = 'http://test.lolizhan.com/payment_response'
+	notify_url = 'https://test.lolizhan.com/payment_response'
 	month_order_info = 'month_member'
-	month_signature = make_signature(month_price.config_value,pay_type,redirect,order_id,month_order_info,notify_url)
+	month_redirect = 'https://test.lolizhan.com' + str(redirect_url) + '&item=' + month_order_info
+	month_signature = make_signature(month_price.config_value,pay_type,month_redirect,order_id,month_order_info,notify_url)
 	season_order_info = 'season_member'
-	season_signature = make_signature(season_price.config_value,pay_type,redirect,order_id_season,season_order_info,notify_url)
+	season_redirect = 'https://test.lolizhan.com' + str(redirect_url) + '&item=' + month_order_info
+	season_signature = make_signature(season_price.config_value,pay_type,season_redirect,order_id_season,season_order_info,notify_url)
 	year_order_info = 'year_member'
-	year_signature = make_signature(year_price.config_value,pay_type,redirect,order_id_year,year_order_info,notify_url)
+	year_redirect = 'https://test.lolizhan.com' + str(redirect_url) + '&item=' + month_order_info
+	year_signature = make_signature(year_price.config_value,pay_type,year_redirect,order_id_year,year_order_info,notify_url)	
 	#SEO
 	title = '会员购买-小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
 	keywords = '萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱'
@@ -736,7 +786,9 @@ def member(request):
 		'year_price':year_price,
 		'year_content':year_content,
 		'intro_text':intro_text,
-		'redirect':redirect,
+		'month_redirect':month_redirect,
+		'season_redirect':season_redirect,
+		'year_redirect':year_redirect,
 		'api_user':api_user,
 		'user_name':user_name,
 		'pay_type':pay_type,
