@@ -444,11 +444,21 @@ def payment_response(request):
 						user_profile.update(member_expire=new_expire_time)
 						return HttpResponse('Member Paid!')
 					else:	#是会员的情况
-						last_day = user_profile.member_expire
-						user_profile = UserProfile.objects.filter(user=user_id)
-						new_expire_time = last_day + datetime.timedelta(days=days_add)
-						user_profile.update(member_expire=new_expire_time)
-						return HttpResponse('Member Paid!')
+						nowdate = datetime.date.today().strftime('%Y%m%d')
+						user_vip_expiration = user_profile_object.member_expire
+						user_vip_expiration = user_vip_expiration.strftime('%Y%m%d')
+						if int(user_vip_expiration) - int(nowdate) >= 0:
+							last_day = user_profile.member_expire
+							user_profile = UserProfile.objects.filter(user=user_id)
+							new_expire_time = last_day + datetime.timedelta(days=days_add)
+							user_profile.update(member_expire=new_expire_time)
+							return HttpResponse('Member Paid!')
+						else:
+							last_day = datetime.date.today()
+							user_profile = UserProfile.objects.filter(user=user_id)
+							new_expire_time = last_day + datetime.timedelta(days=days_add)
+							user_profile.update(member_expire=new_expire_time)
+							return HttpResponse('Member Paid!')
 				except:	#没有资料的情况
 					last_day = datetime.date.today()
 					new_expire_time = last_day + datetime.timedelta(days=days_add)
