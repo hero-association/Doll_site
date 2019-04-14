@@ -34,6 +34,12 @@
           </a>
         {% endfor %}
 
+        <video id='my-video' class='video-js col-lg-10 video-sm' controls preload='auto' poster='{{ pic }}'
+        data-setup='{}'>
+        <source src='https://vjs.zencdn.net/v/oceans.mp4' type='video/mp4'>
+        <source src='MY_VIDEO.webm' type='video/webm'>
+        </video>
+
             <div class="mt-5">
             {% if vip_album %}
               {% if user_vip_status %}
