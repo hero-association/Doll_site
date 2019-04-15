@@ -187,11 +187,27 @@ def photolist(request,series,company,pageid):
 		context
 	)
 
+def jaccard_distance(p1,p2):
+	si={}
+	for item in p1:
+		if item in p2:
+			si[item]=1
+	n=len(si)
+	if n==0:
+		return 0
+	return n/(len(p1)+len(p2)-n)
+
 def photodetail(request,photoid):
 	"""详情页"""
 	user = request.user
-	current_url = request.get_full_path()
+	current_url = request.path
+	rec_from = request.GET.get('rec_from')
 	nowdate = datetime.datetime.now().strftime('%Y%m%d')
+	photo_detail = Photo.objects.get(id=photoid)
+	#访问次数+1
+	photo_detail.increase_views_count()
+	#相册标签
+	photo_tag = photo_detail.photo_tag.all()
 	#判断用户是否为VIP
 	if user.is_authenticated:
 		try:
@@ -206,9 +222,6 @@ def photodetail(request,photoid):
 			user_vip_status = False
 	else:
 		user_vip_status = False
-	photo_detail = Photo.objects.get(id=photoid)
-	#访问次数+1
-	photo_detail.increase_views_count()
 	#照片购买
 	payment_status = SiteConfig.objects.get(config_name='Payment_links')
 	if payment_status.config_value == 'True':
@@ -237,28 +250,61 @@ def photodetail(request,photoid):
 			album_already_paid = True
 		else:
 			album_already_paid = False
-	#查询当前演员的相关图集
-	current_actress = photo_detail.model_name.all().order_by('pk')
-	related_album = []
-	for actress in current_actress:
-		actress_q = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = actress)).order_by('-temperature')
-		r = actress_q.filter(buy_link__isnull = False)
-		related_album += r
-		p = actress_q[:11]
-		related_album += p
-		q = actress_q.order_by('-date_added')[:4]
-		related_album += q
 
-	current_album = Photo.objects.filter(id=photoid)
-	related_album = list(set(related_album) - set(current_album))
+	current_actress = photo_detail.model_name.all().order_by('pk')
+
+	# #查询当前演员的相关图集-1.0
+	# related_album = []
+	# for actress in current_actress:
+	# 	actress_q = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = actress)).order_by('-temperature')
+	# 	r = actress_q.filter(buy_link__isnull = False)
+	# 	related_album += r
+	# 	p = actress_q[:11]
+	# 	related_album += p
+	# 	q = actress_q.order_by('-date_added')[:4]
+	# 	related_album += q
+
+	# current_album = Photo.objects.filter(id=photoid)
+	# related_album = list(set(related_album) - set(current_album))
+	# random.shuffle(related_album)
+	# related_album = related_album[:10]
+
+	#查询当前演员的相关图集-2.0
+	similiar_list = {}
+	for test_object in Photo.objects.all():
+		t = test_object.photo_tag.all()
+		similiar = jaccard_distance(photo_tag,t)
+		similiar_list[test_object] = similiar
+	similiar_list = sorted(similiar_list.items(), key=lambda x:x[1], reverse=True)
+
+	related_album = []
+	#取得相关性前十
+	for a in similiar_list[:10]:
+		related_album.append(a[0])
+	#引入同演员相册,随机取五个
+	same_actress_album = []
+	for actress in current_actress:
+		actress_q = Photo.objects.filter(model_name = Actress.objects.get(actress_name_ch = actress))
+		same_actress_album += actress_q
+	random.shuffle(same_actress_album)
+	same_actress_album = same_actress_album[:4]
+	#合并去重
+	related_album = list(set(related_album + same_actress_album))
 	random.shuffle(related_album)
-	related_album = related_album[:10]
+	current_album = Photo.objects.filter(id=photoid)
+	try:
+		rec_from_album = Photo.objects.filter(id=int(rec_from))
+	except:
+		rec_from_album = ()
+	related_album = list(set(related_album) - set(current_album) - set(rec_from_album))
+	
+
+
+
 	buy_content = photo_detail.buy_content
 	bundle_content = photo_detail.bundle_content
 	#热搜标签
 	hot_actress = get_hot_search_actress()
-	#相册标签
-	photo_tag = photo_detail.photo_tag.all()
 	#创建订单
 	api_user = '182553c7'
 	api_key = 'c3ff51b8-a1f5-4ad3-8b93-f770b81a02f0'
@@ -272,7 +318,6 @@ def photodetail(request,photoid):
 	order_info = photo_detail.id
 	notify_url = 'https://www.lolizhan.com/payment_response'
 	single_signature = make_signature(order_price,pay_type,redirect,order_id,order_info,notify_url)
-	current_url = request.path
 	#VIP相册逻辑
 	vip_album = photo_detail.vip_photo
 	#SEO信息
@@ -295,6 +340,8 @@ def photodetail(request,photoid):
 		'current_actress':current_actress,		
 		'hot_actress':hot_actress,		#热搜标签
 		'photo_tag':photo_tag,		#相册标签
+		#相关性推荐
+		'similiar_list':similiar_list,
 		#支付参数
 		'api_user':api_user,
 		'order_price':order_price,
@@ -548,7 +595,7 @@ def get_order_info(request):
 			order_detail = 'photo_id'
 		else:
 			order_item = 'vip'
-			order_detail = item
+			order_detail = str(item)
 		"""订单来源"""
 		try:
 			if photo_id == 'others':
@@ -565,6 +612,7 @@ def get_order_info(request):
 				origin_actress = []
 				for actress in origin_actress_quary:
 					origin_actress.append(actress.actress_name_en)
+				origin_actress = str(origin_actress)
 				origin_series = str(origin_photo.company)
 				origin_race = str(origin_photo.series)
 			response = {

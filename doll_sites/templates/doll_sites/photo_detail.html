@@ -148,7 +148,7 @@
                   <div class="my-4">
                       <h5 class="mb-3">相关推荐</h5>
                           {% for photo in related_album %}
-                            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title="{{ photo.name_chinese }}" onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_rightSide_detail'});">
+                            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}?rec_from={{ photo_detail.id }}" title="{{ photo.name_chinese }}" onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_rightSide_detail'});">
                               <img class="card-img-top img-fluid border-light lazyloadx" data-original='{{ photo.get_cover_pic_link }}' src="/static/image/loading.png"
                                 alt="{{ photo.name_chinese}}" lazyloadthumb="1" lazyloaded="true">
                             <p class="text-center text-truncate p-3">{{ photo.name_chinese }}</p>
