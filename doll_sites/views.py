@@ -200,7 +200,7 @@ def jaccard_distance(p1,p2):
 def photodetail(request,photoid):
 	"""详情页"""
 	user = request.user
-	current_url = request.get_full_path()
+	current_url = request.path
 	rec_from = request.GET.get('rec_from')
 	nowdate = datetime.datetime.now().strftime('%Y%m%d')
 	photo_detail = Photo.objects.get(id=photoid)
@@ -318,7 +318,6 @@ def photodetail(request,photoid):
 	order_info = photo_detail.id
 	notify_url = 'http://www.lolizhan.com/payment_response'
 	single_signature = make_signature(order_price,pay_type,redirect,order_id,order_info,notify_url)
-	current_url = request.path
 	#VIP相册逻辑
 	vip_album = photo_detail.vip_photo
 	#SEO信息
