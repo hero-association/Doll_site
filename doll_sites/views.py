@@ -292,7 +292,10 @@ def photodetail(request,photoid):
 	related_album = list(set(related_album + same_actress_album))
 	random.shuffle(related_album)
 	current_album = Photo.objects.filter(id=photoid)
-	rec_from_album = Photo.objects.filter(id=int(rec_from))
+	try:
+		rec_from_album = Photo.objects.filter(id=int(rec_from))
+	except:
+		rec_from_album = ()
 	related_album = list(set(related_album) - set(current_album) - set(rec_from_album))
 	
 
