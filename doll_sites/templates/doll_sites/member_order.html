@@ -42,7 +42,7 @@
                   {% if user.is_authenticated %}
                   <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order()">
                   {% else %}
-                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
+                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/signup/?next={{ current_url }}')">
                   {% endif %}
                 </form>
         </div>
@@ -72,7 +72,7 @@
                   {% if user.is_authenticated %}
                   <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order_season()">
                   {% else %}
-                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
+                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/signup/?next={{ current_url }}')">
                   {% endif %}
                 </form>
         </div>
@@ -103,7 +103,7 @@
                   {% if user.is_authenticated %}
                   <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order_year()">
                   {% else %}
-                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
+                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/signup/?next={{ current_url }}')">
                   {% endif %}
                 </form>
         </div>
