@@ -139,3 +139,11 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.sticky-tab {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 64px;
+  background-color: white;
+  z-index: 1020;
+}

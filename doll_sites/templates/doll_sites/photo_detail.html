@@ -12,89 +12,101 @@
   <i class="fas fa-chevron-up text-white "></i>
 </a>
 
-<!-- Content -->
+<h5>{{ photo_detail.name_chinese }}
+    {% if photo_detail.vip_bundle %}
+      <span class="badge badge-warning">精品</span>
+    {% else %}
+      {% if vip_album %}
+        <span class="badge badge-warning">会员</span>
+      {% endif %}
+    {% endif %}
+  </h5>
+    {% for actress in current_actress %}
+    <a href="{{ actress.get_absolute_url }}" class="card-text text-truncate mb-1 ">
+      {{ actress.actress_name_ch }}
+  </a>
+{% endfor %}
 
-<section class="container">
+<video id='my-video' class='video-js col-lg-10 video-sm' controls preload='auto' poster='{{ pic }}'
+data-setup='{}'>
+<source src='https://vjs.zencdn.net/v/oceans.mp4' type='video/mp4'>
+<source src='MY_VIDEO.webm' type='video/webm'>
+</video>
+
+
+   <!-- Nav pills -->
+   <ul class="nav nav-pills sticky-tab nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="pill" href="#menu1">Menu 1</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="pill" href="#menu2">Menu 2</a>
+      </li>
+    </ul>
+
+
+<div class="container text-center "> 
+
     <div class="row">
-        <div class="col-lg-9 mt-5 ">
-
-
-          <h5>{{ photo_detail.name_chinese }}
-            {% if photo_detail.vip_bundle %}
-              <span class="badge badge-warning">精品</span>
-            {% else %}
-              {% if vip_album %}
-                <span class="badge badge-warning">会员</span>
-              {% endif %}
-            {% endif %}
-          </h5>
-            {% for actress in current_actress %}
-            <a href="{{ actress.get_absolute_url }}" class="card-text text-truncate mb-1 ">
-              {{ actress.actress_name_ch }}
-          </a>
-        {% endfor %}
-
-        <video id='my-video' class='video-js col-lg-10 video-sm' controls preload='auto' poster='{{ pic }}'
-        data-setup='{}'>
-        <source src='https://vjs.zencdn.net/v/oceans.mp4' type='video/mp4'>
-        <source src='MY_VIDEO.webm' type='video/webm'>
-        </video>
-
-            <div class="mt-5">
-            {% if vip_album %}
-              {% if user_vip_status %}
-              <!-- 如果是会员 -->
-                {% for pic in photo_detail.get_all_pic_link %}
-                  <img 
-                    class="lazyloadx col-lg-10 p-0 mb-5"
-                    src="/static/image/loading.png"
-                    onmouseover="img_onmouseoverfunc(this)"
-                    lazyloadthumb="1"
-                    
-                    alt="{{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}" 
-                    data-original="{{ pic }}" 
-                    lazyloaded="true">
-                {% endfor %}
-              {% else %}
-                <!-- 如果不是会员 -->
-                <div class="mb-4 relative-box col-lg-10 p-0">
-                  <div class="buy-content p-5 text-center">
-                    <p class="text-white">本图集为VIP相册，请购买VIP后观看</p>
-                    <a class="btn btn-primary " href="/member?redirect_url={{ current_url }}?paid=true">升级为会员</a>
-                  </div>
-                
-                <img 
-                  class="lazyloadx blur-img w-100" 
-                  src="{{ photo_detail.get_cover_pic_link }}"
-                  onmouseover="img_onmouseoverfunc(this)" 
-                  lazyloadthumb="1" 
-                  
-                  alt="{{ Photo_detail.name_chinese }}" 
-                  data-original="{{ photo_detail.get_cover_pic_link }}" 
-                  lazyloaded="true">
-                </div>
-     
-              {% endif %}
-            {% else %}
-              {% for pic in photo_detail.get_all_pic_link %}
-                <img 
-                  class="lazyloadx col-lg-10 p-0 mb-5" 
-                  src="/static/image/loading.png"
-                  onmouseover="img_onmouseoverfunc(this)"
-                  lazyloadthumb="1"
-                  
-                  alt="{{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}" 
-                  data-original="{{ pic }}" 
-                  lazyloaded="true">
-              {% endfor %}
-            {% endif %}
-            </div>
-
-          </div>
-
-                
-          <!-- 右侧推荐位 -->
-          <div class="col-lg-3 mt-5">
+      <div class="col-sm-9">
+     <div class="tab-content">
+        <div id="menu1" class="container tab-pane  active"><br>
+          <h3>Menu 1</h3>
+ 
+          
+          <div class="mt-5">
+             {% if vip_album %}
+               {% if user_vip_status %}
+               <!-- 如果是会员 -->
+                 {% for pic in photo_detail.get_all_pic_link %}
+                   <img 
+                     class="lazyloadx col-lg-10 p-0 mb-5"
+                     src="/static/image/loading.png"
+                     onmouseover="img_onmouseoverfunc(this)"
+                     lazyloadthumb="1"
+                     
+                     alt="{{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}" 
+                     data-original="{{ pic }}" 
+                     lazyloaded="true">
+                 {% endfor %}
+               {% else %}
+                 <!-- 如果不是会员 -->
+                 <div class="mb-4 relative-box col-lg-10 p-0">
+                   <div class="buy-content p-5 text-center">
+                     <p class="text-white">本图集为VIP相册，请购买VIP后观看</p>
+                     <a class="btn btn-primary " href="/member?redirect_url={{ current_url }}?paid=true">升级为会员</a>
+                   </div>
+                 
+                 <img 
+                   class="lazyloadx blur-img w-100" 
+                   src="{{ photo_detail.get_cover_pic_link }}"
+                   onmouseover="img_onmouseoverfunc(this)" 
+                   lazyloadthumb="1" 
+                   
+                   alt="{{ Photo_detail.name_chinese }}" 
+                   data-original="{{ photo_detail.get_cover_pic_link }}" 
+                   lazyloaded="true">
+                 </div>
+      
+               {% endif %}
+             {% else %}
+               {% for pic in photo_detail.get_all_pic_link %}
+                 <img 
+                   class="lazyloadx col-lg-10 p-0 mb-5" 
+                   src="/static/image/loading.png"
+                   onmouseover="img_onmouseoverfunc(this)"
+                   lazyloadthumb="1"
+                   
+                   alt="{{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}" 
+                   data-original="{{ pic }}" 
+                   lazyloaded="true">
+               {% endfor %}
+             {% endif %}
+             </div>
+        </div>
+       <div id="menu2" class="container tab-pane fade"><br>
+         <h3>Menu 2</h3>
+         <div class="col-lg-3 mt-5">
           
             {% if buy_links %}
             <div class="card mb-3 text-center">
@@ -163,10 +175,17 @@
                     </div>
             </div>
           </div>
-	
-        </div>
+       </div>
 
-        </section>
+     </div>
+   
+   </div>
+   </div>
+   
+   </div>
+
+<!-- Content -->
+
 
 
 {% include 'doll_sites/footer.html' %}
@@ -202,6 +221,14 @@
       )
     }
   </script>
+
+<script>
+    $(document).ready(function(){
+$(".nav-tabs a").click(function(){
+  $(this).tab('show');
+});
+});
+    </script>
 
 </body>
 </html>
