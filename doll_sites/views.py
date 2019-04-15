@@ -595,7 +595,7 @@ def get_order_info(request):
 			order_detail = 'photo_id'
 		else:
 			order_item = 'vip'
-			order_detail = item
+			order_detail = str(item)
 		"""订单来源"""
 		try:
 			if photo_id == 'others':
@@ -612,6 +612,7 @@ def get_order_info(request):
 				origin_actress = []
 				for actress in origin_actress_quary:
 					origin_actress.append(actress.actress_name_en)
+				origin_actress = str(origin_actress)
 				origin_series = str(origin_photo.company)
 				origin_race = str(origin_photo.series)
 			response = {
