@@ -207,6 +207,9 @@ def photodetail(request,photoid):
 	else:
 		user_vip_status = False
 	photo_detail = Photo.objects.get(id=photoid)
+	#统计照片数量
+	pic_count = photo_detail.get_all_pic_link()
+	pic_count = len(pic_count)
 	#访问次数+1
 	photo_detail.increase_views_count()
 	#照片购买
@@ -295,6 +298,7 @@ def photodetail(request,photoid):
 		'current_actress':current_actress,		
 		'hot_actress':hot_actress,		#热搜标签
 		'photo_tag':photo_tag,		#相册标签
+		'pic_count':pic_count,		#照片数量
 		#支付参数
 		'api_user':api_user,
 		'order_price':order_price,
