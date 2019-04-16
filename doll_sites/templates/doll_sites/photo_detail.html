@@ -8,59 +8,93 @@
 <!-- Header & Navigation -->
 {% include 'doll_sites/navi.html' %}
 
-<a  href="#" class="bg-dark" id="scroll">
-  <i class="fas fa-chevron-up text-white "></i>
-</a>
 
-<h5>{{ photo_detail.name_chinese }}
-    {% if photo_detail.vip_bundle %}
-      <span class="badge badge-warning">精品</span>
-    {% else %}
-      {% if vip_album %}
-        <span class="badge badge-warning">会员</span>
-      {% endif %}
-    {% endif %}
-  </h5>
-    {% for actress in current_actress %}
-    <a href="{{ actress.get_absolute_url }}" class="card-text text-truncate mb-1 ">
-      {{ actress.actress_name_ch }}
-  </a>
-{% endfor %}
+<section id="discrition" class="container">
+  <div class="mt-4"> 
+      <h5 class="mb-3">{{ photo_detail.name_chinese }}
+          {% if photo_detail.vip_bundle %}
+            <span class="badge badge-warning">精品</span>
+          {% else %}
+            {% if vip_album %}
+              <span class="badge badge-warning">会员</span>
+            {% endif %}
+          {% endif %}
+        </h5>
+    <div class="row">
+      <div class="col"><img class="lazyloadx col-lg-10 p-0 mb-4" src="/static/image/loading.png" onmouseover="img_onmouseoverfunc(this)"
+        lazyloadthumb="1"
+        alt="{{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}"
+        data-original="{{ pic }}" lazyloaded="true"></div>
+      <div class="col">
+        <a href="#" class="bg-dark" id="scroll">
+          <i class="fas fa-chevron-up text-white "></i>
+        </a>
+      
+        
+        <p class="mb-2 text-muted">模特：
+          <span> {% for actress in current_actress %}
+            <a href="{{ actress.get_absolute_url }}" class="card-text text-truncate mb-1 ">
+              {{ actress.actress_name_ch }}
+            </a>
+            {% endfor %}
+          </span>
+        </p>
+        <p class="mb-2 text-muted">热度：<span class="text-dark">98</span>
+        </p>
+        <p class="mb-2 text-muted">浏览量：<span class="text-dark">98</span>
+        </p>
+        <p class="mb-2 text-muted">图片总数：<span class="text-dark">98</span>
+        </p>
+        <p class="mb-2 text-muted">标签：
+           {% for actress in current_actress %}
+            <a href="{{ actress.get_absolute_url }}" class="card-text text-truncate mb-1 ">
+              {{ actress.actress_name_ch }} 死库水 
+            </a>
+            {% endfor %}
+        </p>
+      </div>
+    </div>
+     
 
-<video id='my-video' class='video-js col-lg-10 video-sm' controls preload='auto' poster='{{ pic }}'
-data-setup='{}'>
-<source src='https://vjs.zencdn.net/v/oceans.mp4' type='video/mp4'>
-<source src='MY_VIDEO.webm' type='video/webm'>
-</video>
+        
+  </div>
+    
+      
+      
+      
+</section>
 
 
-   <!-- Nav pills -->
-   <ul class="nav nav-pills sticky-tab nav-tabs" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" data-toggle="pill" href="#menu1">Menu 1</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="pill" href="#menu2">Menu 2</a>
-      </li>
-    </ul>
+<!-- nav-tabs -->
+<ul class="nav sticky-tab nav-tabs nav-fill" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#menu1">图集</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#menu2">下载/推荐</a>
+  </li>
+</ul>
 
-
+<!-- contents -->
 <div class="container text-center "> 
 
     <div class="row">
-      <div class="col-sm-9">
      <div class="tab-content">
-        <div id="menu1" class="container tab-pane  active"><br>
-          <h3>Menu 1</h3>
- 
-          
-          <div class="mt-5">
+        <div id="menu1" class="container tab-pane show active mt-4">
+         
+
+              <video id='my-video' class='mb-4 video-js col-lg-10 video-sm' controls preload='auto' poster='{{ pic }}'
+              data-setup='{}'>
+              <source src='https://vjs.zencdn.net/v/oceans.mp4' type='video/mp4'>
+              <source src='MY_VIDEO.webm' type='video/webm'>
+              </video>
+
              {% if vip_album %}
                {% if user_vip_status %}
                <!-- 如果是会员 -->
                  {% for pic in photo_detail.get_all_pic_link %}
                    <img 
-                     class="lazyloadx col-lg-10 p-0 mb-5"
+                     class="lazyloadx col-lg-10 p-0 mb-4"
                      src="/static/image/loading.png"
                      onmouseover="img_onmouseoverfunc(this)"
                      lazyloadthumb="1"
@@ -92,7 +126,7 @@ data-setup='{}'>
              {% else %}
                {% for pic in photo_detail.get_all_pic_link %}
                  <img 
-                   class="lazyloadx col-lg-10 p-0 mb-5" 
+                   class="lazyloadx col-lg-10 p-0 mb-4" 
                    src="/static/image/loading.png"
                    onmouseover="img_onmouseoverfunc(this)"
                    lazyloadthumb="1"
@@ -102,11 +136,10 @@ data-setup='{}'>
                    lazyloaded="true">
                {% endfor %}
              {% endif %}
-             </div>
+            
         </div>
-       <div id="menu2" class="container tab-pane fade"><br>
-         <h3>Menu 2</h3>
-         <div class="col-lg-3 mt-5">
+       <div id="menu2" class="container tab-pane fade mt-4">
+         
           
             {% if buy_links %}
             <div class="card mb-3 text-center">
@@ -121,8 +154,12 @@ data-setup='{}'>
 
                 <p>{{ buy_content }}</p>
                 <p class="lead"><strong>￥{{ order_price }}</strong></p>
+
+                <a class="btn btn-primary btn-block mb-3" href="/member?redirect_url={{ current_url }}?paid=true">会员免费下载</a>
               
                 {% if user.is_authenticated %}
+                
+
                 <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
                 {% else %}
                 <form id='pay_form'>
@@ -140,9 +177,9 @@ data-setup='{}'>
                   {% user_display user as user_display %}
                   <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
                   {% if user.is_authenticated %}
-                  <input class="btn btn-primary btn-lg btn-block" id='btn_pay' value='购买' type='submit' onclick="create_order()">
+                  <input class="btn btn-primary btn-block" id='btn_pay' value='购买相册' type='submit' onclick="create_order()">
                   {% else %}
-                  <input class="btn btn-primary btn-lg btn-block" id='btn_pay' value='购买' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
+                  <input class="btn btn-outline-primary btn-block" id='btn_pay' value='购买相册' type='submit' onclick="window.open('/accounts/login/?next={{ current_url }}')">
                   {% endif %}
                 </form>
           
@@ -153,7 +190,7 @@ data-setup='{}'>
             </div>
             {% endif %}
 
-              <div class="tags">
+              <div class="tags my-5">
                 <h5 class="mb-3" >热搜标签</h5>
                 
                   {% for actress in hot_actress %}
@@ -163,7 +200,7 @@ data-setup='{}'>
                   
                   {% endfor %}
 
-                  <div class="my-4">
+                  <div class="my-5">
                       <h5 class="mb-3">相关推荐</h5>
                           {% for photo in related_album %}
                             <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title="{{ photo.name_chinese }}" onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_rightSide_detail'});">
@@ -173,18 +210,17 @@ data-setup='{}'>
                             </a>
                           {% endfor %}  
                     </div>
-            </div>
+            
           </div>
        </div>
 
      </div>
    
    </div>
-   </div>
    
    </div>
 
-<!-- Content -->
+
 
 
 
