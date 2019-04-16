@@ -222,6 +222,9 @@ def photodetail(request,photoid):
 			user_vip_status = False
 	else:
 		user_vip_status = False
+	#统计照片数量
+	pic_count = photo_detail.get_all_pic_link()
+	pic_count = len(pic_count)
 	#照片购买
 	payment_status = SiteConfig.objects.get(config_name='Payment_links')
 	if payment_status.config_value == 'True':
@@ -342,6 +345,7 @@ def photodetail(request,photoid):
 		'photo_tag':photo_tag,		#相册标签
 		#相关性推荐
 		'similiar_list':similiar_list,
+		'pic_count':pic_count,		#照片数量
 		#支付参数
 		'api_user':api_user,
 		'order_price':order_price,
