@@ -46,9 +46,9 @@
         <p class="mb-2 text-muted">图片总数：<span class="text-dark">{{ pic_count }}</span>
         </p>
         <p class="mb-2 text-muted">标签：
-           {% for actress in current_actress %}
-            <a href="{{ actress.get_absolute_url }}" class="card-text text-truncate mb-1 ">
-              {{ actress.actress_name_ch }} 死库水 
+           {% for tag in album_tag %}
+            <a href="../search/?kwd={{ tag }}" class="card-text text-truncate mb-1 ">
+              {{ tag }}
             </a>
             {% endfor %}
         </p>

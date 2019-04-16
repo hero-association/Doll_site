@@ -312,6 +312,10 @@ def photodetail(request,photoid):
 	bundle_content = photo_detail.bundle_content
 	#热搜标签
 	hot_actress = get_hot_search_actress()
+	#相册标签
+	photo_tag = photo_detail.photo_tag.all()
+	#前端标签取前两个
+	album_tag = photo_tag[:2]
 	#创建订单
 	api_user = '182553c7'
 	api_key = 'c3ff51b8-a1f5-4ad3-8b93-f770b81a02f0'
@@ -352,6 +356,7 @@ def photodetail(request,photoid):
 		'pic_count':pic_count,		#照片数量
 		'album_temperature':album_temperature,		#保留1位小数的相册热度
 		'album_views_count':album_views_count,		#放大7倍的相册浏览量
+		'album_tag':album_tag,		#前端取前两个标签
 		#支付参数
 		'api_user':api_user,
 		'order_price':order_price,
