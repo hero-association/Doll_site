@@ -146,7 +146,7 @@
 .sticky-tab {
   position: -webkit-sticky;
   position: sticky;
-  top: 64px;
+  top: 0px;
   background-color: white;
   z-index: 1020;
 
