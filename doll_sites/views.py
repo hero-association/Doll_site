@@ -803,6 +803,7 @@ def about(request):
 		context
 	)
 
+@login_required
 def member(request):
 	'''会员页面'''
 	current_url = request.get_full_path()
@@ -815,13 +816,31 @@ def member(request):
 		photo_detail.increase_views_count(5)
 	except:
 		photo_detail = None
-	month_price = MemberConfig.objects.get(config_name='month_price')
+	#原定价逻辑
+	# month_price = MemberConfig.objects.get(config_name='month_price')
 	month_content = MemberConfig.objects.get(config_name='month_content')
-	season_price = MemberConfig.objects.get(config_name='season_price')
+	# season_price = MemberConfig.objects.get(config_name='season_price')
 	season_content = MemberConfig.objects.get(config_name='season_content')
-	year_price = MemberConfig.objects.get(config_name='year_price')
+	# year_price = MemberConfig.objects.get(config_name='year_price')
 	year_content = MemberConfig.objects.get(config_name='year_content')
 	intro_text = MemberConfig.objects.get(config_name='intro_text')
+
+	#定价ABTest
+	user = request.user
+	n = str(user.id)[-1:]
+	if n in ['0','1','2','3']:
+		month_price = 19
+		season_price = 49
+		year_price = 169
+	elif n in ['4','5','6']:
+		month_price = 39
+		season_price = 99
+		year_price = 339
+	else:
+		month_price = 59
+		season_price = 149
+		year_price = 519
+
 	#创建订单
 	api_user = '182553c7'
 	api_key = 'c3ff51b8-a1f5-4ad3-8b93-f770b81a02f0'
@@ -834,16 +853,28 @@ def member(request):
 	order_id = str(pay_type)+str(nowtime)+random_id
 	order_id_season = str(pay_type)+str(nowtime)+random_id_2
 	order_id_year = str(pay_type)+str(nowtime)+random_id_3
+
 	notify_url = 'https://test.lolizhan.com/payment_response'
 	month_order_info = 'month_member'
 	month_redirect = 'https://test.lolizhan.com' + str(redirect_url) + '&item=' + month_order_info
-	month_signature = make_signature(month_price.config_value,pay_type,month_redirect,order_id,month_order_info,notify_url)
 	season_order_info = 'season_member'
 	season_redirect = 'https://test.lolizhan.com' + str(redirect_url) + '&item=' + month_order_info
-	season_signature = make_signature(season_price.config_value,pay_type,season_redirect,order_id_season,season_order_info,notify_url)
 	year_order_info = 'year_member'
-	year_redirect = 'https://test.lolizhan.com' + str(redirect_url) + '&item=' + month_order_info
-	year_signature = make_signature(year_price.config_value,pay_type,year_redirect,order_id_year,year_order_info,notify_url)	
+	year_redirect = 'https://test.lolizhan.com' + str(redirect_url) + '&item=' + month_order_info	
+
+	#旧的签名构造
+	# month_signature = make_signature(month_price.config_value,pay_type,redirect,order_id,month_order_info,notify_url)
+	# season_order_info = 'season_member'
+	# season_signature = make_signature(season_price.config_value,pay_type,redirect,order_id_season,season_order_info,notify_url)
+	# year_order_info = 'year_member'
+	# year_signature = make_signature(year_price.config_value,pay_type,redirect,order_id_year,year_order_info,notify_url)
+	
+	#ABTEST签名构造
+	month_signature = make_signature(month_price,pay_type,month_redirect,order_id,month_order_info,notify_url)
+	season_signature = make_signature(season_price,pay_type,season_redirect,order_id_season,season_order_info,notify_url)
+	year_signature = make_signature(year_price,pay_type,year_redirect,order_id_year,year_order_info,notify_url)
+
+
 	#SEO
 	title = '会员购买-小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
 	keywords = '萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱'
