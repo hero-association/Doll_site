@@ -153,6 +153,16 @@
 
 }
 
+@media (min-width: 768px) {
+  .cover {
+  
+  height: 280px;
+  border-radius: 4px;
+  object-fit: cover;
+  object-position: 50% 10%;
+  }
+}
+
 
 
 
