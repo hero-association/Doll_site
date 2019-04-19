@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="92px" height="66px" viewBox="0 0 92 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>youtube-play-button</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="youtube-play-button" transform="translate(1.000000, 1.000000)" fill-rule="nonzero">
+            <path d="M90,13.958 C90,6.525 83.979,0.5 76.55,0.5 L13.45,0.5 C6.021,0.5 0,6.525 0,13.958 L0,50.042 C0,57.475 6.021,63.5 13.45,63.5 L76.55,63.5 C83.979,63.5 90,57.475 90,50.042 L90,13.958 Z" id="YouTube__x28_alt_x29_" stroke="#FFFFFF" stroke-width="2" fill-opacity="0.5" fill="#2F3034"></path>
+            <polygon id="YouTube__x28_alt_x29_-path" fill="#FFFFFF" points="36 47.225 36 13.33 61.702 30.277"></polygon>
+        </g>
+    </g>
+</svg>
