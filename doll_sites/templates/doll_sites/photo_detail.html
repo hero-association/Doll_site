@@ -75,12 +75,47 @@
                      
                      <div id="menu1" class="tab-pane show active mt-4 mr-lg-5 pl-lg-2 pr-lg-5">
 
+
+
+
                                 {% if photo_detail.video_link %}
+                                {% if user_vip_status %}
                                 <video id='my-video' class='mb-4 video-js video-sm w-100' controls preload='auto' poster='{{ photo_detail.video_poster }}'
                                   data-setup='{}'>
                                   <source src='{{ photo_detail.video_link }}' type='video/mp4'>
                                   <source src='' type='video/webm'>
                                 </video>
+                                {% else %}
+
+                                
+
+                                <a class="relative-box text-white" href="/member?redirect_url={{ current_url }}?paid=true">
+
+                                  <div class="text-center poster-top">
+                                    <p class="mb-4 poster-text">升级VIP会员，观看在线视频</p>
+                                    <div class="play-icon mx-auto">
+                                    <svg class="" width="100%" height="100%" viewBox="0 0 92 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                      <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+                                      <title>youtube-play-button</title>
+                                      <desc>Created with Sketch.</desc>
+                                      <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                          <g id="youtube-play-button" transform="translate(1.000000, 1.000000)" fill-rule="nonzero">
+                                              <path d="M90,13.958 C90,6.525 83.979,0.5 76.55,0.5 L13.45,0.5 C6.021,0.5 0,6.525 0,13.958 L0,50.042 C0,57.475 6.021,63.5 13.45,63.5 L76.55,63.5 C83.979,63.5 90,57.475 90,50.042 L90,13.958 Z" id="YouTube__x28_alt_x29_" stroke="#FFFFFF" stroke-width="1.5" fill-opacity="0.8" fill="#2F3034"></path>
+                                              <polygon id="YouTube__x28_alt_x29_-path" fill="#FFFFFF" points="36 47.225 36 13.33 61.702 30.277"></polygon>
+                                          </g>
+                                      </g>
+                                  </svg>
+                                </div>
+                                  </div>
+
+                                <img class="lazyloadx p-0 mb-4 img-fluid w-100 video-poster" src="/static/image/loading.png" onmouseover="img_onmouseoverfunc(this)"
+                                lazyloadthumb="1"
+                                alt="{{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}"
+                                data-original="https://pb01-1257866695.cos.ap-hongkong.myqcloud.com/JP/%E6%B2%B3%E5%90%88%E7%B4%AB%E7%BD%97%E5%85%B0/UNKNOWN/ICBR-35005%20%E3%81%99%E3%81%BF%E3%82%8C%E3%81%AE%E8%8A%B1%E8%A8%80%E8%91%89/poster.jpg" lazyloaded="true">
+
+                                </a>
+
+                                {% endif %}
                                 {% endif %}
                               
 
@@ -288,7 +323,7 @@
     crossorigin="anonymous"></script>
   
   <script src="https://pb01-1257866695.cos.ap-hongkong.myqcloud.com/static/js/jquery.min.js"></script>
-  <script src="https://pb01-1257866695.cos.ap-hongkong.myqcloud.com/static/js/jquery.min.js"></script>
+  <script src="https://pb01-1257866695.cos.ap-hongkong.myqcloud.com/static/js/jquery.lazyload.js"></script>
   <script src="https://pb01-1257866695.cos.ap-hongkong.myqcloud.com/static/js/main.js"></script>
   <script src="https://pb01-1257866695.cos.ap-hongkong.myqcloud.com/static/js/video.js"></script>
   <script src="https://pb01-1257866695.cos.ap-hongkong.myqcloud.com/static/js/transition.min.js"></script>
