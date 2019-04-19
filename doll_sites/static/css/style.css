@@ -143,12 +143,37 @@
   
 }
 
-.cover {
+
+.poster-top {
   position: absolute;
   width: 100%;
-  height: 100%;
   z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
+
+.video-poster {
+  -webkit-filter: brightness(40%); /* Safari 6.0 - 9.0 */
+  filter: brightness(40%);
+}
+
+.play-icon {
+  width: 14%;
+}
+.poster-text {
+  font-size: 2rem;
+}
+
+@media (max-width: 576px){
+  .play-icon {
+    width: 20%;
+  }
+  .poster-text {
+    font-size: 1.2rem;
+  }
+}
+
 
 .sticky-tab {
   position: -webkit-sticky;
@@ -174,5 +199,4 @@
 .scroll-top {
   z-index: 3000;
 }
-
 
