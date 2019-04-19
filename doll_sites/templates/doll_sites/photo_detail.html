@@ -16,9 +16,9 @@
 
 <div class="container p-0">
   <div class="row">
-    <div class="col-lg-9 p-lg-0">
+    <div class="col-lg-9">
         <section id="discrition" class="px-4">
-            <div class="mt-4"> 
+            <div class="mt-4 mt-lg-5"> 
                 <h5 class="mb-3">{{ photo_detail.name_chinese }}
                     {% if photo_detail.vip_bundle %}
                       <span class="badge badge-warning">精品</span>
@@ -29,7 +29,8 @@
                     {% endif %}
                   </h5>
               <div class="row">
-                <div class="col col-lg-3 d-lg-none"><img class="lazyloadx col-lg-10 p-0 mb-4 cover" src="/static/image/loading.png" 
+                <div class="col col-lg-3 d-lg-none">
+                  <img class="lazyloadx col-lg-10 p-0 mb-4 cover" src="/static/image/loading.png" 
                   lazyloadthumb="1"
                   alt="{{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}"
                   data-original="{{ photo_detail.get_cover_pic_link }}" lazyloaded="true"></div>
@@ -74,7 +75,7 @@
     
                   <div class="tab-content">
                      
-                     <div id="menu1" class=" tab-pane show active mt-4  mr-lg-5">
+                     <div id="menu1" class="tab-pane show active mt-4 mr-lg-5 pl-lg-2 pr-lg-5">
 
                                 {% if photo_detail.video_link %}
                                 <video id='my-video' class='mb-4 video-js video-sm w-100' controls preload='auto' poster='{{ photo_detail.video_poster }}'
@@ -84,7 +85,7 @@
                                 </video>
                                 {% endif %}
                               
-                                
+
                                 {% if vip_album %}
                                 {% if user_vip_status %}
                                 <!-- 如果是会员 -->
@@ -110,51 +111,21 @@
                                 {% endif %}
                                 {% else %}
                                 {% for pic in photo_detail.get_all_pic_link %}
-                                <img class="lazyloadx  p-0 mb-4 img-fluid" src="/static/image/loading.png" onmouseover="img_onmouseoverfunc(this)"
+                                <img class="lazyloadx p-0 mb-4 img-fluid" src="/static/image/loading.png" onmouseover="img_onmouseoverfunc(this)"
                                   lazyloadthumb="1"
                                   alt="{{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}"
                                   data-original="{{ pic }}" lazyloaded="true" data-action="zoom">
                                 {% endfor %}
                                 {% endif %}
 
-<<<<<<< HEAD
-                                 
-             
-                           
-                         
-                         
-=======
-    <div class="row">
-     <div class="tab-content">
-        <div id="menu1" class="container tab-pane show active mt-4">
-         
-            
-
-             {% if vip_album %}
-               {% if user_vip_status %}
-               <!-- 如果是会员 -->
-                 {% if photo_detail.video_link %}
-                  <video id='my-video' class='mb-4 video-js col-lg-10 video-sm' controls preload='auto' poster='{{ photo_detail.video_poster }}'
-                  data-setup='{}'>
-                  <source src='{{ photo_detail.video_link }}' type='video/mp4'>
-                  <source src='' type='video/webm'>
-                  </video>
-                 {% endif %}
-                 {% for pic in photo_detail.get_all_pic_link %}
-                   <img 
-                     class="lazyloadx col-lg-10 p-0 mb-4"
-                     src="/static/image/loading.png"
-                     onmouseover="img_onmouseoverfunc(this)"
-                     lazyloadthumb="1"
->>>>>>> 1b35c1c465e4ecdca119d05da8452b0cbce20d7a
                      
                    </div>
              
-                    <div id="menu2" class="container tab-pane fade mt-4">
+                    <div id="menu2" class="tab-pane fade mt-4 d-lg-none">
                       
                        
                          {% if buy_links %}
-                         <div class="card mb-3 text-center">
+                         <div class="card mb-5 text-center">
                            <div class="card-body">
                                
                             
@@ -202,7 +173,7 @@
                          </div>
                          {% endif %}
              
-                           <div class="tags my-5">
+                           <div class="tags my-3">
                              <h5 class="mb-3" >热搜标签</h5>
                              
                                {% for actress in hot_actress %}
@@ -231,12 +202,10 @@
                 </div>
       </div>
     <div class="col-lg-3 p-lg-0 d-none d-lg-inline-block">
-        <div class="tags my-5">
+        <div class="mt-lg-5 ml-lg-5">
             {% if buy_links %}
-            <div class="card mb-3 text-center">
+            <div class="card mb-4 text-center">
               <div class="card-body">
-                  
-               
                   {% if album_already_paid %}
                   <p>{{ buy_content }}</p>
           
@@ -249,8 +218,6 @@
                 <a class="btn btn-primary btn-block mb-3" href="/member?redirect_url={{ current_url }}?paid=true">会员免费下载</a>
               
                 {% if user.is_authenticated %}
-                
-
                 <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay' target="_blank">
                 {% else %}
                 <form id='pay_form'>
@@ -288,7 +255,7 @@
                 </a>
               
               {% endfor %}
-        <div class="my-5">
+        <div class="my-4">
             <h5 class="mb-3">相关推荐</h5>
                 {% for photo in related_album %}
                   <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title="{{ photo.name_chinese }}" onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_rightSide_detail'});">
@@ -339,11 +306,11 @@
 
   $(document).ready(function(){
 
-function scrollFunction (){window.scrollTo(0,432-46);}
+function scrollFunction (){window.scrollTo(0,432-56);}
 $(window).scroll(function() {
 
 
-  if ($(window).scrollTop() >= 432-46) {
+  if ($(window).scrollTop() >= 432-56) {
     console.log('hello');
     $('.nav-tabs a').on('click', scrollFunction );
   } else {
