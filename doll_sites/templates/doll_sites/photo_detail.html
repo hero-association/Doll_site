@@ -81,12 +81,13 @@
 
 
                                 {% if photo_detail.video_link %}
+                                {% if user_vip_status %}
                                 <video id='my-video' class='mb-4 video-js video-sm w-100' controls preload='auto' poster='{{ photo_detail.video_poster }}'
                                   data-setup='{}'>
                                   <source src='{{ photo_detail.video_link }}' type='video/mp4'>
                                   <source src='' type='video/webm'>
                                 </video>
-                                {% endif %}
+                                {% else %}
 
                                 
 
@@ -116,6 +117,8 @@
 
                                 </a>
 
+                                {% endif %}
+                                {% endif %}
                               
 
                                 {% if vip_album %}
