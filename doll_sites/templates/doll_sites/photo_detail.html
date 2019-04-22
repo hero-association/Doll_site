@@ -82,11 +82,15 @@
 
                                 {% if photo_detail.video_link %}
                                 {% if user_vip_status %}
-                                <video id='my-video' class='mb-4 video-js video-sm w-100' controls preload='auto' poster='{{ photo_detail.video_poster }}'
+                                <!-- <video id='my-video' class='mb-4 video-js video-sm w-100' controls preload='auto' poster='{{ photo_detail.video_poster }}'
                                   data-setup='{}'>
-                                  <source src='{{ photo_detail.video_link }}' type='video/mp4'>
+                                  <source src='{{ photo_detail.video_link }}' type='video/mp4'> 
                                   <source src='' type='video/webm'>
-                                </video>
+                                </video> -->
+                                <video id="player-container-id" width="100%" height="380" preload="auto" class="w-100 mb-4" playsinline webkit-playsinline
+                                src='{{ photo_detail.video_link }}'>
+                                  </video>
+
                                 {% else %}
 
                                 
@@ -317,9 +321,12 @@
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/js/jquery.lazyload.js"></script>
   <script src="/static/js/main.js"></script>
-  <script src="/static/js/video.js"></script>
+  <script src="//imgcache.qq.com/open/qcloud/video/tcplayer/libs/hls.min.0.12.4.js"></script>
+  <script src="//imgcache.qq.com/open/qcloud/video/tcplayer/libs/dash.all.min.2.9.3.js"></script>
+  <script src="//imgcache.qq.com/open/qcloud/video/tcplayer/tcplayer.min.js"></script>
   <script src="/static/js/transition.min.js"></script>
   <script src="/static/js/zoom.js"></script>
+  
 
 
 
@@ -362,6 +369,13 @@ $(window).scroll(function() {
 });
 
     </script>
+
+  <script>
+  var player = TCPlayer('player-container-id', { // player-container-id 为播放器容器ID，必须与html中一致
+    fileID: '5285890788223576515', // 请传入需要播放的视频filID 必须
+    appID: '1257866695' // 请传入点播账号的appID 必须
+  });
+  </script>
 
 </body>
 </html>
