@@ -61,10 +61,46 @@ class OrderAdmin(admin.ModelAdmin):
 	model = Order
 	list_display = ('order_id','user_name','order_info','order_status','order_price','paid_price','date_created','date_update')
 	list_filter = ('order_status',)
+	date_hierarchy = "date_created"
 
 class ActressAdmin(admin.ModelAdmin):
-	list_display = ('actress_name_ch','actress_name_jp','actress_name_en')
+	list_display = ('actress_name_ch','actress_name_jp','actress_name_en','get_album_num','get_avg_temperature','get_his_avg_views','get_ytd_avg_views')
+	
+	def get_album_num(self,id):
+		actress = Actress.objects.get(id=id.pk)
+		num_albums_belong_to = Photo.objects.filter(model_name__id=actress.id).count()
+		return(num_albums_belong_to)
 
+	def get_avg_temperature(self,id):
+		actress = Actress.objects.get(id=id.pk)
+		albums_belong_to = Photo.objects.filter(model_name__id=actress.id)
+		c = 0
+		for album in albums_belong_to:
+			c += album.temperature
+		avg = c/albums_belong_to.count()
+		avg = round(avg,2)
+		return(avg)
+
+	def get_his_avg_views(self,id):
+		actress = Actress.objects.get(id=id.pk)
+		albums_belong_to = Photo.objects.filter(model_name__id=actress.id)
+		views_count = 0
+		for album in albums_belong_to:
+			views_count += album.views_count
+		avg = views_count/albums_belong_to.count()
+		avg = round(avg,2)
+		return(avg)
+
+	def get_ytd_avg_views(self,id):
+		actress = Actress.objects.get(id=id.pk)
+		albums_belong_to = Photo.objects.filter(model_name__id=actress.id)
+		views_count = 0
+		for album in albums_belong_to:
+			views_count += album.yesterday_views_count
+		avg = views_count/albums_belong_to.count()
+		avg = round(avg,2)
+		return(avg)
+		
 class SiteConfigAdmin(admin.ModelAdmin):
 	list_display = ('config_name','config_value')
 	list_editable = ('config_value',)
