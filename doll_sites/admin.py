@@ -37,7 +37,7 @@ class PhotoAdmin(admin.ModelAdmin):
             'fields': ('suited_count',)
         }),
         ('Video', {
-            'fields': ('video_poster','video_link')
+            'fields': ('video_poster','video_id')
         }),
     )
 	# search_field = ('series') #添加快速查询栏
