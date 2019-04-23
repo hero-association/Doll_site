@@ -44,7 +44,3 @@ $("#slider").on("slid.bs.carousel", function() {
 });
 
 
-
-
-  
-
