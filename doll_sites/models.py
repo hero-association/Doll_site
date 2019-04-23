@@ -237,3 +237,8 @@ class SlideBanner(models.Model):
 class MemberConfig(models.Model):
 	config_name = models.CharField(default=None,max_length=100)
 	config_value = models.CharField(default=None,max_length=9999)
+
+class XdataOrder(models.Model):
+	order_year = models.IntegerField(default=2019)
+	order_month = models.IntegerField(default=4)
+	order_date = models.IntegerField(null=True,blank=True)
