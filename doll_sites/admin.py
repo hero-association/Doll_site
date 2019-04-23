@@ -159,6 +159,7 @@ class XdataOrderAdmin(admin.ModelAdmin):
 			num = 0
 			for order in q:
 				num += float(order.paid_price)
+			num = round(num,2)
 			return num
 		else:
 			month = int(self.order_month)
@@ -168,6 +169,7 @@ class XdataOrderAdmin(admin.ModelAdmin):
 			for order in q:
 				if order.paid_price:
 					num += float(order.paid_price)
+			num = round(num,2)
 			return num
 
 	def get_avg_order_price(id,self):
@@ -181,9 +183,9 @@ class XdataOrderAdmin(admin.ModelAdmin):
 				num += float(order.paid_price)
 			if q.count() != 0 and num != 0:
 				num = num/q.count()
-				num = num/q.count()
 			else:
 				num = 0
+			num = round(num,2)
 			return num
 		else:
 			month = int(self.order_month)
@@ -197,6 +199,7 @@ class XdataOrderAdmin(admin.ModelAdmin):
 				num = num/q.count()
 			else :
 				num = 0
+			num = round(num,2)
 			return num
 
 # Register the admin class with the associated model
