@@ -200,3 +200,13 @@
   z-index: 3000;
 }
 
+.video-container {
+  width: 640px;
+  height: 360px;
+}
+@media (max-width: 576px) {
+  .video-container {
+    height: 180px;
+  }
+}
+

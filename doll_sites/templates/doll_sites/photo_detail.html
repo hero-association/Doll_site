@@ -70,31 +70,17 @@
               </li>
           </ul>
               <!-- contents -->
-          <div class="container text-sm-center text-lg-left"> 
-
-    
+          <div class="container text-sm-center text-lg-left">
                   <div class="tab-content">
-                     
                      <div id="menu1" class="tab-pane show active mt-4 mr-lg-5 pl-lg-2 pr-lg-5">
-
-
-
-
                                 {% if photo_detail.video_link %}
                                 {% if user_vip_status %}
-                                <!-- <video id='my-video' class='mb-4 video-js video-sm w-100' controls preload='auto' poster='{{ photo_detail.video_poster }}'
-                                  data-setup='{}'>
-                                  <source src='{{ photo_detail.video_link }}' type='video/mp4'> 
-                                  <source src='' type='video/webm'>
-                                </video> -->
-                                <video id="player-container-id" width="100%" height="380" preload="auto" class="w-100 mb-4" playsinline webkit-playsinline
+                                <!-- 如果是会员 -->
+                                <video id="player-container-id" preload="auto" class="w-100 mb-4 video-container" playsinline webkit-playsinline
                                 src='{{ photo_detail.video_link }}'>
                                   </video>
-
                                 {% else %}
-
-                                
-
+                                <!-- 如果是非会员 -->
                                 <a class="relative-box text-white" href="/member?redirect_url={{ current_url }}?paid=true">
 
                                   <div class="text-center poster-top">
