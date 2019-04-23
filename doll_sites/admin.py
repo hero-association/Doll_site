@@ -126,8 +126,10 @@ class XdataOrderAdmin(admin.ModelAdmin):
 
 	def get_order_count(id,self):
 		if self.order_date:
-			d = d = datetime.date( Q(date_created__year=self.order_year) & Q(date_created__month=self.order_month) & Q(date_created__date=self.order_date) )
-			q = Order.objects.filter(date_created=d).count()
+			date = int(self.order_date)
+			month = int(self.order_month)
+			year = int(self.order_year)
+			q = Order.objects.filter( Q(date_created__year=year) & Q(date_created__month=month) & Q(date_created__day=date) ).count()
 			return q
 		else:
 			month = int(self.order_month)
@@ -137,8 +139,10 @@ class XdataOrderAdmin(admin.ModelAdmin):
 
 	def get_paid_count(id,self):
 		if self.order_date:
-			d = datetime.date(self.order_year,self.order_month,self.order_date)
-			q = Order.objects.filter( Q(date_created=d) & Q(order_status='Paid') ).count()
+			date = int(self.order_date)
+			month = int(self.order_month)
+			year = int(self.order_year)
+			q = Order.objects.filter( Q(date_created__year=year) & Q(date_created__month=month) & Q(date_created__day=date) & Q(order_status='Paid') ).count()
 			return q
 		else:
 			month = int(self.order_month)
@@ -148,8 +152,10 @@ class XdataOrderAdmin(admin.ModelAdmin):
 
 	def get_total_income(id,self):
 		if self.order_date:
-			d = datetime.date(self.order_year,self.order_month,self.order_date)
-			q = Order.objects.filter( Q(date_created=d) & Q(order_status='Paid') )
+			date = int(self.order_date)
+			month = int(self.order_month)
+			year = int(self.order_year)
+			q = Order.objects.filter( Q(date_created__year=year) & Q(date_created__month=month) & Q(date_created__day=date) & Q(order_status='Paid') )
 			num = 0
 			for order in q:
 				num += float(order.paid_price)
@@ -166,8 +172,10 @@ class XdataOrderAdmin(admin.ModelAdmin):
 
 	def get_avg_order_price(id,self):
 		if self.order_date:
-			d = datetime.date(self.order_year,self.order_month,self.order_date)
-			q = Order.objects.filter( Q(date_created=d) & Q(order_status='Paid') )
+			date = int(self.order_date)
+			month = int(self.order_month)
+			year = int(self.order_year)
+			q = Order.objects.filter( Q(date_created__year=year) & Q(date_created__month=month) & Q(date_created__day=date) & Q(order_status='Paid') )
 			num = 0
 			for order in q:
 				num += float(order.paid_price)
