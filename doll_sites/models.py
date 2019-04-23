@@ -120,6 +120,7 @@ class Photo(models.Model):
 	"""视频内容"""
 	video_poster = models.CharField(max_length=1024,null=True,blank=True)
 	video_link = models.CharField(max_length=1024,null=True,blank=True)
+	video_id = models.CharField(max_length=1024,null=True,blank=True)
 
 	def __str__(self):
 		"""返回模型的字符串表示"""
@@ -234,3 +235,8 @@ class SlideBanner(models.Model):
 class MemberConfig(models.Model):
 	config_name = models.CharField(default=None,max_length=100)
 	config_value = models.CharField(default=None,max_length=9999)
+
+class XdataOrder(models.Model):
+	order_year = models.IntegerField(default=2019)
+	order_month = models.IntegerField(default=4)
+	order_date = models.IntegerField(null=True,blank=True)
