@@ -1,8 +1,10 @@
 from django.contrib import admin
+import datetime
+from django.db.models import Q
 
 # Register your models here.
 
-from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig,Order,UserProfile,UserAlbumPaidRecord,MemberConfig,SlideBanner
+from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig,Order,UserProfile,UserAlbumPaidRecord,SlideBanner,MemberConfig,XdataOrder
 
 class PhotoFileInline(admin.TabularInline):
 	model = PhotoFile
@@ -58,6 +60,7 @@ class TagAdmin(admin.ModelAdmin):
 	list_display = ('tag_name',)
 
 class OrderAdmin(admin.ModelAdmin):
+	search_fields = ['user_name']
 	model = Order
 	list_display = ('order_id','user_name','order_info','order_status','order_price','paid_price','date_created','date_update')
 	list_filter = ('order_status',)
@@ -100,6 +103,14 @@ class ActressAdmin(admin.ModelAdmin):
 		avg = views_count/albums_belong_to.count()
 		avg = round(avg,2)
 		return(avg)
+
+class UserProfileAdmin(admin.ModelAdmin):
+	search_fields = ['id']
+	list_display = ('get_user_name','member_type','member_expire')
+	list_editable = ('member_expire',)
+
+	def get_user_name(id,self):
+		return self.user
 		
 class SiteConfigAdmin(admin.ModelAdmin):
 	list_display = ('config_name','config_value')
@@ -108,6 +119,76 @@ class SiteConfigAdmin(admin.ModelAdmin):
 class MemberConfigAdmin(admin.ModelAdmin):
 	list_display = ('config_name','config_value')
 	list_editable = ('config_value',)
+
+class XdataOrderAdmin(admin.ModelAdmin):
+	list_display = ('order_year','order_month','order_date','get_order_count','get_paid_count','get_total_income','get_avg_order_price')
+
+	def get_order_count(id,self):
+		if self.order_date:
+			d = datetime.date(self.order_year,self.order_month,self.order_date)
+			q = Order.objects.filter(date_created=d).count()
+			return q
+		else:
+			month = int(self.order_month)
+			year = int(self.order_year)
+			q = Order.objects.filter( Q(date_created__month=month) & Q(date_created__year=year) ).count()
+			return q
+
+	def get_paid_count(id,self):
+		if self.order_date:
+			d = datetime.date(self.order_year,self.order_month,self.order_date)
+			q = Order.objects.filter( Q(date_created=d) & Q(order_status='Paid') ).count()
+			return q
+		else:
+			month = int(self.order_month)
+			year = int(self.order_year)
+			q = Order.objects.filter( Q(date_created__month=month) & Q(date_created__year=year) & Q(order_status='Paid') ).count()
+			return q
+
+	def get_total_income(id,self):
+		if self.order_date:
+			d = datetime.date(self.order_year,self.order_month,self.order_date)
+			q = Order.objects.filter( Q(date_created=d) & Q(order_status='Paid') )
+			num = 0
+			for order in q:
+				num += float(order.paid_price)
+			return num
+		else:
+			month = int(self.order_month)
+			year = int(self.order_year)
+			q = Order.objects.filter( Q(date_created__month=month) & Q(date_created__year=year) & Q(order_status='Paid') )
+			num = 0
+			for order in q:
+				if order.paid_price:
+					num += float(order.paid_price)
+			return num
+
+	def get_avg_order_price(id,self):
+		if self.order_date:
+			d = datetime.date(self.order_year,self.order_month,self.order_date)
+			q = Order.objects.filter( Q(date_created=d) & Q(order_status='Paid') )
+			num = 0
+			for order in q:
+				num += float(order.paid_price)
+			if q.count() != 0 and num != 0:
+				num = num/q.count()
+				num = num/q.count()
+			else:
+				num = 0
+			return num
+		else:
+			month = int(self.order_month)
+			year = int(self.order_year)
+			q = Order.objects.filter( Q(date_created__month=month) & Q(date_created__year=year) & Q(order_status='Paid') )
+			num = 0
+			for order in q:
+				if order.paid_price:
+					num += float(order.paid_price)
+			if q.count() != 0 and num != 0:
+				num = num/q.count()
+			else :
+				num = 0
+			return num
 
 # Register the admin class with the associated model
 admin.site.register(Photo, PhotoAdmin)
@@ -119,7 +200,8 @@ admin.site.register(PhotoFile)
 admin.site.register(PhotoLink)
 admin.site.register(SiteConfig,SiteConfigAdmin)
 admin.site.register(SlideBanner)
-admin.site.register(UserProfile)
+admin.site.register(UserProfile,UserProfileAdmin)
 admin.site.register(MemberConfig,MemberConfigAdmin)
 admin.site.register(Order,OrderAdmin)
 admin.site.register(UserAlbumPaidRecord)
+admin.site.register(XdataOrder,XdataOrderAdmin)
