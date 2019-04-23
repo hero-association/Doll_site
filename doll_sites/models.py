@@ -119,7 +119,8 @@ class Photo(models.Model):
 	suited_count = models.IntegerField(default=0)
 	"""视频内容"""
 	video_poster = models.CharField(max_length=1024,null=True,blank=True)
-	video_link = models.CharField(max_length=1024,null=True,blank=True)
+	video_id = models.CharField(max_length=1024,null=True,blank=True)
+	video_link = models.CharField(max_length=1024,null=True,blank=True)	#已废弃
 
 	# cover_pic = Photo.PhotoFile.pic
 	# cover_pic._meta.get_field('Photo').rel.to
