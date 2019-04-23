@@ -121,11 +121,12 @@ class MemberConfigAdmin(admin.ModelAdmin):
 	list_editable = ('config_value',)
 
 class XdataOrderAdmin(admin.ModelAdmin):
+	search_fields = ['order_month']
 	list_display = ('order_year','order_month','order_date','get_order_count','get_paid_count','get_total_income','get_avg_order_price')
 
 	def get_order_count(id,self):
 		if self.order_date:
-			d = datetime.date(self.order_year,self.order_month,self.order_date)
+			d = datetime.date( Q(date_created__year=self.order_year) & Q(date_created__month=self.order_month) & Q(date_created__date=self.order_date) )
 			q = Order.objects.filter(date_created=d).count()
 			return q
 		else:
