@@ -1,10 +1,3 @@
-/**/
-
-/**/
-
-
-
-//
 
 // -- scroll to top
 
@@ -50,15 +43,4 @@ $("#slider").on("slid.bs.carousel", function() {
   console.log("slid!");
 });
 
-
-
-  //video.js setup
-  // videojs(document.querySelector('.video-js'));
-  // videojs('.video-js', {
-  //   controls: true,
-  //   autoplay: true,
-  //   preload: 'auto'
-  // });
-
-  
 

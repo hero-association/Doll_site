@@ -1,63 +1,54 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
 
-{% include 'doll_sites/head.html' %}
+  {% include 'doll_sites/head.html' %}
 
 <body class="d-flex flex-column h-100">
 
 
   {% include 'doll_sites/navi.html' %}
 
-  <a  href="#" class="bg-dark" id="scroll">
-      <i class="fas fa-chevron-up text-white "></i>
+  <a href="#" class="bg-dark" id="scroll">
+    <i class="fas fa-chevron-up text-white "></i>
   </a>
 
- <!-- Carousel -->
+  <!-- Carousel -->
 
- <div id="Carousel" class="container">
-   
- <div id="slider" class="carousel slide " data-ride="carousel">
-    <ol class="carousel-indicators">
-      <li class="active" data-target="#slider" data-slide-to="0"></li>
-      <li  data-target="#slider" data-slide-to="1"></li>
-    </ol>
-<!--       <div class="carousel-inner">
-        <div class="carousel-item active">
-          <a href='/photo/14'>
-            <img class="d-block w-100" src="/static/image/banner/01.png" alt="First Slide">
-          </a>
-        </div>
-        <div class="carousel-item">
-          <a href='/photo/17'>
-            <img class="d-block w-100 " src="/static/image/banner/02.png" alt="Second Slide">
-          </a>
-        </div>
-      </div> -->
+  <div id="Carousel" class="container">
+
+    <div id="slider" class="carousel slide " data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li class="active" data-target="#slider" data-slide-to="0"></li>
+        <li data-target="#slider" data-slide-to="1"></li>
+      </ol>
       <div class="carousel-inner">
         {% for banners in silde_banner %}
         {% if banners.id == 1 %}
         <div class="carousel-item active">
-        {% else %}
-        <div class="carousel-item">
-        {% endif %}
-          <a href={{ banners.banner_link }} onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Banner_index'});">
-            <img class="d-block w-100" src="/static/doll_sites/images/uploads/{{ banners.banner_pic }}" alt="{{ banners.banner_title }}">
-          </a>
+          {% else %}
+          <div class="carousel-item">
+            {% endif %}
+            <a href={{ banners.banner_link }}
+              onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Banner_index'});">
+              <img class="d-block w-100" src="/static/doll_sites/images/uploads/{{ banners.banner_pic }}"
+                alt="{{ banners.banner_title }}">
+            </a>
+          </div>
+          {% endfor %}
         </div>
-        {% endfor %}
-      </div>      
 
-      <!-- CONTROLS -->
-      <a href="#slider" class="carousel-control-prev" data-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-      </a>
-      <a href="#slider" class="carousel-control-next" data-slide="next">
-        <span class="carousel-control-next-icon"></span>
-      </a>
+        <!-- CONTROLS -->
+        <a href="#slider" class="carousel-control-prev" data-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a href="#slider" class="carousel-control-next" data-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </a>
+      </div>
+
     </div>
-
-  </div>
 
 
 
@@ -65,47 +56,64 @@
 
     <!-- 最新发布 -->
     <section id="newest" class="container my-3">
-        <div class="row mt-4">
-            <div class="col">
-                <p class="text-left  float-left font-weight-bold">
-                    最新发布
-                  </p>
-            </div>
-            <div class="col-auto mr-auto">
-                <a href="/photos/0/0/1" > 
-              
-                  <span>
-                      更多
-                  </span>
-                  <i class="fas fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
+      <div class="row mt-4">
+        <div class="col">
+          <p class="text-left  float-left font-weight-bold">
+            最新发布
+          </p>
+        </div>
+        <div class="col-auto mr-auto">
+          <a href="/photos/0/0/1">
 
-    
+            <span>
+              更多
+            </span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      </div>
+
+
       <div class="card-deck mb-4">
         {% for photo in recommend_newest %}
         <div class="card border-0">
-    
-          <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self' onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
-            <img 
-              class="card-img-top border-light lazyloadx" 
-              data-original="{{ photo.get_cover_pic_link }}"
-              src="/static/image/loading.png" 
-              alt="{{ photo.name_chinese }} {{ photo.company }} {% for modelname in photo.model_name.all %}{{ modelname }}{% endfor %}" 
-              lazyloadthumb="1" 
-              lazyloaded="true"
-            >
-          
-          <div class="card-body p-1 mt-2">
-            <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
+
+          <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'
+            onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
+            <img class="card-img-top border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
+              src="/static/image/loading.png"
+              alt="{{ photo.name_chinese }} {{ photo.company }} {% for modelname in photo.model_name.all %}{{ modelname }}{% endfor %}"
+              lazyloadthumb="1" lazyloaded="true">
           </a>
 
+          <div class="card-body p-1 mt-2">
+
+            <!-- 相册标题模块 -->
+            <div class="d-flex align-items-start">
+
+              <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} "
+                target='_self'
+                onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
+                <p class="card-text text-truncate mb-0 mr-1 ">{{ photo.name_chinese }}</p>
+              </a>
+              <!-- 相册标签 -->
+              {% if photo.buy_link%}
+              <span class="badge badge-warning align-self-center mr-1 ">精品</span>
+              {% endif %}
+              {% if photo.video_link%}
+              <span class="badge badge-info align-self-center mr-1 ">视频</span>
+              {% endif %}
+              {% if photo.vip_photo == False %}
+              <span class="badge badge-warning align-self-center mr-1 ">免费</span>
+              {% endif %}
+            </div>
             {% for modelname in photo.model_name.all %}
             <a href="/actress_detail/{{ modelname.id }}" class="card-text text-truncate mb-1 ">
               <small>{{ modelname }}</small>
-          </a>
+            </a>
             {% endfor %}
+
+
           </div>
         </div>
         {% endfor %}
@@ -115,273 +123,342 @@
 
 
     <!-- 热门推荐 -->
-<section id="hottest" class="container my-3">
-         
-       
+    <section id="hottest" class="container my-3">
+
+
       <div class="row">
         <div class="col">
-            <p class="text-left  float-left font-weight-bold">
-                热门推荐
-              </p>
+          <p class="text-left  float-left font-weight-bold">
+            热门推荐
+          </p>
         </div>
         <div class="col-auto mr-auto">
-            <a href="/photos/0/0/1?sort=-temperature" > 
-          
-              <span>
-                  更多 
-                  
-              </span>
-              <i class="fas fa-chevron-right"></i>
-            </a>
-        </div>
-       </div>
-      
-        <div class="card-deck mb-4">
-            {% for photo in recommend_hotest %}
-            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self' onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_hotest_index'});">
-        <div class="card border-0 ">
-            <img 
-              class="card-img-top border-light lazyloadx" 
-              data-original="{{ photo.get_cover_pic_link }}"
-              src="/static/image/loading.png"               
-              alt="{{ photo.name_chinese }} {{ photo.company }} {% for modelname in photo.model_name.all %}{{ modelname }}{% endfor %}"  
-              lazyloadthumb="1" lazyloaded="true"
-            >
-          
-          <div class="card-body p-1 mt-2">
-              <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
-            </a>
-  
-              {% for modelname in photo.model_name.all %}
-              <a href="/actress_detail/{{ modelname.id }}" class="card-text text-truncate mb-1 ">
-                <small>{{ modelname }}</small>
-            </a>
-              {% endfor %}
-            </div>
-        </div>
-        {% endfor %}
- 
-        </div>
-        
-    
-    
-      
-     
-    </section>
+          <a href="/photos/0/0/1?sort=-temperature">
 
+            <span>
+              更多
 
+            </span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      </div>
 
-     <!-- 明星专题 -->
-     <section id="actress" class="container my-3">
-        <div class="row">
-            <div class="col">
-                <p class="text-left  float-left font-weight-bold">
-                    明星专题
-                  </p>
-            </div>
-            <div class="col-auto mr-auto">
-                <a href="/actress/1" > 
-              
-                  <span>
-                      更多
-                  </span>
-                  <i class="fas fa-chevron-right"></i>
-                </a>
-            </div>
+      <div class="card-deck mb-4">
+        {% for photo in recommend_hotest %}
+        <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'
+          onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_hotest_index'});">
+          <div class="card border-0 ">
+            <img class="card-img-top border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
+              src="/static/image/loading.png"
+              alt="{{ photo.name_chinese }} {{ photo.company }} {% for modelname in photo.model_name.all %}{{ modelname }}{% endfor %}"
+              lazyloadthumb="1" lazyloaded="true">
+        </a>
+
+        <div class="card-body p-1 mt-2">
+          <!-- 相册标题模块 -->
+          <div class="d-flex align-items-start">
+
+            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} "
+              target='_self'
+              onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
+              <p class="card-text text-truncate mb-0 mr-1 ">{{ photo.name_chinese }}</p>
+            </a>
+            <!-- 相册标签 -->
+            {% if photo.buy_link%}
+            <span class="badge badge-warning align-self-center mr-1 ">精品</span>
+            {% endif %}
+            {% if photo.video_link%}
+            <span class="badge badge-info align-self-center mr-1 ">视频</span>
+            {% endif %}
+            {% if photo.vip_photo == False %}
+            <span class="badge badge-warning align-self-center mr-1 ">免费</span>
+            {% endif %}
           </div>
 
-      
-        <div class="card-deck mb-4">
-          {% for person in recommend_person %}
-          <div class="card border-0">
-      
-            <a  href="/actress_detail/{{ person.id }}" title=" {{ person.actress_name_ch }} " target='_self' onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_actress_index'});">
-              <img class="card-img-top img-fluid border border-light lazyloadx" data-original="/static/doll_sites/images/uploads/{{ person.avatar }}"
-                src="/static/image/loading.png" alt="{{ person.actress_name_ch }}" lazyloadthumb="1" lazyloaded="true">
-            </a>
-            <div class="card-body p-1 mt-2  d-flex">
-                <a href="/actress_detail/{{ person.id }}" class="card-text text-truncate mb-1 mr-2">
-                  {{ person.actress_name_ch }}
-                </a>
-              </div>
-          </div>
+
+          {% for modelname in photo.model_name.all %}
+          <a href="/actress_detail/{{ modelname.id }}" class="card-text text-truncate mb-1 ">
+            <small>{{ modelname }}</small>
+          </a>
           {% endfor %}
         </div>
-      </section>
+      </div>
+      {% endfor %}
+
+  </div>
 
 
-      <!-- 欧美萝莉 -->
-      <section id="europeanActress" class="container my-3">
-
-          <div class="row">
-              <div class="col">
-                  <p class="text-left  float-left font-weight-bold">
-                      欧美萝莉
-                    </p>
-                   <div class="d-none d-sm-block">
-                      <span class="link ml-3">
-                        <a href="/photos/1/1/1" title="CandyDoll">
-                          CandyDoll
-                        </a>
-                      </span>
-                      <span class="layout">
-                        丨
-                      </span>
-                      <span class="link">
-                        <a href="/photos/1/2/1"  title="Silver-star">
-                          Silver-star
-                        </a>
-                      </span> 
-              </div>
-              </div>
-              <div class="col-auto mr-auto">
-                  <a href="/photos/1/0/1" > 
-                
-                    <span>
-                        更多 
-                        
-                    </span>
-                    <i class="fas fa-chevron-right"></i>
-                  </a>
-              </div>
-             </div>
 
 
-      
-      
-        <div class="card-deck mb-4">
-          {% for photo in recommend_european %}
-          <div class="card border-0">
-      
-            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self' onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_euro_index'});">
-              <img 
-                class="card-img-top border border-light lazyloadx" 
-                data-original="{{ photo.get_cover_pic_link }}"
-                src="/static/image/loading.png" 
-                alt="{{ photo.name_chinese }} {{ photo.company }} {% for modelname in photo.model_name.all %}{{ modelname }}{% endfor %}" 
-                lazyloadthumb="1" 
-                lazyloaded="true"
-              >
-            
-            <div class="card-body p-1 mt-2">
-                <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
-              </a>
-                {% for modelname in photo.model_name.all %}
-                <a href="/actress_detail/{{ modelname.id }}" class="card-text text-truncate mb-1 ">
-                  <small>{{ modelname }}</small>
-              </a>
-                {% endfor %}
-              </div>
+
+  </section>
+
+
+
+  <!-- 明星专题 -->
+  <section id="actress" class="container my-3">
+    <div class="row">
+      <div class="col">
+        <p class="text-left  float-left font-weight-bold">
+          明星专题
+        </p>
+      </div>
+      <div class="col-auto mr-auto">
+        <a href="/actress/1">
+
+          <span>
+            更多
+          </span>
+          <i class="fas fa-chevron-right"></i>
+        </a>
+      </div>
+    </div>
+
+
+    <div class="card-deck mb-4">
+      {% for person in recommend_person %}
+      <div class="card border-0">
+
+        <a href="/actress_detail/{{ person.id }}" title=" {{ person.actress_name_ch }} " target='_self'
+          onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_actress_index'});">
+          <img class="card-img-top img-fluid border border-light lazyloadx"
+            data-original="/static/doll_sites/images/uploads/{{ person.avatar }}" src="/static/image/loading.png"
+            alt="{{ person.actress_name_ch }}" lazyloadthumb="1" lazyloaded="true">
+        </a>
+        <div class="card-body p-1 mt-2  d-flex">
+          <a href="/actress_detail/{{ person.id }}" class="card-text text-truncate mb-1 mr-2">
+            {{ person.actress_name_ch }}
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+
+  <!-- 欧美萝莉 -->
+  <section id="europeanActress" class="container my-3">
+
+    <div class="row">
+      <div class="col">
+        <p class="text-left  float-left font-weight-bold">
+          欧美萝莉
+        </p>
+        <div class="d-none d-sm-block">
+          <span class="link ml-3">
+            <a href="/photos/1/1/1" title="CandyDoll">
+              CandyDoll
+            </a>
+          </span>
+          <span class="layout">
+            丨
+          </span>
+          <span class="link">
+            <a href="/photos/1/2/1" title="Silver-star">
+              Silver-star
+            </a>
+          </span>
+        </div>
+      </div>
+      <div class="col-auto mr-auto">
+        <a href="/photos/1/0/1">
+
+          <span>
+            更多
+
+          </span>
+          <i class="fas fa-chevron-right"></i>
+        </a>
+      </div>
+    </div>
+
+
+
+
+    <div class="card-deck mb-4">
+      {% for photo in recommend_european %}
+      <div class="card border-0">
+
+        <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'
+          onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_euro_index'});">
+          <img class="card-img-top border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
+            src="/static/image/loading.png"
+            alt="{{ photo.name_chinese }} {{ photo.company }} {% for modelname in photo.model_name.all %}{{ modelname }}{% endfor %}"
+            lazyloadthumb="1" lazyloaded="true">
+        </a>
+
+        <div class="card-body p-1 mt-2">
+          <!-- 相册标题模块 -->
+          <div class="d-flex align-items-start">
+
+            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} "
+              target='_self'
+              onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
+              <p class="card-text text-truncate mb-0 mr-1 ">{{ photo.name_chinese }}</p>
+            </a>
+            <!-- 相册标签 -->
+            {% if photo.buy_link%}
+            <span class="badge badge-warning align-self-center mr-1 ">精品</span>
+            {% endif %}
+            {% if photo.video_link%}
+            <span class="badge badge-info align-self-center mr-1 ">视频</span>
+            {% endif %}
+            {% if photo.vip_photo == False %}
+            <span class="badge badge-warning align-self-center mr-1 ">免费</span>
+            {% endif %}
           </div>
+
+          {% for modelname in photo.model_name.all %}
+          <a href="/actress_detail/{{ modelname.id }}" class="card-text text-truncate mb-1 ">
+            <small>{{ modelname }}</small>
+          </a>
           {% endfor %}
         </div>
-      </section>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
 
-      <!-- 日本偶像 -->
-      <section id="europeanActress" class="container my-3">
-          <div class="row">
-              <div class="col">
-                  <p class="text-left  float-left font-weight-bold">
-                      日本偶像
-                    </p>
-              </div>
-              <div class="col-auto mr-auto">
-                  <a href="/photos/2/0/1" >
-                    <span>
-                        更多
-                    </span>
-                    <i class="fas fa-chevron-right"></i>
-                  </a>
-              </div>
-            </div>
+  <!-- 日本偶像 -->
+  <section id="europeanActress" class="container my-3">
+    <div class="row">
+      <div class="col">
+        <p class="text-left  float-left font-weight-bold">
+          日本偶像
+        </p>
+      </div>
+      <div class="col-auto mr-auto">
+        <a href="/photos/2/0/1">
+          <span>
+            更多
+          </span>
+          <i class="fas fa-chevron-right"></i>
+        </a>
+      </div>
+    </div>
 
-      
-        <div class="card-deck mb-4">
-          {% for photo in recommend_japanese %}
-          <div class="card border-0 col-md-4 col-lg mr-4 p-0">
-      
-            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self' onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_japan_index'});">
-              <img 
-                class="card-img-top border border-light lazyloadx" 
-                data-original="{{ photo.get_cover_pic_link }}"
-                src="/static/image/loading.png" 
-                alt="{{ photo.name_chinese }} {{ photo.company }} {% for modelname in photo.model_name.all %}{{ modelname }}{% endfor %}" 
-                lazyloadthumb="1" 
-                lazyloaded="true"
-              >
-           
-            <div class="card-body p-1 mt-2">
-                <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
-              </a>
-                {% for modelname in photo.model_name.all %}
-                <a href="/actress_detail/{{ modelname.id }}" class="card-text text-truncate mb-1 ">
-                  <small>{{ modelname }}</small>
-              </a>
-                {% endfor %}
-              </div>
+
+    <div class="card-deck mb-4">
+      {% for photo in recommend_japanese %}
+      <div class="card border-0 col-md-4 col-lg mr-4 p-0">
+
+        <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'
+          onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_japan_index'});">
+          <img class="card-img-top border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
+            src="/static/image/loading.png"
+            alt="{{ photo.name_chinese }} {{ photo.company }} {% for modelname in photo.model_name.all %}{{ modelname }}{% endfor %}"
+            lazyloadthumb="1" lazyloaded="true">
+        </a>
+        <div class="card-body p-1 mt-2">
+          <!-- 相册标题模块 -->
+          <div class="d-flex align-items-start">
+
+            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} "
+              target='_self'
+              onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
+              <p class="card-text text-truncate mb-0 mr-1 ">{{ photo.name_chinese }}</p>
+            </a>
+            <!-- 相册标签 -->
+            {% if photo.buy_link%}
+            <span class="badge badge-warning align-self-center mr-1 ">精品</span>
+            {% endif %}
+            {% if photo.video_link%}
+            <span class="badge badge-info align-self-center mr-1 ">视频</span>
+            {% endif %}
+            {% if photo.vip_photo == False %}
+            <span class="badge badge-warning align-self-center mr-1 ">免费</span>
+            {% endif %}
           </div>
+
+          {% for modelname in photo.model_name.all %}
+          <a href="/actress_detail/{{ modelname.id }}" class="card-text text-truncate mb-1 ">
+            <small>{{ modelname }}</small>
+          </a>
           {% endfor %}
         </div>
-      </section>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
 
-      <!-- 网红萝莉 -->
-      <section id="europeanActress" class="container my-3">
-          <div class="row">
-              <div class="col">
-                  <p class="text-left  float-left font-weight-bold">
-                      网红萝莉
-                    </p>
-              </div>
-              <div class="col-auto mr-auto">
-                  <a href="/photos/3/0/1" >
-                    <span>
-                        更多
-                    </span>
-                    <i class="fas fa-chevron-right"></i>
-                  </a>
-              </div>
-            </div>
-      
-        <div class="card-deck mb-5">
-          {% for photo in recommend_chinese %}
-          <div class="card border-0">
-      
-            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self' onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_china_index'});">
-              <img 
-                class="card-img-top border border-light lazyloadx" 
-                data-original="{{ photo.get_cover_pic_link }}"
-                src="/static/image/loading.png" 
-                alt="{{ photo.name_chinese }} {{ photo.company }} {% for modelname in photo.model_name.all %}{{ modelname }}{% endfor %}" 
-                lazyloadthumb="1" 
-                lazyloaded="true"
-              >
-            
-            <div class="card-body p-1 mt-2">
-                <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
-              </a>
-    
-                {% for modelname in photo.model_name.all %}
-                <a href="/actress_detail/{{ modelname.id }}" class="card-text text-truncate mb-1 ">
-                  <small>{{ modelname }}</small>
-              </a>
-                {% endfor %}
-              </div>
+  <!-- 网红萝莉 -->
+  <section id="europeanActress" class="container my-3">
+    <div class="row">
+      <div class="col">
+        <p class="text-left  float-left font-weight-bold">
+          网红萝莉
+        </p>
+      </div>
+      <div class="col-auto mr-auto">
+        <a href="/photos/3/0/1">
+          <span>
+            更多
+          </span>
+          <i class="fas fa-chevron-right"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="card-deck mb-5">
+      {% for photo in recommend_chinese %}
+      <div class="card border-0">
+
+        <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'
+          onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_china_index'});">
+          <img class="card-img-top border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
+            src="/static/image/loading.png"
+            alt="{{ photo.name_chinese }} {{ photo.company }} {% for modelname in photo.model_name.all %}{{ modelname }}{% endfor %}"
+            lazyloadthumb="1" lazyloaded="true">
+        </a>
+
+        <div class="card-body p-1 mt-2">
+          <!-- 相册标题模块 -->
+          <div class="d-flex align-items-start">
+
+            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} "
+              target='_self'
+              onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
+              <p class="card-text text-truncate mb-0 mr-1 ">{{ photo.name_chinese }}</p>
+            </a>
+            <!-- 相册标签 -->
+            {% if photo.buy_link%}
+            <span class="badge badge-warning align-self-center mr-1 ">精品</span>
+            {% endif %}
+            {% if photo.video_link%}
+            <span class="badge badge-info align-self-center mr-1 ">视频</span>
+            {% endif %}
+            {% if photo.vip_photo == False %}
+            <span class="badge badge-warning align-self-center mr-1 ">免费</span>
+            {% endif %}
           </div>
+
+
+          {% for modelname in photo.model_name.all %}
+          <a href="/actress_detail/{{ modelname.id }}" class="card-text text-truncate mb-1 ">
+            <small>{{ modelname }}</small>
+          </a>
           {% endfor %}
         </div>
-      </section>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
 
   {% include 'doll_sites/footer.html' %}
 
   <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
     crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
     crossorigin="anonymous"></script>
-  
+
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/js/jquery.lazyload.js"></script>
   <script src="/static/js/main.js"></script>
@@ -390,4 +467,5 @@
 
 
 </body>
+
 </html>

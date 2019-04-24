@@ -7,14 +7,14 @@
 
 <!-- Header & Navigation -->
 {% include 'doll_sites/navi.html' %}
-
 <a href="#" class="bg-dark scroll-top" id="scroll">
     <i class="fas fa-chevron-up text-white "></i>
   </a>
 
-<div class="container p-0">
+
+<div class="container">
   <div class="row">
-    <div class="col-lg-9">
+    <div class="col-lg-9 px-0">
         <section id="discrition" class="px-4">
             <div class="mt-4 mt-lg-5"> 
                 <h5 class="mb-3">{{ photo_detail.name_chinese }}
@@ -23,6 +23,9 @@
                     {% else %}
                       {% if vip_album %}
                         <span class="badge badge-warning">会员</span>
+                      {% endif %}
+                      {% if photo_detail.video_id %}
+                      <span class="badge badge-info">视频</span>
                       {% endif %}
                     {% endif %}
                   </h5>
@@ -68,27 +71,16 @@
               </li>
           </ul>
               <!-- contents -->
-          <div class="container text-sm-center text-lg-left"> 
-
-    
+          <div class="container text-sm-center text-lg-left">
                   <div class="tab-content">
-                     
                      <div id="menu1" class="tab-pane show active mt-4 mr-lg-5 pl-lg-2 pr-lg-5">
-
-
-
-
-                                {% if photo_detail.video_link %}
+                                {% if photo_detail.video_id %}
                                 {% if user_vip_status %}
-                                <video id='my-video' class='mb-4 video-js video-sm w-100' controls preload='auto' poster='{{ photo_detail.video_poster }}'
-                                  data-setup='{}'>
-                                  <source src='{{ photo_detail.video_link }}' type='video/mp4'>
-                                  <source src='' type='video/webm'>
+                                <!-- 如果是会员 -->
+                                <video id="player-container-id" preload="auto" class="w-100 mb-4 video-container" playsinline webkit-playsinline>
                                 </video>
                                 {% else %}
-
-                                
-
+                                <!-- 如果是非会员 -->
                                 <a class="relative-box text-white" href="/member?redirect_url={{ current_url }}?paid=true">
 
                                   <div class="text-center poster-top">
@@ -108,7 +100,7 @@
                                 </div>
                                   </div>
 
-                                <img class="lazyloadx p-0 mb-4 img-fluid w-100 video-poster" src="/static/image/loading.png" onmouseover="img_onmouseoverfunc(this)"
+                                <img id='photo-poster' class="lazyloadx p-0 mb-4 img-fluid w-100 video-poster" src="/static/image/loading.png" onmouseover="img_onmouseoverfunc(this)"
                                 lazyloadthumb="1"
                                 alt="{{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}"
                                 data-original="{{ photo_detail.video_poster }}" lazyloaded="true">
@@ -123,7 +115,7 @@
                                 {% if user_vip_status %}
                                 <!-- 如果是会员 -->
                                 {% for pic in photo_detail.get_all_pic_link %}
-                                <img class="lazyloadx p-0 mb-4 img-fluid w-100" src="/static/image/loading.png" onmouseover="img_onmouseoverfunc(this)"
+                                <img id="photo-member"  class="lazyloadx p-0 mb-4 img-fluid w-100" src="/static/image/loading.png" onmouseover="img_onmouseoverfunc(this)"
                                   lazyloadthumb="1"
                                   alt="{{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}"
                                   data-original="{{ pic }}" lazyloaded="true" data-action="zoom">
@@ -136,7 +128,7 @@
                                     <a class="btn btn-primary " href="/member?redirect_url={{ current_url }}?paid=true">升级为会员</a>
                                   </div>
                               
-                                  <img class="lazyloadx blur-img w-100 img-fluid" src="{{ photo_detail.get_cover_pic_link }}"
+                                  <img id="photo-cover" class="lazyloadx blur-img w-100 img-fluid" src="{{ photo_detail.get_cover_pic_link }}"
                                     onmouseover="img_onmouseoverfunc(this)" lazyloadthumb="1" alt="{{ Photo_detail.name_chinese }}"
                                     data-original="{{ photo_detail.get_cover_pic_link }}" lazyloaded="true">
                                 </div>
@@ -144,7 +136,7 @@
                                 {% endif %}
                                 {% else %}
                                 {% for pic in photo_detail.get_all_pic_link %}
-                                <img class="lazyloadx p-0 mb-4 img-fluid" src="/static/image/loading.png" onmouseover="img_onmouseoverfunc(this)"
+                                <img id='photo-free' class="lazyloadx p-0 mb-4 img-fluid w-100" src="/static/image/loading.png" onmouseover="img_onmouseoverfunc(this)"
                                   lazyloadthumb="1"
                                   alt="{{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}"
                                   data-original="{{ pic }}" lazyloaded="true" data-action="zoom">
@@ -325,11 +317,11 @@
   <script src="https://pb01-1257866695.cos.ap-hongkong.myqcloud.com/static/js/jquery.min.js"></script>
   <script src="https://pb01-1257866695.cos.ap-hongkong.myqcloud.com/static/js/jquery.lazyload.js"></script>
   <script src="https://pb01-1257866695.cos.ap-hongkong.myqcloud.com/static/js/main.js"></script>
-  <script src="https://pb01-1257866695.cos.ap-hongkong.myqcloud.com/static/js/video.js"></script>
+  <script src="//imgcache.qq.com/open/qcloud/video/tcplayer/libs/hls.min.0.12.4.js"></script>
+  <script src="//imgcache.qq.com/open/qcloud/video/tcplayer/libs/dash.all.min.2.9.3.js"></script>
+  <script src="//imgcache.qq.com/open/qcloud/video/tcplayer/tcplayer.min.js"></script>
   <script src="https://pb01-1257866695.cos.ap-hongkong.myqcloud.com/static/js/transition.min.js"></script>
   <script src="https://pb01-1257866695.cos.ap-hongkong.myqcloud.com/static/js/zoom.js"></script>
-
-
 
   <script type='text/javascript'>
     function create_order(){
@@ -354,7 +346,7 @@ $(window).scroll(function() {
 
 
   if ($(window).scrollTop() >= 432-56) {
-    console.log('hello');
+    // console.log('hello');
     $('.nav-tabs a').on('click', scrollFunction );
   } else {
     $('.nav-tabs a').off('click', scrollFunction );
@@ -369,7 +361,22 @@ $(window).scroll(function() {
 
 });
 
-    </script>
+  </script>
+
+  <script>
+  var player = TCPlayer('player-container-id', { // player-container-id 为播放器容器ID，必须与html中一致
+    fileID: '{{ photo_detail.video_id }}', // 请传入需要播放的视频filID 必须
+    appID: '1257866695' // 请传入点播账号的appID 必须
+  });
+
+
+  $(document).ready(function(){
+  $('<div class="vjs-button-icon"><svg height="120%" width="120%" viewBox="0 0 70 70"><title>Group</title><desc>Created with Sketch.</desc><g id="Page-4" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="Artboard" transform="translate(-285.000000, -137.000000)"><g id="Group" transform="translate(285.000000, 137.000000)"><path d="M50.6079675,3.6642334 C55.0394127,0.376775347 61.0927765,-0.291090168 65.5621283,4.09050577 C70.4210065,8.85397979 70.0763597,14.9763216 66.4910803,19.7072145 C68.7389678,24.3274951 70,29.5164826 70,35 C70,54.3299662 54.3299662,70 35,70 C15.6700338,70 0,54.3299662 0,35 C0,29.437081 1.29781624,24.1772833 3.60718813,19.5068674 C0.00117633436,14.7719897 -0.354908641,8.63424854 4.51396741,3.86097301 C9.03530447,-0.571587456 15.1777167,0.1634623 19.6220979,3.55047426 C24.2637289,1.27657908 29.482784,0 35,0 C40.6085595,0 45.9090034,1.31919926 50.6079675,3.6642334 L50.6079675,3.6642334 Z" id="Path" fill-opacity="0.5" fill="#25262A"></path><path d="M47.6960087,36.9656597 L29.349942,47.2046865 C28.3123296,47.7837829 26.9571418,47.4850417 26.3230453,46.5374294 C26.1117834,46.2217134 26,45.8588848 26,45.4888827 L26,25.010829 C26,23.9002788 26.9857834,23 28.2018088,23 C28.6069521,23 29.0042406,23.1020875 29.349942,23.2950251 L47.6960087,33.534052 C48.7336211,34.1131484 49.0607354,35.3507903 48.4266389,36.2984026 C48.2444973,36.5706003 47.9940585,36.7993166 47.6960087,36.9656597 Z" id="Triangle" fill="#FFFFFF"></path></g></g></g></svg></div>').replaceAll(".vjs-button-icon");
+});
+
+  </script>
 
 </body>
 </html>
+
+
