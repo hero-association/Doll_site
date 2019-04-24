@@ -94,9 +94,15 @@
                   <p class="card-text text-truncate mb-0 mr-1 ">{{ photo.name_chinese }}</p>
                 </a>
            <!-- 相册标签 -->
+            {% if photo.buy_link == True %}
             <span class="badge badge-warning align-self-center mr-1 ">精品</span>
-            <span class="badge badge-warning align-self-center mr-1 ">会员</span>
+            {% endif %}
+            {% if photo.vip_photo == False %}
+            <span class="badge badge-warning align-self-center mr-1 ">免费</span>
+            {% endif %}
+            {% if photo.video_link == True %}
             <span class="badge badge-info align-self-center mr-1 ">视频</span>
+            {% endif %}
             </div>
             
            
