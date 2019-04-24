@@ -7,13 +7,9 @@
 
 <!-- Header & Navigation -->
 {% include 'doll_sites/navi.html' %}
-
 <a href="#" class="bg-dark scroll-top" id="scroll">
     <i class="fas fa-chevron-up text-white "></i>
   </a>
-
-
-
 <div class="container">
   <div class="row">
     <div class="col-lg-9 px-0">
@@ -25,6 +21,9 @@
                     {% else %}
                       {% if vip_album %}
                         <span class="badge badge-warning">会员</span>
+                      {% endif %}
+                      {% if photo_detail.video_id %}
+                      <span class="badge badge-info">视频</span>
                       {% endif %}
                     {% endif %}
                   </h5>
@@ -99,7 +98,7 @@
                                 </div>
                                   </div>
 
-                                <img class="lazyloadx p-0 mb-4 img-fluid w-100 video-poster" src="/static/image/loading.png" onmouseover="img_onmouseoverfunc(this)"
+                                <img id='photo-poster' class="lazyloadx p-0 mb-4 img-fluid w-100 video-poster" src="/static/image/loading.png" onmouseover="img_onmouseoverfunc(this)"
                                 lazyloadthumb="1"
                                 alt="{{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}"
                                 data-original="{{ photo_detail.video_poster }}" lazyloaded="true">
@@ -114,7 +113,7 @@
                                 {% if user_vip_status %}
                                 <!-- 如果是会员 -->
                                 {% for pic in photo_detail.get_all_pic_link %}
-                                <img class="lazyloadx p-0 mb-4 img-fluid w-100" src="/static/image/loading.png" onmouseover="img_onmouseoverfunc(this)"
+                                <img id="photo-member"  class="lazyloadx p-0 mb-4 img-fluid w-100" src="/static/image/loading.png" onmouseover="img_onmouseoverfunc(this)"
                                   lazyloadthumb="1"
                                   alt="{{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}"
                                   data-original="{{ pic }}" lazyloaded="true" data-action="zoom">
@@ -127,7 +126,7 @@
                                     <a class="btn btn-primary " href="/member?redirect_url={{ current_url }}?paid=true">升级为会员</a>
                                   </div>
                               
-                                  <img class="lazyloadx blur-img w-100 img-fluid" src="{{ photo_detail.get_cover_pic_link }}"
+                                  <img id="photo-cover" class="lazyloadx blur-img w-100 img-fluid" src="{{ photo_detail.get_cover_pic_link }}"
                                     onmouseover="img_onmouseoverfunc(this)" lazyloadthumb="1" alt="{{ Photo_detail.name_chinese }}"
                                     data-original="{{ photo_detail.get_cover_pic_link }}" lazyloaded="true">
                                 </div>
@@ -135,7 +134,7 @@
                                 {% endif %}
                                 {% else %}
                                 {% for pic in photo_detail.get_all_pic_link %}
-                                <img class="lazyloadx p-0 mb-4 img-fluid" src="/static/image/loading.png" onmouseover="img_onmouseoverfunc(this)"
+                                <img id='photo-free' class="lazyloadx p-0 mb-4 img-fluid w-100" src="/static/image/loading.png" onmouseover="img_onmouseoverfunc(this)"
                                   lazyloadthumb="1"
                                   alt="{{ photo_detail.name_chinese }} {{ photo_detail.company }} {% for modelname in current_actress %}{{ modelname }}{% endfor %}"
                                   data-original="{{ pic }}" lazyloaded="true" data-action="zoom">
