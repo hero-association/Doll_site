@@ -22,18 +22,6 @@
       <li class="active" data-target="#slider" data-slide-to="0"></li>
       <li  data-target="#slider" data-slide-to="1"></li>
     </ol>
-<!--       <div class="carousel-inner">
-        <div class="carousel-item active">
-          <a href='/photo/14'>
-            <img class="d-block w-100" src="/static/image/banner/01.png" alt="First Slide">
-          </a>
-        </div>
-        <div class="carousel-item">
-          <a href='/photo/17'>
-            <img class="d-block w-100 " src="/static/image/banner/02.png" alt="Second Slide">
-          </a>
-        </div>
-      </div> -->
       <div class="carousel-inner">
         {% for banners in silde_banner %}
         {% if banners.id == 1 %}
@@ -94,18 +82,33 @@
               src="/static/image/loading.png" 
               alt="{{ photo.name_chinese }} {{ photo.company }} {% for modelname in photo.model_name.all %}{{ modelname }}{% endfor %}" 
               lazyloadthumb="1" 
-              lazyloaded="true"
-            >
+              lazyloaded="true">
+            </a>
           
           <div class="card-body p-1 mt-2">
-            <p class="card-text  text-truncate mb-0">{{ photo.name_chinese }}</p>
-          </a>
+
+            <!-- 相册标题模块 -->
+            <div class="d-flex align-items-start">
+
+                <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self' onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
+                  <p class="card-text text-truncate mb-0 mr-1 ">{{ photo.name_chinese }}</p>
+                </a>
+           <!-- 相册标签 -->
+            <span class="badge badge-warning align-self-center mr-1 ">精品</span>
+            <span class="badge badge-warning align-self-center mr-1 ">会员</span>
+            <span class="badge badge-info align-self-center mr-1 ">视频</span>
+            </div>
+            
+           
+          
 
             {% for modelname in photo.model_name.all %}
             <a href="/actress_detail/{{ modelname.id }}" class="card-text text-truncate mb-1 ">
               <small>{{ modelname }}</small>
           </a>
             {% endfor %}
+
+          
           </div>
         </div>
         {% endfor %}
