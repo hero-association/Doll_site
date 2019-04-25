@@ -35,7 +35,6 @@
     gtag('js', new Date());
 
 
-
     window.onload = function () {
 
       var getUserInfo = function () {
@@ -58,42 +57,13 @@
       getUserInfo();
 
       //构造带参数的请求地址，用于获取订单详情
-      var order_item = getUrlParam('item');
-      var photo_id = {{ photo_detail.id }}
-      var get_url = '/get_order_info?item='
-      get_url = get_url + order_item + '&photo_id=' + photo_id
-      //当检查到paid信号时，获取订单详情
-      var getPaidInfo = function () {
-        if ( getUrlParam('paid') === 'true' ) {
-          const osign = new XMLHttpRequest();
-          osign.open('GET', get_url, true)
-          //上报订单各参数，完成统计
-          osign.onload = function () {
-            if (this.status === 200) {
-              var paidInfo = JSON.parse(this.responseText);
-              gtag('event', 'order', {'send_to': 'UA-127776067-1','event_category': 'order_item','event_label': osign.order_item});
-              gtag('event', 'order', {'send_to': 'UA-127776067-1','event_category': 'order_detail','event_label': osign.order_detail});
-              gtag('event', 'order', {'send_to': 'UA-127776067-1','event_category': 'origin_page','event_label': osign.origin_page});
-              gtag('event', 'order', {'send_to': 'UA-127776067-1','event_category': 'origin_actress','event_label': osign.origin_actress});
-              gtag('event', 'order', {'send_to': 'UA-127776067-1','event_category': 'origin_series','event_label': osign.origin_series});
-              gtag('event', 'order', {'send_to': 'UA-127776067-1','event_category': 'origin_race','event_label': osign.origin_race});
-            }
-          }
-          osign.send();
-        }
-      }
-
-      getPaidInfo();
-
-    }
-
-
 
     function setUserId(userId, userStatus) {
       gtag('config', 'UA-127776067-1', {
 
         'user_id': userId,
-        'custom_map': {'dimension2': 'user_status'}
+        'custom_map': {'dimension2': 'user_status'},
+        'channel_map': {'dimension3': 'channel_from'}
       });
 
       // var user_status = userStatus ;
@@ -102,9 +72,11 @@
 
       gtag('event', 'userStatus_dimension', {'user_status': userStatus});
      
+      gtag('event', 'channelFrom_dimension', {'channel_from': getUrlParam('channel')});
+
+      // console.log(getUrlParam('channel'));
 
       gtag('send', 'pageview');
-
 
     }
 
@@ -131,7 +103,8 @@
 　　　　　　return "";
 　　　　}
 　　}
-    
+  } 
+  
 
 
 
