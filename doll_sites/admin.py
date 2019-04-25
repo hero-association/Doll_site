@@ -158,7 +158,12 @@ class XdataOrderAdmin(admin.ModelAdmin):
 			q = Order.objects.filter( Q(date_created__year=year) & Q(date_created__month=month) & Q(date_created__day=date) & Q(order_status='Paid') )
 			num = 0
 			for order in q:
-				num += float(order.paid_price)
+				try:
+					float(order.paid_price)
+				except:
+					num = num
+				else:
+					num += float(order.paid_price)
 			num = round(num,2)
 			return num
 		else:
@@ -168,7 +173,12 @@ class XdataOrderAdmin(admin.ModelAdmin):
 			num = 0
 			for order in q:
 				if order.paid_price:
-					num += float(order.paid_price)
+					try:
+						float(order.paid_price)
+					except:
+						num = num
+					else:
+						num += float(order.paid_price)
 			num = round(num,2)
 			return num
 
@@ -180,7 +190,12 @@ class XdataOrderAdmin(admin.ModelAdmin):
 			q = Order.objects.filter( Q(date_created__year=year) & Q(date_created__month=month) & Q(date_created__day=date) & Q(order_status='Paid') )
 			num = 0
 			for order in q:
-				num += float(order.paid_price)
+				try:
+					float(order.paid_price)
+				except:
+					num = num
+				else:
+					num += float(order.paid_price)
 			if q.count() != 0 and num != 0:
 				num = num/q.count()
 			else:
@@ -194,7 +209,12 @@ class XdataOrderAdmin(admin.ModelAdmin):
 			num = 0
 			for order in q:
 				if order.paid_price:
-					num += float(order.paid_price)
+					try:
+						float(order.paid_price)
+					except:
+						num = num
+					else:
+						num += float(order.paid_price)
 			if q.count() != 0 and num != 0:
 				num = num/q.count()
 			else :
