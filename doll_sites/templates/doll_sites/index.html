@@ -97,14 +97,16 @@
                 <p class="card-text text-truncate mb-0 mr-1 ">{{ photo.name_chinese }}</p>
               </a>
               <!-- 相册标签 -->
-              {% if photo.buy_link%}
+              {% if photo.buy_link %}
               <span class="badge badge-warning align-self-center mr-1 ">精品</span>
               {% endif %}
-              {% if photo.video_link%}
+              {% if photo.video_link %}
               <span class="badge badge-info align-self-center mr-1 ">视频</span>
               {% endif %}
               {% if photo.vip_photo == False %}
+              {% if photo.video == False %}
               <span class="badge badge-warning align-self-center mr-1 ">免费</span>
+              {% endif %}
               {% endif %}
             </div>
             {% for modelname in photo.model_name.all %}
@@ -172,7 +174,9 @@
             <span class="badge badge-info align-self-center mr-1 ">视频</span>
             {% endif %}
             {% if photo.vip_photo == False %}
+            {% if photo.video == False %}
             <span class="badge badge-warning align-self-center mr-1 ">免费</span>
+            {% endif %}
             {% endif %}
           </div>
 
@@ -305,7 +309,9 @@
             <span class="badge badge-info align-self-center mr-1 ">视频</span>
             {% endif %}
             {% if photo.vip_photo == False %}
+            {% if photo.video == False %}
             <span class="badge badge-warning align-self-center mr-1 ">免费</span>
+            {% endif %}
             {% endif %}
           </div>
 
@@ -367,7 +373,9 @@
             <span class="badge badge-info align-self-center mr-1 ">视频</span>
             {% endif %}
             {% if photo.vip_photo == False %}
+            {% if photo.video == False %}
             <span class="badge badge-warning align-self-center mr-1 ">免费</span>
+            {% endif %}
             {% endif %}
           </div>
 
@@ -429,7 +437,9 @@
             <span class="badge badge-info align-self-center mr-1 ">视频</span>
             {% endif %}
             {% if photo.vip_photo == False %}
+            {% if photo.video == False %}
             <span class="badge badge-warning align-self-center mr-1 ">免费</span>
+            {% endif %}
             {% endif %}
           </div>
 
