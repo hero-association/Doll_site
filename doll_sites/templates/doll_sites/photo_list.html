@@ -35,7 +35,7 @@
                <!-- 相册标题模块 -->
             <div class="d-flex align-items-start">
 
-                <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self' onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
+                <a class="photo-link text-truncate" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self' onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
                   <p class="card-text text-truncate mb-0 mr-1 ">{{ photo.name_chinese }}</p>
                 </a>
            <!-- 相册标签 -->
