@@ -78,7 +78,7 @@
         {% for photo in recommend_newest %}
         <div class="card border-0">
 
-          <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'
+          <a class="photo-link text-truncate" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'
             onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
             <img class="card-img-top border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
               src="/static/image/loading.png"
@@ -91,7 +91,7 @@
             <!-- 相册标题模块 -->
             <div class="d-flex align-items-start">
 
-              <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} "
+              <a class="photo-link text-truncate" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} "
                 target='_self'
                 onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
                 <p class="card-text text-truncate mb-0 mr-1 ">{{ photo.name_chinese }}</p>
@@ -161,10 +161,10 @@
           <!-- 相册标题模块 -->
           <div class="d-flex align-items-start">
 
-            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} "
+            <a class="photo-link text-truncate" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} "
               target='_self'
               onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
-              <p class="card-text text-truncate mb-0 mr-1 ">{{ photo.name_chinese }}</p>
+              <p class="card-text text-truncate  mb-0 mr-1 ">{{ photo.name_chinese }}</p>
             </a>
             <!-- 相册标签 -->
             {% if photo.buy_link%}
@@ -284,7 +284,7 @@
       {% for photo in recommend_european %}
       <div class="card border-0">
 
-        <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'
+        <a class="photo-link text-truncate" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'
           onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_euro_index'});">
           <img class="card-img-top border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
             src="/static/image/loading.png"
@@ -296,7 +296,7 @@
           <!-- 相册标题模块 -->
           <div class="d-flex align-items-start">
 
-            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} "
+            <a class="photo-link text-truncate" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} "
               target='_self'
               onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
               <p class="card-text text-truncate mb-0 mr-1 ">{{ photo.name_chinese }}</p>
@@ -349,7 +349,7 @@
       {% for photo in recommend_japanese %}
       <div class="card border-0 col-md-4 col-lg mr-4 p-0">
 
-        <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'
+        <a class="photo-link text-truncate" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'
           onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_japan_index'});">
           <img class="card-img-top border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
             src="/static/image/loading.png"
@@ -360,7 +360,7 @@
           <!-- 相册标题模块 -->
           <div class="d-flex align-items-start">
 
-            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} "
+            <a class="photo-link text-truncate" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} "
               target='_self'
               onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
               <p class="card-text text-truncate mb-0 mr-1 ">{{ photo.name_chinese }}</p>
@@ -412,7 +412,7 @@
       {% for photo in recommend_chinese %}
       <div class="card border-0">
 
-        <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'
+        <a class="photo-link text-truncate" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'
           onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_china_index'});">
           <img class="card-img-top border border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
             src="/static/image/loading.png"
@@ -424,7 +424,7 @@
           <!-- 相册标题模块 -->
           <div class="d-flex align-items-start">
 
-            <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} "
+            <a class="photo-link text-truncate" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} "
               target='_self'
               onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
               <p class="card-text text-truncate mb-0 mr-1 ">{{ photo.name_chinese }}</p>
