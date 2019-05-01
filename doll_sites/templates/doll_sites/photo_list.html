@@ -35,18 +35,18 @@
                <!-- 相册标题模块 -->
             <div class="d-flex align-items-start">
 
-                <a class="photo-link" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self' onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
+                <a class="photo-link text-truncate" href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self' onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Rec_Newest_index'});">
                   <p class="card-text text-truncate mb-0 mr-1 ">{{ photo.name_chinese }}</p>
                 </a>
            <!-- 相册标签 -->
-            {% if photo.buy_link%}
+            {% if photo.buy_link %}
             <span class="badge badge-warning align-self-center mr-1 ">精品</span>
             {% endif %}
-            {% if photo.video_link%}
+            {% if photo.video_id %}
             <span class="badge badge-info align-self-center mr-1 ">视频</span>
             {% endif %}
             {% if photo.vip_photo == False %}
-            {% if photo.video == False %}
+            {% if photo.video_id == Null %}
             <span class="badge badge-warning align-self-center mr-1 ">免费</span>
             {% endif %}
             {% endif %}
