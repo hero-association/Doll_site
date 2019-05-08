@@ -826,20 +826,9 @@ def member(request):
 	intro_text = MemberConfig.objects.get(config_name='intro_text')
 
 	#定价ABTest
-	user = request.user
-	n = str(user.id)[-1:]
-	if n in ['0','1','2','3']:
-		month_price = 19
-		season_price = 49
-		year_price = 169
-	elif n in ['4','5','6']:
-		month_price = 39
-		season_price = 99
-		year_price = 339
-	else:
-		month_price = 59
-		season_price = 149
-		year_price = 519
+	month_price = 59
+	season_price = 149
+	year_price = 519
 
 	#创建订单
 	api_user = '182553c7'
