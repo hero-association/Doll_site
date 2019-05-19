@@ -908,6 +908,18 @@ def member(request):
 		context
 	)
 
+def payment_center(request):
+	'''支付中心'''
+	context = {
+		'nbar':'about',	#导航标志
+	}
+
+	return render(
+		request,
+		'doll_sites/payment_center.html',
+		context
+	)
+
 def baidu(request):
 	'''百度验证'''
 	context = {
