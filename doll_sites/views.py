@@ -803,7 +803,6 @@ def about(request):
 		context
 	)
 
-@login_required
 def member(request):
 	'''会员页面'''
 	current_url = request.get_full_path()
