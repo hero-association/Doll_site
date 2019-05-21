@@ -806,6 +806,7 @@ def about(request):
 @login_required
 def member(request):
 	'''会员页面'''
+	user = request.user
 	current_url = request.get_full_path()
 	redirect_url = request.GET.get('redirect_url')
 	if redirect_url == None:
@@ -859,9 +860,9 @@ def member(request):
 	# year_signature = make_signature(year_price.config_value,pay_type,redirect,order_id_year,year_order_info,notify_url)
 	
 	#ABTEST签名构造
-	month_signature = make_signature(month_price,pay_type,month_redirect,order_id,month_order_info,notify_url)
-	season_signature = make_signature(season_price,pay_type,season_redirect,order_id_season,season_order_info,notify_url)
-	year_signature = make_signature(year_price,pay_type,year_redirect,order_id_year,year_order_info,notify_url)
+	month_signature = make_signature(month_price,pay_type,month_redirect,order_id,user,notify_url)
+	season_signature = make_signature(season_price,pay_type,season_redirect,order_id_season,user,notify_url)
+	year_signature = make_signature(year_price,pay_type,year_redirect,order_id_year,user,notify_url)
 
 	#SEO
 	title = '会员购买-小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
