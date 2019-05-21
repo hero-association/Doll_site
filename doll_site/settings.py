@@ -91,8 +91,8 @@ EMAIL_PORT = 25
 EMAIL_HOST_USER = 'service_lolizhan'
 EMAIL_HOST_PASSWORD = 'Fuck.ch1na'
 EMAIL_USE_TLS = True
-EMAIL_FROM = 'service@lolizhan.com'
-DEFAULT_FROM_EMAIL = 'service@lolizhan.com'
+EMAIL_FROM = 'service@alolita.net'
+DEFAULT_FROM_EMAIL = 'service@alolita.net'
 
 #跨域增加忽略
 CORS_ALLOW_CREDENTIALS = True
