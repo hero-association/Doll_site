@@ -487,11 +487,12 @@ def payment_response(request):
 			user_name = Order.objects.filter(order_id=order_id)[0].user_name
 			order_info = Order.objects.filter(order_id=order_id)[0].order_info
 			order_type = Order.objects.filter(order_id=order_id)[0].order_type
-			if current_order_object.order_info == 'month_member':
+			'''重要的时间判断，根据价格判断需要增加的会员天数，一定要随定价改变'''
+			if current_order_object.order_price == '59':
 				days_add = 30
-			elif current_order_object.order_info == 'season_member':
+			elif current_order_object.order_price == '149':
 				days_add = 90
-			elif current_order_object.order_info == 'year_member':
+			elif current_order_object.order_price == '519':
 				days_add = 365
 			if current_order_object.order_type == 'member':	#处理会员
 				user_id = User.objects.get(username=user_name)
@@ -510,12 +511,14 @@ def payment_response(request):
 						user_vip_expiration = user_profile_object.member_expire
 						user_vip_expiration = user_vip_expiration.strftime('%Y%m%d')
 						if int(user_vip_expiration) - int(nowdate) >= 0:
+							'''会员未过期'''
 							last_day = user_profile.member_expire
 							user_profile = UserProfile.objects.filter(user=user_id)
 							new_expire_time = last_day + datetime.timedelta(days=days_add)
 							user_profile.update(member_expire=new_expire_time)
 							return HttpResponse('Member Paid!')
 						else:
+							'''会员已过期'''
 							last_day = datetime.date.today()
 							user_profile = UserProfile.objects.filter(user=user_id)
 							new_expire_time = last_day + datetime.timedelta(days=days_add)
