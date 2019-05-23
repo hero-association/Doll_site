@@ -487,11 +487,11 @@ def payment_response(request):
 			user_name = Order.objects.filter(order_id=order_id)[0].user_name
 			order_info = Order.objects.filter(order_id=order_id)[0].order_info
 			order_type = Order.objects.filter(order_id=order_id)[0].order_type
-			if current_order_object.order_info == 'month_member':
+			if current_order_object.order_price == '59':
 				days_add = 30
-			elif current_order_object.order_info == 'season_member':
+			elif current_order_object.order_price == '149':
 				days_add = 90
-			elif current_order_object.order_info == 'year_member':
+			elif current_order_object.order_price == '519':
 				days_add = 365
 			if current_order_object.order_type == 'member':	#处理会员
 				user_id = User.objects.get(username=user_name)
