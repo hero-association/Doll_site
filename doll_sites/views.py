@@ -487,6 +487,7 @@ def payment_response(request):
 			user_name = Order.objects.filter(order_id=order_id)[0].user_name
 			order_info = Order.objects.filter(order_id=order_id)[0].order_info
 			order_type = Order.objects.filter(order_id=order_id)[0].order_type
+			'''重要的时间判断，根据价格判断需要增加的会员天数，一定要随定价改变'''
 			if current_order_object.order_price == '59':
 				days_add = 30
 			elif current_order_object.order_price == '149':
