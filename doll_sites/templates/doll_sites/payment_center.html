@@ -9,10 +9,22 @@
   {% include 'doll_sites/navi.html' %}
 
 
-  <div class="container">
-    <div class="text-center font-weight-bold mt-5" style="font-size: 28px;">支付中心</div>
-    <div class="card pay-card mx-auto mt-5" style="width:400x;">
-      <div class="card-title">
+  <div class="container text-center ">
+    <div class="font-weight-bold m-4">
+        <img
+      width="50"
+      class="d-inline-block align-center pb-2 mr-1"
+      src="/static/image/logo-border.png"
+      alt=""
+    />
+    <h4>支付中心</h4>
+  </div>
+    <div class="">
+      <h1>¥59</h1>
+      <p>订单号：1298739817298379172</p>
+    </div>
+    <div class="card pay-card mx-auto">
+      <div class="card-title m-0">
           <nav class="">
               <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist" >
                 <a class="nav-item nav-link active" id="nav-AliPay-tab" data-toggle="tab" href="#nav-AliPay" role="tab" aria-controls="nav-AliPay" aria-selected="true">支付宝</a>
@@ -23,14 +35,23 @@
       <div class="card-body">
           
             <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-AliPay" role="tabpanel" aria-labelledby="nav-AliPay-tab">支付宝</div>
-                <div class="tab-pane fade" id="nav-WeChatPay" role="tabpanel" aria-labelledby="nav-WeChatPay-tab">微信支付</div>
+                <div class="tab-pane fade show active" id="nav-AliPay" role="tabpanel" aria-labelledby="nav-AliPay-tab">
+                  <a href="/" class="btn btn-primary px-5 py-3 m-4">启动支付宝支付</a>
+                  <img src="/static/image/QRcode.png" alt="">
+                </div>
+                <div class="tab-pane fade" id="nav-WeChatPay" role="tabpanel" aria-labelledby="nav-WeChatPay-tab">
+                    <a href="/" class="btn btn-primary px-5 py-3 m-4">启动微信支付</a>
+                    <img src="/static/image/QRcode.png" alt="">
+                </div>
       </div>
     </div>
       
        
 </div>
-
+<div class="m-5">
+  <p>过期时间2019-5-29 14:12:03</p>
+  <p>如未到账，请联系客服人员处理QQ92910129</p>
+</div>
   </div>
 
     

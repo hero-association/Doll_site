@@ -487,11 +487,12 @@ def payment_response(request):
 			user_name = Order.objects.filter(order_id=order_id)[0].user_name
 			order_info = Order.objects.filter(order_id=order_id)[0].order_info
 			order_type = Order.objects.filter(order_id=order_id)[0].order_type
-			if current_order_object.order_info == 'month_member':
+			'''重要的时间判断，根据价格判断需要增加的会员天数，一定要随定价改变'''
+			if current_order_object.order_price == '59':
 				days_add = 30
-			elif current_order_object.order_info == 'season_member':
+			elif current_order_object.order_price == '149':
 				days_add = 90
-			elif current_order_object.order_info == 'year_member':
+			elif current_order_object.order_price == '519':
 				days_add = 365
 			if current_order_object.order_type == 'member':	#处理会员
 				user_id = User.objects.get(username=user_name)
@@ -510,12 +511,14 @@ def payment_response(request):
 						user_vip_expiration = user_profile_object.member_expire
 						user_vip_expiration = user_vip_expiration.strftime('%Y%m%d')
 						if int(user_vip_expiration) - int(nowdate) >= 0:
+							'''会员未过期'''
 							last_day = user_profile.member_expire
 							user_profile = UserProfile.objects.filter(user=user_id)
 							new_expire_time = last_day + datetime.timedelta(days=days_add)
 							user_profile.update(member_expire=new_expire_time)
 							return HttpResponse('Member Paid!')
 						else:
+							'''会员已过期'''
 							last_day = datetime.date.today()
 							user_profile = UserProfile.objects.filter(user=user_id)
 							new_expire_time = last_day + datetime.timedelta(days=days_add)
@@ -805,6 +808,7 @@ def about(request):
 
 def member(request):
 	'''会员页面'''
+	user = request.user
 	current_url = request.get_full_path()
 	redirect_url = request.GET.get('redirect_url')
 	if redirect_url == None:
@@ -841,7 +845,7 @@ def member(request):
 	order_id = str(pay_type)+str(nowtime)+random_id
 	order_id_season = str(pay_type)+str(nowtime)+random_id_2
 	order_id_year = str(pay_type)+str(nowtime)+random_id_3
-	notify_url = 'http://www.lolizhan.com/payment_response'
+	notify_url = 'http://www.alolita.com/payment_response'
 	
 	month_order_info = 'month_member'
 	month_redirect = 'http://127.0.0.1:8000' + str(redirect_url) + '&item=' + month_order_info
@@ -861,11 +865,11 @@ def member(request):
 	# year_signature = make_signature(year_price.config_value,pay_type,redirect,order_id_year,year_order_info,notify_url)
 	
 	#ABTEST签名构造
-	month_signature = make_signature(month_price,pay_type,month_redirect,order_id,month_order_info,notify_url)
+	month_signature = make_signature(month_price,pay_type,month_redirect,order_id,user,notify_url)
 	season_order_info = 'season_member'
-	season_signature = make_signature(season_price,pay_type,season_redirect,order_id_season,season_order_info,notify_url)
+	season_signature = make_signature(season_price,pay_type,season_redirect,order_id_season,user,notify_url)
 	year_order_info = 'year_member'
-	year_signature = make_signature(year_price,pay_type,year_redirect,order_id_year,year_order_info,notify_url)
+	year_signature = make_signature(year_price,pay_type,year_redirect,order_id_year,user,notify_url)
 
 	#SEO
 	title = '会员购买-小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
