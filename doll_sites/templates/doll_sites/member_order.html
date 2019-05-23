@@ -59,7 +59,7 @@
                 <form id='pay_form'>
                 {% endif %}
                   <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
-                  <input id='price' name='price' type='hidden' value='{{ season_price }}' />
+                  <input id='price_season' name='price' type='hidden' value='{{ season_price }}' />
                   <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
                   <input id='redirect' name='redirect' type='hidden' value='{{ season_redirect }}' />
                   <input id='order_id_season' name='order_id' type='hidden' value='{{ order_id_season }}' />
@@ -90,7 +90,7 @@
                 <form id='pay_form'>
                 {% endif %}
                   <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
-                  <input id='price' name='price' type='hidden' value='{{ year_price }}' />
+                  <input id='price_year' name='price' type='hidden' value='{{ year_price }}' />
                   <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
                   <input id='redirect' name='redirect' type='hidden' value='{{ year_redirect }}' />
                   <input id='order_id_year' name='order_id' type='hidden' value='{{ order_id_year }}' />
@@ -145,7 +145,7 @@
         order_info:$("#order_info_season").val(),
         order_status:"pending",
         order_type:$("#order_type").val(),
-        price:$("#price").val(),
+        price:$("#price_season").val(),
         }
       );
       gtag('event', 'create_order', {'send_to': 'UA-127776067-1','event_category': 'item','event_label': 'season_member'});
@@ -160,7 +160,7 @@
         order_info:$("#order_info_year").val(),
         order_status:"pending",
         order_type:$("#order_type").val(),
-        price:$("#price").val(),
+        price:$("#price_year").val(),
         }
       );
       gtag('event', 'create_order', {'send_to': 'UA-127776067-1','event_category': 'item','event_label': 'year_member'});
