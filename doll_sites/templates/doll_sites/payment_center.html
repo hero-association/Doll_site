@@ -8,8 +8,28 @@
   <!-- Header & Navigation -->
   {% include 'doll_sites/navi.html' %}
 
+ 
 
   <div class="container text-center ">
+
+      <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay_json'>
+    
+    
+        <input id='api_user' name='api_user'  value={api_user} />
+        <input id='price' name='price'  value=price />
+        <input id='type' name='type'  value=type />
+        <input id='redirect' name='redirect' value=redirect />
+        <input id='order_id' name='order_id'  value=order_id />
+        <input id='order_info' name='order_info'  value=order_info/>
+        <input id='notify_url' name='notify_url'  value=notify_url />
+        <input id='signature' name='signature'  value=signature />
+        <input id='order_type' name='order_type'  value='member'/>
+        <input id='user_name' name='user_name' value='{{ user_display }}' />
+        <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="">
+       
+      </form>
+
+
     <div class="font-weight-bold m-4">
         <img
       width="50"
@@ -76,6 +96,13 @@
 {% include 'doll_sites/footer.html' %}
 
 
+
+
+
+
+
+
+
   <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>
@@ -87,6 +114,38 @@
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/js/jquery.lazyload.js"></script>
   <script src="/static/js/main.js"></script>
+
+  <script type='text/javascript'>
+    function getQueryVariable(variable)
+  {
+         var query = window.location.search.substring(1);
+         var vars = query.split("&");
+         for (var i=0;i<vars.length;i++) {
+                 var pair = vars[i].split("=");
+                 if(pair[0] == variable){return pair[1];}
+         }
+         return(false);
+  }
+  
+        var api_user = getQueryVariable('api_user');
+         var price = getQueryVariable('price');
+         var type = getQueryVariable('type');
+         var redirect = decodeURIComponent(getQueryVariable('redirect'));
+         var order_id = getQueryVariable('order_id');
+         var order_info = getQueryVariable('order_info');
+         var notify_url = decodeURIComponent(getQueryVariable('notify_url'));
+         var signature = getQueryVariable('signature');
+
+         document.getElementById('api_user').value = api_user;
+         document.getElementById('price').value = price;
+         document.getElementById('type').value = type;
+         document.getElementById('redirect').value = redirect;
+         document.getElementById('order_id').value = order_id;
+         document.getElementById('order_info').value = order_info;
+         document.getElementById('notify_url').value = notify_url;
+         document.getElementById('signature').value = signature;
+  
+  </script>
 
 </body>
 </html>
