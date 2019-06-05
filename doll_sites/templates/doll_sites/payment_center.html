@@ -11,10 +11,10 @@
  
 
   <div class="container text-center ">
+      <div id="message"></div>
 
       <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay_json'>
-    
-    
+  
         <input id='api_user' name='api_user'  value={api_user} />
         <input id='price' name='price'  value=price />
         <input id='type' name='type'  value=type />
@@ -28,6 +28,7 @@
         <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="">
        
       </form>
+      <div id="response"></div>
 
 
     <div class="font-weight-bold m-4">
@@ -40,14 +41,14 @@
     <h4>支付中心</h4>
   </div>
     <div class="">
-      <h1>¥59</h1>
-      <p>订单号：1298739817298379172</p>
+      <h1 id="price-title"></h1>
+      <p id="order_id-title"></p>
     </div>
     <div class="card pay-card mx-auto">
       <div class="card-title m-0">
           <nav class="">
               <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist" >
-                <a class="nav-item nav-link active" id="nav-AliPay-tab" data-toggle="tab" href="#nav-AliPay" role="tab" aria-controls="nav-AliPay" aria-selected="true">支付宝</a>
+                <a class="nav-item nav-link active " id="nav-AliPay-tab" data-toggle="tab" href="#nav-AliPay" role="tab" aria-controls="nav-AliPay" aria-selected="true" >支付宝</a>
                 <a class="nav-item nav-link" id="nav-WeChatPay-tab" data-toggle="tab" href="#nav-WeChatPay" role="tab" aria-controls="nav-WeChatPay" aria-selected="false">微信支付</a>
               </div>
             </nav>
@@ -56,12 +57,12 @@
           
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-AliPay" role="tabpanel" aria-labelledby="nav-AliPay-tab">
-                  <a href="/" class="btn btn-primary px-5 py-3 m-4">启动支付宝支付</a>
-                  <img src="/static/image/QRcode.png" alt="">
+                  <a id="alipay-button" href=""  class="btn btn-primary px-5 py-3 m-4 d-lg-none  ">启动支付宝支付</a>
+                  <img id="qrcode-alipay" src="/static/image/QRcode.png" alt="" style=" width: 300px">
                 </div>
                 <div class="tab-pane fade" id="nav-WeChatPay" role="tabpanel" aria-labelledby="nav-WeChatPay-tab">
-                    <a href="/" class="btn btn-primary px-5 py-3 m-4">启动微信支付</a>
-                    <img src="/static/image/QRcode.png" alt="">
+                    <a id="wechatPay-button" href="/" class="btn btn-primary px-5 py-3 m-4 d-lg-none ">启动微信支付</a>
+                    <img id="qrcode-wechat" src="/static/image/QRcode.png" alt="" style=" width: 300px"> 
                 </div>
       </div>
     </div>
@@ -144,8 +145,125 @@
          document.getElementById('order_info').value = order_info;
          document.getElementById('notify_url').value = notify_url;
          document.getElementById('signature').value = signature;
-  
-  </script>
 
+
+         document.getElementById('order_id-title').textContent = '订单号： ' + order_id;
+
+         /**
+ * sends a request to the specified url from a form. this will change the window location.
+ * @param {string} path the path to send the post request to
+ * @param {object} params the paramiters to add to the url
+ * @param {string} [method=post] the method to use on the form
+ */
+
+// function post(path, params, method='post') {
+
+// // The rest of this code assumes you are not using a library.
+// // It can be made less wordy if you use one.
+// const form = document.createElement('form');
+// form.method = method;
+// form.action = path;
+
+// for (const key in params) {
+//   if (params.hasOwnProperty(key)) {
+//     const hiddenField = document.createElement('input');
+//     hiddenField.type = 'hidden';
+//     hiddenField.name = key;
+//     hiddenField.value = params[key];
+
+//     form.appendChild(hiddenField);
+//   }
+// }
+
+// document.body.appendChild(form);
+// form.submit();
+// }
+
+// var param1 = {'api_user': api_user,
+//   'price': price,
+//   'type': type,
+//   'redirect': redirect,
+//   'order_id': order_id,
+//   'order_info': order_info,
+//   'notify_url': notify_url,
+//   'signature': signature};
+
+//   post('https://www.paypayzhu.com/api/pay_json', param1);
+
+
+
+  
+</script>
+
+
+
+<script>
+    $(function() {
+        $("#pay_form").on("submit", function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr("action"),
+                type: 'POST',
+                data: $(this).serialize(),
+                dataType: '',
+                beforeSend: function() {
+                    $("#message").html("sending...");
+                },
+                success: function(data) {
+                    $("#message").hide();
+                    var json = data;
+                    var obj  = JSON.parse(json);
+                    console.log(obj.info.sdk_url);
+                    document.getElementById('price-title').textContent = '¥ ' + obj.info.real_price;
+                    document.getElementById('qrcode-alipay').src = obj.info.qrcode;
+                    document.getElementById('alipay-button').href = obj.info.sdk_url;
+                }
+            });
+        });
+    });
+</script>
+
+
+<!-- <script>
+  window.onload = function(){
+    var x = {
+    api_user: api_user,
+  price: price,
+  type: type,
+  redirect: redirect,
+  order_id: order_id,
+  order_info: order_info,
+  notify_url: notify_url,
+  signature: signature
+};
+
+ var s = JSON.stringify(x);
+ 
+  console.log(s);
+
+  var url = 'https://www.paypayzhu.com/api/pay_json';
+  var xhr = new XMLHttpRequest();
+  function processRequest(e) {
+    if (this.readyState === 4 && this.status === 200) {
+      var responseData = JSON.parse(xhr.responseText);
+      document.getElementById('price-title').textContent = responseData.real_price;
+      
+    }
+  }
+  xhr.open('post',url,true);
+  xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+
+  xhr.send(s);
+  xhr.onreadystatechange = processRequest;
+  
+
+  processRequest();
+
+
+
+
+
+  }
+</script> -->
 </body>
 </html>
