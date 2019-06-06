@@ -13,6 +13,7 @@ import random
 import hashlib
 import json
 import urllib
+import requests
 import datetime
 from django.shortcuts import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -913,8 +914,32 @@ def member(request):
 
 def payment_center(request):
 	'''支付中心'''
+	api_user = request.GET.get('api_user')
+	price = request.GET.get('price')
+	redirect = request.GET.get('redirect')
+	order_id = request.GET.get('order_id')
+	order_info = request.GET.get('order_info')
+	notify_url = request.GET.get('notify_url')
+
+	wx_signature = make_signature(price,1,redirect,order_id,order_info,notify_url)
+	zfb_signature = make_signature(price,2,redirect,order_id,order_info,notify_url)
+
+	url = 'https://www.paypayzhu.com/api/pay_json' 
+
+	wx_datas  = {'api_user': api_user, 'price': price, 'type': 1, 'redirect': redirect, 'order_id': order_id, 'order_info': order_info, 'notify_url': notify_url, 'signature': wx_signature}
+	zfb_datas  = {'api_user': api_user, 'price': price, 'type': 2, 'redirect': redirect, 'order_id': order_id, 'order_info': order_info, 'notify_url': notify_url, 'signature': zfb_signature}
+	
+	wx_r = requests.post(url, data=wx_datas)
+	wx_res = wx_r.json
+	zfb_r = requests.post(url, data=zfb_datas)
+	zfb_res = zfb_r.json
+
+	a = str(type(zfb_res))
 	context = {
 		'nbar':'about',	#导航标志
+		'wx_res':wx_res,
+		'zfb_res':zfb_res,
+		'a':a,
 	}
 
 	return render(
