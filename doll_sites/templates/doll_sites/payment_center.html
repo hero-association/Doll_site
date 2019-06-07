@@ -11,26 +11,6 @@
  
 
   <div class="container text-center ">
-      <div id="message"></div>
-
-      <form id='pay_form' method='post' action='https://www.paypayzhu.com/api/pay_json'>
-  
-        <input id='api_user' name='api_user'  value={api_user} />
-        <input id='price' name='price'  value=price />
-        <input id='type' name='type'  value=type />
-        <input id='redirect' name='redirect' value=redirect />
-        <input id='order_id' name='order_id'  value=order_id />
-        <input id='order_info' name='order_info'  value=order_info/>
-        <input id='notify_url' name='notify_url'  value=notify_url />
-        <input id='signature' name='signature'  value=signature />
-        <input id='order_type' name='order_type'  value='member'/>
-        <input id='user_name' name='user_name' value='{{ user_display }}' />
-        <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="">
-       
-      </form>
-      <div id="response"></div>
-
-
     <div class="font-weight-bold m-4">
         <img
       width="50"
@@ -39,9 +19,9 @@
       alt=""
     />
     <h4>支付中心</h4>
-    <h4>{{ a }}</h4>
-    <h4>{{ wx_res }}</h4>
-    <h4>{{ zfb_res }}</h4>
+    <h4 class="d-none">{{ a }}</h4>
+    <h id="wechatpay_json" class="d-none">{{ wx_res }}</h4>
+    <h4 id="alipay_json" class="d-none">{{ zfb_res }}</h4>
   </div>
     <div class="">
       <h1 id="price-title"></h1>
@@ -61,11 +41,11 @@
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-AliPay" role="tabpanel" aria-labelledby="nav-AliPay-tab">
                   <a id="alipay-button" href=""  class="btn btn-primary px-5 py-3 m-4 d-lg-none  ">启动支付宝支付</a>
-                  <img id="qrcode-alipay" src="/static/image/QRcode.png" alt="" style=" width: 300px">
+                  <img id="qrcode-alipay" src="" alt="请求二维码..." style=" width: 300px">
                 </div>
                 <div class="tab-pane fade" id="nav-WeChatPay" role="tabpanel" aria-labelledby="nav-WeChatPay-tab">
                     <a id="wechatPay-button" href="/" class="btn btn-primary px-5 py-3 m-4 d-lg-none ">启动微信支付</a>
-                    <img id="qrcode-wechat" src="/static/image/QRcode.png" alt="" style=" width: 300px"> 
+                    <img id="qrcode-wechat" src="" alt="请求二维码..." style=" width: 300px"> 
                 </div>
       </div>
     </div>
@@ -73,10 +53,13 @@
        
 </div>
 <div class="m-5">
-  <p>过期时间2019-5-29 14:12:03</p>
+  <p id="timer"></p>
   <p>如未到账，请联系客服人员处理QQ92910129</p>
 </div>
   </div>
+
+ 
+  
 
     
 
@@ -140,133 +123,57 @@
          var notify_url = decodeURIComponent(getQueryVariable('notify_url'));
          var signature = getQueryVariable('signature');
 
-         document.getElementById('api_user').value = api_user;
-         document.getElementById('price').value = price;
-         document.getElementById('type').value = type;
-         document.getElementById('redirect').value = redirect;
-         document.getElementById('order_id').value = order_id;
-         document.getElementById('order_info').value = order_info;
-         document.getElementById('notify_url').value = notify_url;
-         document.getElementById('signature').value = signature;
-
-
          document.getElementById('order_id-title').textContent = '订单号： ' + order_id;
 
-         /**
- * sends a request to the specified url from a form. this will change the window location.
- * @param {string} path the path to send the post request to
- * @param {object} params the paramiters to add to the url
- * @param {string} [method=post] the method to use on the form
- */
-
-// function post(path, params, method='post') {
-
-// // The rest of this code assumes you are not using a library.
-// // It can be made less wordy if you use one.
-// const form = document.createElement('form');
-// form.method = method;
-// form.action = path;
-
-// for (const key in params) {
-//   if (params.hasOwnProperty(key)) {
-//     const hiddenField = document.createElement('input');
-//     hiddenField.type = 'hidden';
-//     hiddenField.name = key;
-//     hiddenField.value = params[key];
-
-//     form.appendChild(hiddenField);
-//   }
-// }
-
-// document.body.appendChild(form);
-// form.submit();
-// }
-
-// var param1 = {'api_user': api_user,
-//   'price': price,
-//   'type': type,
-//   'redirect': redirect,
-//   'order_id': order_id,
-//   'order_info': order_info,
-//   'notify_url': notify_url,
-//   'signature': signature};
-
-//   post('https://www.paypayzhu.com/api/pay_json', param1);
-
-
-
-  
 </script>
-
-
 
 <script>
-    $(function() {
-        $("#pay_form").on("submit", function(e) {
-            e.preventDefault();
-            $.ajax({
-                url: $(this).attr("action"),
-                type: 'POST',
-                data: $(this).serialize(),
-                dataType: '',
-                beforeSend: function() {
-                    $("#message").html("sending...");
-                },
-                success: function(data) {
-                    $("#message").hide();
-                    var json = data;
-                    var obj  = JSON.parse(json);
-                    console.log(obj.info.sdk_url);
-                    document.getElementById('price-title').textContent = '¥ ' + obj.info.real_price;
-                    document.getElementById('qrcode-alipay').src = obj.info.qrcode;
-                    document.getElementById('alipay-button').href = obj.info.sdk_url;
-                }
-            });
-        });
-    });
+  var aliPayJson = document.getElementById('alipay_json').innerText;
+  var json2 = aliPayJson.replace(/'/g, '"');
+  var json3 = json2.replace(/True/g,'true');
+  console.log(json3);
+  var wechatPayJson = document.getElementById('wechatpay_json').innerText;
+  var alipayData = JSON.parse(json3);
+  console.log(alipayData.info.real_price);
+  document.getElementById('price-title').textContent = '¥ ' + alipayData.info.real_price;
+  document.getElementById('qrcode-alipay').src = alipayData.info.qrcode;
+  document.getElementById('alipay-button').href = alipayData.info.sdk_url;
+
 </script>
 
-
-<!-- <script>
-  window.onload = function(){
-    var x = {
-    api_user: api_user,
-  price: price,
-  type: type,
-  redirect: redirect,
-  order_id: order_id,
-  order_info: order_info,
-  notify_url: notify_url,
-  signature: signature
-};
-
- var s = JSON.stringify(x);
- 
-  console.log(s);
-
-  var url = 'https://www.paypayzhu.com/api/pay_json';
-  var xhr = new XMLHttpRequest();
-  function processRequest(e) {
-    if (this.readyState === 4 && this.status === 200) {
-      var responseData = JSON.parse(xhr.responseText);
-      document.getElementById('price-title').textContent = responseData.real_price;
-      
-    }
-  }
-  xhr.open('post',url,true);
-  xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-
-  xhr.send(s);
-  xhr.onreadystatechange = processRequest;
-  
-
-  processRequest();
+<script>
+    // Set the date we're counting down to
+    var countDownDate = new Date().getTime() + alipayData.info.ttl*1000;
+    console.log(countDownDate);
+    console.log(alipayData.info.ttl);
+    
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+    
+      // Get today's date and time
+      var now = new Date().getTime();
+        
+      // Find the distance between now and the count down date
+      var distance = countDownDate - now;
+        
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+      // Output the result in an element with id="demo"
+      document.getElementById("timer").innerHTML = "过期时间： " + minutes + "m " + seconds + "s ";
+        
+      // If the count down is over, write some text 
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("timer").innerHTML = "订单已过期";
+      }
+    }, 1000);
+    </script>
+    
 
 
-
-
-
-  }
-</script> -->
 </body>
 </html>
