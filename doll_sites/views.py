@@ -966,6 +966,7 @@ def payment_center(request):
 		#导航标志
 		'nbar':'about',
 		#微信支付信息
+		'wx_res':wx_res,
 		'wx_result':wx_result,
 		'wx_code':wx_code,
 		'wx_qrcode':wx_qrcode,
@@ -973,6 +974,7 @@ def payment_center(request):
 		'wx_price':wx_price,
 		'wx_redirect':wx_redirect,
 		#支付宝支付信息
+		'zfb_res':zfb_res,
 		'zfb_result':zfb_result,
 		'zfb_code':zfb_code,
 		'zfb_qrcode':zfb_qrcode,
