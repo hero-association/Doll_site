@@ -33,7 +33,7 @@ ALLOWED_HOSTS = [
 '103.44.220.116',
 '103.44.220.79',
 '162.241.182.12',
-'test.lolizhan.com',
+'test.alolita.net',
 'django.contrib.sitemaps',
 ]
 
