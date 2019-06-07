@@ -13,6 +13,7 @@ import random
 import hashlib
 import json
 import urllib
+import requests
 import datetime
 from django.shortcuts import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -325,9 +326,9 @@ def photodetail(request,photoid):
 	nowtime = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 	random_id = str(random.randint(1000000,9999999))
 	order_id = str(pay_type)+str(nowtime)+random_id
-	redirect = 'https://test.lolizhan.com' + current_url + '?paid=true&item=single'
+	redirect = 'https://test.alolita.net' + current_url + '?paid=true&item=single'
 	order_info = photo_detail.id
-	notify_url = 'https://test.lolizhan.com/payment_response'
+	notify_url = 'https://test.alolita.net/payment_response'
 	single_signature = make_signature(order_price,pay_type,redirect,order_id,order_info,notify_url)
 	#VIP相册逻辑
 	vip_album = photo_detail.vip_photo
@@ -487,11 +488,12 @@ def payment_response(request):
 			user_name = Order.objects.filter(order_id=order_id)[0].user_name
 			order_info = Order.objects.filter(order_id=order_id)[0].order_info
 			order_type = Order.objects.filter(order_id=order_id)[0].order_type
-			if current_order_object.order_info == 'month_member':
+			'''重要的时间判断，根据价格判断需要增加的会员天数，一定要随定价改变'''
+			if current_order_object.order_price == '59':
 				days_add = 30
-			elif current_order_object.order_info == 'season_member':
+			elif current_order_object.order_price == '149':
 				days_add = 90
-			elif current_order_object.order_info == 'year_member':
+			elif current_order_object.order_price == '519':
 				days_add = 365
 			if current_order_object.order_type == 'member':	#处理会员
 				user_id = User.objects.get(username=user_name)
@@ -510,12 +512,14 @@ def payment_response(request):
 						user_vip_expiration = user_profile_object.member_expire
 						user_vip_expiration = user_vip_expiration.strftime('%Y%m%d')
 						if int(user_vip_expiration) - int(nowdate) >= 0:
+							'''会员未过期'''
 							last_day = user_profile.member_expire
 							user_profile = UserProfile.objects.filter(user=user_id)
 							new_expire_time = last_day + datetime.timedelta(days=days_add)
 							user_profile.update(member_expire=new_expire_time)
 							return HttpResponse('Member Paid!')
 						else:
+							'''会员已过期'''
 							last_day = datetime.date.today()
 							user_profile = UserProfile.objects.filter(user=user_id)
 							new_expire_time = last_day + datetime.timedelta(days=days_add)
@@ -803,9 +807,9 @@ def about(request):
 		context
 	)
 
-@login_required
 def member(request):
 	'''会员页面'''
+	user = request.user
 	current_url = request.get_full_path()
 	redirect_url = request.GET.get('redirect_url')
 	if redirect_url == None:
@@ -843,13 +847,13 @@ def member(request):
 	order_id_season = str(pay_type)+str(nowtime)+random_id_2
 	order_id_year = str(pay_type)+str(nowtime)+random_id_3
 
-	notify_url = 'https://test.lolizhan.com/payment_response'
+	notify_url = 'https://test.alolita.net/payment_response'
 	month_order_info = 'month_member'
-	month_redirect = 'https://test.lolizhan.com' + str(redirect_url) + '&item=' + month_order_info
+	month_redirect = 'https://test.alolita.net' + str(redirect_url) + '&item=' + month_order_info
 	season_order_info = 'season_member'
-	season_redirect = 'https://test.lolizhan.com' + str(redirect_url) + '&item=' + month_order_info
+	season_redirect = 'https://test.alolita.net' + str(redirect_url) + '&item=' + month_order_info
 	year_order_info = 'year_member'
-	year_redirect = 'https://test.lolizhan.com' + str(redirect_url) + '&item=' + month_order_info	
+	year_redirect = 'https://test.alolita.net' + str(redirect_url) + '&item=' + month_order_info	
 
 	#旧的签名构造
 	# month_signature = make_signature(month_price.config_value,pay_type,redirect,order_id,month_order_info,notify_url)
@@ -859,9 +863,11 @@ def member(request):
 	# year_signature = make_signature(year_price.config_value,pay_type,redirect,order_id_year,year_order_info,notify_url)
 	
 	#ABTEST签名构造
-	month_signature = make_signature(month_price,pay_type,month_redirect,order_id,month_order_info,notify_url)
-	season_signature = make_signature(season_price,pay_type,season_redirect,order_id_season,season_order_info,notify_url)
-	year_signature = make_signature(year_price,pay_type,year_redirect,order_id_year,year_order_info,notify_url)
+	month_signature = make_signature(month_price,pay_type,month_redirect,order_id,user,notify_url)
+	season_order_info = 'season_member'
+	season_signature = make_signature(season_price,pay_type,season_redirect,order_id_season,user,notify_url)
+	year_order_info = 'year_member'
+	year_signature = make_signature(year_price,pay_type,year_redirect,order_id_year,user,notify_url)
 
 
 	#SEO
@@ -901,6 +907,84 @@ def member(request):
 	return render(
 		request,
 		'doll_sites/member_order.html',
+		context
+	)
+
+def payment_center(request):
+	'''支付中心'''
+	api_user = request.GET.get('api_user')
+	price = request.GET.get('price')
+	redirect = request.GET.get('redirect')
+	order_id = request.GET.get('order_id')
+	order_info = request.GET.get('order_info')
+	notify_url = request.GET.get('notify_url')
+
+	wx_signature = make_signature(price,1,redirect,order_id,order_info,notify_url)
+	zfb_signature = make_signature(price,2,redirect,order_id,order_info,notify_url)
+
+	url = 'https://www.paypayzhu.com/api/pay_json' 
+
+	wx_datas  = {'api_user': api_user, 'price': price, 'type': 1, 'redirect': redirect, 'order_id': order_id, 'order_info': order_info, 'notify_url': notify_url, 'signature': wx_signature}
+	zfb_datas  = {'api_user': api_user, 'price': price, 'type': 2, 'redirect': redirect, 'order_id': order_id, 'order_info': order_info, 'notify_url': notify_url, 'signature': zfb_signature}
+	
+	wx_r = requests.post(url, data=wx_datas)
+	wx_res = json.loads(wx_r.text)
+	wx_result = wx_res['result']
+	wx_code = wx_res['code']
+	wx_info = wx_res['info']
+	if wx_result == True:
+		wx_qrcode = wx_info['qrcode']
+		wx_sdk_url = wx_info['sdk_url']
+		wx_price = wx_info['real_price']
+		wx_redirect = wx_info['redirect']
+	else:
+		wx_qrcode = None
+		wx_sdk_url = None
+		wx_price = None
+		wx_redirect = None
+
+	zfb_r = requests.post(url, data=zfb_datas)
+	zfb_res = json.loads(zfb_r.text)
+	zfb_result = zfb_res['result']
+	zfb_code = zfb_res['code']
+	zfb_info = zfb_res['info']
+	if zfb_result == True:
+		zfb_qrcode = zfb_info['qrcode']
+		zfb_sdk_url = zfb_info['sdk_url']
+		zfb_price = zfb_info['real_price']
+		zfb_redirect = zfb_info['redirect']
+	else:
+		zfb_qrcode = None
+		zfb_sdk_url = None
+		zfb_price = None
+		zfb_redirect = None
+
+	a = str(type(wx_info))
+	context = {
+		#导航标志
+		'nbar':'about',
+		#微信支付信息
+		'wx_res':wx_res,
+		'wx_result':wx_result,
+		'wx_code':wx_code,
+		'wx_qrcode':wx_qrcode,
+		'wx_sdk_url':wx_sdk_url,
+		'wx_price':wx_price,
+		'wx_redirect':wx_redirect,
+		#支付宝支付信息
+		'zfb_res':zfb_res,
+		'zfb_result':zfb_result,
+		'zfb_code':zfb_code,
+		'zfb_qrcode':zfb_qrcode,
+		'zfb_sdk_url':zfb_sdk_url,
+		'zfb_price':zfb_price,
+		'zfb_redirect':zfb_redirect,
+		'zfb_res':zfb_res,
+	}
+
+	return render(
+		request,
+		'doll_sites/payment_center.html',
 		context
 	)
 
