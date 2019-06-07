@@ -930,16 +930,55 @@ def payment_center(request):
 	zfb_datas  = {'api_user': api_user, 'price': price, 'type': 2, 'redirect': redirect, 'order_id': order_id, 'order_info': order_info, 'notify_url': notify_url, 'signature': zfb_signature}
 	
 	wx_r = requests.post(url, data=wx_datas)
-	wx_res = wx_r.json
-	zfb_r = requests.post(url, data=zfb_datas)
-	zfb_res = zfb_r.json
+	wx_res = json.loads(wx_r.text)
+	wx_result = wx_res['result']
+	wx_code = wx_res['code']
+	wx_info = wx_res['info']
+	if wx_result == 'True':
+		wx_qrcode = wx_info['qrcode']
+		wx_sdk_url = wx_info['sdk_url']
+		wx_price = wx_info['real_price']
+		wx_redirect = wx_info['redirect']
+	else:
+		wx_qrcode = None
+		wx_sdk_url = None
+		wx_price = None
+		wx_redirect = None
 
-	a = str(type(zfb_res))
+	zfb_r = requests.post(url, data=zfb_datas)
+	zfb_res = json.loads(zfb_r.text)
+	zfb_result = zfb_res['result']
+	zfb_code = zfb_res['code']
+	zfb_info = zfb_res['info']
+	if zfb_result == 'True':
+		zfb_qrcode = zfb_info['qrcode']
+		zfb_sdk_url = zfb_info['sdk_url']
+		zfb_price = zfb_info['real_price']
+		zfb_redirect = zfb_info['redirect']
+	else:
+		zfb_qrcode = None
+		zfb_sdk_url = None
+		zfb_price = None
+		zfb_redirect = None
+
+	a = str(type(wx_info))
 	context = {
-		'nbar':'about',	#导航标志
-		'wx_res':wx_res,
-		'zfb_res':zfb_res,
-		'a':a,
+		#导航标志
+		'nbar':'about',
+		#微信支付信息
+		'wx_result':wx_result,
+		'wx_code':wx_code,
+		'wx_qrcode':wx_qrcode,
+		'wx_sdk_url':wx_sdk_url,
+		'wx_price':wx_price,
+		'wx_redirect':wx_redirect,
+		#支付宝支付信息
+		'zfb_result':zfb_result,
+		'zfb_code':zfb_code,
+		'zfb_qrcode':zfb_qrcode,
+		'zfb_sdk_url':zfb_sdk_url,
+		'zfb_price':zfb_price,
+		'zfb_redirect':zfb_redirect,
 	}
 
 	return render(
