@@ -18,7 +18,7 @@
       src="/static/image/logo-border.png"
       alt=""
     />
-    <h4>支付中心</h4>
+    <h4>支付中心{{ zfb_res }}</h4>
   </div>
     <div class="">
       <h1 id="price-title"></h1>
@@ -38,7 +38,8 @@
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-AliPay" role="tabpanel" aria-labelledby="nav-AliPay-tab">
                   <a id="alipay-button" href=""  class="btn btn-primary px-5 py-3 m-4 d-lg-none  ">启动支付宝支付</a>
-                  <img id="qrcode-alipay" src="" alt="请求二维码..." style=" width: 300px">
+                  <img id="qrcode-alipay" src="{{ zfb_qrcode }}"
+                   style=" width: 300px">
                 </div>
                 <div class="tab-pane fade" id="nav-WeChatPay" role="tabpanel" aria-labelledby="nav-WeChatPay-tab">
                     <a id="wechatPay-button" href="/" class="btn btn-primary px-5 py-3 m-4 d-lg-none ">启动微信支付</a>
