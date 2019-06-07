@@ -18,9 +18,11 @@
       src="/static/image/logo-border.png"
       alt=""
     />
-    <h4>支付中心{{ zfb_res }}</h4>
+    <h4>支付中心</h4>
   </div>
     <div class="">
+        <div class="d-none" id="alipay_json">{{ zfb_res }}</div>
+        <div class="d-none" id="wechatpay_json">{{ wx_res }}</div>
       <h1 id="price-title"></h1>
       <p id="order_id-title"></p>
     </div>
@@ -36,14 +38,9 @@
       <div class="card-body">
           
             <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-AliPay" role="tabpanel" aria-labelledby="nav-AliPay-tab">
-                  <a id="alipay-button" href=""  class="btn btn-primary px-5 py-3 m-4 d-lg-none  ">启动支付宝支付</a>
-                  <img id="qrcode-alipay" src="{{ zfb_qrcode }}"
-                   style=" width: 300px">
+                <div class="tab-pane fade show active" id="nav-AliPay" role="tabpanel" aria-labelledby="nav-AliPay-tab"> 
                 </div>
                 <div class="tab-pane fade" id="nav-WeChatPay" role="tabpanel" aria-labelledby="nav-WeChatPay-tab">
-                    <a id="wechatPay-button" href="/" class="btn btn-primary px-5 py-3 m-4 d-lg-none ">启动微信支付</a>
-                    <img id="qrcode-wechat" src="" alt="请求二维码..." style=" width: 300px"> 
                 </div>
       </div>
     </div>
@@ -126,25 +123,74 @@
 </script>
 
 <script>
+var abc = "{{ zfb_qrcode }}";
+  console.log(abc);
+  </script>
+
+<script>
+  
   var aliPayJson = document.getElementById('alipay_json').innerText;
   var json2 = aliPayJson.replace(/'/g, '"');
   var json3 = json2.replace(/True/g,'true');
   console.log(json3);
   var wechatPayJson = document.getElementById('wechatpay_json').innerText;
   var alipayData = JSON.parse(json3);
-  console.log(alipayData.info.real_price);
-  document.getElementById('price-title').textContent = '¥ ' + alipayData.info.real_price;
-  document.getElementById('qrcode-alipay').src = alipayData.info.qrcode;
-  document.getElementById('alipay-button').href = alipayData.info.sdk_url;
+
+  document.getElementById('price-title').textContent = '¥ ' + '{{zfb_price}}';
+
+//请求支付宝
+(function () {
+  var zfbCode = '{{ zfb_code }}';
+  console.log(zfbCode);
+  if(zfbCode === '200'){
+    var qrCodeImageZfb = document.createElement('img');
+    var btnZfb = document.createElement('a');
+    btnZfb.setAttribute('class','btn btn-primary px-5 py-3 m-4 d-lg-none');
+    btnZfb.setAttribute('target',"_blank");
+    btnZfb.href = '{{zfb_sdk_url}}';
+    btnZfb.innerHTML = '启动支付宝';
+    qrCodeImageZfb.setAttribute('src',"{{zfb_qrcode}}");
+    document.getElementById('nav-AliPay').appendChild(btnZfb);
+    document.getElementById('nav-AliPay').appendChild(qrCodeImageZfb);
+  }else{
+    var messageZfb = document.createElement('p');
+    var codeZfb = document.createElement('p');
+    messageZfb.innerText = '订单发生错误,请联系客服';
+    codeZfb.innerText = '错误码： ' + '{{ zfb_code }}';
+    document.getElementById('nav-AliPay').appendChild(messageZfb);
+    document.getElementById('nav-AliPay').appendChild(codeZfb);
+
+  }
+})();
+
+//请求微信支付
+(function () {
+  var wxCode = '{{ wx_code }}';
+  console.log(wxCode);
+  if(wxCode === '200'){
+    var qrCodeImageWx = document.createElement('img');
+    qrCodeImageWx.setAttribute('src',"{{wx_qrcode}}");
+    document.getElementById('nav-WeChatPay').appendChild(qrCodeImageWx);
+  }else{
+    var codeWx = document.createElement('p');
+    var messageWx = document.createElement('p');
+    messageWx.innerText = '订单发生错误,请联系客服';
+    codeWx.innerText = '错误码： ' + '{{ wx_code }}';
+    document.getElementById('nav-WeChatPay').appendChild(messageWx);
+    document.getElementById('nav-WeChatPay').appendChild(codeWx);
+    
+  }
+})();
+
 
 </script>
 
 <script>
+  (function(){
     // Set the date we're counting down to
     var countDownDate = new Date().getTime() + alipayData.info.ttl*1000;
     console.log(countDownDate);
     console.log(alipayData.info.ttl);
-    
     // Update the count down every 1 second
     var x = setInterval(function() {
     
@@ -168,7 +214,7 @@
         clearInterval(x);
         document.getElementById("timer").innerHTML = "订单已过期";
       }
-    }, 1000);
+    }, 1000);})();
     </script>
     
 
