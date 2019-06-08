@@ -52,6 +52,7 @@ urlpatterns = [
     url('^',include('django.contrib.auth.urls')),  #默认的用户模块视图
     url(r'accounts/profile/$', views.profile, name='profile'),  #自定义的用户资料页面
     url(r'create_order',views.create_order,name='create_order'),
+    url(r'check_order',views.check_order,name='check_order'),
     path('order/<str:order_id>',views.order_detail,name='order'),
     path('admin/', admin.site.urls),
     path('about/',views.about,name='about_page'),
