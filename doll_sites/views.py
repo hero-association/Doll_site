@@ -934,7 +934,7 @@ def payment_center(request):
 	wx_info = wx_res['info']
 	if wx_result == True:
 		wx_qrcode = wx_info['qrcode']
-		wx_sdk_url = wx_info['sdk_url']
+		wx_sdk_url = wx_info['pay_url']
 		wx_price = wx_info['real_price']
 		wx_redirect = wx_info['redirect']
 	else:
@@ -950,7 +950,7 @@ def payment_center(request):
 	zfb_info = zfb_res['info']
 	if zfb_result == True:
 		zfb_qrcode = zfb_info['qrcode']
-		zfb_sdk_url = zfb_info['sdk_url']
+		zfb_sdk_url = zfb_info['pay_url']
 		zfb_price = zfb_info['real_price']
 		zfb_redirect = zfb_info['redirect']
 	else:
