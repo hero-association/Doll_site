@@ -67,6 +67,4 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('accounts/profile', views.profile, name='profile'),
     path('member/', views.member, name='member'),
-    path('payment_center/', views.payment_center, name='payment_center'),
-    path('global_noti/', views.global_noti, name='global_noti'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,document_root=settings.STATICFILES_DIRS)

@@ -13,7 +13,6 @@ import random
 import hashlib
 import json
 import urllib
-import requests
 import datetime
 from django.shortcuts import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -807,6 +806,7 @@ def about(request):
 		context
 	)
 
+@login_required
 def member(request):
 	'''会员页面'''
 	user = request.user
@@ -907,100 +907,10 @@ def member(request):
 		context
 	)
 
-def payment_center(request):
-	'''支付中心'''
-	api_user = request.GET.get('api_user')
-	price = request.GET.get('price')
-	redirect = request.GET.get('redirect')
-	order_id = request.GET.get('order_id')
-	order_info = request.GET.get('order_info')
-	notify_url = request.GET.get('notify_url')
-
-	wx_signature = make_signature(price,1,redirect,order_id,order_info,notify_url)
-	zfb_signature = make_signature(price,2,redirect,order_id,order_info,notify_url)
-
-	url = 'https://www.paypayzhu.com/api/pay_json' 
-
-	wx_datas  = {'api_user': api_user, 'price': price, 'type': 1, 'redirect': redirect, 'order_id': order_id, 'order_info': order_info, 'notify_url': notify_url, 'signature': wx_signature}
-	zfb_datas  = {'api_user': api_user, 'price': price, 'type': 2, 'redirect': redirect, 'order_id': order_id, 'order_info': order_info, 'notify_url': notify_url, 'signature': zfb_signature}
-	
-	wx_r = requests.post(url, data=wx_datas)
-	wx_res = json.loads(wx_r.text)
-	wx_result = wx_res['result']
-	wx_code = wx_res['code']
-	wx_info = wx_res['info']
-	if wx_result == True:
-		wx_qrcode = wx_info['qrcode']
-		wx_sdk_url = wx_info['pay_url']
-		wx_price = wx_info['real_price']
-		wx_redirect = wx_info['redirect']
-	else:
-		wx_qrcode = None
-		wx_sdk_url = None
-		wx_price = None
-		wx_redirect = None
-
-	zfb_r = requests.post(url, data=zfb_datas)
-	zfb_res = json.loads(zfb_r.text)
-	zfb_result = zfb_res['result']
-	zfb_code = zfb_res['code']
-	zfb_info = zfb_res['info']
-	if zfb_result == True:
-		zfb_qrcode = zfb_info['qrcode']
-		zfb_sdk_url = zfb_info['pay_url']
-		zfb_price = zfb_info['real_price']
-		zfb_redirect = zfb_info['redirect']
-	else:
-		zfb_qrcode = None
-		zfb_sdk_url = None
-		zfb_price = None
-		zfb_redirect = None
-
-	a = str(type(wx_info))
-	context = {
-		#导航标志
-		'nbar':'about',
-		#微信支付信息
-		'wx_res':wx_res,
-		'wx_result':wx_result,
-		'wx_code':wx_code,
-		'wx_qrcode':wx_qrcode,
-		'wx_sdk_url':wx_sdk_url,
-		'wx_price':wx_price,
-		'wx_redirect':wx_redirect,
-		#支付宝支付信息
-		'zfb_res':zfb_res,
-		'zfb_result':zfb_result,
-		'zfb_code':zfb_code,
-		'zfb_qrcode':zfb_qrcode,
-		'zfb_sdk_url':zfb_sdk_url,
-		'zfb_price':zfb_price,
-		'zfb_redirect':zfb_redirect,
-		'zfb_res':zfb_res,
-	}
-
-	return render(
-		request,
-		'doll_sites/payment_center.html',
-		context
-	)
-
-def global_noti(request):
-	'''公告'''
-	context = {
-		'nbar':'',	#导航标志
-	}
-
-	return render(
-		request,
-		'doll_sites/global_noti.html',
-		context
-	)
-
 def baidu(request):
 	'''百度验证'''
 	context = {
-		'nbar':'',	#导航标志
+		'nbar':'about',	#导航标志
 	}
 
 	return render(
