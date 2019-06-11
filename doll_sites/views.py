@@ -990,10 +990,22 @@ def payment_center(request):
 		context
 	)
 
+def global_noti(request):
+	'''公告'''
+	context = {
+		'nbar':'',	#导航标志
+	}
+
+	return render(
+		request,
+		'doll_sites/global_noti.html',
+		context
+	)
+
 def baidu(request):
 	'''百度验证'''
 	context = {
-		'nbar':'about',	#导航标志
+		'nbar':'',	#导航标志
 	}
 
 	return render(
