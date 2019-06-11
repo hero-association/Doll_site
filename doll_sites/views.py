@@ -326,9 +326,9 @@ def photodetail(request,photoid):
 	nowtime = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 	random_id = str(random.randint(1000000,9999999))
 	order_id = str(pay_type)+str(nowtime)+random_id
-	redirect = 'https://www.alolita.net' + current_url + '?paid=true&item=single'
+	redirect = 'https://www.lolizhan.net' + current_url + '?paid=true&item=single'
 	order_info = photo_detail.id
-	notify_url = 'https://www.alolita.net/payment_response'
+	notify_url = 'https://www.lolizhan.net/payment_response'
 	single_signature = make_signature(order_price,pay_type,redirect,order_id,order_info,notify_url)
 	#VIP相册逻辑
 	vip_album = photo_detail.vip_photo
@@ -846,14 +846,14 @@ def member(request):
 	order_id = str(pay_type)+str(nowtime)+random_id
 	order_id_season = str(pay_type)+str(nowtime)+random_id_2
 	order_id_year = str(pay_type)+str(nowtime)+random_id_3
-	notify_url = 'https://www.alolita.net/payment_response'
+	notify_url = 'https://www.lolizhan.net/payment_response'
 	
 	month_order_info = 'month_member'
-	month_redirect = 'https://www.alolita.net' + str(redirect_url) + '&item=' + month_order_info
+	month_redirect = 'https://www.lolizhan.net' + str(redirect_url) + '&item=' + month_order_info
 	season_order_info = 'season_member'
-	season_redirect = 'https://www.alolita.net' + str(redirect_url) + '&item=' + month_order_info
+	season_redirect = 'https://www.lolizhan.net' + str(redirect_url) + '&item=' + month_order_info
 	year_order_info = 'year_member'
-	year_redirect = 'https://www.alolita.net' + str(redirect_url) + '&item=' + month_order_info
+	year_redirect = 'https://www.lolizhan.net' + str(redirect_url) + '&item=' + month_order_info
 
 	#旧的签名构造
 	# month_signature = make_signature(month_price.config_value,pay_type,redirect,order_id,month_order_info,notify_url)

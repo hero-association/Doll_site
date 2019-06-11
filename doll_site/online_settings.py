@@ -37,8 +37,8 @@ ALLOWED_HOSTS = [
 'jasonpak.webfactional.com',
 'alolita.net',
 'www.alolita.net',
-'lolizhan.com',
-'www.lolizhan.com',
+'lolizhan.net',
+'www.lolizhan.net',
 'django.contrib.sitemaps',
 ]
 
