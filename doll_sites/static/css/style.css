@@ -218,3 +218,9 @@
   }
 }
 
+@media ( min-width: 768px){
+.pay-card {
+  width: 24rem;
+}
+
+}

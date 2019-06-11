@@ -1,0 +1,223 @@
+<!DOCTYPE HTML>
+<html class="h-100">
+
+{% include 'doll_sites/head.html' %}
+
+<body class="d-flex flex-column h-100">
+
+  <!-- Header & Navigation -->
+  {% include 'doll_sites/navi.html' %}
+
+ 
+
+  <div class="container text-center ">
+    <div class="font-weight-bold m-4">
+        <img
+      width="50"
+      class="d-inline-block align-center pb-2 mr-1"
+      src="/static/image/logo-border.png"
+      alt=""
+    />
+    <h4>支付中心</h4>
+  </div>
+    <div class="">
+        <div class="d-none" id="alipay_json">{{ zfb_res }}</div>
+        <div class="d-none" id="wechatpay_json">{{ wx_res }}</div>
+      <h1 id="price-title"></h1>
+      <p id="order_id-title"></p>
+    </div>
+    <div class="card pay-card mx-auto">
+      <div class="card-title m-0">
+          <nav class="">
+              <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist" >
+                <a class="nav-item nav-link active " id="nav-AliPay-tab" data-toggle="tab" href="#nav-AliPay" role="tab" aria-controls="nav-AliPay" aria-selected="true" >支付宝</a>
+                <a class="nav-item nav-link" id="nav-WeChatPay-tab" data-toggle="tab" href="#nav-WeChatPay" role="tab" aria-controls="nav-WeChatPay" aria-selected="false">微信支付</a>
+              </div>
+            </nav>
+      </div>
+      <div class="card-body">
+          
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-AliPay" role="tabpanel" aria-labelledby="nav-AliPay-tab"> 
+                </div>
+                <div class="tab-pane fade" id="nav-WeChatPay" role="tabpanel" aria-labelledby="nav-WeChatPay-tab">
+                </div>
+      </div>
+    </div>
+      
+       
+</div>
+<div class="m-5">
+  <p id="timer"></p>
+  <p>如未到账，请联系客服人员QQ: 1557232855</p>
+</div>
+  </div>
+
+ 
+  
+
+    
+
+  <div class="d-flex flex-wrap justify-content-between">
+      {% for photo in recommend_newest %}
+      <div class="card border-0 col-md-8 col-lg  p-0">
+  
+        <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+          <img class="card-img-top img-fluid border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
+            src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+        </a>
+        <div class="card-body">
+          <p class="card-text">{{ photo.name_chinese }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+
+
+{% include 'doll_sites/footer.html' %}
+
+
+
+
+
+
+
+
+
+  <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+  
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/jquery.lazyload.js"></script>
+  <script src="/static/js/main.js"></script>
+
+  <script type='text/javascript'>
+    function getQueryVariable(variable)
+  {
+         var query = window.location.search.substring(1);
+         var vars = query.split("&");
+         for (var i=0;i<vars.length;i++) {
+                 var pair = vars[i].split("=");
+                 if(pair[0] == variable){return pair[1];}
+         }
+         return(false);
+  }
+  
+        var api_user = getQueryVariable('api_user');
+         var price = getQueryVariable('price');
+         var type = getQueryVariable('type');
+         var redirect = decodeURIComponent(getQueryVariable('redirect'));
+         var order_id = getQueryVariable('order_id');
+         var order_info = getQueryVariable('order_info');
+         var notify_url = decodeURIComponent(getQueryVariable('notify_url'));
+         var signature = getQueryVariable('signature');
+
+         document.getElementById('order_id-title').textContent = '订单号： ' + order_id;
+
+</script>
+
+<script>
+var abc = "{{ zfb_qrcode }}";
+  console.log(abc);
+  </script>
+
+<script>
+  
+  var aliPayJson = document.getElementById('alipay_json').innerText;
+  var json2 = aliPayJson.replace(/'/g, '"');
+  var json3 = json2.replace(/True/g,'true');
+  console.log(json3);
+  var wechatPayJson = document.getElementById('wechatpay_json').innerText;
+  var alipayData = JSON.parse(json3);
+
+  document.getElementById('price-title').textContent = '¥ ' + '{{zfb_price}}';
+
+//请求支付宝
+(function () {
+  var zfbCode = '{{ zfb_code }}';
+  console.log(zfbCode);
+  if(zfbCode === '200'){
+    var qrCodeImageZfb = document.createElement('img');
+    var btnZfb = document.createElement('a');
+    btnZfb.setAttribute('class','btn btn-primary px-5 py-3 m-4 d-lg-none');
+    btnZfb.setAttribute('target',"_blank");
+    btnZfb.href = '{{zfb_sdk_url}}';
+    btnZfb.innerHTML = '启动支付宝';
+    qrCodeImageZfb.setAttribute('src',"{{zfb_qrcode}}");
+    document.getElementById('nav-AliPay').appendChild(btnZfb);
+    document.getElementById('nav-AliPay').appendChild(qrCodeImageZfb);
+  }else{
+    var messageZfb = document.createElement('p');
+    var codeZfb = document.createElement('p');
+    messageZfb.innerText = '订单发生错误,请联系客服';
+    codeZfb.innerText = '错误码： ' + '{{ zfb_code }}';
+    document.getElementById('nav-AliPay').appendChild(messageZfb);
+    document.getElementById('nav-AliPay').appendChild(codeZfb);
+
+  }
+})();
+
+//请求微信支付
+(function () {
+  var wxCode = '{{ wx_code }}';
+  console.log(wxCode);
+  if(wxCode === '200'){
+    var qrCodeImageWx = document.createElement('img');
+    qrCodeImageWx.setAttribute('src',"{{wx_qrcode}}");
+    document.getElementById('nav-WeChatPay').appendChild(qrCodeImageWx);
+  }else{
+    var codeWx = document.createElement('p');
+    var messageWx = document.createElement('p');
+    messageWx.innerText = '订单发生错误,请联系客服';
+    codeWx.innerText = '错误码： ' + '{{ wx_code }}';
+    document.getElementById('nav-WeChatPay').appendChild(messageWx);
+    document.getElementById('nav-WeChatPay').appendChild(codeWx);
+    
+  }
+})();
+
+
+</script>
+
+<script>
+  (function(){
+    // Set the date we're counting down to
+    var countDownDate = new Date().getTime() + alipayData.info.ttl*1000;
+    console.log(countDownDate);
+    console.log(alipayData.info.ttl);
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+    
+      // Get today's date and time
+      var now = new Date().getTime();
+        
+      // Find the distance between now and the count down date
+      var distance = countDownDate - now;
+        
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+      // Output the result in an element with id="demo"
+      document.getElementById("timer").innerHTML = "过期时间： " + minutes + "m " + seconds + "s ";
+        
+      // If the count down is over, write some text 
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("timer").innerHTML = "订单已过期";
+      }
+    }, 1000);})();
+    </script>
+    
+
+
+</body>
+</html>
