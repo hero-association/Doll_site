@@ -205,19 +205,37 @@ document.getElementById('price-title').textContent = '¥ ' + '{{zfb_price}}';
     </script>
     
 
+    
     <script>
       var _url = '/check_order?order_id=' + order_id;
       var redirectUrlZfb = '{{zfb_redirect}}';
       var redirectUrlWx = '{{wx_redirect}}';
-      $.get( _url, function( data ) {
-        console.log( "Data Loaded: " + data );
-        console.log (redirectUrlWx,redirectUrlZfb);
-        if (data === 'Paid') {
-          window.location.replace("{{zfb_redirect}}");        
-          }else{
+
+  $(document).ready(function () {
+    setInterval("paymentCallback()", 3000);
+  });
+
+  function paymentCallback() {
+    if (order_id != 0) {
+      $.ajax({
+        url: _url,
+        type: "GET",
+        dataType: "",
+        data: "",
+        success: function (data) {
+          console.log('status:' + data);
+          if (data == 'Paid') { //订单状态支付成功
+            window.location.href = redirectUrlZfb; //页面跳转
+          }
+          
+        },
+        error: function () {
+          console.log("请求订单状态出错");
         }
-        
-});
+      });
+    }
+
+  }
 
     </script>
 
