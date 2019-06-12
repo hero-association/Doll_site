@@ -574,6 +574,20 @@ def create_order(request):
 	else:
 		return HttpResponse('It is not a POST request!!!')
 
+def check_order(request):
+	if request.method == 'GET':
+		order_id = request.GET.get('order_id')
+		try:
+			order = Order.objects.get(order_id=order_id)
+			if order.order_status == 'Paid':
+				return HttpResponse('Paid')
+			else:
+				return HttpResponse('Pending')
+		except:
+			return HttpResponse('Not Exist!')
+	else:
+		return HttpResponse('It is not a GET request!!!')
+
 def get_user_info(request):
 	if request.method == 'GET':
 		user = request.user
