@@ -55,9 +55,7 @@ coverage.xml
 # Django stuff:
 *.log
 local_settings.py
-settings.py
 db.sqlite3
-*.sqlite3
 
 # Flask stuff:
 instance/
@@ -114,19 +112,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-0103.json
-db.sqlite3
-doll_sites/static/doll_sites/images/uploads/01.png/01.png
-doll_sites/static/doll_sites/images/uploads/01_T6bkjaG.png
-doll_sites/static/doll_sites/images/uploads/02.png
-doll_sites/static/doll_sites/images/uploads/01_y5HmlWR.png
-doll_sites/static/doll_sites/images/uploads/02_PofLYox.png
-0201.json
-statistics.py
-doll_sites/static/doll_sites/images/uploads/*.png
-0201.json
-0217.json
-doll_sites/migrations/*.py
-doll_sites/static/doll_sites/images/uploads/AlissaP04_015.jpg
-doll_sites/static/doll_sites/images/uploads/AlissaP04_046.jpg
-doll_sites/static/doll_sites/images/uploads/AlissaP04_077.jpg
