@@ -482,9 +482,9 @@ def payment_response(request):
 		ppz_order_id = request.POST.get('ppz_order_id')
 		real_price = request.POST.get('real_price')
 		ppz_order_info = request.POST.get('order_info')
-		current_order = Order.objects.filter(order_id=order_id)
-		current_order_object = Order.objects.get(order_id=order_id)
-		if current_order:
+		try:
+			current_order = Order.objects.filter(order_id=order_id)
+			current_order_object = Order.objects.get(order_id=order_id)
 			current_order.update(order_status='Paid')
 			current_order.update(ppz_order_id=ppz_order_id)
 			current_order.update(paid_price=real_price)
@@ -551,7 +551,7 @@ def payment_response(request):
 						order_type=order_type,
 					)
 					return HttpResponse('Paid!')
-		else:
+		except:
 			'''发邮件归档'''
 			message = str(order_id) + str(ppz_order_id) + str(real_price) + str(ppz_order_info)
 			send_mail('[Order Not Found]', message, settings.DEFAULT_FROM_EMAIL,['jason.pak.work@gmail.com'], fail_silently=False)
