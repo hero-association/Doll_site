@@ -20,6 +20,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from django.http import JsonResponse
+from django.core.mail import send_mail
+from django.conf import settings
 
 def get_index_recommend(series_id):
 	series_hot = Photo.objects.filter(series=series_id).order_by('-temperature')[:20]
@@ -479,6 +481,7 @@ def payment_response(request):
 		order_id = request.POST.get('order_id')
 		ppz_order_id = request.POST.get('ppz_order_id')
 		real_price = request.POST.get('real_price')
+		ppz_order_info = request.POST.get('order_info')
 		current_order = Order.objects.filter(order_id=order_id)
 		current_order_object = Order.objects.get(order_id=order_id)
 		if current_order:
@@ -489,7 +492,9 @@ def payment_response(request):
 			order_info = Order.objects.filter(order_id=order_id)[0].order_info
 			order_type = Order.objects.filter(order_id=order_id)[0].order_type
 			'''重要的时间判断，根据价格判断需要增加的会员天数，一定要随定价改变'''
-			if current_order_object.order_price == '59':
+			if current_order_object.order_price == '19':
+				days_add = 7
+			elif current_order_object.order_price == '59':
 				days_add = 30
 			elif current_order_object.order_price == '149':
 				days_add = 90
@@ -547,6 +552,9 @@ def payment_response(request):
 					)
 					return HttpResponse('Paid!')
 		else:
+			'''发邮件归档'''
+			message = str(order_id) + str(ppz_order_id) + str(real_price) + str(ppz_order_info)
+			send_mail('[Order Not Found]', message, settings.DEFAULT_FROM_EMAIL,['jason.pak.work@gmail.com'], fail_silently=False)
 			return HttpResponse('Not Exist!')
 	else:
 		return HttpResponse('It is not a POST request!!!')
