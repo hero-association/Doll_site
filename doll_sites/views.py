@@ -553,7 +553,7 @@ def payment_response(request):
 					return HttpResponse('Paid!')
 		except:
 			'''发邮件归档'''
-			message = str(order_id) + str(ppz_order_id) + str(real_price) + str(ppz_order_info)
+			message = 'Info:' + str(ppz_order_info) + ' Order_id:' + str(order_id) + ' real_price:' + str(real_price) + ' ppz_order_id:' + str(ppz_order_id)
 			send_mail('[Order Not Found]', message, settings.DEFAULT_FROM_EMAIL,['jason.pak.work@gmail.com'], fail_silently=False)
 			return HttpResponse('Not Exist!')
 	else:
