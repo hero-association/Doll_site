@@ -842,16 +842,11 @@ def member(request):
 		photo_detail.increase_views_count(5)
 	except:
 		photo_detail = None
-	#原定价逻辑
-	# month_price = MemberConfig.objects.get(config_name='month_price')
-	month_content = MemberConfig.objects.get(config_name='month_content')
-	# season_price = MemberConfig.objects.get(config_name='season_price')
-	season_content = MemberConfig.objects.get(config_name='season_content')
-	# year_price = MemberConfig.objects.get(config_name='year_price')
-	year_content = MemberConfig.objects.get(config_name='year_content')
+
 	intro_text = MemberConfig.objects.get(config_name='intro_text')
 
 	#定价ABTest
+	week_price = 19
 	month_price = 59
 	season_price = 149
 	year_price = 519
@@ -863,21 +858,26 @@ def member(request):
 	pay_type = int(2)	#表示支付宝
 	nowtime = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 	random_id = str(random.randint(1000000,9999999))
+	random_id_1 = str(random.randint(1000000,9999999))
 	random_id_2 = str(random.randint(1000000,9999999))
 	random_id_3 = str(random.randint(1000000,9999999))
 	order_id = str(pay_type)+str(nowtime)+random_id
+	order_id_week = str(pay_type)+str(nowtime)+random_id_1
 	order_id_season = str(pay_type)+str(nowtime)+random_id_2
 	order_id_year = str(pay_type)+str(nowtime)+random_id_3
 	notify_url = 'http://www.alolita.com/payment_response'
-	
+
+	week_order_info = 'week_member'
+	week_redirect = 'http://127.0.0.1:8000' + str(redirect_url) + '&item=' + week_order_info
+
 	month_order_info = 'month_member'
 	month_redirect = 'http://127.0.0.1:8000' + str(redirect_url) + '&item=' + month_order_info
 
 	season_order_info = 'season_member'
-	season_redirect = 'http://127.0.0.1:8000' + str(redirect_url) + '&item=' + month_order_info
+	season_redirect = 'http://127.0.0.1:8000' + str(redirect_url) + '&item=' + season_order_info
 
 	year_order_info = 'year_member'
-	year_redirect = 'http://127.0.0.1:8000' + str(redirect_url) + '&item=' + month_order_info
+	year_redirect = 'http://127.0.0.1:8000' + str(redirect_url) + '&item=' + year_order_info
 
 
 	#旧的签名构造
@@ -887,11 +887,10 @@ def member(request):
 	# year_order_info = 'year_member'
 	# year_signature = make_signature(year_price.config_value,pay_type,redirect,order_id_year,year_order_info,notify_url)
 	
-	#ABTEST签名构造
+	#签名构造
+	week_signature = make_signature(week_price,pay_type,week_redirect,order_id_week,user,notify_url)
 	month_signature = make_signature(month_price,pay_type,month_redirect,order_id,user,notify_url)
-	season_order_info = 'season_member'
 	season_signature = make_signature(season_price,pay_type,season_redirect,order_id_season,user,notify_url)
-	year_order_info = 'year_member'
 	year_signature = make_signature(year_price,pay_type,year_redirect,order_id_year,user,notify_url)
 
 	#SEO
@@ -902,13 +901,12 @@ def member(request):
 		'title':title,
 		'keywords':keywords,
 		'description':description,
+		'week_price':week_price,
 		'month_price':month_price,
-		'month_content':month_content,
 		'season_price':season_price,
-		'season_content':season_content,
 		'year_price':year_price,
-		'year_content':year_content,
 		'intro_text':intro_text,
+		'week_redirect':week_redirect,
 		'month_redirect':month_redirect,
 		'season_redirect':season_redirect,
 		'year_redirect':year_redirect,
@@ -919,6 +917,7 @@ def member(request):
 		'order_id_season':order_id_season,
 		'order_id_year':order_id_year,
 		'notify_url':notify_url,
+		'week_signature':week_signature,
 		'month_order_info':month_order_info,
 		'month_signature':month_signature,
 		'season_order_info':season_order_info,
