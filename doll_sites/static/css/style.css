@@ -224,3 +224,35 @@
 }
 
 }
+
+
+.price-container {
+  position: relative;
+}
+
+@media( min-width: 768px){
+  .price-container{
+    width: 280px;
+  }
+}
+
+@media(max-width: 576px) {
+  .price-container {
+    margin-left: 1.6rem;
+    margin-right: 1.6rem;
+    margin-bottom: 2rem;
+  }
+}
+
+
+.price-badge {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+}
+
+.price-discounted {
+  text-decoration: line-through;
+  font-size: 1rem;
+  font-weight: 400;
+}

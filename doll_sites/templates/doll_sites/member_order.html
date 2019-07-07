@@ -16,103 +16,151 @@
         小熊社</a>
         <div class=" dropdown-divider mx-auto" style="width: 200px;"> </div>
       </div>
+<!-- 会员卡片 -->
+    <div class="d-md-flex mt-5 justify-content-center">
 
-    <div class="card-columns mt-5 col-10 mx-auto">
-
-      <div class="card p-3">
-        <div class="card-body">
-          <h5>月度会员</h5>
-          <p>¥ {{ month_price }}</p>
-            {% if user.is_authenticated %}
-                <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
+  <div class="price-container mr-md-4">
+  <div class="card card-shadow p-3">
+    <div class="card-body">
+      <h5 class="mb-4">¥19/周
+      </h5>
+        {% if user.is_authenticated %}
+            <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
+            {% else %}
+            <form id='pay_form'>
+            {% endif %}
+              <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
+              <input id='price' name='price' type='hidden' value='{{ month_price }}' />
+              <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
+              <input id='redirect' name='redirect' type='hidden' value='{{ month_redirect }}' />
+              <input id='order_id' name='order_id' type='hidden' value='{{ order_id }}' />
+              <input id='order_info' name='order_info' type='hidden' value='{{ user }}'/>
+              <input id='notify_url' name='notify_url' type='hidden' value='{{ notify_url }}' />
+              <input id='signature' name='signature' type='hidden' value='{{ month_signature }}' />
+              <input id='order_type' name='order_type' type='hidden' value='member'/>
+              {% load account %}
+              {% user_display user as user_display %}
+              <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
+              {% if user.is_authenticated %}
+              <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order()">
+              {% else %}
+              <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/signup/?next={{ current_url }}')">
+              {% endif %}
+            </form>
+    </div>
+  </div>
+ <h4><span class="price-badge badge badge-pill badge-primary">热门</span></h4> 
+</div>
+<div class="price-container">
+    <div class="card card-shadow p-3">
+      <div class="card-body">
+        <h5 class="mb-4">¥{{ month_price }}/月 
+            <span class="text-muted price-discounted"> ￥76</span>
+        </h5>
+          {% if user.is_authenticated %}
+              <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
+              {% else %}
+              <form id='pay_form'>
+              {% endif %}
+                <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
+                <input id='price' name='price' type='hidden' value='{{ month_price }}' />
+                <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
+                <input id='redirect' name='redirect' type='hidden' value='{{ month_redirect }}' />
+                <input id='order_id' name='order_id' type='hidden' value='{{ order_id }}' />
+                <input id='order_info' name='order_info' type='hidden' value='{{ user }}'/>
+                <input id='notify_url' name='notify_url' type='hidden' value='{{ notify_url }}' />
+                <input id='signature' name='signature' type='hidden' value='{{ month_signature }}' />
+                <input id='order_type' name='order_type' type='hidden' value='member'/>
+                {% load account %}
+                {% user_display user as user_display %}
+                <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
+                {% if user.is_authenticated %}
+                <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order()">
                 {% else %}
-                <form id='pay_form'>
+                <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/signup/?next={{ current_url }}')">
                 {% endif %}
-                  <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
-                  <input id='price' name='price' type='hidden' value='{{ month_price }}' />
-                  <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
-                  <input id='redirect' name='redirect' type='hidden' value='{{ month_redirect }}' />
-                  <input id='order_id' name='order_id' type='hidden' value='{{ order_id }}' />
-                  <input id='order_info' name='order_info' type='hidden' value='{{ user }}'/>
-                  <input id='notify_url' name='notify_url' type='hidden' value='{{ notify_url }}' />
-                  <input id='signature' name='signature' type='hidden' value='{{ month_signature }}' />
-                  <input id='order_type' name='order_type' type='hidden' value='member'/>
-                  {% load account %}
-                  {% user_display user as user_display %}
-                  <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
-                  {% if user.is_authenticated %}
-                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order()">
-                  {% else %}
-                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/signup/?next={{ current_url }}')">
-                  {% endif %}
-                </form>
-        </div>
+              </form>
       </div>
+    </div>
+   <h4><span class="price-badge badge badge-pill badge-primary">7.7折</span></h4> 
+  </div>
+  
 
-      <div class="card card-shadow px-3 pt-3">
-        <div class="card-body">
-          <h5>季度会员</h5>
-          <p>¥ {{ season_price }}</p>
-            {% if user.is_authenticated %}
-            <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
-              {% else %}
-                <form id='pay_form'>
-                {% endif %}
-                  <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
-                  <input id='price_season' name='price' type='hidden' value='{{ season_price }}' />
-                  <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
-                  <input id='redirect' name='redirect' type='hidden' value='{{ season_redirect }}' />
-                  <input id='order_id_season' name='order_id' type='hidden' value='{{ order_id_season }}' />
-                  <input id='order_info_season' name='order_info' type='hidden' value='{{ user }}'>
-                  <input id='notify_url' name='notify_url' type='hidden' value='{{ notify_url }}' />
-                  <input id='signature' name='signature' type='hidden' value='{{ season_signature }}' />
-                  <input id='order_type' name='order_type' type='hidden' value='member'/>
-                  {% load account %}
-                  {% user_display user as user_display %}
-                  <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
-                  {% if user.is_authenticated %}
-                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order_season()">
-                  {% else %}
-                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/signup/?next={{ current_url }}')">
-                  {% endif %}
-                </form>
-        </div>
-        <div class="card-footer bg-white">多数人选择</div>
-      </div>
-
-      <div class="card p-3">
-        <div class="card-body">
-          <h5>年度会员</h5>
-          <p>¥ {{ year_price }}</p>
-            {% if user.is_authenticated %}
-            <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
-              {% else %}
-                <form id='pay_form'>
-                {% endif %}
-                  <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
-                  <input id='price_year' name='price' type='hidden' value='{{ year_price }}' />
-                  <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
-                  <input id='redirect' name='redirect' type='hidden' value='{{ year_redirect }}' />
-                  <input id='order_id_year' name='order_id' type='hidden' value='{{ order_id_year }}' />
-                  <input id='order_info_year' name='order_info' type='hidden' value='{{ user }}'>
-                  <input id='notify_url' name='notify_url' type='hidden' value='{{ notify_url }}' />
-                  <input id='signature' name='signature' type='hidden' value='{{ year_signature }}' />
-                  <input id='order_type' name='order_type' type='hidden' value='member'/>
-                  {% load account %}
-                  {% user_display user as user_display %}
-                  <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
-                  {% if user.is_authenticated %}
-                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order_year()">
-                  {% else %}
-                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/signup/?next={{ current_url }}')">
-                  {% endif %}
-                </form>
-        </div>
-      </div>
+    
 
     </div>
 
-    <div class="text-center col-8 mt-5 mx-auto">
+    <div class="d-md-flex mt-md-5 justify-content-center">
+        <div class="price-container mr-md-4">
+            <div class="card card-shadow p-3">
+              <div class="card-body">
+                <h5 class="mb-4">¥{{ season_price }}/ 季
+                    <span class="text-muted price-discounted"> ￥228</span>
+                </h5>
+                  {% if user.is_authenticated %}
+                  <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
+                    {% else %}
+                      <form id='pay_form'>
+                      {% endif %}
+                        <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
+                        <input id='price_season' name='price' type='hidden' value='{{ season_price }}' />
+                        <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
+                        <input id='redirect' name='redirect' type='hidden' value='{{ season_redirect }}' />
+                        <input id='order_id_season' name='order_id' type='hidden' value='{{ order_id_season }}' />
+                        <input id='order_info_season' name='order_info' type='hidden' value='{{ user }}'>
+                        <input id='notify_url' name='notify_url' type='hidden' value='{{ notify_url }}' />
+                        <input id='signature' name='signature' type='hidden' value='{{ season_signature }}' />
+                        <input id='order_type' name='order_type' type='hidden' value='member'/>
+                        {% load account %}
+                        {% user_display user as user_display %}
+                        <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
+                        {% if user.is_authenticated %}
+                        <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order_season()">
+                        {% else %}
+                        <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/signup/?next={{ current_url }}')">
+                        {% endif %}
+                      </form>
+              </div>
+            </div>
+           <h4><span class="price-badge badge badge-pill badge-primary">6.1折</span></h4>
+          </div>
+        <div class="price-container">
+            <div class="card card-shadow p-3">
+              <div class="card-body">
+                <h5 class="mb-4">¥{{ year_price }}/周 
+                    <span class="text-muted price-discounted"> ￥912</span>
+                </h5>
+                  {% if user.is_authenticated %}
+                  <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
+                    {% else %}
+                      <form id='pay_form'>
+                      {% endif %}
+                        <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
+                        <input id='price_year' name='price' type='hidden' value='{{ year_price }}' />
+                        <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
+                        <input id='redirect' name='redirect' type='hidden' value='{{ year_redirect }}' />
+                        <input id='order_id_year' name='order_id' type='hidden' value='{{ order_id_year }}' />
+                        <input id='order_info_year' name='order_info' type='hidden' value='{{ user }}'>
+                        <input id='notify_url' name='notify_url' type='hidden' value='{{ notify_url }}' />
+                        <input id='signature' name='signature' type='hidden' value='{{ year_signature }}' />
+                        <input id='order_type' name='order_type' type='hidden' value='member'/>
+                        {% load account %}
+                        {% user_display user as user_display %}
+                        <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
+                        {% if user.is_authenticated %}
+                        <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order_year()">
+                        {% else %}
+                        <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/signup/?next={{ current_url }}')">
+                        {% endif %}
+                      </form>
+              </div>
+            </div>
+           <h4><span class="price-badge badge badge-pill badge-primary">5折</span></h4>
+          </div>
+</div>
+
+
+    <div class="text-center my-5 mx-auto">
       <p>{{ intro_text.config_value }}</p>
 
     </div>
