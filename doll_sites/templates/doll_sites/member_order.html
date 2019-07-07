@@ -22,7 +22,7 @@
   <div class="price-container mr-md-4">
   <div class="card card-shadow p-3">
     <div class="card-body">
-      <h5 class="mb-4">¥19/周
+      <h5 class="mb-4">¥{{ week_price }}/周
       </h5>
         {% if user.is_authenticated %}
             <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
