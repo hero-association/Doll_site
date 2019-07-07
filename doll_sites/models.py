@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from mdeditor.fields import MDTextField
 
 # Create your models here.
 # webmail.webfaction.com - Web Mail
@@ -243,3 +244,7 @@ class XdataOrder(models.Model):
 	order_year = models.IntegerField(default=2019)
 	order_month = models.IntegerField(default=4)
 	order_date = models.IntegerField(null=True,blank=True)
+
+# class Article(models.Model):
+#     name = models.CharField(max_length=10)
+#     content = MDTextField()

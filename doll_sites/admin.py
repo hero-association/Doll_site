@@ -4,7 +4,7 @@ from django.db.models import Q
 
 # Register your models here.
 
-from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig,Order,UserProfile,UserAlbumPaidRecord,SlideBanner,MemberConfig,XdataOrder
+from doll_sites.models import Series,Photo,PhotoFile,PhotoLink,Tag,Company,Actress,SiteConfig,Order,UserProfile,UserAlbumPaidRecord,SlideBanner,MemberConfig,XdataOrder,Article
 
 class PhotoFileInline(admin.TabularInline):
 	model = PhotoFile
@@ -222,6 +222,9 @@ class XdataOrderAdmin(admin.ModelAdmin):
 			num = round(num,2)
 			return num
 
+class ArticleAdmin(admin.ModelAdmin):
+	model = Article
+
 # Register the admin class with the associated model
 admin.site.register(Photo, PhotoAdmin)
 admin.site.register(Series, SeriesAdmin)
@@ -237,3 +240,4 @@ admin.site.register(MemberConfig,MemberConfigAdmin)
 admin.site.register(Order,OrderAdmin)
 admin.site.register(UserAlbumPaidRecord)
 admin.site.register(XdataOrder,XdataOrderAdmin)
+admin.site.register(Article,ArticleAdmin)
