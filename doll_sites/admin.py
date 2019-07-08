@@ -223,7 +223,7 @@ class XdataOrderAdmin(admin.ModelAdmin):
 			return num
 
 class ArticleAdmin(admin.ModelAdmin):
-	model = Article
+	list_display = ('id','arti_name',)
 
 # Register the admin class with the associated model
 admin.site.register(Photo, PhotoAdmin)

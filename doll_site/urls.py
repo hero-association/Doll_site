@@ -71,4 +71,5 @@ urlpatterns = [
     path('payment_center/', views.payment_center, name='payment_center'),
     path('global_noti/', views.global_noti, name='global_noti'),
     url(r'mdeditor/', include('mdeditor.urls')),
+    path('news/<int:newsid>', views.news, name='news'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,document_root=settings.STATICFILES_DIRS)
