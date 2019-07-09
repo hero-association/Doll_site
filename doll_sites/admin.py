@@ -80,9 +80,12 @@ class ActressAdmin(admin.ModelAdmin):
 		c = 0
 		for album in albums_belong_to:
 			c += album.temperature
-		avg = c/albums_belong_to.count()
-		avg = round(avg,2)
-		return(avg)
+		try:
+			avg = c/albums_belong_to.count()
+			avg = round(avg,2)
+			return(avg)
+		except:
+			return(0)
 
 	def get_his_avg_views(self,id):
 		actress = Actress.objects.get(id=id.pk)
