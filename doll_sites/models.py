@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from mdeditor.fields import MDTextField
 
 # Create your models here.
 # webmail.webfaction.com - Web Mail
@@ -50,6 +51,18 @@ class UserAlbumPaidRecord(models.Model):
 		album = Photo.objects.get(id=photo_id)
 		company_name = album.company
 		return company_name
+
+class Order(models.Model):
+	user_name = models.CharField(max_length = 1024)	#对应用户表<用户名>字段
+	order_id = models.CharField(max_length = 1024)
+	date_created = models.DateTimeField(auto_now_add = True)
+	date_update = models.DateTimeField(blank=True,null=True,auto_now=True)
+	order_info = models.CharField(max_length = 2048)	#等于相册ID
+	order_status = models.CharField(max_length = 1024)
+	order_type = models.CharField(max_length = 1024)	#字符串:single,bundle,member
+	order_price = models.CharField(max_length = 1024)
+	paid_price = models.CharField(blank=True,null=True,max_length = 1024)
+	ppz_order_id = models.CharField(max_length = 1024,null=True,blank=True)	#paypayzhu平台的订单号
 
 class Order(models.Model):
 	user_name = models.CharField(max_length = 1024)	#对应用户表<用户名>字段
@@ -243,3 +256,7 @@ class XdataOrder(models.Model):
 	order_year = models.IntegerField(default=2019)
 	order_month = models.IntegerField(default=4)
 	order_date = models.IntegerField(null=True,blank=True)
+
+class Article(models.Model):
+    arti_name = models.CharField(max_length=100)
+    content = MDTextField(default=None)

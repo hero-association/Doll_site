@@ -224,3 +224,10 @@
 }
 
 }
+
+.post-container {
+  margin-bottom: 4rem;
+}
+.post-content p img {
+  width: 100%;
+}
