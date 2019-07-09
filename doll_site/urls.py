@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin,auth
 from django.urls import path
-from django.conf.urls import url
+from django.conf.urls import url,include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include
@@ -70,4 +70,6 @@ urlpatterns = [
     path('member/', views.member, name='member'),
     path('payment_center/', views.payment_center, name='payment_center'),
     path('global_noti/', views.global_noti, name='global_noti'),
+    url(r'mdeditor/', include('mdeditor.urls')),
+    path('news/<int:newsid>', views.news, name='news'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,document_root=settings.STATICFILES_DIRS)

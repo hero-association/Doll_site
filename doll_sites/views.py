@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from doll_sites import models
 from django.contrib.auth.models import User
-from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress,SiteConfig,SlideBanner,Order,UserAlbumPaidRecord,MemberConfig,UserProfile
+from .models import Series,upload_location,Photo,PhotoFile,PhotoLink,Company,Tag,Actress,SiteConfig,SlideBanner,Order,UserAlbumPaidRecord,MemberConfig,UserProfile,Article
 from django.views import generic
 from django.core.paginator import Paginator
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -22,6 +22,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
+import markdown
 
 def get_index_recommend(series_id):
 	series_hot = Photo.objects.filter(series=series_id).order_by('-temperature')[:20]
@@ -1004,6 +1005,28 @@ def payment_center(request):
 	return render(
 		request,
 		'doll_sites/payment_center.html',
+		context
+	)
+
+def news(request,newsid):
+	'''自定义新闻页'''
+	news = Article.objects.get(id=newsid)
+	news_title = news.arti_name
+	news_content = markdown.markdown(news.content.replace("\r\n", '  \n'),extensions=[
+		'markdown.extensions.extra',
+		'markdown.extensions.codehilite',
+		'markdown.extensions.toc',
+		],safe_mode=True,enable_attributes=False)
+
+	context = {
+		'nbar':'',	#导航标志
+		'news_title':news_title,
+		'news_content':news_content,
+	}
+
+	return render(
+		request,
+		'doll_sites/news.html',
 		context
 	)
 
