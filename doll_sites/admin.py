@@ -93,9 +93,12 @@ class ActressAdmin(admin.ModelAdmin):
 		views_count = 0
 		for album in albums_belong_to:
 			views_count += album.views_count
-		avg = views_count/albums_belong_to.count()
-		avg = round(avg,2)
-		return(avg)
+		try:
+			avg = views_count/albums_belong_to.count()
+			avg = round(avg,2)
+			return(avg)
+		except:
+			return(0)
 
 	def get_ytd_avg_views(self,id):
 		actress = Actress.objects.get(id=id.pk)
@@ -103,9 +106,12 @@ class ActressAdmin(admin.ModelAdmin):
 		views_count = 0
 		for album in albums_belong_to:
 			views_count += album.yesterday_views_count
-		avg = views_count/albums_belong_to.count()
-		avg = round(avg,2)
-		return(avg)
+		try:
+			avg = views_count/albums_belong_to.count()
+			avg = round(avg,2)
+			return(avg)
+		except:
+			return(0)
 
 class UserProfileAdmin(admin.ModelAdmin):
 	search_fields = ['id']
