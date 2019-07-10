@@ -66,7 +66,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     'widget_tweaks',
-    'django_markdown',
+    'mdeditor',
 ]
 
 MIDDLEWARE = [
