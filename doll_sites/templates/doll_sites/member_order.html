@@ -13,7 +13,7 @@
   <div class="container text-center">
     <div class="text-center font-weight-bold mt-5" style="font-size: 28px;" >
         <a class="nav-link d-inline text-dark" href='/'> <img width="40"  class="d-inline-block align-center pb-2 mr-1" src="/static/image/logo-border.png" alt="">
-        小熊社</a>
+      会员购买</a>
         <div class=" dropdown-divider mx-auto" style="width: 200px;"> </div>
       </div>
 <!-- 会员卡片 -->
@@ -49,9 +49,9 @@
             </form>
     </div>
   </div>
- <h4><span class="price-badge badge badge-pill badge-primary">热门</span></h4> 
+ <h5><span class="price-badge badge badge-pill badge-primary">热门</span></h5> 
 </div>
-<div class="price-container">
+<div class="price-container mr-md-4">
     <div class="card card-shadow p-3">
       <div class="card-body">
         <h5 class="mb-4">¥{{ month_price }}/月 
@@ -82,86 +82,123 @@
               </form>
       </div>
     </div>
-   <h4><span class="price-badge badge badge-pill badge-primary">7.7折</span></h4> 
+   <h5><span class="price-badge badge badge-pill badge-primary">7.7折</span></h5> 
   </div>
   
-
+  <div class="price-container mr-md-4">
+      <div class="card card-shadow p-3">
+        <div class="card-body">
+          <h5 class="mb-4">¥{{ season_price }}/ 季
+              <span class="text-muted price-discounted"> ￥228</span>
+          </h5>
+            {% if user.is_authenticated %}
+            <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
+              {% else %}
+                <form id='pay_form'>
+                {% endif %}
+                  <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
+                  <input id='price_season' name='price' type='hidden' value='{{ season_price }}' />
+                  <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
+                  <input id='redirect' name='redirect' type='hidden' value='{{ season_redirect }}' />
+                  <input id='order_id_season' name='order_id' type='hidden' value='{{ order_id_season }}' />
+                  <input id='order_info_season' name='order_info' type='hidden' value='{{ user }}'>
+                  <input id='notify_url' name='notify_url' type='hidden' value='{{ notify_url }}' />
+                  <input id='signature' name='signature' type='hidden' value='{{ season_signature }}' />
+                  <input id='order_type' name='order_type' type='hidden' value='member'/>
+                  {% load account %}
+                  {% user_display user as user_display %}
+                  <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
+                  {% if user.is_authenticated %}
+                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order_season()">
+                  {% else %}
+                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/signup/?next={{ current_url }}')">
+                  {% endif %}
+                </form>
+        </div>
+      </div>
+     <h5><span class="price-badge badge badge-pill badge-primary">6.1折</span></h5>
+    </div>
+  <div class="price-container">
+      <div class="card card-shadow p-3">
+        <div class="card-body">
+          <h5 class="mb-4">¥{{ year_price }}/年 
+              <span class="text-muted price-discounted"> ￥912</span>
+          </h5>
+            {% if user.is_authenticated %}
+            <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
+              {% else %}
+                <form id='pay_form'>
+                {% endif %}
+                  <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
+                  <input id='price_year' name='price' type='hidden' value='{{ year_price }}' />
+                  <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
+                  <input id='redirect' name='redirect' type='hidden' value='{{ year_redirect }}' />
+                  <input id='order_id_year' name='order_id' type='hidden' value='{{ order_id_year }}' />
+                  <input id='order_info_year' name='order_info' type='hidden' value='{{ user }}'>
+                  <input id='notify_url' name='notify_url' type='hidden' value='{{ notify_url }}' />
+                  <input id='signature' name='signature' type='hidden' value='{{ year_signature }}' />
+                  <input id='order_type' name='order_type' type='hidden' value='member'/>
+                  {% load account %}
+                  {% user_display user as user_display %}
+                  <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
+                  {% if user.is_authenticated %}
+                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order_year()">
+                  {% else %}
+                  <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/signup/?next={{ current_url }}')">
+                  {% endif %}
+                </form>
+        </div>
+      </div>
+     <h5><span class="price-badge badge badge-pill badge-primary">5折</span></h5>
+    </div>
     
 
     </div>
 
-    <div class="d-md-flex mt-md-5 justify-content-center">
-        <div class="price-container mr-md-4">
-            <div class="card card-shadow p-3">
-              <div class="card-body">
-                <h5 class="mb-4">¥{{ season_price }}/ 季
-                    <span class="text-muted price-discounted"> ￥228</span>
-                </h5>
-                  {% if user.is_authenticated %}
-                  <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
-                    {% else %}
-                      <form id='pay_form'>
-                      {% endif %}
-                        <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
-                        <input id='price_season' name='price' type='hidden' value='{{ season_price }}' />
-                        <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
-                        <input id='redirect' name='redirect' type='hidden' value='{{ season_redirect }}' />
-                        <input id='order_id_season' name='order_id' type='hidden' value='{{ order_id_season }}' />
-                        <input id='order_info_season' name='order_info' type='hidden' value='{{ user }}'>
-                        <input id='notify_url' name='notify_url' type='hidden' value='{{ notify_url }}' />
-                        <input id='signature' name='signature' type='hidden' value='{{ season_signature }}' />
-                        <input id='order_type' name='order_type' type='hidden' value='member'/>
-                        {% load account %}
-                        {% user_display user as user_display %}
-                        <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
-                        {% if user.is_authenticated %}
-                        <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order_season()">
-                        {% else %}
-                        <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/signup/?next={{ current_url }}')">
-                        {% endif %}
-                      </form>
-              </div>
-            </div>
-           <h4><span class="price-badge badge badge-pill badge-primary">6.1折</span></h4>
-          </div>
-        <div class="price-container">
-            <div class="card card-shadow p-3">
-              <div class="card-body">
-                <h5 class="mb-4">¥{{ year_price }}/周 
-                    <span class="text-muted price-discounted"> ￥912</span>
-                </h5>
-                  {% if user.is_authenticated %}
-                  <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
-                    {% else %}
-                      <form id='pay_form'>
-                      {% endif %}
-                        <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
-                        <input id='price_year' name='price' type='hidden' value='{{ year_price }}' />
-                        <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
-                        <input id='redirect' name='redirect' type='hidden' value='{{ year_redirect }}' />
-                        <input id='order_id_year' name='order_id' type='hidden' value='{{ order_id_year }}' />
-                        <input id='order_info_year' name='order_info' type='hidden' value='{{ user }}'>
-                        <input id='notify_url' name='notify_url' type='hidden' value='{{ notify_url }}' />
-                        <input id='signature' name='signature' type='hidden' value='{{ year_signature }}' />
-                        <input id='order_type' name='order_type' type='hidden' value='member'/>
-                        {% load account %}
-                        {% user_display user as user_display %}
-                        <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
-                        {% if user.is_authenticated %}
-                        <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="create_order_year()">
-                        {% else %}
-                        <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit' onclick="window.open('/accounts/signup/?next={{ current_url }}')">
-                        {% endif %}
-                      </form>
-              </div>
-            </div>
-           <h4><span class="price-badge badge badge-pill badge-primary">5折</span></h4>
-          </div>
-</div>
+
 
 
     <div class="text-center my-5 mx-auto">
       <p>{{ intro_text.config_value }}</p>
+
+    </div>
+<!-- 会员特权 -->
+      <div class=" dropdown-divider mx-auto" style="width: 200px;"> </div>
+    <div class="mt-5"> 
+      <figure>
+        <img width="40" src="/static/image/diamond.png" alt="icon" srcset="">
+      </figure>
+      <h3>会员特权</h3>
+      <div class=" card-deck m-5 col-md-10 mx-auto ">
+        <div class="card mb-4 py-3 border border-primary">
+          <div class="card-body">
+              <figure>
+                  <img width="50" src="/static/image/check.png" alt="icon" srcset="">
+                </figure>
+            <p class="member-card-title">1000+ 相册</p>
+            <p class="mb-0">最大最全的资源宝库</p>
+          </div>
+        </div>
+        <div class="card mb-4 py-3 border border-primary">
+            <div class="card-body">
+                <figure>
+                    <img width="50" src="/static/image/check.png" alt="icon" srcset="">
+                  </figure>
+              <p class="member-card-title">300+ 部在线视频</p>
+              <p class="mb-0">精品点播 随身观看</p>
+            </div>
+          </div>
+          <div class="card mb-4 py-3 border border-primary">
+              <div class="card-body">
+                  <figure>
+                      <img width="50" src="/static/image/check.png" alt="icon" srcset="">
+                    </figure>
+                <p class="member-card-title">每周日定期更新</p>
+                <p class="mb-0">会员在手 坐享其成</p>
+              </div>
+            </div>
+        </div>
+
 
     </div>
   </div>
