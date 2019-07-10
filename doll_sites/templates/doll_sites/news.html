@@ -3,39 +3,13 @@
 
 {% include 'doll_sites/head.html' %}
 
-{% block style %}
-  <style type="text/css">
-    .post-content p img{ max-width: 100%; text-align: left; }
-    .post-content { text-align: left; margin-left: 10px; margin-right: 10px;}
-    h1,h2,h3,h4,h5,h6 {
-      font-weight: 800;
-      font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    }
-    .post-content p {
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    line-height: 1.5;
-    margin: 30px 0;
-    font-size: 20px;
-    /*font-family: 'Lora', 'Times New Roman', serif;*/
-    color: #212529;
-    }
-    .post-content blockquote {
-      font-style: italic;
-      color: #868e96;
-      text-align: center;
-    }
-  </style>
-{% endblock %}
+
 
   <body class="d-flex flex-column h-100">
     <!-- Header & Navigation -->
     {% include 'doll_sites/navi.html' %}
 
-    <div class="container text-center">
+    <div class="container">
       <div class="row mt-5">
         <div class="col">
           <div class="text-center font-weight-bold" style="font-size: 28px;">
@@ -51,9 +25,7 @@
             <div class=" dropdown-divider mx-auto" style="width: 200px;"></div>
           </div>
           <div class="post-container">
-
-          
-          <h1 class="m-4"> {{ news_title }} </h1>
+          <h2 class="m-4 text-center" > {{ news_title }} </h2>
           <div class="post-content"> {{ news_content|safe }} </div>
         </div>
         </div>
