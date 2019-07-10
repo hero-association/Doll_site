@@ -64,18 +64,6 @@ class Order(models.Model):
 	paid_price = models.CharField(blank=True,null=True,max_length = 1024)
 	ppz_order_id = models.CharField(max_length = 1024,null=True,blank=True)	#paypayzhu平台的订单号
 
-class Order(models.Model):
-	user_name = models.CharField(max_length = 1024)	#对应用户表<用户名>字段
-	order_id = models.CharField(max_length = 1024)
-	date_created = models.DateTimeField(auto_now_add = True)
-	date_update = models.DateTimeField(blank=True,null=True,auto_now=True)
-	order_info = models.CharField(max_length = 2048)	#等于相册ID
-	order_status = models.CharField(max_length = 1024)
-	order_type = models.CharField(max_length = 1024)	#字符串:single,bundle,member
-	order_price = models.CharField(max_length = 1024)
-	paid_price = models.CharField(blank=True,null=True,max_length = 1024)
-	ppz_order_id = models.CharField(max_length = 1024,null=True,blank=True)	#paypayzhu平台的订单号
-
 	def get_album_name(self):
 		photo_id = str(self.order_info)
 		album = Photo.objects.get(id=photo_id)
@@ -260,3 +248,4 @@ class XdataOrder(models.Model):
 class Article(models.Model):
     arti_name = models.CharField(max_length=100)
     content = MDTextField(default=None)
+    test_md = MDTextField(default=None)
