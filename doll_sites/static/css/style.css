@@ -228,3 +228,25 @@
 .post-container {
   margin-bottom: 4rem;
 }
+
+.post-content p img {
+  width: 100%;
+}
+
+.post-content blockquote {
+  font-style: italic;
+  color: #868e96;
+  text-align: center;
+  border-left: 4px solid rgb(238, 173, 192);
+  margin: 1.5rem 4px;
+  padding: 4px 10px;
+}
+
+.post-content blockquote p {
+  margin-bottom: 0;
+}
+
+.post-content p {
+  font-size: 1rem;
+  font-weight: 400;
+}
