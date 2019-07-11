@@ -230,7 +230,7 @@
 }
 
 .post-content p img {
-  width: 100%;
+  max-width: 100%;
 }
 
 .post-content blockquote {
