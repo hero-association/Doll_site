@@ -250,3 +250,39 @@
   font-size: 1rem;
   font-weight: 400;
 }
+
+.price-container {
+  position: relative;
+}
+
+@media( min-width: 768px){
+  .price-container{
+    width: 210px;
+  }
+}
+
+@media(max-width: 576px) {
+  .price-container {
+    margin-left: 1.6rem;
+    margin-right: 1.6rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.member-card-title {
+  margin-bottom: 0.5rem;
+}
+
+
+.price-badge {
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  border: 3px solid #fff;
+}
+
+.price-discounted {
+  text-decoration: line-through;
+  font-size: 1rem;
+  font-weight: 400;
+}
