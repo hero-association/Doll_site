@@ -499,7 +499,7 @@ def payment_response(request):
 				days_add = 30
 			elif current_order_object.order_price == '149':
 				days_add = 90
-			elif current_order_object.order_price == '519':
+			elif current_order_object.order_price == '459':
 				days_add = 365
 			if current_order_object.order_type == 'member':	#处理会员
 				user_id = User.objects.get(username=user_name)
@@ -850,7 +850,7 @@ def member(request):
 	week_price = 19
 	month_price = 59
 	season_price = 149
-	year_price = 519
+	year_price = 459
 
 	#创建订单
 	api_user = '182553c7'
