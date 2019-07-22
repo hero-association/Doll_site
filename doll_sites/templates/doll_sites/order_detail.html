@@ -10,11 +10,11 @@
 
 
   <div class="container">
-  
+
     <div class="row">
       <div class="col my-5">
 
-        <h5 class="mb-3" >支付成功！</h5>
+        <h5 class="mb-3">支付成功！</h5>
         <p>
           订单号： {{ order_id }}
         </p>
@@ -36,10 +36,10 @@
         <div class="d-flex flex-wrap my-5 w-100 card-actress-box ">
 
 
-        {% for result in result_list %}
+          {% for result in result_list %}
 
-        <div class="card border-0 col-lg-2 mr-4  p-0">
-  
+          <div class="card border-0 col-lg-2 mr-4  p-0">
+
             <a href="/photo/{{ result.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
               <img class="card-img-top img-fluid border-light lazyloadx" data-original="{{ result.get_cover_pic_link }}"
                 src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
@@ -48,50 +48,55 @@
               <p class="card-text text-center text-truncate">{{ result }}</p>
             </div>
           </div>
-  
-        {% endfor %}
+
+          {% endfor %}
+
+        </div>
+
+
+        {% if result_count == 0 %}
+        <div class="col justify-content-center">
+          <img src="" alt="">
+
+        </div>
+
+        {% endif %}
 
       </div>
-
-
-      {% if result_count == 0 %}
-      <div class="col justify-content-center" >
-        <img src="" alt="">
-
-      </div>
-
-      {% endif %}
-  
     </div>
   </div>
-</div>
 
 
   <div class="d-flex flex-wrap justify-content-between">
-      {% for photo in recommend_newest %}
-      <div class="card border-0 col-md-8 col-lg  p-0">
-  
-        <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
-          <img class="card-img-top img-fluid border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
-            src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
-        </a>
-        <div class="card-body">
-          <p class="card-text">{{ photo.name_chinese }}</p>
-        </div>
+    {% for photo in recommend_newest %}
+    <div class="card border-0 col-md-8 col-lg  p-0">
+
+      <a href="/photo/{{ photo.get_photo_id}}" title=" {{ photo.name_chinese }} " target='_self'>
+        <img class="card-img-top img-fluid border-light lazyloadx" data-original="{{ photo.get_cover_pic_link }}"
+          src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
+      </a>
+      <div class="card-body">
+        <p class="card-text">{{ photo.name_chinese }}</p>
       </div>
-      {% endfor %}
     </div>
+    {% endfor %}
+  </div>
 
 
 
-{% include 'doll_sites/footer.html' %}
+  {% include 'doll_sites/footer.html' %}
 
 
   <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+  <script src="/static/js/jquery-3.3.min.js"></script>
+
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script src="/static/js/popper.min.js"></script>
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/js/jquery.lazyload.js"></script>
-  
+
   <script src="/static/js/main.js"></script>
 
 </body>
+
 </html>

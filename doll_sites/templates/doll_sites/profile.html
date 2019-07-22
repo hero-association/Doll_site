@@ -3,99 +3,86 @@
 
 {% include 'doll_sites/head.html' %}
 
-  <body class="d-flex flex-column h-100">
-    <!-- Header & Navigation -->
-    {% include 'doll_sites/navi.html' %}
+<body class="d-flex flex-column h-100">
+  <!-- Header & Navigation -->
+  {% include 'doll_sites/navi.html' %}
 
-    <div class="container ">
-      <section class="my-4">
-        <div class="card">
-          <h4 class="card-header h4 ">用户资料</h4>
-          <div class="card-body">
-            <div class="mb-3">
-              <i class="fas fa-user mr-1"></i>
-              用户名: {{ user.username }}
-            </div>
-            {% if member_expire %}
-            <div class="mb-3">
-              <i class="fas fa-user mr-1"></i>
-              会员期限: {{ member_expire }}
-            </div>
-            {% endif %}
-            <div>
-              <i class="fas fa-envelope mr-1"></i>
-              Email: {% if user.email %}
-              {{ user.email }}
-              {% else %}
-              <a href="{% url 'account_email' %}">前往设置</a>
-              {% endif %}
-            </div>
+  <div class="container ">
+    <section class="my-4">
+      <div class="card">
+        <h4 class="card-header h4 ">用户资料</h4>
+        <div class="card-body">
+          <div class="mb-3">
+            <i class="fas fa-user mr-1"></i>
+            用户名: {{ user.username }}
           </div>
-
-          {% if user.is_authenticated %}
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <a class="mr-4" href="{% url 'account_change_password' %}"
-                >修改密码</a
-              >
-              <a href="{% url 'account_logout' %}">退出登录</a>
-            </li>
-          </ul>
-
+          {% if member_expire %}
+          <div class="mb-3">
+            <i class="fas fa-user mr-1"></i>
+            会员期限: {{ member_expire }}
+          </div>
           {% endif %}
+          <div>
+            <i class="fas fa-envelope mr-1"></i>
+            Email: {% if user.email %}
+            {{ user.email }}
+            {% else %}
+            <a href="{% url 'account_email' %}">前往设置</a>
+            {% endif %}
+          </div>
         </div>
-      </section>
 
-      <section class="my-4">
-        <div class="card">
-          <h4 class="card-header h4 ">我的购买</h4>
+        {% if user.is_authenticated %}
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <a class="mr-4" href="{% url 'account_change_password' %}">修改密码</a>
+            <a href="{% url 'account_logout' %}">退出登录</a>
+          </li>
+        </ul>
 
-          <ul class="list-group list-group-flush ">
-            {% for album in user_paid_albums %}
-            <li class="list-group-item">
-              <div class="row buy-list ">
-                <div class="col-lg-3 ">
-                  商品名:
-                  <a href="/photo/{{ album.order_info }}">{{ album.get_album_name }}</a>
-                </div>
-                <div class="col-lg-2 pl-lg-0 ">
-                  {% for actress in album.get_actress_name.all %}演员名:
-                  <a href="/actress_detail/{{ actress.id }}">{{ actress }}</a
-                  >{% endfor %}
-                </div>
-                <div class="col-lg-2  px-lg-1">
-                  所属公司: {{ album.get_company }}
-                </div>
-                <div class="col-lg-3 ">日期: {{ album.date_created }}</div>
+        {% endif %}
+      </div>
+    </section>
+
+    <section class="my-4">
+      <div class="card">
+        <h4 class="card-header h4 ">我的购买</h4>
+
+        <ul class="list-group list-group-flush ">
+          {% for album in user_paid_albums %}
+          <li class="list-group-item">
+            <div class="row buy-list ">
+              <div class="col-lg-3 ">
+                商品名:
+                <a href="/photo/{{ album.order_info }}">{{ album.get_album_name }}</a>
               </div>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </section>
-    </div>
+              <div class="col-lg-2 pl-lg-0 ">
+                {% for actress in album.get_actress_name.all %}演员名:
+                <a href="/actress_detail/{{ actress.id }}">{{ actress }}</a>{% endfor %}
+              </div>
+              <div class="col-lg-2  px-lg-1">
+                所属公司: {{ album.get_company }}
+              </div>
+              <div class="col-lg-3 ">日期: {{ album.date_created }}</div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </section>
+  </div>
 
-    {% include 'doll_sites/footer.html' %}
+  {% include 'doll_sites/footer.html' %}
 
-    <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-      crossorigin="anonymous"
-    ></script>
+  <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+  <script src="/static/js/jquery-3.3.min.js"></script>
 
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/jquery.lazyload.js"></script>
-    <script src="/static/js/main.js"></script>
-  </body>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script src="/static/js/popper.min.js"></script>
+
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/jquery.lazyload.js"></script>
+  <script src="/static/js/main.js"></script>
+</body>
+
 </html>

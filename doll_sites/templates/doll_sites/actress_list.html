@@ -4,121 +4,114 @@
 {% include 'doll_sites/head.html' %}
 
 <body class="d-flex flex-column h-100">
-      <!-- Header & Navigation -->
+  <!-- Header & Navigation -->
   {% include 'doll_sites/navi.html' %}
 
-  <a  href="#" class="bg-dark" id="scroll">
+  <a href="#" class="bg-dark" id="scroll">
     <i class="fas fa-chevron-up text-white "></i>
-</a>
+  </a>
 
-<section class="container">
+  <section class="container">
 
 
     {% block content %}
 
 
-        <div class="d-flex flex-wrap my-5 w-100 card-actress-box justify-content-center">
-              {% for actress in current_actress_list %}
-              <div class="card card-actress mx-2 mb-5 p-0">
-          
-                <a href="/actress_detail/{{ actress.id }}" title="{{ actress.actress_name_ch }}" target='_self'>
-                  <img 
-                    class="card-img-top border-light lazyloadx" 
-                    data-original="/static/doll_sites/images/uploads/{{ actress.avatar }}"
-                    src="/static/image/loading.png" 
-                    alt="{{ actress.actress_name_ch }}" 
-                    lazyloadthumb="1" 
-                    lazyloaded="true"
-                  >
-                </a>
-                <div class="card-body">
-                  <p class="card-text text-center text-truncate">{{ actress.actress_name_ch }}</p>
-                </div>
-              </div>
-              {% endfor %}
-       
+    <div class="d-flex flex-wrap my-5 w-100 card-actress-box justify-content-center">
+      {% for actress in current_actress_list %}
+      <div class="card card-actress mx-2 mb-5 p-0">
+
+        <a href="/actress_detail/{{ actress.id }}" title="{{ actress.actress_name_ch }}" target='_self'>
+          <img class="card-img-top border-light lazyloadx"
+            data-original="/static/doll_sites/images/uploads/{{ actress.avatar }}" src="/static/image/loading.png"
+            alt="{{ actress.actress_name_ch }}" lazyloadthumb="1" lazyloaded="true">
+        </a>
+        <div class="card-body">
+          <p class="card-text text-center text-truncate">{{ actress.actress_name_ch }}</p>
         </div>
+      </div>
+      {% endfor %}
+
+    </div>
 
 
-  
+
     {% endblock %}
 
 
 
-</section>
+  </section>
 
 
-<!-- paginator -->
+  <!-- paginator -->
 
-<nav aria-label="actress_list">
-  <ul class="pagination justify-content-center mt-n4 mb-5">
+  <nav aria-label="actress_list">
+    <ul class="pagination justify-content-center mt-n4 mb-5">
 
-    <!-- 第一页 -->
-    {% if current_actress_list.paginator.num_pages > 10 %}
-    <li class="page-item">
-      <a class="page-link active" href="/actress/1">
-        <span>&laquo;</span>
-      </a>
-    </li>
-    {% endif %}
+      <!-- 第一页 -->
+      {% if current_actress_list.paginator.num_pages > 10 %}
+      <li class="page-item">
+        <a class="page-link active" href="/actress/1">
+          <span>&laquo;</span>
+        </a>
+      </li>
+      {% endif %}
 
-    {% if current_actress_list.has_previous %}
-    <li class="page-item">
-      <a class="page-link" href="/actress/{{ current_actress_list.previous_page_number }}">
-        <span>&laquo;</span>
-        <span class="sr-only">上一页</span>
-      </a>
-    </li>
-    {% else %}
-    <li class="page-item disabled">
-      <a class="page-link" href="">
-        <span>&laquo;</span>
-      </a>
-    </li>
-    {% endif %}
+      {% if current_actress_list.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="/actress/{{ current_actress_list.previous_page_number }}">
+          <span>&laquo;</span>
+          <span class="sr-only">上一页</span>
+        </a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link" href="">
+          <span>&laquo;</span>
+        </a>
+      </li>
+      {% endif %}
 
 
-    {% for i in current_actress_list.paginator.page_range %}
-    {% if current_actress_list.number == i %}
-    <li class="page-item active">
-      <span class="page-link">{{ i }}
-         <span class="sr-only">(current)</span>
+      {% for i in current_actress_list.paginator.page_range %}
+      {% if current_actress_list.number == i %}
+      <li class="page-item active">
+        <span class="page-link">{{ i }}
+          <span class="sr-only">(current)</span>
         </span>
       </li>
-    {% else %}
-    <li class="page-item"><a class="page-link" href="/actress/{{ i }}">{{ i }}</a></li>
-    {% endif %}
-    {% endfor %}
-
- 
-
-    {% if current_actress_list.has_next %}
-    <li class="page-item">
-      <a class="page-link active" href="/actress/{{ current_actress_list.next_page_number }}">
-        <span>&raquo;</span>
-      </a>
-    </li>
-    {% else %}
-    <li class="page-item disabled">
-      <a class="page-link" href="">
-        <span>&raquo;</span>
-      </a>
-    </li>
-    {% endif %}
-
-    <!-- 最后一页 -->
-    {% if current_actress_list.paginator.num_pages > 10 %}
-    <li class="page-item">
-      <a class="page-link active" href="/actress/{{ current_actress_list.paginator.num_pages }}">
-        <span>&raquo;</span>
-      </a>
-    </li>
-    {% endif %}
-
-  </ul>
-</nav>
+      {% else %}
+      <li class="page-item"><a class="page-link" href="/actress/{{ i }}">{{ i }}</a></li>
+      {% endif %}
+      {% endfor %}
 
 
+
+      {% if current_actress_list.has_next %}
+      <li class="page-item">
+        <a class="page-link active" href="/actress/{{ current_actress_list.next_page_number }}">
+          <span>&raquo;</span>
+        </a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link" href="">
+          <span>&raquo;</span>
+        </a>
+      </li>
+      {% endif %}
+
+      <!-- 最后一页 -->
+      {% if current_actress_list.paginator.num_pages > 10 %}
+      <li class="page-item">
+        <a class="page-link active" href="/actress/{{ current_actress_list.paginator.num_pages }}">
+          <span>&raquo;</span>
+        </a>
+      </li>
+      {% endif %}
+
+    </ul>
+  </nav>
 
 
 
@@ -127,26 +120,27 @@
 
 
 
-</div>
+
+
+  </div>
 
 
 
 
-  
-{% include 'doll_sites/footer.html' %}
+
+  {% include 'doll_sites/footer.html' %}
 
   <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-    crossorigin="anonymous"></script>
-  
+  <script src="/static/js/jquery-3.3.min.js"></script>
+
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script src="/static/js/popper.min.js"></script>
+
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/js/jquery.lazyload.js"></script>
   <script src="/static/js/main.js"></script>
 
 
 </body>
+
 </html>

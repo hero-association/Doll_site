@@ -13,23 +13,24 @@
 
     <div class="row mt-5">
       <div class="col d-flex">
-            <img class="avatar_actress border-light lazyloadx" data-original="/static/doll_sites/images/uploads/{{ current_actress.avatar }}"
-              src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
-              <div class="col ml-3">
-              <h5>{{ current_actress }}</h5>
-              <p class="mt-3"> 所属：{% for company in related_company %} {{ company }} |{%  endfor %}</p>
-              <p>
-                {{ current_actress.description }}
-              </p>
+        <img class="avatar_actress border-light lazyloadx"
+          data-original="/static/doll_sites/images/uploads/{{ current_actress.avatar }}" src="/static/image/loading.png"
+          alt="photos" lazyloadthumb="1" lazyloaded="true">
+        <div class="col ml-3">
+          <h5>{{ current_actress }}</h5>
+          <p class="mt-3"> 所属：{% for company in related_company %} {{ company }} |{%  endfor %}</p>
+          <p>
+            {{ current_actress.description }}
+          </p>
         </div>
       </div>
     </div>
 
     <div class="row mt-5 mb-n4">
       <div class="col">
-          <h5 class="text-left float-left font-weight-bold">
-              所有相册
-          </h5>
+        <h5 class="text-left float-left font-weight-bold">
+          所有相册
+        </h5>
       </div>
 
 
@@ -37,14 +38,14 @@
     <div class="d-flex flex-wrap">
       {% for album in related_album %}
       <div class="card actress-photo border-0  mr-4 p-0">
-  
+
         <a href="/photo/{{ album.get_photo_id}}" title=" {{ album.name_chinese }} " target='_self'>
           <img class="card-img-top border border-light lazyloadx" data-original="{{ album.get_cover_pic_link }}"
             src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
         </a>
         <div class="card-body p-1 mt-2">
-            <p class="card-text text-center  text-truncate mb-0">{{ album.name_chinese }}</p>
-          </div>
+          <p class="card-text text-center  text-truncate mb-0">{{ album.name_chinese }}</p>
+        </div>
       </div>
       {% endfor %}
     </div>
@@ -57,30 +58,29 @@
 
   </div>
 
-    
-
-  
-    
 
 
 
 
-{% include 'doll_sites/footer.html' %}
+
+
+
+
+  {% include 'doll_sites/footer.html' %}
 
 
   <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-  crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-  crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-  crossorigin="anonymous"></script>
+  <script src="/static/js/jquery-3.3.min.js"></script>
 
-<script src="/static/js/jquery.min.js"></script>
-<script src="/static/js/jquery.lazyload.js"></script>
-<script src="/static/js/main.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script src="/static/js/popper.min.js"></script>
+
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/jquery.lazyload.js"></script>
+  <script src="/static/js/main.js"></script>
 
 
 
 </body>
+
 </html>
