@@ -22,13 +22,18 @@
             会员期限: {{ member_expire }}
           </div>
           {% endif %}
-          <div>
+          <div class="mb-3">
             <i class="fas fa-envelope mr-1"></i>
             Email: {% if user.email %}
             {{ user.email }}
             {% else %}
             <a href="{% url 'account_email' %}">前往设置</a>
             {% endif %}
+          </div>
+          <!-- 邀请码 -->
+          <div class="mb-3">
+            <i class="fas fa-user mr-1"></i>
+            专属邀请码: {{ invite_code }}
           </div>
         </div>
 

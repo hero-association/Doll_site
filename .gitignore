@@ -128,3 +128,9 @@ doll_sites/static/doll_sites/images/uploads/*.png
 0217.json
 doll_sites/migrations/*.py
 *.json
+doll_sites/migrations/0007_auto_20190417_0948.py
+doll_sites/migrations/0006_auto_20190307_1610.py
+doll_sites/migrations/0005_auto_20190305_1046.py
+doll_sites/migrations/0004_delete_memberconfig123.py
+doll_sites/migrations/0003_memberconfig123.py
+doll_sites/migrations/0002_auto_20190305_1012.py

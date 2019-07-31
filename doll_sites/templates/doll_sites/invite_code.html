@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127776067-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-127776067-1');
+    </script>
+
+    <!-- 引入 Bootstrap -->
+    <link rel='stylesheet' href='/static/css/bootstrap.css'>
+    <link rel='stylesheet' href='/static/css/style.css'>
+
+    <!-- fontawsome -->
+    <link href="/static/css/all.css" rel="stylesheet">
+    <!--load all styles -->
+
+</head>
+
+<body>
+
+<div class="container mt-5">
+  <div class="card-base card  px-3 px-lg-4 mx-auto" >
+    <div class="card-body">
+
+      <div class="text-center mb-4 font-weight-bold" style="font-size: 28px;" >
+      <a class="nav-link text-dark" href='/'> <img width="40"  class="d-inline-block align-center pb-2 mr-1" src="/static/image/logo-border.png" alt="">
+      小熊社</a>
+        
+        <div class=" dropdown-divider "> </div>
+
+      </div>
+ 
+      <h4 class="h4 mb-2">绑定邀请码</h4>
+
+      <form class="signup" method="post" action="/create_sponser">
+
+        {% load account %}
+        <div class="form-group">
+
+        <input id="username" class="form-control" type="text" name="username" value={{ user.id }}>
+        <input id="invite_code" class="form-control" type="text" name="invite_code" maxlength="8" value="">  
+
+        <label>填写正确，可获得会员时长赠送</label>
+
+        </div>
+
+        <div class="form-group">
+        <button class="btn btn-primary px-5" type="submit">提交</button>
+        </div>
+
+      </form>
+      <a href="/"> 我放弃，跳过 </a>
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html>

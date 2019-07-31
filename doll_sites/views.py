@@ -22,6 +22,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
+from django.http import HttpResponseRedirect
 import markdown
 
 def get_index_recommend(series_id):
@@ -40,6 +41,57 @@ def get_hot_search_actress():
 	random.shuffle(hot_actress_list)
 	hot_actress_list = hot_actress_list[:6]
 	return hot_actress_list
+
+def get_invite_code(user_id):
+	base_num = 1300000
+	origin_num = base_num + user_id
+	invite_code = str(hex(origin_num))[2:]
+	return invite_code
+
+def decrypt_invite_code(invite_code):
+	decrypt_num = int(invite_code,16)
+	user_id = decrypt_num - 1300000
+	return user_id
+
+def create_sponser(request):
+	if request.method == 'POST':
+		invite_code = request.POST.get('invite_code')
+		user_id = request.POST.get('username')
+
+		c_user = User.objects.get(id=user_id)
+		sponser_id = decrypt_invite_code(invite_code)
+
+		try:
+			sponsor = User.objects.get(id=sponser_id)
+		except:
+			return HttpResponse('邀请码填写错误' + sponser_id)
+
+		if c_user.id == sponser_id:
+				return HttpResponse('不能绑定自己')
+		else:
+			"""记录邀请人"""
+
+			models.UserProfile.objects.create(
+				user=c_user,
+				sponsor=sponser_id,
+				    )
+			return HttpResponseRedirect('/accounts/profile/')
+
+	else:
+		return HttpResponse('It is not a POST request!!!')
+
+@login_required
+def invite_code(request):
+	'''邀请码绑定'''
+
+	context = {
+
+	}
+	return render(
+		request,
+		'doll_sites/invite_code.html',
+		context
+	)
 
 def index(request):
 	"""网站主页"""
@@ -792,7 +844,9 @@ def profile(request):
 			member_expire = []
 	else:
 		member_expire = []
-	#SEO
+	'''邀请码'''
+	invite_code = get_invite_code(user.id)
+	'''SEO'''
 	title = '会员中心-小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
 	keywords = '萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱'
 	description = '小熊社是自由的萝莉图库,提供包括Candydoll、Silverstar、Imouto、U15等多个品牌的写真图集,涵盖了包括EvaR,ElonaV,LauraB,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱等海内外知名萝莉'
@@ -804,6 +858,7 @@ def profile(request):
 		'user':user,
 		'user_paid_albums':user_paid_albums,
 		'member_expire':member_expire,
+		'invite_code':invite_code,
 	}
 	return render(
 		request,

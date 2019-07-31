@@ -21,7 +21,8 @@ class UserProfile(models.Model):
 	user = models.OneToOneField(User,on_delete=models.CASCADE, related_name='profile')
 	member_type = models.BooleanField(default=False)
 	member_expire = models.DateField(null=True,blank=True)		#会员过期时间
-	count_coin = models.DecimalField(default=0,max_digits=8,decimal_places=2) 	#金币余额
+	count_coin = models.DecimalField(default=0,max_digits=8,decimal_places=2) 	#邀请积分
+	sponsor = models.IntegerField(default=0)		#邀请者user_id
 	Album_paid_count = models.IntegerField(default=0)		#相册购买总数
 
 	def __str__(self):
@@ -51,18 +52,6 @@ class UserAlbumPaidRecord(models.Model):
 		album = Photo.objects.get(id=photo_id)
 		company_name = album.company
 		return company_name
-
-class Order(models.Model):
-	user_name = models.CharField(max_length = 1024)	#对应用户表<用户名>字段
-	order_id = models.CharField(max_length = 1024)
-	date_created = models.DateTimeField(auto_now_add = True)
-	date_update = models.DateTimeField(blank=True,null=True,auto_now=True)
-	order_info = models.CharField(max_length = 2048)	#等于相册ID
-	order_status = models.CharField(max_length = 1024)
-	order_type = models.CharField(max_length = 1024)	#字符串:single,bundle,member
-	order_price = models.CharField(max_length = 1024)
-	paid_price = models.CharField(blank=True,null=True,max_length = 1024)
-	ppz_order_id = models.CharField(max_length = 1024,null=True,blank=True)	#paypayzhu平台的订单号
 
 class Order(models.Model):
 	user_name = models.CharField(max_length = 1024)	#对应用户表<用户名>字段
