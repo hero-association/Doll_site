@@ -66,11 +66,11 @@
               <form id='pay_form'>
                 {% endif %}
                 <input id='api_user' name='api_user' type='hidden' value='{{ api_user }}' />
-                <input id='price' name='price' type='hidden' value='{{ month_price }}' />
+                <input id='price_month' name='price' type='hidden' value='{{ month_price }}' />
                 <input id='type' name='type' type='hidden' value='{{ pay_type }}' />
                 <input id='redirect' name='redirect' type='hidden' value='{{ month_redirect }}' />
-                <input id='order_id' name='order_id' type='hidden' value='{{ order_id }}' />
-                <input id='order_info' name='order_info' type='hidden' value='{{ user }}' />
+                <input id='order_id_month' name='order_id' type='hidden' value='{{ order_id_month }}' />
+                <input id='order_info_month' name='order_info' type='hidden' value='{{ user }}' />
                 <input id='notify_url' name='notify_url' type='hidden' value='{{ notify_url }}' />
                 <input id='signature' name='signature' type='hidden' value='{{ month_signature }}' />
                 <input id='order_type' name='order_type' type='hidden' value='member' />
@@ -79,7 +79,7 @@
                 <input id='user_name' name='user_name' type='hidden' value='{{ user_display }}' />
                 {% if user.is_authenticated %}
                 <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit'
-                  onclick="create_order()">
+                  onclick="create_order_month()">
                 {% else %}
                 <input class="btn btn-block btn-outline-primary" id='btn_pay' value='立即购买' type='submit'
                   onclick="window.open('/accounts/signup/?next={{ current_url }}')">
@@ -230,6 +230,24 @@
         order_status: "pending",
         order_type: $("#order_type").val(),
         price: $("#price").val(),
+      });
+      gtag('event', 'create_order', {
+        'send_to': 'UA-127776067-1',
+        'event_category': 'item',
+        'event_label': 'week_member'
+      });
+    }
+  </script>
+
+  <script type='text/javascript'>
+    function create_order_month() {
+      $.post("/create_order", {
+        user_name: $('#user_name').val(),
+        order_id: $("#order_id_month").val(),
+        order_info: $("#order_info_month").val(),
+        order_status: "pending",
+        order_type: $("#order_type").val(),
+        price: $("#price_month").val(),
       });
       gtag('event', 'create_order', {
         'send_to': 'UA-127776067-1',
