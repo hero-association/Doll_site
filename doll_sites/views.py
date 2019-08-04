@@ -834,8 +834,12 @@ def profile(request):
 	try:
 		user_profile_object = UserProfile.objects.get(user=user)
 		user_vip_status = user_profile_object.member_type
+		invited_member = user_profile_object.invited_member
+		count_coin = user_profile_object.count_coin
 	except:
 		user_vip_status = False
+		invited_member = 0
+		count_coin = 0
 	if user_vip_status == True:
 		try:
 			user_profile = UserProfile.objects.get(user=user)
@@ -846,6 +850,7 @@ def profile(request):
 		member_expire = []
 	'''邀请码'''
 	invite_code = get_invite_code(user.id)
+
 	'''SEO'''
 	title = '会员中心-小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
 	keywords = '萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱'
@@ -859,6 +864,8 @@ def profile(request):
 		'user_paid_albums':user_paid_albums,
 		'member_expire':member_expire,
 		'invite_code':invite_code,
+		'invited_member':invited_member,
+		'count_coin':count_coin,
 	}
 	return render(
 		request,

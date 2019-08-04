@@ -30,6 +30,19 @@
             <a href="{% url 'account_email' %}">前往设置</a>
             {% endif %}
           </div>
+        </div>
+
+        <!-- 邀请统计 -->
+        <h4 class="card-header h4 ">推广统计</h4>
+        <div class="card-body">
+          <div class="mb-3">
+            <i class="fas fa-user mr-1"></i>
+            邀请人数: {{ invited_member }}
+          </div>
+          <div class="mb-3">
+            <i class="fas fa-envelope mr-1"></i>
+            累计积分: {{ count_coin }}
+          </div>
           <!-- 邀请码 -->
           <div class="mb-3">
             <i class="fas fa-user mr-1"></i>
