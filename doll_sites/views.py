@@ -863,7 +863,7 @@ def member(request):
 	random_id_2 = str(random.randint(1000000,9999999))
 	random_id_3 = str(random.randint(1000000,9999999))
 	order_id = str(pay_type)+str(nowtime)+random_id
-	order_id_week = str(pay_type)+str(nowtime)+random_id_1
+	order_id_month = str(pay_type)+str(nowtime)+random_id_1
 	order_id_season = str(pay_type)+str(nowtime)+random_id_2
 	order_id_year = str(pay_type)+str(nowtime)+random_id_3
 	notify_url = 'http://www.alolita.com/payment_response'
@@ -889,8 +889,8 @@ def member(request):
 	# year_signature = make_signature(year_price.config_value,pay_type,redirect,order_id_year,year_order_info,notify_url)
 	
 	#签名构造
-	week_signature = make_signature(week_price,pay_type,week_redirect,order_id_week,user,notify_url)
-	month_signature = make_signature(month_price,pay_type,month_redirect,order_id,user,notify_url)
+	week_signature = make_signature(week_price,pay_type,week_redirect,order_id,user,notify_url)
+	month_signature = make_signature(month_price,pay_type,month_redirect,order_id_month,user,notify_url)
 	season_signature = make_signature(season_price,pay_type,season_redirect,order_id_season,user,notify_url)
 	year_signature = make_signature(year_price,pay_type,year_redirect,order_id_year,user,notify_url)
 
@@ -915,6 +915,7 @@ def member(request):
 		'user_name':user_name,
 		'pay_type':pay_type,
 		'order_id':order_id,
+		'order_id_month':order_id_month,
 		'order_id_season':order_id_season,
 		'order_id_year':order_id_year,
 		'notify_url':notify_url,
