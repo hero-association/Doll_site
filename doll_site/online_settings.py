@@ -99,11 +99,11 @@ AUTHENTICATION_BACKENDS = (
 # 邮箱设定
 EMAIL_HOST = 'smtp.webfaction.com'
 EMAIL_PORT = 25
-EMAIL_HOST_USER = 'service_lolizhan'
+EMAIL_HOST_USER = 'admin_lolizhan'
 EMAIL_HOST_PASSWORD = 'Fuck.ch1na'
 EMAIL_USE_TLS = True
-EMAIL_FROM = 'service@alolita.net'
-DEFAULT_FROM_EMAIL = 'service@alolita.net'
+EMAIL_FROM = 'admin@alolita.net'
+DEFAULT_FROM_EMAIL = 'admin@alolita.net'
 
 #跨域增加忽略
 CORS_ALLOW_CREDENTIALS = True
