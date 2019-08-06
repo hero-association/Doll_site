@@ -48,9 +48,8 @@
             <i class="fas fa-link"></i>
             专属邀请码: 
             <span id="invite-code"> {{ invite_code }}</span>
-            <button class="btn btn-primary" data-clipboard-action="copy" data-clipboard-target="#invite-code">
-                Copy to clipboard
-            </button>
+            <button class="btn btn-primary btn-sm btn-copy" data-clipboard-action="copy" data-clipboard-target="#invite-code">
+              点击复制</button>
           </div>
         </div>
 
@@ -98,30 +97,45 @@
 
   <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
   <script src="/static/js/jquery-3.3.min.js"></script>
-
-  <script src="/static/js/bootstrap.min.js"></script>
   <script src="/static/js/popper.min.js"></script>
-
-  <script src="/static/js/jquery.min.js"></script>
-  <script src="/static/js/jquery.lazyload.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
   <script src="/static/js/clipboard.min.js"></script>
+  <script src="/static/js/jquery.lazyload.js"></script>
   <script src="/static/js/main.js"></script>
 
-    <script>
-    var clipboard = new ClipboardJS('.btn');
+  <script>
+ // Tooltip
 
-            clipboard.on('success', function(e) {
-                console.info('Action:', e.action);
-                console.info('Text:', e.text);
-                console.info('Trigger:', e.trigger);
-            
-                e.clearSelection();
-            });
-            
-            clipboard.on('error', function(e) {
-                console.error('Action:', e.action);
-                console.error('Trigger:', e.trigger);
-            });
+$('.btn-copy').tooltip({
+  trigger: 'click',
+  placement: 'bottom'
+});
+
+function setTooltip(message) {
+  $('.btn-copy').tooltip('hide')
+    .attr('data-original-title', message)
+    .tooltip('show');
+}
+
+function hideTooltip() {
+  setTimeout(function() {
+    $('.btn-copy').tooltip('hide');
+  }, 1000);
+}
+
+// Clipboard
+
+var clipboard = new ClipboardJS('.btn-copy');
+
+clipboard.on('success', function(e) {
+  setTooltip('复制成功!');
+  hideTooltip();
+});
+
+clipboard.on('error', function(e) {
+  setTooltip('复制失败!');
+  hideTooltip();
+});
     </script>
 </body>
 
