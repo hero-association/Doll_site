@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html class="h-100">
+
+{% include 'doll_sites/head.html' %}
+
+<body class="d-flex flex-column h-100">
+  <!-- Header & Navigation -->
+  {% include 'doll_sites/navi.html' %}
+
+  <div class="container text-center">
+    <div class="row mt-5">
+      <div class="col">
+        <div class="text-center font-weight-bold" style="font-size: 28px;">
+          <a class="nav-link d-inline text-dark" href="/">
+            <img width="40" class="d-inline-block align-center pb-2 mr-1" src="/static/image/logo-border.png" alt="" />
+            邀请码说明</a>
+      </div>
+    </div>
+  </div>
+
+
+
+  {% include 'doll_sites/footer.html' %}
+
+  <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+  <script src="/static/js/jquery-3.3.min.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script src="/static/js/popper.min.js"></script>
+
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/jquery.lazyload.js"></script>
+  <script src="/static/js/main.js"></script>
+  <script>
+    $(document).ready(function () {
+      $(".nav-tabs a").click(function () {
+        $(this).tab('show');
+      });
+    });
+  </script>
+</body>
+
+</html>
