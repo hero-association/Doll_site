@@ -38,7 +38,7 @@
           <div class="tab-pane fade show active" id="nav-AliPay" role="tabpanel" aria-labelledby="nav-AliPay-tab">
           </div>
           <div class="tab-pane fade" id="nav-WeChatPay" role="tabpanel" aria-labelledby="nav-WeChatPay-tab">
-            微信平台调整，暂时不可用
+            <!-- 微信平台调整，暂时不可用 -->
           </div>
         </div>
       </div>
@@ -138,23 +138,23 @@
     })();
 
     //请求微信支付
-    // (function () {
-    //   var wxCode = '{{ wx_code }}';
-    //   console.log(wxCode);
-    //   if (wxCode === '200') {
-    //     var qrCodeImageWx = document.createElement('img');
-    //     qrCodeImageWx.setAttribute('src', "{{wx_qrcode}}");
-    //     document.getElementById('nav-WeChatPay').appendChild(qrCodeImageWx);
-    //   } else {
-    //     var codeWx = document.createElement('p');
-    //     var messageWx = document.createElement('p');
-    //     messageWx.innerText = '订单发生错误,请联系客服';
-    //     codeWx.innerText = '错误码： ' + '{{ wx_code }}';
-    //     document.getElementById('nav-WeChatPay').appendChild(messageWx);
-    //     document.getElementById('nav-WeChatPay').appendChild(codeWx);
+    (function () {
+      var wxCode = '{{ wx_code }}';
+      console.log(wxCode);
+      if (wxCode === '200') {
+        var qrCodeImageWx = document.createElement('img');
+        qrCodeImageWx.setAttribute('src', "{{wx_qrcode}}");
+        document.getElementById('nav-WeChatPay').appendChild(qrCodeImageWx);
+      } else {
+        var codeWx = document.createElement('p');
+        var messageWx = document.createElement('p');
+        messageWx.innerText = '订单发生错误,请联系客服';
+        codeWx.innerText = '错误码： ' + '{{ wx_code }}';
+        document.getElementById('nav-WeChatPay').appendChild(messageWx);
+        document.getElementById('nav-WeChatPay').appendChild(codeWx);
 
-    //   }
-    // })();
+      }
+    })();
 
 
     //倒计时
