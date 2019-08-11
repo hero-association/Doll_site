@@ -547,12 +547,16 @@ def payment_response(request):
 			'''重要的时间判断，根据价格判断需要增加的会员天数，一定要随定价改变'''
 			if current_order_object.order_price == '19':
 				days_add = 7
+				first_add = 4
 			elif current_order_object.order_price == '59':
 				days_add = 30
+				first_add = 8
 			elif current_order_object.order_price == '149':
 				days_add = 90
+				first_add = 16
 			elif current_order_object.order_price == '459':
 				days_add = 365
+				first_add = 32
 			'''如果是首充，则先处理邀请人，获得时间再翻倍'''
 			try:	#有资料的情况
 				user_profile_object = UserProfile.objects.get(user=user_id)
@@ -566,9 +570,9 @@ def payment_response(request):
 
 			if fisrt_pay == True:
 				'''处理邀请人'''
-				sponsor_add = days_add
-				'''首充时间翻倍'''
-				days_add = days_add * 2
+				sponsor_add = first_add
+				'''首充时间增加'''
+				days_add += first_add
 				if user_profile.sponsor != 0:
 					try:	#有资料的情况
 						sponsor_profile_object = UserProfile.objects.get(user=sponsor)
@@ -947,6 +951,14 @@ def about(request):
 def member(request):
 	'''会员页面'''
 	user = request.user
+	if user.is_authenticated:
+		try:
+			user_profile_object = UserProfile.objects.get(user=user)
+			fisrt_pay = user_profile_object.fisrt_pay
+		except:
+			fisrt_pay = False
+	else:
+		fisrt_pay = False
 	current_url = request.get_full_path()
 	redirect_url = request.GET.get('redirect_url')
 	if redirect_url == None:
@@ -960,7 +972,7 @@ def member(request):
 
 	intro_text = MemberConfig.objects.get(config_name='intro_text')
 
-	#定价ABTest
+	#定价列表
 	week_price = 19
 	month_price = 59
 	season_price = 149
@@ -1041,6 +1053,7 @@ def member(request):
 		'year_signature':year_signature,
 		'current_url':current_url,
 		'nbar':'member',	#导航标志
+		'fisrt_pay':fisrt_pay, #是否首充过
 	}
 	return render(
 		request,

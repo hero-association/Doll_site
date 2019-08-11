@@ -25,8 +25,10 @@
           <div class="card-body">
             <h5 class="mb-4">¥{{ week_price }}/周
             </h5>
+            {% if fisrt_pay == False %}
             <p style="margin-top: -10px">首充赠送
               <span class="text-primary">4天</span> 会员</p>
+            {% endif %}
             {% if user.is_authenticated %}
             <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
               {% else %}
@@ -62,8 +64,10 @@
             <h5 class="mb-4">¥{{ month_price }}/月
               <span class="text-muted price-discounted"> ￥76</span>
             </h5>
+            {% if fisrt_pay == False %}
             <p style="margin-top: -10px">首充赠送
-                <span class="text-primary">8天</span> 会员</p>
+              <span class="text-primary">8天</span> 会员</p>
+            {% endif %}
             {% if user.is_authenticated %}
             <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
               {% else %}
@@ -100,8 +104,10 @@
             <h5 class="mb-4">¥{{ season_price }}/ 季
               <span class="text-muted price-discounted"> ￥228</span>
             </h5>
+            {% if fisrt_pay == False %}
             <p style="margin-top: -10px">首充赠送
-                <span class="text-primary">4天</span> 会员</p>
+              <span class="text-primary">16天</span> 会员</p>
+            {% endif %}
             {% if user.is_authenticated %}
             <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
               {% else %}
@@ -137,8 +143,10 @@
             <h5 class="mb-4">¥{{ year_price }}/年
               <span class="text-muted price-discounted"> ￥912</span>
             </h5>
+            {% if fisrt_pay == False %}
             <p style="margin-top: -10px">首充赠送
-                <span class="text-primary">4天</span> 会员</p>
+              <span class="text-primary">32天</span> 会员</p>
+            {% endif %}
             {% if user.is_authenticated %}
             <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
               {% else %}
