@@ -14,10 +14,114 @@
           <a class="nav-link d-inline text-dark" href="/">
             <img width="40" class="d-inline-block align-center pb-2 mr-1" src="/static/image/logo-border.png" alt="" />
             邀请码说明</a>
+        </div>
+        <div class="text-left">
+          <p>邀请说明文案...</p>
+          <!-- 首充福利 -->
+          <table class="table table-bordered table-striped col-10 mx-auto">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">周会员</th>
+                <th scope="col">月会员</th>
+                <th scope="col">季会员</th>
+                <th scope="col">年会员</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row" class="px-0">首充赠送/天</th>
+                <td>4</td>
+                <td>8</td>
+                <td>16</td>
+                <td>32</td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- 邀请等级 -->
+          <table class="table table-bordered table-striped col-10 mx-auto">
+            <thead>
+              <tr>
+                <th scope="col">等级</th>
+                <th scope="col">邀请人数</th>
+                <th scope="col">周会员加成</th>
+                <th scope="col">月会员加成</th>
+                <th scope="col">季会员加成</th>
+                <th scope="col">年会员加成</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row" class="px-0">1</th>
+                <td>1</td>
+                <td>1</td>
+                <td>2</td>
+                <td>4</td>
+                <td>8</td>
+              </tr>
+              <tr>
+                <th scope="row" class="px-0">2</th>
+                <td>3</td>
+                <td>2</td>
+                <td>4</td>
+                <td>8</td>
+                <td>16</td>
+              </tr>
+              <tr>
+                <th scope="row" class="px-0">3</th>
+                <td>5</td>
+                <td>3</td>
+                <td>6</td>
+                <td>12</td>
+                <td>24</td>
+              </tr>
+              <tr>
+                <th scope="row" class="px-0">4</th>
+                <td>7</td>
+                <td>4</td>
+                <td>8</td>
+                <td>16</td>
+                <td>32</td>
+              </tr>
+              <tr>
+                <th scope="row" class="px-0">5</th>
+                <td>9</td>
+                <td>5</td>
+                <td>10</td>
+                <td>20</td>
+                <td>40</td>
+              </tr>
+              <tr>
+                <th scope="row" class="px-0">6</th>
+                <td>11</td>
+                <td>6</td>
+                <td>12</td>
+                <td>24</td>
+                <td>48</td>
+              </tr>
+              <tr>
+                <th scope="row" class="px-0">7</th>
+                <td>13</td>
+                <td>7</td>
+                <td>16</td>
+                <td>28</td>
+                <td>56</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- 邀请链接 -->
+        <div class="m-5">
+          <h3>发邀请得福利</h3>
+          <p class="m-3" id="invite-info_code">【送福利】注册小熊社 bearbear.info ，首充赠送长达32天会员时长，邀请码
+            <span>823749</span></p>
+          <button class="btn btn-primary btn-copy" data-clipboard-action="copy"
+            data-clipboard-target="#invite-info_code">
+            点击复制</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 
 
@@ -25,17 +129,51 @@
 
   <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
   <script src="/static/js/jquery-3.3.min.js"></script>
-  <script src="/static/js/bootstrap.min.js"></script>
   <script src="/static/js/popper.min.js"></script>
-
-  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script src="/static/js/clipboard.min.js"></script>
   <script src="/static/js/jquery.lazyload.js"></script>
   <script src="/static/js/main.js"></script>
+
   <script>
     $(document).ready(function () {
       $(".nav-tabs a").click(function () {
         $(this).tab('show');
       });
+    });
+  </script>
+  <script>
+    // Tooltip
+
+    $('.btn-copy').tooltip({
+      trigger: 'click',
+      placement: 'bottom'
+    });
+
+    function setTooltip(message) {
+      $('.btn-copy').tooltip('hide')
+        .attr('data-original-title', message)
+        .tooltip('show');
+    }
+
+    function hideTooltip() {
+      setTimeout(function () {
+        $('.btn-copy').tooltip('hide');
+      }, 1000);
+    }
+
+    // Clipboard
+
+    var clipboard = new ClipboardJS('.btn-copy');
+
+    clipboard.on('success', function (e) {
+      setTooltip('复制成功!');
+      hideTooltip();
+    });
+
+    clipboard.on('error', function (e) {
+      setTooltip('复制失败!');
+      hideTooltip();
     });
   </script>
 </body>
