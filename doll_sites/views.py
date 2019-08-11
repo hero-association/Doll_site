@@ -548,6 +548,19 @@ def payment_response(request):
 		real_price = request.POST.get('real_price')
 		ppz_order_info = request.POST.get('order_info')
 		try:
+			Order.objects.get(order_id=order_id)
+		except:
+			order_price = round(float(real_price),0)
+			order_price = str(int(order_price))
+			models.Order.objects.create(
+				user_name=ppz_order_info,
+				order_id=order_id,
+				order_info=ppz_order_info,
+				order_status='pending',
+				order_type='member',
+				order_price=order_price,
+	        )
+		try:
 			current_order = Order.objects.filter(order_id=order_id)
 			current_order_object = Order.objects.get(order_id=order_id)
 			current_order.update(order_status='Paid')
