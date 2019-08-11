@@ -44,7 +44,7 @@
         {% load account %}
         <div class="form-group">
 
-        <input id="username" class="form-control" type="text" name="username" value={{ user.id }}>
+        <input id="username" class="form-control" type="hidden" name="username" value={{ user.id }}>
         <input id="invite_code" class="form-control" type="text" name="invite_code" maxlength="8" value="">  
 
         <label>填写正确，可获得会员时长赠送</label>

@@ -591,6 +591,7 @@ def payment_response(request):
 				invite_level_bonus = 8
 			'''如果是首充，则先处理邀请人，再处理邀请等级加成'''
 			try:	#有资料的情况
+				user_id = User.objects.get(username=user_name)
 				user_profile_object = UserProfile.objects.get(user=user_id)
 				user_profile = UserProfile.objects.get(user=user_id)
 				if user_profile.fisrt_pay == False:
@@ -635,23 +636,25 @@ def payment_response(request):
 			'''首充时间增加'''
 			if fisrt_pay == True:
 				days_add += first_add
-
 			'''处理会员'''
 			if current_order_object.order_type == 'member':	
 				user_id = User.objects.get(username=user_name)
 				user_profile = UserProfile.objects.filter(user=user_id)
 				try:	#有资料的情况
 					user_profile_object = UserProfile.objects.get(user=user_id)
+					user_profile = UserProfile.objects.get(user=user_id)
 					'''处理邀请等级加成'''
 					if user_profile_object.invited_member > 0:
 						invited_member = user_profile_object.invited_member
+						if invited_member > 13:
+							invited_member = 13
 						bonus = math.ceil(invited_member/2)*invite_level_bonus
 						days_add += bonus
 					if user_profile_object.member_type == False:	#不是会员的情况
-						user_profile_object.update(member_type=True)
+						user_profile.update(member_type=True)
 						last_day = datetime.date.today()
 						new_expire_time = last_day + datetime.timedelta(days=days_add)
-						user_profile_object.update(member_expire=new_expire_time)
+						user_profile.update(member_expire=new_expire_time,fisrt_pay=True)
 						return HttpResponse('Member Paid!')
 					else:	#是会员的情况
 						nowdate = datetime.date.today().strftime('%Y%m%d')
@@ -662,17 +665,15 @@ def payment_response(request):
 							last_day = user_profile.member_expire
 							user_profile = UserProfile.objects.filter(user=user_id)
 							new_expire_time = last_day + datetime.timedelta(days=days_add)
-							user_profile_object.update(member_expire=new_expire_time)
+							user_profile.update(member_expire=new_expire_time,fisrt_pay=True)
 							return HttpResponse('Member Paid!')
 						else:
 							'''会员已过期'''
 							last_day = datetime.date.today()
 							user_profile = UserProfile.objects.filter(user=user_id)
 							new_expire_time = last_day + datetime.timedelta(days=days_add)
-							user_profile_object.update(member_expire=new_expire_time)
+							user_profile.update(member_expire=new_expire_time,fisrt_pay=True)
 							return HttpResponse('Member Paid!')
-					'''标记首充'''
-					user_profile_object.update(fisrt_pay=True)
 				except:	#没有资料的情况
 					last_day = datetime.date.today()
 					new_expire_time = last_day + datetime.timedelta(days=days_add)
@@ -695,8 +696,6 @@ def payment_response(request):
 						order_type=order_type,
 					)
 					return HttpResponse('Paid!')
-		# except Exception as e:
-		# 	return HttpResponse(e)
 		# except:
 		# 	'''发邮件归档'''
 		# 	message = 'Info:' + str(ppz_order_info) + ' Order_id:' + str(order_id) + ' real_price:' + str(real_price) + ' ppz_order_id:' + str(ppz_order_id)
