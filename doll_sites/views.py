@@ -24,6 +24,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.http import HttpResponseRedirect
 import markdown
+import math
 
 def get_index_recommend(series_id):
 	series_hot = Photo.objects.filter(series=series_id).order_by('-temperature')[:20]
@@ -931,7 +932,10 @@ def profile(request):
 		member_expire = []
 	'''邀请码'''
 	invite_code = get_invite_code(user.id)
-
+	if invited_member != 0:
+		invite_level = math.ceil(invited_member/2)
+	else:
+		invite_level = False
 	'''SEO'''
 	title = '会员中心-小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
 	keywords = '萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱'
@@ -947,6 +951,7 @@ def profile(request):
 		'invite_code':invite_code,
 		'invited_member':invited_member,
 		'count_coin':count_coin,
+		'invite_level':invite_level,
 	}
 	return render(
 		request,
