@@ -19,16 +19,19 @@
     </div>
     <!-- 会员卡片 -->
     <div class="d-md-flex mt-5 justify-content-center">
-
+<!-- 周会员 -->
       <div class="price-container mr-md-4">
         <div class="card card-shadow p-3">
-          <div class="card-body">
+          <div class="card-body px-2">
             <h5 class="mb-4">¥{{ week_price }}/周
             </h5>
             {% if fisrt_pay == False %}
             <p style="margin-top: -10px">首充赠送
               <span class="text-primary">4天</span> 会员</p>
             {% endif %}
+            <p style="margin-top: -10px; font-size: 20px;">+</p>
+            <p style="margin-top: -10px">积分赠送
+              <span class="text-primary">32天</span> 会员</p>
             {% if user.is_authenticated %}
             <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
               {% else %}
@@ -58,9 +61,10 @@
         </div>
         <h5><span class="price-badge badge badge-pill badge-primary">热门</span></h5>
       </div>
+<!-- 月会员 -->
       <div class="price-container mr-md-4">
         <div class="card card-shadow p-3">
-          <div class="card-body">
+          <div class="card-body px-2">
             <h5 class="mb-4">¥{{ month_price }}/月
               <span class="text-muted price-discounted"> ￥76</span>
             </h5>
@@ -68,6 +72,9 @@
             <p style="margin-top: -10px">首充赠送
               <span class="text-primary">8天</span> 会员</p>
             {% endif %}
+            <p style="margin-top: -10px; font-size: 20px;">+</p>
+            <p style="margin-top: -10px">积分赠送
+              <span class="text-primary">32天</span> 会员</p>
             {% if user.is_authenticated %}
             <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
               {% else %}
@@ -97,10 +104,10 @@
         </div>
         <h5><span class="price-badge badge badge-pill badge-primary">7.7折</span></h5>
       </div>
-
+<!-- 季度会员 -->
       <div class="price-container mr-md-4">
         <div class="card card-shadow p-3">
-          <div class="card-body">
+          <div class="card-body px-2">
             <h5 class="mb-4">¥{{ season_price }}/ 季
               <span class="text-muted price-discounted"> ￥228</span>
             </h5>
@@ -108,6 +115,9 @@
             <p style="margin-top: -10px">首充赠送
               <span class="text-primary">16天</span> 会员</p>
             {% endif %}
+            <p style="margin-top: -10px; font-size: 20px;">+</p>
+            <p style="margin-top: -10px">积分赠送
+              <span class="text-primary">32天</span> 会员</p>
             {% if user.is_authenticated %}
             <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
               {% else %}
@@ -137,9 +147,10 @@
         </div>
         <h5><span class="price-badge badge badge-pill badge-primary">6.1折</span></h5>
       </div>
+<!-- 年会员 -->
       <div class="price-container">
         <div class="card card-shadow p-3">
-          <div class="card-body">
+          <div class="card-body px-2">
             <h5 class="mb-4">¥{{ year_price }}/年
               <span class="text-muted price-discounted"> ￥912</span>
             </h5>
@@ -147,6 +158,9 @@
             <p style="margin-top: -10px">首充赠送
               <span class="text-primary">32天</span> 会员</p>
             {% endif %}
+            <p style="margin-top: -10px; font-size: 20px;">+</p>
+            <p style="margin-top: -10px">积分赠送
+              <span class="text-primary">32天</span> 会员</p>
             {% if user.is_authenticated %}
             <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
               {% else %}
@@ -181,7 +195,7 @@
     </div>
 
 
-
+<!-- 手机充值提示 -->
 
     <div class="text-center my-5 mx-auto">
       <p>{{ intro_text.config_value }}</p>
@@ -228,7 +242,7 @@
     </div>
   </div>
 
-
+<!-- Footer -->
   {% include 'doll_sites/footer.html' %}
 
   <script type='text/javascript'>
