@@ -50,7 +50,9 @@
             <span id="invite-code"> {{ invite_code }}</span>
             <button class="btn btn-primary btn-sm btn-copy" data-clipboard-action="copy" data-clipboard-target="#invite-code">
               点击复制</button>
+              <a class="ml-4" href='/invite_code_info/'>邀请码说明</a>
           </div>
+
         </div>
 
         {% if user.is_authenticated %}
