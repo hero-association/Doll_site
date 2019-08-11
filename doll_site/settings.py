@@ -89,7 +89,7 @@ AUTHENTICATION_BACKENDS = (
 # 邮箱设定
 EMAIL_HOST = 'smtp.webfaction.com'
 EMAIL_PORT = 25
-EMAIL_HOST_USER = 'service_lolizhan'
+EMAIL_HOST_USER = 'admin_lolizhan'
 EMAIL_HOST_PASSWORD = 'Fuck.ch1na'
 EMAIL_USE_TLS = True
 EMAIL_FROM = 'service@alolita.net'
