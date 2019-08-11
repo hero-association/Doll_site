@@ -70,6 +70,7 @@ urlpatterns = [
     path('accounts/profile', views.profile, name='profile'),
     path('member/', views.member, name='member'),
     path('invite_code/', views.invite_code, name='invite_code'),
+    path('invite_code_info/', views.invite_code_info, name='invite_code_info'),
     path('payment_center/', views.payment_center, name='payment_center'),
     path('global_noti/', views.global_noti, name='global_noti'),
     url(r'mdeditor/', include('mdeditor.urls')),

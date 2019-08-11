@@ -93,6 +93,18 @@ def invite_code(request):
 		context
 	)
 
+def invite_code_info(request):
+	'''邀请码介绍页'''
+
+	context = {
+
+	}
+	return render(
+		request,
+		'doll_sites/invite_code_info.html',
+		context
+	)
+
 def index(request):
 	"""网站主页"""
 	num_pic = PhotoLink.objects.all().count()
