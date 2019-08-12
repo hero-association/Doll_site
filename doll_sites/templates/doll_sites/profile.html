@@ -39,9 +39,9 @@
             <i class="fas fa-user-friends"></i>
             邀请人数: {{ invited_member }}
           </div>
-          <div class="mb-3">
+          <div hidden class="mb-3" id="invite-level">
             <i class="fas fa-coins"></i>
-            邀请等级: {{ invite_level }}
+            邀请等级: V{{ invite_level }}
           </div>
           <!-- 邀请码 -->
           <div class="mb-3">
@@ -106,7 +106,21 @@
   <script src="/static/js/jquery.lazyload.js"></script>
   <script src="/static/js/main.js"></script>
 
+
+
   <script>
+//邀请等级显示
+const inviteLevel = '{{ invite_level }}';
+
+console.log(inviteLevel);
+
+$(document).ready(function(){
+  if(inviteLevel!=='False'){
+    $("#invite-level").removeAttr('hidden');
+  }
+});
+
+
  // Tooltip
 
 $('.btn-copy').tooltip({
