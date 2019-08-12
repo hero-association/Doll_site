@@ -96,6 +96,8 @@ def invite_code(request):
 		text = '您已绑定过邀请码'
 	elif status == 's':
 		text = '不能绑定自己'
+	else:
+		text = None
 
 	context = {
 		'status':status,
