@@ -124,14 +124,16 @@
           </table>
         </div>
         <!-- 邀请链接 -->
+        {% if user.is_authenticated %}
         <div class="m-5">
           <h3 class="mb-4">发邀请得福利</h3>
           <p id="invite-info_code">【送福利】注册小熊社 bearbear.info ，首充赠送长达32天会员时长，邀请码
-            <span>823749</span></p>
+            <span>{{ invite_code }}</span></p>
           <button class="btn btn-primary btn-copy" data-clipboard-action="copy"
             data-clipboard-target="#invite-info_code">
             复制发邀请</button>
         </div>
+        {% endif %}
       </div>
     </div>
   </div>
