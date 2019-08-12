@@ -63,9 +63,12 @@ def create_sponser(request):
 		sponser_id = decrypt_invite_code(invite_code)
 		'''验证是否已经绑定'''
 		current_sponser = UserProfile.objects.filter(user=user_id)
-		current_sponser = current_sponser[0].sponsor
-		if current_sponser:
-			return HttpResponseRedirect('/invite_code/?status=r&code=')
+		try:
+			current_sponser = current_sponser[0].sponsor
+			if current_sponser:
+				return HttpResponseRedirect('/invite_code/?status=r&code=')
+		except:
+			pass
 		'''验证邀请码是否有效'''
 		try:
 			sponsor = User.objects.get(id=sponser_id)
