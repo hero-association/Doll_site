@@ -29,9 +29,11 @@
             <p style="margin-top: -10px">首充赠送
               <span class="text-primary">4天</span> 会员</p>
             {% endif %}
+            {% if invited_member %}
             <p style="margin-top: -10px; font-size: 20px;">+</p>
             <p style="margin-top: -10px">等级赠送
-              <span class="text-primary">32天</span> 会员</p>
+              <span class="text-primary">{{ week_bonus }}天</span> 会员</p>
+            {% endif %}
             {% if user.is_authenticated %}
             <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
               {% else %}
@@ -72,9 +74,11 @@
             <p style="margin-top: -10px">首充赠送
               <span class="text-primary">8天</span> 会员</p>
             {% endif %}
+            {% if invited_member %}
             <p style="margin-top: -10px; font-size: 20px;">+</p>
             <p style="margin-top: -10px">等级赠送
-              <span class="text-primary">32天</span> 会员</p>
+              <span class="text-primary">{{ month_bonus }}天</span> 会员</p>
+            {% endif %}
             {% if user.is_authenticated %}
             <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
               {% else %}
@@ -115,9 +119,11 @@
             <p style="margin-top: -10px">首充赠送
               <span class="text-primary">16天</span> 会员</p>
             {% endif %}
+            {% if invited_member %}
             <p style="margin-top: -10px; font-size: 20px;">+</p>
             <p style="margin-top: -10px">等级赠送
-              <span class="text-primary">32天</span> 会员</p>
+              <span class="text-primary">{{ season_bonus }}天</span> 会员</p>
+            {% endif %}
             {% if user.is_authenticated %}
             <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
               {% else %}
@@ -158,9 +164,11 @@
             <p style="margin-top: -10px">首充赠送
               <span class="text-primary">32天</span> 会员</p>
             {% endif %}
+            {% if invited_member %}
             <p style="margin-top: -10px; font-size: 20px;">+</p>
             <p style="margin-top: -10px">等级赠送
-              <span class="text-primary">32天</span> 会员</p>
+              <span class="text-primary">{{ year_bonus }}天</span> 会员</p>
+            {% endif %}
             {% if user.is_authenticated %}
             <form id='pay_form' method='get' action='/payment_center' onsubmit="return payVal()">
               {% else %}

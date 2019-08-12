@@ -618,7 +618,7 @@ def payment_response(request):
 					'''处理邀请人'''
 					sponsor_add = first_add
 					if user_profile.sponsor != 0:
-						try:	#有资料的情况
+						try:	#邀请人有资料的情况
 							sponsor_profile_object = UserProfile.objects.get(user=sponsor)
 							sponsor_profile = UserProfile.objects.get(user=sponsor)
 							if sponsor_profile_object.member_type == False:	#不是会员的情况
@@ -648,6 +648,8 @@ def payment_response(request):
 								member_type=True,
 								member_expire=new_expire_time,
 					        )
+					else:
+						fisrt_pay = False
 				else:
 					fisrt_pay = False
 			except:   #没有资料的情况，一定是首充,也一定没有邀请人
@@ -1013,11 +1015,17 @@ def member(request):
 	if user.is_authenticated:
 		try:
 			user_profile_object = UserProfile.objects.get(user=user)
-			fisrt_pay = user_profile_object.fisrt_pay
+			if user_profile_object.sponsor == 0:
+				fisrt_pay = True
+			else:
+				if user_profile_object.fisrt_pay == True:
+					fisrt_pay = True
+				else:
+					fisrt_pay = False
 		except:
-			fisrt_pay = False
+			fisrt_pay = True
 	else:
-		fisrt_pay = False
+		fisrt_pay = True
 	current_url = request.get_full_path()
 	redirect_url = request.GET.get('redirect_url')
 	if redirect_url == None:
@@ -1079,6 +1087,26 @@ def member(request):
 	season_signature = make_signature(season_price,pay_type,season_redirect,order_id_season,user,notify_url)
 	year_signature = make_signature(year_price,pay_type,year_redirect,order_id_year,user,notify_url)
 
+	#等级加成计算
+	invited_member = None
+	week_bonus = None
+	month_bonus = None
+	season_bonus = None
+	year_bonus = None
+	try:
+		user_profile_object = UserProfile.objects.get(user=user)
+		if user_profile_object.invited_member > 0:
+			invited_member = user_profile_object.invited_member
+			if invited_member > 13:
+				invited_member = 13
+			week_bonus = math.ceil(invited_member/2)*1
+			month_bonus = math.ceil(invited_member/2)*2
+			season_bonus = math.ceil(invited_member/2)*4
+			year_bonus = math.ceil(invited_member/2)*8
+	except:
+		invited_member = None
+
+
 	#SEO
 	title = '会员购买-小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
 	keywords = '萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱'
@@ -1113,6 +1141,11 @@ def member(request):
 		'current_url':current_url,
 		'nbar':'member',	#导航标志
 		'fisrt_pay':fisrt_pay, #是否首充过
+		'invited_member':invited_member,
+		'week_bonus':week_bonus,
+		'month_bonus':month_bonus,
+		'season_bonus':season_bonus,
+		'year_bonus':year_bonus,
 	}
 	return render(
 		request,
