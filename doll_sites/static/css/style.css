@@ -288,11 +288,11 @@
 }
 
 .invite-info_table th, .invite-info_table td {
-  padding: 0.5rem;
+  padding: 0.3rem;
+  font-size: 13px;
 }
-
-@media(max-width: 576px) {
-  .invite-info_table{
-    font-size: 13px;
+@media( min-width: 768px){
+  .invite-info_text {
+    margin-left: -13%; 
   }
 }

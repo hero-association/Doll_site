@@ -7,31 +7,28 @@
   <!-- Header & Navigation -->
   {% include 'doll_sites/navi.html' %}
 
-  <div class="container text-center">
+  <div class="container text-center ">
     <div class="row mt-5">
       <div class="col">
         <div class="text-center font-weight-bold" style="font-size: 28px;">
-          <a class="nav-link d-inline text-dark" href="/">
+          <a class="nav-link d-inline text-dark">
             <img width="40" class="d-inline-block align-center pb-2 mr-1" src="/static/image/logo-border.png" alt="" />
             邀请码说明</a>
         </div>
-        <div >
-          <p class="text-left">
- 
-            <h3 id="_1">为什么邀请？</h2>
-              <ul>
-              <li>因为美好的东西，应该提倡与人分享。  </li>
-              <li>双方都有奖励，帮助别人就是帮助自己。  </li>
-              </ul>
-            <h3 id="_2">邀请规则</h2>
-              <ul>
-              <li>用户注册并绑定您的邀请码，充值会员后，您的[邀请人数]+1  </li>
-              <li>新用户充值会员，邀请人和用户都获得首充奖励  </li>
-              <li>根据[邀请人数]，每次充值都可以获得一定的时长奖励，详情见下表</li>
-              </ul> 
-          邀请说明文案...</p>
+        <div>
+          <div class="text-left d-inline-block invite-info_text">
+            <h4 class="mt-4 mb-3">为什么邀请？</h4>
+            <p>1. 因为美好的东西，应该提倡与人分享。</p>
+            <p>2. 双方都有奖励，帮助别人就是帮助自己。</p>
+            <h4 class="mt-4 mb-3">邀请规则</h4>
+            <p>1. 用户注册并绑定您的邀请码，充值会员后，您的[邀请人数]+1 </p>
+            <p>2. 新用户充值会员，邀请人和用户都获得首充奖励 </p>
+            <p>3. 根据[邀请人数]，每次充值都可以获得一定的时长奖励，详情见下表</p>
+
+          </div>
+
           <!-- 首充福利 -->
-          <table class="invite-info_table table table-bordered table-striped col-md-10 mx-auto" >
+          <table class="invite-info_table table table-bordered table-striped col-md-8 mx-auto mt-3">
             <thead>
               <tr>
                 <th scope="col"></th>
@@ -52,7 +49,7 @@
             </tbody>
           </table>
           <!-- 邀请等级 -->
-          <table class="invite-info_table table table-bordered table-striped col-md-10 mx-auto">
+          <table class="invite-info_table table table-bordered table-striped col-md-8 mx-auto mt-4">
             <thead>
               <tr>
                 <th scope="col">等级</th>
@@ -124,7 +121,7 @@
           </table>
         </div>
         <!-- 邀请链接 -->
-        <div class="m-5">
+        <div class="my-5">
           <h3 class="mb-4">发邀请得福利</h3>
           <p id="invite-info_code">【送福利】注册小熊社 bearbear.info ，首充赠送长达32天会员时长，邀请码
             <span>823749</span></p>
