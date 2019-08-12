@@ -65,13 +65,12 @@ def create_sponser(request):
 		try:
 			sponsor = User.objects.get(id=sponser_id)
 		except:
-			return HttpResponse('邀请码填写错误' + sponser_id)
+			return HttpResponseRedirect('/invite_code/?status=w&code=' + str(invite_code))
 
 		if c_user.id == sponser_id:
 				return HttpResponse('不能绑定自己')
 		else:
 			"""记录邀请人"""
-
 			models.UserProfile.objects.create(
 				user=c_user,
 				sponsor=sponser_id,
@@ -83,10 +82,16 @@ def create_sponser(request):
 
 @login_required
 def invite_code(request):
-	'''邀请码绑定'''
-
+	'''邀请码绑定页'''
+	code = request.GET.get('code')
+	status = request.GET.get('status')
+	if status == 'w':
+		text = '邀请码填写错误'
+	else:
+		text = None
 	context = {
-
+		'code':code,
+		'text':text,
 	}
 	return render(
 		request,

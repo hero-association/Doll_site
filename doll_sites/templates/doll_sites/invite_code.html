@@ -45,9 +45,18 @@
         <div class="form-group">
 
         <input id="username" class="form-control" type="hidden" name="username" value={{ user.id }}>
-        <input id="invite_code" class="form-control" type="text" name="invite_code" maxlength="8" value="">  
+        {% if code %}
+        <input id="invite_code" class="form-control" type="text" name="invite_code" maxlength="8" value="{{ code }}">  
+        {% else %}
+        <input id="invite_code" class="form-control" type="text" name="invite_code" maxlength="8" value="">
+        {% endif %}
 
+        {% if code %}
+        <label><font color="red">{{ text }}</font></label>
+        {% else %}
         <label>填写正确，可获得会员时长赠送</label>
+        {% endif %}
+
 
         </div>
 
