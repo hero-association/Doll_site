@@ -51,7 +51,9 @@
         <input id="invite_code" class="form-control" type="text" name="invite_code" maxlength="8" value="">
         {% endif %}
 
-        {% if code %}
+        {% if status == 'w' %}
+        <label><font color="red">{{ text }}</font></label>
+        {% elif status == 'r' %}
         <label><font color="red">{{ text }}</font></label>
         {% else %}
         <label>填写正确，可获得会员时长赠送</label>
