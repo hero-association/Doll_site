@@ -115,9 +115,13 @@ def invite_code(request):
 
 def invite_code_info(request):
 	'''邀请码介绍页'''
-
+	try:
+		user = request.user
+		invite_code = get_invite_code(user.id)
+	except:
+		invite_code = ''
 	context = {
-
+		'invite_code':invite_code,
 	}
 	return render(
 		request,
