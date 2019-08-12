@@ -286,3 +286,13 @@
   font-size: 1rem;
   font-weight: 400;
 }
+
+.invite-info_table th, .invite-info_table td {
+  padding: 0.5rem;
+}
+
+@media(max-width: 576px) {
+  .invite-info_table{
+    font-size: 13px;
+  }
+}
