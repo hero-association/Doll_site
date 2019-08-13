@@ -22,7 +22,9 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
+from django.http import HttpResponseRedirect
 import markdown
+import math
 
 def get_index_recommend(series_id):
 	series_hot = Photo.objects.filter(series=series_id).order_by('-temperature')[:20]
@@ -40,6 +42,92 @@ def get_hot_search_actress():
 	random.shuffle(hot_actress_list)
 	hot_actress_list = hot_actress_list[:6]
 	return hot_actress_list
+
+def get_invite_code(user_id):
+	base_num = 1300000
+	origin_num = base_num + user_id
+	invite_code = str(hex(origin_num))[2:]
+	return invite_code
+
+def decrypt_invite_code(invite_code):
+	decrypt_num = int(invite_code,16)
+	user_id = decrypt_num - 1300000
+	return user_id
+
+def create_sponser(request):
+	if request.method == 'POST':
+		invite_code = request.POST.get('invite_code')
+		user_id = request.POST.get('username')
+
+		c_user = User.objects.get(id=user_id)
+		sponser_id = decrypt_invite_code(invite_code)
+		'''验证是否已经绑定'''
+		current_sponser = UserProfile.objects.filter(user=user_id)
+		try:
+			current_sponser = current_sponser[0].sponsor
+			if current_sponser:
+				return HttpResponseRedirect('/invite_code/?status=r&code=')
+		except:
+			pass
+		'''验证邀请码是否有效'''
+		try:
+			sponsor = User.objects.get(id=sponser_id)
+		except:
+			return HttpResponseRedirect('/invite_code/?status=w&code=' + str(invite_code))
+		'''验证邀请码是否为自己'''
+		if c_user.id == sponser_id:
+			return HttpResponseRedirect('/invite_code/?status=s&code=')
+		else:
+			"""记录邀请人"""
+			models.UserProfile.objects.create(
+				user=c_user,
+				sponsor=sponser_id,
+				    )
+			return HttpResponseRedirect('/accounts/profile/')
+
+	else:
+		return HttpResponse('It is not a POST request!!!')
+
+@login_required
+def invite_code(request):
+	'''邀请码绑定页'''
+	code = request.GET.get('code')
+	status = request.GET.get('status')
+	if status == 'w':
+		text = '邀请码填写错误'
+	elif status == 'r':
+		text = '您已绑定过邀请码'
+	elif status == 's':
+		text = '不能绑定自己'
+	else:
+		text = None
+
+	context = {
+		'status':status,
+		'code':code,
+		'text':text,
+	}
+	return render(
+		request,
+		'doll_sites/invite_code.html',
+		context
+	)
+
+def invite_code_info(request):
+	'''邀请码介绍页'''
+	try:
+		user = request.user
+		invite_code = get_invite_code(user.id)
+	except:
+		invite_code = ''
+	context = {
+		'invite_code':invite_code,
+	}
+	return render(
+		request,
+		'doll_sites/invite_code_info.html',
+		context
+	)
 
 def index(request):
 	"""网站主页"""
@@ -483,7 +571,22 @@ def payment_response(request):
 		ppz_order_id = request.POST.get('ppz_order_id')
 		real_price = request.POST.get('real_price')
 		ppz_order_info = request.POST.get('order_info')
+		'''处理不存在的订单号'''
 		try:
+			Order.objects.get(order_id=order_id)
+		except:
+			order_price = round(float(real_price),0)
+			order_price = str(int(order_price))
+			models.Order.objects.create(
+				user_name=ppz_order_info,
+				order_id=order_id,
+				order_info=ppz_order_info,
+				order_status='pending',
+				order_type='member',
+				order_price=order_price,
+	        )
+		# try:
+		if request.method == 'POST':
 			current_order = Order.objects.filter(order_id=order_id)
 			current_order_object = Order.objects.get(order_id=order_id)
 			current_order.update(order_status='Paid')
@@ -495,23 +598,88 @@ def payment_response(request):
 			'''重要的时间判断，根据价格判断需要增加的会员天数，一定要随定价改变'''
 			if current_order_object.order_price == '19':
 				days_add = 7
+				first_add = 4
+				invite_level_bonus = 1
 			elif current_order_object.order_price == '59':
 				days_add = 30
+				first_add = 8
+				invite_level_bonus = 2
 			elif current_order_object.order_price == '149':
 				days_add = 90
+				first_add = 16
+				invite_level_bonus = 4
 			elif current_order_object.order_price == '459':
 				days_add = 365
-			if current_order_object.order_type == 'member':	#处理会员
+				first_add = 32
+				invite_level_bonus = 8
+			'''如果是首充，则先处理邀请人，再处理邀请等级加成'''
+			try:	#有资料的情况
+				user_id = User.objects.get(username=user_name)
+				user_profile_object = UserProfile.objects.get(user=user_id)
+				user_profile = UserProfile.objects.get(user=user_id)
+				if user_profile.fisrt_pay == False:
+					fisrt_pay = True
+					'''处理邀请人'''
+					sponsor_add = first_add
+					if user_profile.sponsor != 0:
+						try:	#邀请人有资料的情况
+							sponsor_profile_object = UserProfile.objects.get(user=sponsor)
+							sponsor_profile = UserProfile.objects.get(user=sponsor)
+							if sponsor_profile_object.member_type == False:	#不是会员的情况
+								sponsor_profile.update(member_type=True)
+								last_day = datetime.date.today()
+								new_expire_time = last_day + datetime.timedelta(days=sponsor_add)
+								sponsor_profile.update(member_expire=new_expire_time)
+							else:	#是会员的情况
+								nowdate = datetime.date.today().strftime('%Y%m%d')
+								sponsor_vip_expiration = sponsor_profile_object.member_expire
+								sponsor_vip_expiration = sponsor_vip_expiration.strftime('%Y%m%d')
+								if int(sponsor_vip_expiration) - int(nowdate) >= 0:
+									'''会员未过期'''
+									last_day = sponsor_profile.member_expire
+									new_expire_time = last_day + datetime.timedelta(days=sponsor_add)
+									sponsor_profile.update(member_expire=new_expire_time)
+								else:
+									'''会员已过期'''
+									last_day = datetime.date.today()
+									new_expire_time = last_day + datetime.timedelta(days=sponsor_add)
+									sponsor_profile.update(member_expire=new_expire_time)
+						except:	#没有资料的情况
+							last_day = datetime.date.today()
+							new_expire_time = last_day + datetime.timedelta(days=sponsor_add)
+							models.UserProfile.objects.create(
+								user=sponsor,
+								member_type=True,
+								member_expire=new_expire_time,
+					        )
+					else:
+						fisrt_pay = False
+				else:
+					fisrt_pay = False
+			except:   #没有资料的情况，一定是首充,也一定没有邀请人
+				fisrt_pay = True
+			'''首充时间增加'''
+			if fisrt_pay == True:
+				days_add += first_add
+			'''处理会员'''
+			if current_order_object.order_type == 'member':	
 				user_id = User.objects.get(username=user_name)
 				user_profile = UserProfile.objects.filter(user=user_id)
 				try:	#有资料的情况
 					user_profile_object = UserProfile.objects.get(user=user_id)
 					user_profile = UserProfile.objects.get(user=user_id)
+					'''处理邀请等级加成'''
+					if user_profile_object.invited_member > 0:
+						invited_member = user_profile_object.invited_member
+						if invited_member > 13:
+							invited_member = 13
+						bonus = math.ceil(invited_member/2)*invite_level_bonus
+						days_add += bonus
 					if user_profile_object.member_type == False:	#不是会员的情况
 						user_profile.update(member_type=True)
 						last_day = datetime.date.today()
 						new_expire_time = last_day + datetime.timedelta(days=days_add)
-						user_profile.update(member_expire=new_expire_time)
+						user_profile.update(member_expire=new_expire_time,fisrt_pay=True)
 						return HttpResponse('Member Paid!')
 					else:	#是会员的情况
 						nowdate = datetime.date.today().strftime('%Y%m%d')
@@ -522,14 +690,14 @@ def payment_response(request):
 							last_day = user_profile.member_expire
 							user_profile = UserProfile.objects.filter(user=user_id)
 							new_expire_time = last_day + datetime.timedelta(days=days_add)
-							user_profile.update(member_expire=new_expire_time)
+							user_profile.update(member_expire=new_expire_time,fisrt_pay=True)
 							return HttpResponse('Member Paid!')
 						else:
 							'''会员已过期'''
 							last_day = datetime.date.today()
 							user_profile = UserProfile.objects.filter(user=user_id)
 							new_expire_time = last_day + datetime.timedelta(days=days_add)
-							user_profile.update(member_expire=new_expire_time)
+							user_profile.update(member_expire=new_expire_time,fisrt_pay=True)
 							return HttpResponse('Member Paid!')
 				except:	#没有资料的情况
 					last_day = datetime.date.today()
@@ -538,6 +706,7 @@ def payment_response(request):
 						user=user_id,
 						member_type=True,
 						member_expire=new_expire_time,
+						fisrt_pay=True,
 			        )
 					return HttpResponse('Member Paid!')
 			else:
@@ -552,11 +721,11 @@ def payment_response(request):
 						order_type=order_type,
 					)
 					return HttpResponse('Paid!')
-		except:
-			'''发邮件归档'''
-			message = 'Info:' + str(ppz_order_info) + ' Order_id:' + str(order_id) + ' real_price:' + str(real_price) + ' ppz_order_id:' + str(ppz_order_id)
-			send_mail('[Order Not Found]', message, settings.DEFAULT_FROM_EMAIL,['jason.pak.work@gmail.com'], fail_silently=False)
-			return HttpResponse('Not Exist!')
+		# except:
+		# 	'''发邮件归档'''
+		# 	message = 'Info:' + str(ppz_order_info) + ' Order_id:' + str(order_id) + ' real_price:' + str(real_price) + ' ppz_order_id:' + str(ppz_order_id)
+		# 	send_mail('[Order Not Found]', message, settings.DEFAULT_FROM_EMAIL,['jason.pak.work@gmail.com'], fail_silently=False)
+		# 	return HttpResponse('Not Exist!')
 	else:
 		return HttpResponse('It is not a POST request!!!')
 
@@ -782,8 +951,12 @@ def profile(request):
 	try:
 		user_profile_object = UserProfile.objects.get(user=user)
 		user_vip_status = user_profile_object.member_type
+		invited_member = user_profile_object.invited_member
+		count_coin = user_profile_object.count_coin
 	except:
 		user_vip_status = False
+		invited_member = 0
+		count_coin = 0
 	if user_vip_status == True:
 		try:
 			user_profile = UserProfile.objects.get(user=user)
@@ -792,7 +965,13 @@ def profile(request):
 			member_expire = []
 	else:
 		member_expire = []
-	#SEO
+	'''邀请码'''
+	invite_code = get_invite_code(user.id)
+	if invited_member != 0:
+		invite_level = math.ceil(invited_member/2)
+	else:
+		invite_level = False
+	'''SEO'''
 	title = '会员中心-小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
 	keywords = '萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱'
 	description = '小熊社是自由的萝莉图库,提供包括Candydoll、Silverstar、Imouto、U15等多个品牌的写真图集,涵盖了包括EvaR,ElonaV,LauraB,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱等海内外知名萝莉'
@@ -804,6 +983,10 @@ def profile(request):
 		'user':user,
 		'user_paid_albums':user_paid_albums,
 		'member_expire':member_expire,
+		'invite_code':invite_code,
+		'invited_member':invited_member,
+		'count_coin':count_coin,
+		'invite_level':invite_level,
 	}
 	return render(
 		request,
@@ -833,6 +1016,20 @@ def about(request):
 def member(request):
 	'''会员页面'''
 	user = request.user
+	if user.is_authenticated:
+		try:
+			user_profile_object = UserProfile.objects.get(user=user)
+			if user_profile_object.sponsor == 0:
+				fisrt_pay = True
+			else:
+				if user_profile_object.fisrt_pay == True:
+					fisrt_pay = True
+				else:
+					fisrt_pay = False
+		except:
+			fisrt_pay = True
+	else:
+		fisrt_pay = True
 	current_url = request.get_full_path()
 	redirect_url = request.GET.get('redirect_url')
 	if redirect_url == None:
@@ -846,7 +1043,7 @@ def member(request):
 
 	intro_text = MemberConfig.objects.get(config_name='intro_text')
 
-	#定价ABTest
+	#定价列表
 	week_price = 19
 	month_price = 59
 	season_price = 149
@@ -894,6 +1091,26 @@ def member(request):
 	season_signature = make_signature(season_price,pay_type,season_redirect,order_id_season,user,notify_url)
 	year_signature = make_signature(year_price,pay_type,year_redirect,order_id_year,user,notify_url)
 
+	#等级加成计算
+	invited_member = None
+	week_bonus = None
+	month_bonus = None
+	season_bonus = None
+	year_bonus = None
+	try:
+		user_profile_object = UserProfile.objects.get(user=user)
+		if user_profile_object.invited_member > 0:
+			invited_member = user_profile_object.invited_member
+			if invited_member > 13:
+				invited_member = 13
+			week_bonus = math.ceil(invited_member/2)*1
+			month_bonus = math.ceil(invited_member/2)*2
+			season_bonus = math.ceil(invited_member/2)*4
+			year_bonus = math.ceil(invited_member/2)*8
+	except:
+		invited_member = None
+
+
 	#SEO
 	title = '会员购买-小熊社-自由的萝莉图库|U15|白丝|Candydoll|Silverstar|Imouto.tv'
 	keywords = '萝莉图库,萝莉写真,Silverstar,Candydoll,EvaR,ElonaV,LauraB,U15,金子美穗,河西莉子,牧原香鱼,稚名桃子,工口小学生赛高酱'
@@ -928,6 +1145,12 @@ def member(request):
 		'year_signature':year_signature,
 		'current_url':current_url,
 		'nbar':'member',	#导航标志
+		'fisrt_pay':fisrt_pay, #是否首充过
+		'invited_member':invited_member,
+		'week_bonus':week_bonus,
+		'month_bonus':month_bonus,
+		'season_bonus':season_bonus,
+		'year_bonus':year_bonus,
 	}
 	return render(
 		request,

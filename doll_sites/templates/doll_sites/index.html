@@ -459,14 +459,28 @@
 
   <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
   <script src="/static/js/jquery-3.3.min.js"></script>
-
-  <script src="/static/js/bootstrap.min.js"></script>
   <script src="/static/js/popper.min.js"></script>
-
+  <script src="/static/js/bootstrap.min.js"></script>
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/js/jquery.lazyload.js"></script>
   <script src="/static/js/main.js"></script>
 
+  <script>
+    $(".carousel").Carousel({
+  interval: 3000,
+  keyboard: true,
+  pause: "hover"
+});
+
+$("#slider").on("slide.bs.carousel", function() {
+  console.log("slide!");
+});
+
+$("#slider").on("slid.bs.carousel", function() {
+  console.log("slid!");
+});
+
+  </script>
 
 
 

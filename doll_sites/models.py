@@ -21,8 +21,11 @@ class UserProfile(models.Model):
 	user = models.OneToOneField(User,on_delete=models.CASCADE, related_name='profile')
 	member_type = models.BooleanField(default=False)
 	member_expire = models.DateField(null=True,blank=True)		#会员过期时间
-	count_coin = models.DecimalField(default=0,max_digits=8,decimal_places=2) 	#金币余额
+	invited_member = models.IntegerField(default=0)		#邀请会员数
+	count_coin = models.DecimalField(default=0,max_digits=8,decimal_places=2) 	#邀请积分
+	sponsor = models.IntegerField(default=0)		#邀请者user_id
 	Album_paid_count = models.IntegerField(default=0)		#相册购买总数
+	fisrt_pay = models.BooleanField(default=False)		#是否首充
 
 	def __str__(self):
 		return "{}'s profile".format(self.user.__str__())

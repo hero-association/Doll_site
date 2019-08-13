@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html class="h-100">
+
+{% include 'doll_sites/head.html' %}
+
+<body class="d-flex flex-column h-100">
+  <!-- Header & Navigation -->
+  {% include 'doll_sites/navi.html' %}
+
+  <div class="container text-center ">
+    <div class="row mt-5">
+      <div class="col">
+        <div class="text-center font-weight-bold" style="font-size: 28px;">
+          <a class="nav-link d-inline text-dark">
+            <img width="40" class="d-inline-block align-center pb-2 mr-1" src="/static/image/logo-border.png" alt="" />
+            邀请码说明</a>
+        </div>
+        <div>
+          <div class="text-left d-inline-block invite-info_text">
+            <h4 class="mt-4 mb-3">为什么邀请？</h4>
+            <p>1. 因为美好的东西，应该提倡与人分享。</p>
+            <p>2. 双方都有奖励，帮助别人就是帮助自己。</p>
+            <h4 class="mt-4 mb-3">邀请规则</h4>
+            <p>1. 用户注册并绑定您的邀请码，充值会员后，您的[邀请人数]+1 </p>
+            <p>2. 新用户充值会员，邀请人和用户都获得首充奖励 </p>
+            <p>3. 根据[邀请人数]，每次充值都可以获得一定的时长奖励，详情见下表</p>
+
+          </div>
+
+          <!-- 首充福利 -->
+          <table class="invite-info_table table table-bordered table-striped col-md-8 mx-auto mt-3">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">周会员</th>
+                <th scope="col">月会员</th>
+                <th scope="col">季会员</th>
+                <th scope="col">年会员</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row" class="px-0">首充赠送/天</th>
+                <td>4</td>
+                <td>8</td>
+                <td>16</td>
+                <td>32</td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- 邀请等级 -->
+          <table class="invite-info_table table table-bordered table-striped col-md-8 mx-auto mt-4">
+            <thead>
+              <tr>
+                <th scope="col">等级</th>
+                <th scope="col">邀请人数</th>
+                <th scope="col">周会员加成</th>
+                <th scope="col">月会员加成</th>
+                <th scope="col">季会员加成</th>
+                <th scope="col">年会员加成</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row" class="px-0">V1</th>
+                <td>1</td>
+                <td>1</td>
+                <td>2</td>
+                <td>4</td>
+                <td>8</td>
+              </tr>
+              <tr>
+                <th scope="row" class="px-0">V2</th>
+                <td>3</td>
+                <td>2</td>
+                <td>4</td>
+                <td>8</td>
+                <td>16</td>
+              </tr>
+              <tr>
+                <th scope="row" class="px-0">V3</th>
+                <td>5</td>
+                <td>3</td>
+                <td>6</td>
+                <td>12</td>
+                <td>24</td>
+              </tr>
+              <tr>
+                <th scope="row" class="px-0">V4</th>
+                <td>7</td>
+                <td>4</td>
+                <td>8</td>
+                <td>16</td>
+                <td>32</td>
+              </tr>
+              <tr>
+                <th scope="row" class="px-0">V5</th>
+                <td>9</td>
+                <td>5</td>
+                <td>10</td>
+                <td>20</td>
+                <td>40</td>
+              </tr>
+              <tr>
+                <th scope="row" class="px-0">V6</th>
+                <td>11</td>
+                <td>6</td>
+                <td>12</td>
+                <td>24</td>
+                <td>48</td>
+              </tr>
+              <tr>
+                <th scope="row" class="px-0">V7</th>
+                <td>13</td>
+                <td>7</td>
+                <td>16</td>
+                <td>28</td>
+                <td>56</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- 邀请链接 -->
+        {% if user.is_authenticated %}
+        <div class="my-5">
+          <h3 class="mb-4">发邀请得福利</h3>
+          <p id="invite-info_code">【送福利】注册小熊社 bearbear.info ，首充赠送长达32天会员时长，邀请码
+            <span>{{ invite_code }}</span></p>
+          <button class="btn btn-primary btn-copy" data-clipboard-action="copy"
+            data-clipboard-target="#invite-info_code">
+            复制发邀请</button>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+
+
+  {% include 'doll_sites/footer.html' %}
+
+  <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+  <script src="/static/js/jquery-3.3.min.js"></script>
+  <script src="/static/js/popper.min.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script src="/static/js/clipboard.min.js"></script>
+  <script src="/static/js/jquery.lazyload.js"></script>
+  <script src="/static/js/main.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      $(".nav-tabs a").click(function () {
+        $(this).tab('show');
+      });
+    });
+  </script>
+  <script>
+    // Tooltip
+
+    $('.btn-copy').tooltip({
+      trigger: 'click',
+      placement: 'bottom'
+    });
+
+    function setTooltip(message) {
+      $('.btn-copy').tooltip('hide')
+        .attr('data-original-title', message)
+        .tooltip('show');
+    }
+
+    function hideTooltip() {
+      setTimeout(function () {
+        $('.btn-copy').tooltip('hide');
+      }, 1000);
+    }
+
+    // Clipboard
+
+    var clipboard = new ClipboardJS('.btn-copy');
+
+    clipboard.on('success', function (e) {
+      setTooltip('复制成功!');
+      hideTooltip();
+    });
+
+    clipboard.on('error', function (e) {
+      setTooltip('复制失败!');
+      hideTooltip();
+    });
+  </script>
+</body>
+
+</html>

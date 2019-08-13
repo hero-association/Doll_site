@@ -51,6 +51,7 @@ urlpatterns = [
     url(r'get_order_info',views.get_order_info,name='get_order_info'),
     url('^',include('django.contrib.auth.urls')),  #默认的用户模块视图
     url(r'accounts/profile/$', views.profile, name='profile'),  #自定义的用户资料页面
+    url(r'create_sponser',views.create_sponser,name='create_sponser'),  
     url(r'create_order',views.create_order,name='create_order'),
     url(r'check_order',views.check_order,name='check_order'),
     path('order/<str:order_id>',views.order_detail,name='order'),
@@ -68,6 +69,8 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('accounts/profile', views.profile, name='profile'),
     path('member/', views.member, name='member'),
+    path('invite_code/', views.invite_code, name='invite_code'),
+    path('invite_code_info/', views.invite_code_info, name='invite_code_info'),
     path('payment_center/', views.payment_center, name='payment_center'),
     path('global_noti/', views.global_noti, name='global_noti'),
     url(r'mdeditor/', include('mdeditor.urls')),

@@ -197,31 +197,40 @@
     var redirectUrlZfb = '{{zfb_redirect}}';
     var redirectUrlWx = '{{wx_redirect}}';
 
-    $(document).ready(function () {
-      setInterval("paymentCallback()", 3000);
-    });
-
-    function paymentCallback() {
-      if (order_id != 0) {
-        $.ajax({
-          url: _url,
-          type: "GET",
-          dataType: "",
-          data: "",
-          success: function (data) {
-            console.log('status:' + data);
-            if (data == 'Paid') { //订单状态支付成功
-              window.location.href = redirectUrlZfb; //页面跳转
-            }
-
-          },
-          error: function () {
-            console.log("请求订单状态出错");
-          }
-        });
-      }
-
+    var startTime = new Date().getTime();
+    var interval = setInterval(function(){
+    if(new Date().getTime() - startTime > 180000)//现在的时间减去刷新开始的时间大于 180 秒
+    {
+    clearInterval(interval);//删除这个 setInterval 轮询
+    return;
     }
+    function paymentCallback() {//查询支付状态
+    if (order_id != 0) {
+    $.ajax({
+    url: _url,
+    type: "GET",
+    timeout: 3000,
+    dataType: "",
+    data: "",
+    success: function (data) {
+    console.log('status:' + data);
+    if (data == 'Paid') { //订单状态支付成功
+    window.location.href = redirectUrlZfb; //页面跳转
+    }
+
+    },
+    error: function () {
+    console.log("请求订单状态出错");
+    }
+    });
+    }
+
+    };
+    paymentCallback();
+    },3000);
+
+   
+
   </script>
 
 
