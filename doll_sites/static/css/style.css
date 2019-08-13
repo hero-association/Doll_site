@@ -286,3 +286,13 @@
   font-size: 1rem;
   font-weight: 400;
 }
+
+.invite-info_table th, .invite-info_table td {
+  padding: 0.3rem;
+  font-size: 13px;
+}
+@media( min-width: 768px){
+  .invite-info_text {
+    margin-left: -13%; 
+  }
+}
