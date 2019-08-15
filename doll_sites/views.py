@@ -50,9 +50,13 @@ def get_invite_code(user_id):
 	return invite_code
 
 def decrypt_invite_code(invite_code):
-	decrypt_num = int(invite_code,16)
-	user_id = decrypt_num - 1300000
-	return user_id
+	try:
+		decrypt_num = int(invite_code,16)
+		user_id = decrypt_num - 1300000
+		return user_id
+	except:
+		user_id = 0
+		return user_id
 
 def create_sponser(request):
 	if request.method == 'POST':
