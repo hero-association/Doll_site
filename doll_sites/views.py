@@ -617,14 +617,18 @@ def payment_response(request):
 				user_id = User.objects.get(username=user_name)
 				user_profile_object = UserProfile.objects.get(user=user_id)
 				user_profile = UserProfile.objects.get(user=user_id)
+				sponsor = user_profile.sponsor
 				if user_profile.fisrt_pay == False:
 					fisrt_pay = True
 					'''处理邀请人'''
 					sponsor_add = first_add
-					if user_profile.sponsor != 0:
+					if sponsor != 0:
 						try:	#邀请人有资料的情况
 							sponsor_profile_object = UserProfile.objects.get(user=sponsor)
-							sponsor_profile = UserProfile.objects.get(user=sponsor)
+							sponsor_profile = UserProfile.objects.filter(user=sponsor)
+							'''邀请人数+1'''
+							r_inv_num = sponsor_profile_object.invited_member + 1
+							sponsor_profile.update(invited_member=r_inv_num)
 							if sponsor_profile_object.member_type == False:	#不是会员的情况
 								sponsor_profile.update(member_type=True)
 								last_day = datetime.date.today()
@@ -636,7 +640,7 @@ def payment_response(request):
 								sponsor_vip_expiration = sponsor_vip_expiration.strftime('%Y%m%d')
 								if int(sponsor_vip_expiration) - int(nowdate) >= 0:
 									'''会员未过期'''
-									last_day = sponsor_profile.member_expire
+									last_day = sponsor_profile_object.member_expire
 									new_expire_time = last_day + datetime.timedelta(days=sponsor_add)
 									sponsor_profile.update(member_expire=new_expire_time)
 								else:
@@ -651,12 +655,13 @@ def payment_response(request):
 								user=sponsor,
 								member_type=True,
 								member_expire=new_expire_time,
+								invited_member=1,
 					        )
 					else:
 						fisrt_pay = False
 				else:
 					fisrt_pay = False
-			except:   #没有资料的情况，一定是首充,也一定没有邀请人
+			except:   #没有资料的情况,一定是首充,也一定没有邀请人
 				fisrt_pay = True
 			'''首充时间增加'''
 			if fisrt_pay == True:
@@ -667,7 +672,6 @@ def payment_response(request):
 				user_profile = UserProfile.objects.filter(user=user_id)
 				try:	#有资料的情况
 					user_profile_object = UserProfile.objects.get(user=user_id)
-					user_profile = UserProfile.objects.get(user=user_id)
 					'''处理邀请等级加成'''
 					if user_profile_object.invited_member > 0:
 						invited_member = user_profile_object.invited_member
@@ -687,7 +691,7 @@ def payment_response(request):
 						user_vip_expiration = user_vip_expiration.strftime('%Y%m%d')
 						if int(user_vip_expiration) - int(nowdate) >= 0:
 							'''会员未过期'''
-							last_day = user_profile.member_expire
+							last_day = user_profile_object.member_expire
 							user_profile = UserProfile.objects.filter(user=user_id)
 							new_expire_time = last_day + datetime.timedelta(days=days_add)
 							user_profile.update(member_expire=new_expire_time,fisrt_pay=True)
