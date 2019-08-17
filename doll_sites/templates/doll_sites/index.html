@@ -28,7 +28,7 @@
         {% if banners.id == 1 %}
         <div class="carousel-item active">
           {% else %}
-          <div class="carousel-item">
+          <div class="carousel-item"> 
             {% endif %}
             <a href={{ banners.banner_link }}
               onclick="gtag('event', 'click', {'send_to': 'UA-127776067-1','event_category': 'link','event_label': 'Banner_index'});">
@@ -51,7 +51,15 @@
     </div>
 
 
-
+<!-- 筛选器 -->
+<div class="d-flex d-lg-none mt-4 justify-content-center">
+  <a class="btn flex-fill mx-2 btn-outline-primary " href="/">
+    <span><i class="fas fa-video"></i></span>
+    视频专区</a>
+  <a class="btn flex-fill mx-2 btn-outline-primary " href="/">
+    <span><i class="fas fa-folder-open"></i></span>
+    资源分类</a>
+</div>
 
 
     <!-- 最新发布 -->
