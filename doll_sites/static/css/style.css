@@ -101,7 +101,7 @@
 }
 
 @media (max-width: 576px) {
-  #Carousel {
+  .slider {
     padding: 0;
   }
 }
