@@ -15,15 +15,12 @@
 
   <!-- 轮播图 -->
 <div class="slider container">
+  {% for i in silde_banner %}
   <div> 
-     <img class="d-block w-100" src="/static/image/s_mnqfWlB.jpg" alt="">
+     <a href="{{ i.banner_link }}">
+     <img class="d-block w-100" src="/static/doll_sites/images/uploads/{{ i.banner_pic }}" alt="">
   </div>
-  <div>
-    <img class="d-block w-100" src="/static/image/公告Banner_rEB2aTH.jpg" alt="">
-  </div>
-  <div> 
-      <img class="d-block w-100" src="/static/image/公告Banner_2.jpg" alt="">
-   </div>
+  {% endfor %}
 </div>
   
 
