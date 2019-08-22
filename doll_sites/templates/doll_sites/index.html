@@ -16,9 +16,11 @@
   <!-- 轮播图 -->
 <div class="slider container">
   {% for i in silde_banner %}
-  <div> 
-     <a href="{{ i.banner_link }}">
-     <img class="d-block w-100" src="/static/doll_sites/images/uploads/{{ i.banner_pic }}" alt="">
+  <div>
+    
+      <a href="{{ i.banner_link }}">
+        <img class="d-block w-100" src="/static/doll_sites/images/uploads/{{ i.banner_pic }}" alt="">
+      </a>
   </div>
   {% endfor %}
 </div>
