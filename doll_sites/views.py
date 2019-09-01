@@ -215,7 +215,7 @@ class DollPaginator(Paginator):
 def photolist(request,series,company,pageid):
 	"""列表页"""
 	sort = request.GET.get('sort','-date_added')
-
+	video = request.GET.get('video')
 	if series == 0:
 		if company == 0:
 			photo_list = Photo.objects.order_by(sort)
@@ -226,7 +226,8 @@ def photolist(request,series,company,pageid):
 			photo_list = Photo.objects.filter(series=series).order_by(sort)
 		else:
 			photo_list = Photo.objects.filter(series=series,company=company).order_by(sort)
-	# photo_list = Photo.objects.order_by('-date_added')
+	if video == 't':
+		photo_list = photo_list.filter(video_id__isnull=False)
 	limit = 20
 	#分页器
 	paginator = DollPaginator(pageid,5,photo_list,limit)
