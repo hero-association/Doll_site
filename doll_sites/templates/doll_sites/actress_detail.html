@@ -8,10 +8,8 @@
   <!-- Header & Navigation -->
   {% include 'doll_sites/navi.html' %}
 
-
-  <div class="container ">
-
-    <div class="row mt-5">
+  <div class="container">
+   <div class="row mt-4">
       <div class="col d-flex">
         <img class="avatar_actress border-light lazyloadx"
           data-original="/static/doll_sites/images/uploads/{{ current_actress.avatar }}" src="/static/image/loading.png"
@@ -26,45 +24,41 @@
       </div>
     </div>
 
-    <div class="row mt-5 mb-n4">
-      <div class="col">
-        <h5 class="text-left float-left font-weight-bold">
-          所有相册
-        </h5>
-      </div>
-
-
+    <div class="mt-4">
+      <h5>
+        所有相册
+      </h5>
     </div>
-    <div class="d-flex flex-wrap">
+
+
+    <div class="d-flex flex-wrap mb-4">
       {% for album in related_album %}
-      <div class="card actress-photo border-0  mr-4 p-0">
+      <div class="card card-photolist ml-0 border-0 my-3 p-0">
 
         <a href="/photo/{{ album.get_photo_id}}" title=" {{ album.name_chinese }} " target='_self'>
           <img class="card-img-top border border-light lazyloadx" data-original="{{ album.get_cover_pic_link }}"
             src="/static/image/loading.png" alt="photos" lazyloadthumb="1" lazyloaded="true">
         </a>
         <div class="card-body p-1 mt-2">
-          <p class="card-text text-center  text-truncate mb-0">{{ album.name_chinese }}</p>
+          <div class="d-flex align-items-start">
+            <!-- 相册名字 -->
+            <a class="photo-link text-truncate" href="/photo/{{ album.get_photo_id}}" title=" {{ album.name_chinese }} "
+              target='_self'>
+              <p class="card-text text-truncate mb-0 mr-1 ">{{ album.name_chinese }}</p>
+            </a>
+            <!-- 精品标签 -->
+            <span class="badge badge-warning align-self-center mr-1 ">精品</span>
+
+            <span class="badge badge-info align-self-center mr-1 ">视频</span>
+
+            <span class="badge badge-warning align-self-center mr-1 ">免费</span>
+
+          </div>
         </div>
       </div>
       {% endfor %}
     </div>
-
-
-
-
-
-
-
   </div>
-
-
-
-
-
-
-
-
 
   {% include 'doll_sites/footer.html' %}
 
